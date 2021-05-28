@@ -1,9 +1,9 @@
 # Home Assistant test
 
 [![Build Status](https://drone.theautomation.nl/api/badges/theautomation/prd-home-assistant-config/status.svg)](https://drone.theautomation.nl/theautomation/prd-home-assistant-config)
-![GitHub repo size](https://img.shields.io/github/repo-size/theautomationprd-home-assistant-config?logo=Github)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomationprd-home-assistant-config?logo=github)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomationprd-home-assistant-config/main?logo=github)
+![GitHub repo size](https://img.shields.io/github/repo-size/theautomation/prd-home-assistant-config?logo=Github)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/prd-home-assistant-config?logo=github)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/prd-home-assistant-config/main?logo=github)
 
 ## Hardware
 
