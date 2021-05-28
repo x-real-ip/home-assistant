@@ -1,0 +1,10 @@
+kind: pipeline
+name: validate
+
+steps:
+
+- name: lint
+  image: cytopia/yamllint:latest
+  commands:
+    - yamllint .
+  failure: ignore

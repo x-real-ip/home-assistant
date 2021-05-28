@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+
+  prd-home-assistant-app:
+    image: homeassistant/home-assistant:latest
+    container_name: prd-home-assistant-app
+    depends_on:
+      prd-home-assistant-db:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/config
+    env_file: prd-home-assistant-app.env
+    network_mode: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  prd-home-assistant-db:
+    image: mariadb:latest
+    container_name: prd-home-assistant-db
+    restart: always
+    volumes:
+      - prd-home-assistant-db-data:/var/lib/mysql
+    env_file: prd-home-assistant-db.env
+    ports:
+      - 3306:3306
+    networks:
+      home-services:
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+# VOLUMES
+volumes:
+
+  prd-home-assistant-db-data:
+    name: prd-home-assistant-db-data
+
+# NETWORKS
+networks:
+
+  home-services:
+    driver: bridge
+    name: home-services
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

@@ -1,0 +1,7 @@
+title: Lise
+icon: mdi:human-male-girl
+path: lise
+badges: []
+cards:
+  - !include ../cards/childlocks.yaml
+  - !include ../cards/thermostat_lise_s_room.yaml

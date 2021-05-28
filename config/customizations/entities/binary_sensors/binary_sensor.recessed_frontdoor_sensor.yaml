@@ -1,0 +1,2 @@
+binary_sensor.recessed_frontdoor_sensor:
+  friendly_name: Voordeur

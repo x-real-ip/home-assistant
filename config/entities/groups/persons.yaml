@@ -1,0 +1,5 @@
+persons:
+  name: Personen
+  entities:
+    - person.coen
+    - person.anne

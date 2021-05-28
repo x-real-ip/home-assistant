@@ -1,0 +1,25 @@
+title: Home
+icon: 'mdi:home'
+path: home
+badges: []
+cards:
+  - type: horizontal-stack
+    cards:
+      - !include ../cards/guest_button.yaml
+      - !include ../cards/home_security_button.yaml
+      - !include ../cards/sleep_mode_button.yaml
+  - !include ../cards/weather.yaml
+  - !include ../cards/notifications.yaml
+  - type: vertical-stack 
+    cards:
+      - !include ../cards/media_player_chromecast_woonkamer.yaml
+      - !include ../cards/entertainment_select.yaml
+      - type: horizontal-stack
+        cards:  
+          - !include ../cards/receiver_mute_button.yaml
+          - !include ../cards/receiver_volume_down_button.yaml
+          - !include ../cards/receiver_volume_up_button.yaml
+          - !include ../cards/receiver_speaker_select_button.yaml
+  - !include ../cards/thermostat_livingroom.yaml
+  - !include ../cards/doors.yaml
+  - !include ../cards/machines.yaml

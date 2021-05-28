@@ -1,0 +1,73 @@
+type: entities
+show_header_toggle: true
+entities:
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_woonkamer
+    name: Woonkamer
+    icon: mdi:lightbulb-group
+    min: 10
+    step: 0.1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_eettafel
+    name: Eettafel
+    icon: mdi:globe-light
+    step: 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_keuken
+    name: Keuken
+    icon: mdi:wall-sconce-flat
+    step: 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_keldertrap
+    name: Keldertrap
+    icon: mdi:wall-sconce-flat
+    step: 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_kelder
+    name: Kelder
+    icon: mdi:wall-sconce-flat
+    step: 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_wasruimte
+    name: Wasruimte
+    icon: mdi:wall-sconce-flat
+    step: 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_slaapkamer
+    name: Slaapkamer
+    icon: mdi:ceiling-light
+    step: 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_liseskamer
+    name: Lise's slaapkamer
+    icon: mdi:ceiling-light
+    step: 1
+    toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_kleineslaapkamer
+    name: Kleine slaapkamer
+    icon: mdi:ceiling-light
+    step: 1
+    toggle: true
+  - entity: light.shelly1_overloop
+    name: Overloop
+    icon: mdi:ceiling-light
+  - type: custom:slider-entity-row
+    entity: light.shellydimmer_achtertuin
+    name: Achtertuin
+    icon: mdi:string-lights
+    step: 1
+    toggle: true
+  - entity: light.shelly1_schuurdeur
+    name: Schuur
+    icon: mdi:spotlight-beam
+  - entity: light.shelly1_voordeur
+    name: Voordeur
+    icon: mdi:coach-lamp

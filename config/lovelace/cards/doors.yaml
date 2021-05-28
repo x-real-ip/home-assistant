@@ -1,0 +1,4 @@
+type: glance
+entities:
+  - entity: binary_sensor.recessed_frontdoor_sensor
+  - entity: binary_sensor.recessed_backdoor_sensor

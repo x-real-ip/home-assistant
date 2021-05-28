@@ -1,0 +1,10 @@
+type: button
+entity: script.harmonyhub_mute_receiver
+show_name: false
+icon_height: 30px
+icon: mdi:volume-mute
+tap_action:
+  action: call-service
+  service: script.turn_on
+  service_data:
+    entity_id: script.harmonyhub_mute_receiver

@@ -1,0 +1,4 @@
+type: entities
+show_header_toggle: false
+entities:
+  - entity: switch.childlock_kitchen_switch

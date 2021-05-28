@@ -1,0 +1,8 @@
+title: Verlichting 
+icon: 'mdi:lightbulb-on'
+path: verlichting
+badges:
+  - entity: sensor.outdoor_light_dark
+  - entity: sun.sun
+cards:
+  - !include ../cards/lights.yaml

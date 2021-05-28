@@ -1,0 +1,3 @@
+http:
+  ip_ban_enabled: true
+  login_attempts_threshold: 5

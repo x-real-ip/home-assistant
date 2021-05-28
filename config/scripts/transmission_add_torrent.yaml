@@ -1,0 +1,10 @@
+transmission_add_torrent:
+  sequence:
+  - service: transmission.add_torrent
+    data_template:
+      name: Transmission
+      torrent: "{{ states('input_text.addtorrent') }}"
+  - service: input_text.set_value
+    data_template:
+      entity_id: transmission.add_torrent
+      value: url

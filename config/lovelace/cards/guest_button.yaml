@@ -1,0 +1,10 @@
+type: button
+entity: input_boolean.guest
+icon: mdi:account-plus
+tap_action:
+  action: toggle
+hold_action:
+  action: more-info
+show_icon: true
+show_name: false
+icon_height: 30px

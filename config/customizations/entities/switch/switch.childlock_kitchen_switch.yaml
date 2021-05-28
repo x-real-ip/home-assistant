@@ -1,0 +1,3 @@
+switch.childlock_kitchen_switch:
+  friendly_name: Keukenkast Lock
+  icon: mdi:lock

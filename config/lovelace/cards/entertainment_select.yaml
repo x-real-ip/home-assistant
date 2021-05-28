@@ -1,0 +1,6 @@
+type: entities
+entities:
+  - entity: input_select.harmonyhub
+  - entity: input_select.radio_station
+  - entity: input_select.spotify_playlist
+  - entity: input_select.mediaplayer_source
