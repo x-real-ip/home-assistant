@@ -4,7 +4,5 @@ name: validate
 steps:
 
 - name: lint
-  image: cytopia/yamllint:latest
-  commands:
-    - yamllint .
+  image: sdesbure/yamllint:latest
   failure: ignore
