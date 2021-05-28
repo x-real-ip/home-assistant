@@ -1,4 +1,4 @@
-# Home Assistant
+# Home Assistant test
 
 [![Build Status](https://drone.theautomation.nl/api/badges/coen17st/prd-home-assistant-config/status.svg)](https://drone.theautomation.nl/coen17st/prd-home-assistant-config)
 ![GitHub repo size](https://img.shields.io/github/repo-size/coen17st/prd-home-assistant-config?logo=Github)
