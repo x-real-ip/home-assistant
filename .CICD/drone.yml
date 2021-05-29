@@ -22,5 +22,5 @@ steps:
     image: homeassistant/home-assistant:latest
     pull: always
     commands:
-      - mv config/secrets.yaml.example config/secrets.yaml
+      #- mv config/secrets.yaml.example config/secrets.yaml
       - python -m homeassistant --script check_config --config ./config/
