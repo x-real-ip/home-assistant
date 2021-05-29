@@ -67,4 +67,3 @@ steps:
       port: 22
       script:
         - touch /home/coen/hello.yaml
-        - echo "dit is een test" | hello.yaml
