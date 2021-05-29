@@ -7,4 +7,3 @@ steps:
   image: sdesbure/yamllint:latest
   commands:
     - yamllint .
-

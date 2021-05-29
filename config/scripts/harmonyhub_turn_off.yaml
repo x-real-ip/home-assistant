@@ -1,3 +1,4 @@
+---
 harmonyhub_turn_off:
   sequence:
   - service: remote.turn_off

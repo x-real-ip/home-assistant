@@ -1,3 +1,4 @@
+---
 type: button
 entity: input_boolean.home_security
 tap_action:

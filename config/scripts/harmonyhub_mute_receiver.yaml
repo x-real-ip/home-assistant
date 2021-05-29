@@ -1,3 +1,4 @@
+---
 harmonyhub_mute_receiver:
   sequence:
   - service: remote.send_command

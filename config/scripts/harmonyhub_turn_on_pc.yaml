@@ -1,3 +1,4 @@
+---
 harmonyhub_turn_on_pc: 
   sequence:
   - service: remote.turn_on

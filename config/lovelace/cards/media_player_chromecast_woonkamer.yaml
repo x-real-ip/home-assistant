@@ -1,3 +1,4 @@
+---
 type: custom:mini-media-player
 entity: media_player.chromecast_woonkamer
 more_info: true

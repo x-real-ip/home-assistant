@@ -1,3 +1,4 @@
+---
 type: glance
 entities:
   - entity: binary_sensor.washing_machine
