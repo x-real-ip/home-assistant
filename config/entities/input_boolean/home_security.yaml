@@ -1,2 +1,3 @@
 ---
 home_security:
+  initial: false

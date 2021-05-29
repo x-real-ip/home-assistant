@@ -1,2 +1,3 @@
 ---
 guest:
+  initial: false

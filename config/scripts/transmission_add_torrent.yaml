@@ -1,6 +1,6 @@
 ---
 transmission_add_torrent:
-    sequence:
+  sequence:
     - service: transmission.add_torrent
       data_template:
         name: Transmission
