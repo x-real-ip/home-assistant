@@ -1,12 +1,8 @@
 ---
+
+ignore: |
 config/custom_components/
 config/ip_bans.yaml
-
-yaml-files:
-  - '*.yaml'
-  - '*.yml'
-  - '.yamllint'
-
 rules:
   braces: enable
   brackets: enable
