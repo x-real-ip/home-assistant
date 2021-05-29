@@ -23,4 +23,4 @@ steps:
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
-      - python -m homeassistant --script check_config --config .
+      - python -m homeassistant --script check_config --config ./config/
