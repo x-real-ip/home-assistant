@@ -57,15 +57,13 @@ trigger:
     - feature/*
 
 steps:
-- name: test
-  image: docker
-  commands:
-  - touch /home/coen/test.yaml
-  volumes:
-  - name: docker_sock
-    path: /var/run/docker.sock
-
-volumes:
-- name: docker_sock
-  host:
-    path: /var/run/docker.sock
+- name: ssh commands
+  image: appleboy/drone-ssh
+  settings:
+    host: docker.stam.lan
+    username: coen
+    password:
+      from_secret: ssh_password
+    port: 22
+    script:
+      - touch /home/coen/hello.yaml
