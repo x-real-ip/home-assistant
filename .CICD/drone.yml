@@ -7,3 +7,20 @@ steps:
     image: sdesbure/yamllint:latest
     commands:
       - yamllint -c ./.yamllint .
+
+---
+kind: pipeline
+name: Home Assistant
+
+trigger:
+  branch:
+    - main
+    - feature/*
+
+steps:
+  - name: latest
+    image: homeassistant/home-assistant:latest
+    pull: always
+    commands:
+      - mv secrets.yaml.example secrets.yaml
+      - python -m homeassistant --script check_config --config .
