@@ -1,3 +1,4 @@
+---
 input_select.mediaplayer_source:
   friendly_name: 'Select Speakers:'
   initial: Woonkamer Chromecast

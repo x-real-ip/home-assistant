@@ -1,3 +1,4 @@
+---
 input_boolean.sleep_mode:
   friendly_name: Slaapstand
   initial: off

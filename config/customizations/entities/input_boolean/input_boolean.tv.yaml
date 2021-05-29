@@ -1,3 +1,4 @@
+---
 input_boolean.tv:
   friendly_name: TV
   initial: off
