@@ -1,7 +1,7 @@
 ---
-harmonyhub_turn_on_smarttv: 
+harmonyhub_turn_on_smarttv:
   sequence:
     - service: remote.turn_on
       entity_id: remote.harmony_hub_01
-      data:        
+      data:
         activity: "32499120"
