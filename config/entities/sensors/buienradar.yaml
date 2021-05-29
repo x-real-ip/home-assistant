@@ -1,3 +1,4 @@
+---
 platform: buienradar
 monitored_conditions:
   # current
@@ -53,4 +54,4 @@ monitored_conditions:
   - winddirection_1d
   - winddirection_2d
   - windazimuth_1d
-  - windazimuth_2d  
+  - windazimuth_2d

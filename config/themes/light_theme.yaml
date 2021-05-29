@@ -1,6 +1,6 @@
 ---
 light_theme:
-  
+
   # Header
   app-header-background-color: rgb(248, 248, 248)
   app-header-text-color: rgb(95, 99, 104)
@@ -77,11 +77,11 @@ light_theme:
   table-row-background-color: var(--card-background-color)
   table-row-alternative-background-color: var(--primary-background-color)
   data-table-background-color: var(--primary-background-color)
-  
+
   # Dropdowns
   material-background-color: var(--card-background-color)
   material-secondary-background-color: var(--primary-background-color)
   mdc-theme-surface: var(--paper-card-background-color)
-  
+
   # Pre/Code
   markdown-code-background-color: rgb(242, 242, 242)
