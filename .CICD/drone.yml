@@ -2,6 +2,11 @@
 kind: pipeline
 name: validate
 
+trigger:
+  branch:
+    - main
+    - feature/*
+
 steps:
   - name: lint
     image: sdesbure/yamllint:latest
@@ -10,7 +15,7 @@ steps:
 
 ---
 kind: pipeline
-name: Home Assistant
+name: home assistant
 
 trigger:
   branch:
@@ -22,5 +27,45 @@ steps:
     image: homeassistant/home-assistant:latest
     pull: always
     commands:
-      #- mv config/secrets.yaml.example config/secrets.yaml
+      - mv config/secrets.yaml.example config/secrets.yaml
       - python -m homeassistant --script check_config --config ./config/
+
+  - name: dev
+    image: homeassistant/home-assistant:dev
+    pull: always
+    failure: ignore
+    commands:
+      - mv config/secrets.yaml.example config/secrets.yaml
+      - python -m homeassistant --script check_config --config ./config/
+
+  - name: rc
+    image: homeassistant/home-assistant:rc
+    pull: always
+    failure: ignore
+    commands:
+      - mv config/secrets.yaml.example config/secrets.yaml
+      - python -m homeassistant --script check_config --config ./config/
+
+---
+kind: pipeline
+type: docker
+name: upgrade
+
+trigger:
+  branch:
+    - main
+    - feature/*
+
+steps:
+- name: test
+  image: docker
+  commands:
+  - touch /home/coen/test.yaml
+  volumes:
+  - name: docker_sock
+    path: /var/run/docker.sock
+
+volumes:
+- name: docker_sock
+  host:
+    path: /var/run/docker.sock
