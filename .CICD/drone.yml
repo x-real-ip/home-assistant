@@ -15,7 +15,7 @@ steps:
 
 ---
 kind: pipeline
-name: home assistant
+name: test
 
 trigger:
   branch:
@@ -56,14 +56,19 @@ trigger:
     - main
     - feature/*
 
+depends_on:
+  - validate
+  - test
+
 steps:
-- name: ssh commands
-  image: appleboy/drone-ssh
-  settings:
-    host: docker.stam.lan
-    username: coen
-    password:
-      from_secret: ssh_password
-    port: 22
-    script:
-      - touch /home/coen/hello.yaml
+  - name: ssh commands
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - touch /home/coen/hello.yaml
+        - echo "dit is een test" | hello.yaml
