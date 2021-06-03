@@ -33,7 +33,6 @@ steps:
   - name: dev
     image: homeassistant/home-assistant:dev
     pull: always
-    purge: true
     failure: ignore
     commands:
       - python -m homeassistant --script check_config --config ./config/
@@ -41,7 +40,6 @@ steps:
   - name: rc
     image: homeassistant/home-assistant:rc
     pull: always
-    purge: true
     failure: ignore
     commands:
       - python -m homeassistant --script check_config --config ./config/
