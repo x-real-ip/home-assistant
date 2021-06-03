@@ -11,7 +11,7 @@ steps:
   - name: lint
     image: sdesbure/yamllint:latest
     commands:
-#      - yamllint -c ./.yamllint .
+      - yamllint -c ./.yamllint .
 
 ---
 kind: pipeline
@@ -97,7 +97,9 @@ trigger:
 depends_on:
   - validate
   - test
+  - cleanup
 
+steps:
   - name: upgrade container(s)
     image: appleboy/drone-ssh
     settings:
