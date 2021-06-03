@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   prd-home-assistant-app:
-    image: homeassistant/home-assistant:latest
+    image: homeassistant/home-assistant:stable
     container_name: prd-home-assistant-app
     depends_on:
       prd-home-assistant-db:

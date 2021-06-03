@@ -1,8 +1,9 @@
+prd-home-assistant-app.env
+prd-home-assistant-db.env
 /config/.cloud/
 /config/.storage/
-/config/.uuid
 /config/deps
-/config/html5_push_registrations.conf
 /config/ip_bans.yaml
+/config/known_devices.yaml
 /config/secrets.yaml
 /config/home-assistant.log

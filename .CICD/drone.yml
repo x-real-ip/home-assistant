@@ -59,18 +59,6 @@ depends_on:
   - test
 
 steps:
-  - name: upgrade docker image
-    image: appleboy/drone-ssh
-    settings:
-      host: docker.stam.lan
-      username: coen
-      password:
-        from_secret: ssh_password
-      port: 22
-      script:
-        - cd /home/coen/docker-home-services/prd-home-assistant 
-        - docker-compose pull
-
   - name: git pull
     image: appleboy/drone-ssh
     settings:
