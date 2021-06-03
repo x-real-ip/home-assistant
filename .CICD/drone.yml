@@ -23,18 +23,20 @@ trigger:
     - feature/*
 
 steps:
-  - name: latest
-    image: homeassistant/home-assistant:latest
+  - name: stable
+    image: homeassistant/home-assistant:stable
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
       - python -m homeassistant --script check_config --config ./config/
+
   - name: dev
     image: homeassistant/home-assistant:dev
     pull: always
     failure: ignore
     commands:
       - python -m homeassistant --script check_config --config ./config/
+
   - name: rc
     image: homeassistant/home-assistant:rc
     pull: always
@@ -57,7 +59,7 @@ depends_on:
   - test
 
 steps:
-  - name: ssh commands
+  - name: upgrade docker image
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
@@ -66,4 +68,29 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - touch /home/coen/hello.yaml
+        - cd /home/coen/docker-home-services/prd-home-assistant 
+        - docker-compose pull
+
+  - name: git pull
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/prd-home-assistant 
+        - git pull
+
+  - name: upgrade container(s)
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/prd-home-assistant 
+        - git pull
