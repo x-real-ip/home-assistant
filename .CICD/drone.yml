@@ -56,7 +56,7 @@ steps:
         - cd /home/coen/docker-home-services/prd-home-assistant-config
         - git pull
 
-  - name: docker-compose up
+  - name: docker compose up
       image: appleboy/drone-ssh
       settings:
         host: docker.stam.lan
