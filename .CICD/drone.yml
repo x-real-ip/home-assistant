@@ -68,7 +68,7 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/prd-home-assistant 
+        - cd /home/coen/docker-home-services/prd-home-assistant
         - docker-compose pull
 
   - name: git pull
@@ -80,7 +80,7 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/prd-home-assistant 
+        - cd /home/coen/docker-home-services/prd-home-assistant
         - git pull
 
   - name: upgrade container(s)
@@ -92,5 +92,5 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/prd-home-assistant 
+        - cd /home/coen/docker-home-services/prd-home-assistant
         - git pull
