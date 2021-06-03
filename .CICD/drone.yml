@@ -11,7 +11,7 @@ steps:
   - name: lint
     image: sdesbure/yamllint:latest
     commands:
-      - yamllint -c ./.yamllint .
+#      - yamllint -c ./.yamllint .
 
 ---
 kind: pipeline
