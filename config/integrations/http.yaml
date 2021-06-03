@@ -1,4 +1,5 @@
 ---
 http:
+  use_x_forwarded_for: true
   ip_ban_enabled: true
   login_attempts_threshold: 5
