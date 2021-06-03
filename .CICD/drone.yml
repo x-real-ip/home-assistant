@@ -44,7 +44,7 @@ depends_on:
   - test
 
 steps:
-  - name: git pull on host
+  - name: git pull
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
@@ -57,16 +57,16 @@ steps:
         - git pull
 
   - name: docker compose up
-      image: appleboy/drone-ssh
-      settings:
-        host: docker.stam.lan
-        username: coen
-        password:
-          from_secret: ssh_password
-        port: 22
-        script:
-          - cd /home/coen/docker-home-services/prd-home-assistant-config
-          - docker-compose up -d
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/prd-home-assistant-config
+        - docker-compose up -d
 
   - name: cleanup
     image: appleboy/drone-ssh
