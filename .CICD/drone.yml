@@ -2,11 +2,6 @@
 kind: pipeline
 name: validate
 
-trigger:
-  branch:
-    - main
-    - feature/*
-
 steps:
   - name: lint
     image: sdesbure/yamllint:latest
@@ -16,11 +11,6 @@ steps:
 ---
 kind: pipeline
 name: test
-
-trigger:
-  branch:
-    - main
-    - feature/*
 
 steps:
   - name: stable
@@ -48,11 +38,6 @@ steps:
 kind: pipeline
 type: docker
 name: upgrade
-
-trigger:
-  branch:
-    - main
-    - feature/*
 
 depends_on:
   - validate
@@ -89,18 +74,11 @@ kind: pipeline
 type: docker
 name: deploy
 
-trigger:
-  branch:
-    - main
-    - feature/*
-
 depends_on:
-  - validate
-  - test
-  - cleanup
+  - upgrade
 
 steps:
-  - name: upgrade container(s)
+  - name: deploy containers
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
