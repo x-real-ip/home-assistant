@@ -21,7 +21,7 @@ services:
       retries: 3
 
   prd-home-assistant-db:
-    image: mariadb:latest
+    image: mariadb:10.5
     container_name: prd-home-assistant-db
     restart: always
     volumes:
