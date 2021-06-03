@@ -44,20 +44,7 @@ depends_on:
   - test
 
 steps:
-  - name: cleanup
-    image: appleboy/drone-ssh
-    settings:
-      host: docker.stam.lan
-      username: coen
-      password:
-        from_secret: ssh_password
-      port: 22
-      script:
-        - cd /home/coen/docker-home-services/prd-home-assistant-config
-        - docker image prune -f
-        - docker container prune -f
-
-  - name: git pull
+  - name: git pull on host
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
@@ -69,16 +56,19 @@ steps:
         - cd /home/coen/docker-home-services/prd-home-assistant-config
         - git pull
 
----
-kind: pipeline
-type: docker
-name: deploy
+  - name: docker-compose up
+      image: appleboy/drone-ssh
+      settings:
+        host: docker.stam.lan
+        username: coen
+        password:
+          from_secret: ssh_password
+        port: 22
+        script:
+          - cd /home/coen/docker-home-services/prd-home-assistant-config
+          - docker-compose up -d
 
-depends_on:
-  - upgrade
-
-steps:
-  - name: deploy containers
+  - name: cleanup
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
@@ -88,4 +78,4 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/prd-home-assistant-config
-        - docker-compose up -d
+        - docker image prune --all --force
