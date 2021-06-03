@@ -1,5 +1,8 @@
 ---
 http:
-  use_x_forwarded_for: true
   ip_ban_enabled: true
   login_attempts_threshold: 5
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.20.0.0/24
+

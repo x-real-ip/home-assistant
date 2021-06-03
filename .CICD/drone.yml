@@ -27,8 +27,8 @@ steps:
     commands:
       - python -m homeassistant --script check_config --config ./config/
 
-  - name: rc
-    image: homeassistant/home-assistant:rc
+  - name: beta
+    image: homeassistant/home-assistant:beta
     pull: always
     failure: ignore
     commands:
