@@ -88,5 +88,4 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/prd-home-assistant-config
-        - docker-compose down
         - docker-compose up -d
