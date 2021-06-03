@@ -33,6 +33,7 @@ steps:
   - name: dev
     image: homeassistant/home-assistant:dev
     pull: always
+    purge: true
     failure: ignore
     commands:
       - python -m homeassistant --script check_config --config ./config/
@@ -40,6 +41,7 @@ steps:
   - name: rc
     image: homeassistant/home-assistant:rc
     pull: always
+    purge: true
     failure: ignore
     commands:
       - python -m homeassistant --script check_config --config ./config/
@@ -59,6 +61,19 @@ depends_on:
   - test
 
 steps:
+  - name: cleanup
+    image: appleboy/drone-ssh
+    settings:
+      host: docker.stam.lan
+      username: coen
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - cd /home/coen/docker-home-services/prd-home-assistant-config
+        - docker image prune -f
+        - docker container prune -f
+
   - name: git pull
     image: appleboy/drone-ssh
     settings:
@@ -68,8 +83,22 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/prd-home-assistant 
+        - cd /home/coen/docker-home-services/prd-home-assistant-config
         - git pull
+
+---
+kind: pipeline
+type: docker
+name: deploy
+
+trigger:
+  branch:
+    - main
+    - feature/*
+
+depends_on:
+  - validate
+  - test
 
   - name: upgrade container(s)
     image: appleboy/drone-ssh
@@ -80,5 +109,6 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/prd-home-assistant 
-        - git pull
+        - cd /home/coen/docker-home-services/prd-home-assistant-config
+        - docker-compose down
+        - docker-compose up -d
