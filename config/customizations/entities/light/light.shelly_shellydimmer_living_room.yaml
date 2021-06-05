@@ -1,0 +1,4 @@
+---
+light.shelly_shellydimmer_living_room:
+  friendly_name: Woonkamer
+  icon: mdi:lightbulb-group

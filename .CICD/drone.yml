@@ -60,7 +60,7 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/home-assistant
+        - cd /home/coen/docker-home-services/home-assistant/
         - git pull
 
   - name: docker compose up
@@ -72,7 +72,7 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/home-assistant
+        - cd /home/coen/docker-home-services/home-assistant/
         - docker-compose up -d
 
   - name: cleanup
@@ -84,5 +84,5 @@ steps:
         from_secret: ssh_password
       port: 22
       script:
-        - cd /home/coen/docker-home-services/home-assistant
+        - cd /home/coen/docker-home-services/home-assistant/
         - docker image prune --force
