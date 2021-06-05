@@ -22,5 +22,8 @@ cards:
           - !include ../cards/receiver_volume_up_button.yaml
           - !include ../cards/receiver_speaker_select_button.yaml
   - !include ../cards/thermostat_livingroom.yaml
-  - !include ../cards/doors.yaml
+  - type: vertical-stack
+    cards:
+      - !include ../cards/doors.yaml
+      - !include ../cards/doorbell.yaml
   - !include ../cards/machines.yaml
