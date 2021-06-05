@@ -1,5 +1,4 @@
 ---
 light.shelly_shellydimmer_kitchen.yaml:
-  friendly_name: Keuken
+  friendly_name: keuken
   icon: mdi:wall-sconce-flat
-    
