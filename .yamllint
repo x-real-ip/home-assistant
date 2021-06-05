@@ -1,8 +1,9 @@
 ---
-
 ignore: |
   config/custom_components/
+  config/blueprints/
   config/ip_bans.yaml
+
 rules:
   braces: enable
   brackets: enable
