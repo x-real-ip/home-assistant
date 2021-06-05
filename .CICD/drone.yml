@@ -8,6 +8,11 @@ steps:
     commands:
       - yamllint -c ./.yamllint .
 
+  - name: docker-compose.yaml
+    image: wernight/docker-compose:latest
+    commands:
+      - docker-compose config -q
+
 ---
 kind: pipeline
 name: test
