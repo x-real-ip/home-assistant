@@ -8,7 +8,7 @@ steps:
     commands:
       - yamllint -c ./.yamllint .
 
-  - name: docker-compose.yaml
+  - name: docker-compose
     image: wernight/docker-compose:latest
     commands:
       - docker-compose config -q
