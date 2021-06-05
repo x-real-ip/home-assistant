@@ -7,7 +7,6 @@
 
 ## Hardware
 
-
 - Shelly Dimmer
 - Shelly 1 Relay
 - Shelly Plug-S
