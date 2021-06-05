@@ -11,6 +11,8 @@ steps:
   - name: docker-compose
     image: tmaier/docker-compose:latest
     commands:
+      - mv prd-home-assistant-app.env.example prd-home-assistant-app.env
+      - mv prd-home-assistant-db.env.example prd-home-assistant-db.env
       - docker-compose config -q
 
 ---
