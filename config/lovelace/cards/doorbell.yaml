@@ -4,7 +4,7 @@ entities:
   - entity: sensor.rang_at
     name: Aangebeld
     icon: mdi:gesture-tap-hold
-#    secondary_info: last-changed
+    secondary_info: last-changed
   - entity: switch.doorbell_chime_active
     name: Deurbel geluid
-    icon: mdi:alarm-bell   
+    icon: mdi:alarm-bell
