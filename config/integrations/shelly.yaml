@@ -1,5 +1,6 @@
 ---
 shelly:
+  host_ip: !secret host_ip
   discovery: true
   sensors:
     - rssi
