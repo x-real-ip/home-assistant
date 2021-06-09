@@ -39,7 +39,13 @@ shelly:
       entity_id: shellyi3-living-room
     - id: 0212C1
       entity_id: shellyplug-server
+      sensors:
+        - current_consumption
     - id: 801BEA
       entity_id: shellyplug-receiver
+      sensors:
+        - current_consumption
     - id: DBF101
       entity_id: shellyplug-tv
+      sensors:
+        - current_consumption
