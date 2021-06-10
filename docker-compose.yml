@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   prd-home-assistant-app:
-    image: homeassistant/home-assistant:stable
+    image: docker-registry.theautomation.nl/coen/prd-home-assistant-app
     container_name: prd-home-assistant-app
     depends_on:
       prd-home-assistant-db:
@@ -14,11 +14,6 @@ services:
       - ./config:/config
     env_file: prd-home-assistant-app.env
     network_mode: host
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8123"]
-      interval: 1m
-      timeout: 10s
-      retries: 3
 
   prd-home-assistant-db:
     image: mariadb:10.5

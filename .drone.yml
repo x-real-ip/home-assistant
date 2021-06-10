@@ -17,6 +17,26 @@ steps:
 
 ---
 kind: pipeline
+type: docker
+name: build
+
+depends_on:
+  - validate
+
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker-registry-username
+      password:
+        from_secret: docker-registry-password
+      registry: docker-registry.theautomation.nl
+      repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
+      auto_tag: true
+
+---
+kind: pipeline
 name: test
 
 steps:
@@ -47,7 +67,7 @@ type: docker
 name: upgrade
 
 depends_on:
-  - validate
+  - build
   - test
 
 steps:
