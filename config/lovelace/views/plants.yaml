@@ -1,0 +1,7 @@
+---
+title: Plants
+icon: mdi:flower-tulip
+path: plants
+badges: []
+cards:
+  - !include ../cards/plant_ficus_lyrata.yaml

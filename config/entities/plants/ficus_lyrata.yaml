@@ -1,0 +1,16 @@
+---
+plant_ficus_lyrata:
+  sensors:
+    moisture: sensor.flora_01_moisture
+    temperature: sensor.flora_01_temperature
+    conductivity: sensor.flora_01_soil_conductivity
+    brightness: sensor.flora_01_illuminance
+  min_moisture: 15
+  max_moisture: 60
+  min_conductivity: 350
+  max_conductivity: 2000
+  min_temperature: 12
+  max_temperature: 32
+  min_brightness: 1500
+  max_brightness: 45000
+  check_days: 3
