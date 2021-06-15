@@ -34,8 +34,6 @@ steps:
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
       auto_tag: true
-      no_cache: true
-      dockerfile: Dockerfile
 
 ---
 kind: pipeline
@@ -108,3 +106,21 @@ steps:
       script:
         - cd /home/coen/docker-home-services/home-assistant/
         - docker image prune --force
+
+---
+kind: pipeline
+name: cleanup
+
+depends_on:
+  - upgrade
+
+steps:
+  - name: registry-clean
+    image: cblomart/registry-clean
+    settings:
+      username:
+        from_secret: docker-registry-username
+      password:
+        from_secret: docker-registry-password
+      registry: docker-registry.theautomation.nl
+      repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
