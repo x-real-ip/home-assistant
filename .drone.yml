@@ -35,6 +35,7 @@ steps:
       repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
       auto_tag: true
       no_cache: true
+      dockerfile: Dockerfile
 
 ---
 kind: pipeline
