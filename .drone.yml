@@ -26,7 +26,6 @@ depends_on:
 steps:
   - name: publish
     image: plugins/docker
-    pull: always
     settings:
       username:
         from_secret: docker-registry-username
@@ -35,6 +34,7 @@ steps:
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
       auto_tag: true
+      no_cache: true
 
 ---
 kind: pipeline
