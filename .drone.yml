@@ -26,6 +26,7 @@ depends_on:
 steps:
   - name: publish
     image: plugins/docker
+    pull: always
     settings:
       username:
         from_secret: docker-registry-username
