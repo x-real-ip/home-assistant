@@ -17,31 +17,14 @@ steps:
 
 ---
 kind: pipeline
-type: docker
-name: build
+name: test
 
 depends_on:
   - validate
 
 steps:
-  - name: publish
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker-registry-username
-      password:
-        from_secret: docker-registry-password
-      registry: docker-registry.theautomation.nl
-      repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
-      auto_tag: true
-
----
-kind: pipeline
-name: test
-
-steps:
-  - name: stable
-    image: homeassistant/home-assistant:stable
+  - name: latest
+    image: homeassistant/home-assistant:latest
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
@@ -64,14 +47,35 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: upgrade
+name: build
 
 depends_on:
-  - build
   - test
 
 steps:
-  - name: git pull
+  - name: publish
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker-registry-username
+      password:
+        from_secret: docker-registry-password
+      registry: docker-registry.theautomation.nl
+      repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
+      auto_tag: true
+
+---
+kind: pipeline
+type: docker
+name: upgrade
+
+depends_on:
+  - validate
+  - test
+  - build
+
+steps:
+  - name: upgrade
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
@@ -82,8 +86,9 @@ steps:
       script:
         - cd /home/coen/docker-home-services/home-assistant/
         - git pull
+        - docker-compose pull
 
-  - name: docker compose up
+  - name: deploy
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
@@ -95,7 +100,7 @@ steps:
         - cd /home/coen/docker-home-services/home-assistant/
         - docker-compose up -d
 
-  - name: cleanup
+  - name: clean
     image: appleboy/drone-ssh
     settings:
       host: docker.stam.lan
@@ -105,22 +110,4 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/home-assistant/
-        - docker image prune --force
-
----
-kind: pipeline
-name: cleanup
-
-depends_on:
-  - upgrade
-
-steps:
-  - name: registry-clean
-    image: cblomart/registry-clean
-    settings:
-      username:
-        from_secret: docker-registry-username
-      password:
-        from_secret: docker-registry-password
-      registry: docker-registry.theautomation.nl
-      repo: docker-registry.theautomation.nl/coen/prd-home-assistant-app
+        - docker image prune -f
