@@ -19,9 +19,6 @@ steps:
 kind: pipeline
 name: test
 
-depends_on:
-  - validate
-
 steps:
   - name: latest
     image: homeassistant/home-assistant:latest
@@ -50,6 +47,7 @@ type: docker
 name: build
 
 depends_on:
+  - validate
   - test
 
 steps:
@@ -70,8 +68,6 @@ type: docker
 name: upgrade
 
 depends_on:
-  - validate
-  - test
   - build
 
 steps:
