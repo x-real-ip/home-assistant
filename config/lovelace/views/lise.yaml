@@ -5,4 +5,4 @@ path: lise
 badges: []
 cards:
   - !include ../cards/childlocks.yaml
-  - !include ../cards/thermostat_lise_s_room.yaml
+  - !include ../cards/thermostat_lises_room.yaml
