@@ -3,7 +3,7 @@ kind: pipeline
 name: validate
 
 steps:
-  - name: lint
+  - name: yamllint
     image: sdesbure/yamllint:latest
     commands:
       - yamllint -c ./.yamllint .
