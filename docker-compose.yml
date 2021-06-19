@@ -9,6 +9,8 @@ services:
       prd-home-assistant-db:
         condition: service_healthy
     restart: unless-stopped
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0 #RFXCOM
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./config:/config
