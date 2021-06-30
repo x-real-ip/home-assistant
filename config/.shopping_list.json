@@ -3,5 +3,10 @@
         "name": "sleepmode tv not going off",
         "id": "4d513557a88f45cbb30fd456d5b44f79",
         "complete": false
+    },
+    {
+        "name": "unlock kitchen lock when nobody is home",
+        "id": "f35b60b15c484d0b81f2469fcf32d08c",
+        "complete": false
     }
 ]
