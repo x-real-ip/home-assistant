@@ -18,7 +18,7 @@ services:
     network_mode: host
 
   prd-home-assistant-db:
-    image: mariadb:10.5
+    image: docker-registry.theautomation.nl/coen/prd-home-assistant-db:latest
     container_name: prd-home-assistant-db
     restart: always
     volumes:
