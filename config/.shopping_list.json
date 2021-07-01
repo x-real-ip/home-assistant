@@ -5,8 +5,13 @@
         "complete": false
     },
     {
-        "name": "unlock kitchen lock when nobody is home",
+        "name": "unlock kitchen lock when nobody is home and sleepmode",
         "id": "f35b60b15c484d0b81f2469fcf32d08c",
+        "complete": false
+    },
+    {
+        "name": "Overloop verlichting niet uit zetten bij slaapstand",
+        "id": "93ca619c11dd4a288b8a0c9cbc9d2863",
         "complete": false
     }
 ]
