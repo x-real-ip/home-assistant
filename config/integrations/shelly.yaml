@@ -42,7 +42,7 @@ shelly:
       sensors:
         - current_consumption
     - id: 801BEA
-      entity_id: shellyplug-receiver
+      entity_id: shellyplug-dehumidifier
       sensors:
         - current_consumption
     - id: DBF101
