@@ -1,6 +1,6 @@
 ---
 type: custom:mini-media-player
-entity: media_player.chromecast_woonkamer
+entity: media_player.shield
 more_info: true
 artwork: full-cover
 source: icon

@@ -1,5 +1,5 @@
 ---
 input_select.spotify_playlist:
-  friendly_name: 'Spotify Playlist:'
+  friendly_name: Spotify Playlist
   initial: Spotify Uit
   icon: mdi:spotify

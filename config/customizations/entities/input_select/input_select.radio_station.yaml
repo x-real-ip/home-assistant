@@ -1,4 +1,5 @@
 ---
 input_select.radio_station:
-  name: 'Select Radio Station:'
+  friendly_name: Radio Station
   initial: Radio Uit
+  icon: mdi:radio
