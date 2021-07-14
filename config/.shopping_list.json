@@ -2,16 +2,21 @@
     {
         "name": "sleepmode tv not going off",
         "id": "4d513557a88f45cbb30fd456d5b44f79",
-        "complete": false
+        "complete": true
     },
     {
         "name": "unlock kitchen lock when nobody is home and sleepmode",
         "id": "f35b60b15c484d0b81f2469fcf32d08c",
-        "complete": false
+        "complete": true
     },
     {
         "name": "Overloop verlichting niet uit zetten bij slaapstand",
         "id": "93ca619c11dd4a288b8a0c9cbc9d2863",
+        "complete": false
+    },
+    {
+        "name": "wasdroger zwave is dead",
+        "id": "5af83f6a301c4cc0885478e42c49bff1",
         "complete": false
     }
 ]
