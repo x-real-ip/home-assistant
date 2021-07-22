@@ -3,5 +3,5 @@ type: custom:power-wheel-card
 solar_icon: mdi:solar-power
 home_icon: mdi:home-modern
 solar_power_entity: sensor.solaredge_ac_power
-grid_power_consumption_entity: sensor.dsmr_reading_electricity_currently_delivered
-grid_power_production_entity: sensor.dsmr_reading_electricity_currently_returned
+grid_power_consumption_entity: sensor.power_kwh_to_w_delivered
+grid_power_production_entity: sensor.power_kwh_to_w_returned
