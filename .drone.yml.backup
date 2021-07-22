@@ -1,15 +1,5 @@
 ---
 kind: pipeline
-name: prettier
-
-steps:
-  - name: yamllint
-    image: tmknom/prettier:latest
-    commands:
-      - prettier --check "./config/**/*.yaml"
-
----
-kind: pipeline
 name: validate
 
 steps:
