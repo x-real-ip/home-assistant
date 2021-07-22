@@ -3,7 +3,7 @@ kind: pipeline
 name: prettier
 
 steps:
-  - name: yamllint
+  - name: prettier
     image: tmknom/prettier:latest
     commands:
       - prettier --check "./config/**/*.yaml"
