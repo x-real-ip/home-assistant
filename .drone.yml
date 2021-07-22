@@ -6,7 +6,7 @@ steps:
   - name: prettier
     image: tmknom/prettier:latest
     commands:
-      - prettier --check "./config/**/*.yaml"
+      - prettier "./config/**/*.yaml"
 
 ---
 kind: pipeline
