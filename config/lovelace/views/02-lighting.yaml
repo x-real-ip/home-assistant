@@ -1,6 +1,6 @@
 ---
 title: Verlichting
-icon: 'mdi:lightbulb-on'
+icon: "mdi:lightbulb-on"
 path: verlichting
 badges:
   - entity: sensor.outdoor_light_dark

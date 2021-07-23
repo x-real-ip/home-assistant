@@ -2,5 +2,5 @@
 platform: template
 sensors:
   power_kwh_to_w_delivered:
-    unit_of_measurement: 'W'
+    unit_of_measurement: "W"
     value_template: "{{ (states.sensor.dsmr_reading_electricity_currently_delivered.state | float * 1000) | round(0) }}"
