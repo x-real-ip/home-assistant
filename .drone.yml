@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: prettier
+name: validate
 
 steps:
   - name: prettier
@@ -8,11 +8,6 @@ steps:
     commands:
       - prettier --check "./config/**/*.yaml"
 
----
-kind: pipeline
-name: validate
-
-steps:
   - name: yamllint
     image: sdesbure/yamllint:latest
     commands:
