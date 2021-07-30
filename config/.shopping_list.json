@@ -18,5 +18,15 @@
         "name": "wasdroger zwave is dead",
         "id": "5af83f6a301c4cc0885478e42c49bff1",
         "complete": false
+    },
+    {
+        "name": "activity Alles uit when tv power is 0",
+        "id": "5799edc28faa4d9ca222e4f192ab69d2",
+        "complete": false
+    },
+    {
+        "name": "when screen is not going off when music is selected try again ",
+        "id": "f8cf06f1713b48c49c237a7cd2b7eeca",
+        "complete": false
     }
 ]
