@@ -65,7 +65,7 @@ steps:
         from_secret: docker-registry-password
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
-      dockerfile: Dockerfile-app
+      dockerfile: app.dockerfile
       auto_tag: true
 
   - name: publish db
@@ -77,7 +77,7 @@ steps:
         from_secret: docker-registry-password
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
-      dockerfile: Dockerfile-db
+      dockerfile: db.dockerfile
       auto_tag: true
 
 ---

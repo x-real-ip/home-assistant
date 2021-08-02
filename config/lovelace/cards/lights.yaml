@@ -44,5 +44,9 @@ entities:
     entity: light.shelly_shellydimmer_backyard_string_lights
     step: 1
     toggle: true
+  - type: custom:slider-entity-row
+    entity: light.shelly_shellydimmer_barn_hanging_lamp
+    step: 1
+    toggle: true
   - entity: light.shelly_shelly1_barn_door
   - entity: light.shelly_shelly1_front_door

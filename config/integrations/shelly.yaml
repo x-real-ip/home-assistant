@@ -35,6 +35,8 @@ shelly:
       entity_id: shellydimmer-basement
     - id: F3A9E8
       entity_id: shellydimmer-laundry-room
+    - id: e8db84d4411c
+      entity_id: shellydimmer-barn-hanging-lamp
     - id: 68C63AFAA400
       entity_id: shellyi3-living-room
     - id: 0212C1
