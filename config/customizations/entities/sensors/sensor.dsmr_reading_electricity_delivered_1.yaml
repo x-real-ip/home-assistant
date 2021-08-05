@@ -1,0 +1,3 @@
+---
+sensor.dsmr_reading_electricity_delivered_1:
+  friendly_name: Laagtarief verbruik

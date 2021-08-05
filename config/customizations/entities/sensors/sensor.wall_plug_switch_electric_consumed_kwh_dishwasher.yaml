@@ -1,0 +1,3 @@
+---
+sensor.wall_plug_switch_electric_consumed_kwh_dishwasher:
+  friendly_name: Vaatwasser

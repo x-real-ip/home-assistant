@@ -1,0 +1,3 @@
+---
+sensor.shellyplug_server_energy:
+  friendly_name: Server

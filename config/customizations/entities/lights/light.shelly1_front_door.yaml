@@ -1,0 +1,4 @@
+---
+light.shelly1_front_door:
+  friendly_name: Voordeur
+  icon: mdi:coach-lamp

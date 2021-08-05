@@ -3,50 +3,50 @@ type: entities
 show_header_toggle: true
 entities:
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_living_room
+    entity: light.shellydimmer_living_room
     min: 10
     step: 0.1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_dinner_table
+    entity: light.shellydimmer_dinner_table
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_kitchen
+    entity: light.shellydimmer_kitchen
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_basement_stairs
+    entity: light.shellydimmer_basement_stairs
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_basement
+    entity: light.shellydimmer_basement
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_laundry_room
+    entity: light.shellydimmer_laundry_room
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_master_bedroom
+    entity: light.shellydimmer_master_bedroom
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_lises_room
+    entity: light.shellydimmer_lises_room
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_small_bedroom
+    entity: light.shellydimmer_small_bedroom
     step: 1
     toggle: true
-  - entity: light.shelly_shelly1_upstairs_hall
+  - entity: light.shelly1_upstairs_hall
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_backyard_string_lights
+    entity: light.shellydimmer_backyard_string_l
     step: 1
     toggle: true
   - type: custom:slider-entity-row
-    entity: light.shelly_shellydimmer_barn_hanging_lamp
+    entity: light.shellydimmer_barn_hanging_lamp
     step: 1
     toggle: true
-  - entity: light.shelly_shelly1_barn_door
-  - entity: light.shelly_shelly1_front_door
+  - entity: light.shelly1_barn_door
+  - entity: light.shelly1_front_door
