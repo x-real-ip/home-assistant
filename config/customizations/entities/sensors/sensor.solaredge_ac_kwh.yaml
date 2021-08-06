@@ -1,0 +1,5 @@
+---
+sensor.solaredge_ac_kwh:
+  state_class: measurement
+  device_class: energy
+  last_reset: homeassistant.util.dt.utc_from_timestamp(0)

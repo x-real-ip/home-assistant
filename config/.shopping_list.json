@@ -17,7 +17,7 @@
     {
         "name": "wasdroger zwave is dead",
         "id": "5af83f6a301c4cc0885478e42c49bff1",
-        "complete": false
+        "complete": true
     },
     {
         "name": "activity Alles uit when tv power is 0",
@@ -27,6 +27,11 @@
     {
         "name": "when screen is not going off when music is selected try again ",
         "id": "f8cf06f1713b48c49c237a7cd2b7eeca",
+        "complete": false
+    },
+    {
+        "name": "add prices in dsmr reader",
+        "id": "f61458b3c63d4527a3177fd2b99b0818",
         "complete": false
     }
 ]
