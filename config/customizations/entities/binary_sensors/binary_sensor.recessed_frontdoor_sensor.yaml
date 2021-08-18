@@ -1,3 +1,3 @@
 ---
-binary_sensor.recessed_frontdoor_sensor:
-  friendly_name: Voordeur
+binary_sensor.backdoor_access_control_window_door_is_open:
+  friendly_name: Achterdeur

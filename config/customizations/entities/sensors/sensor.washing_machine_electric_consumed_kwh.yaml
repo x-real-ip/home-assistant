@@ -1,0 +1,3 @@
+---
+sensor.washing_machine_electric_consumed_kwh:
+  friendly_name: Wasmachine
