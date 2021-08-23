@@ -7,3 +7,5 @@ prd-home-assistant-db.env
 /config/known_devices.yaml
 /config/secrets.yaml
 /config/home-assistant.log
+/config/google_calendars.yaml
+/config/.google.token
