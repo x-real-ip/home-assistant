@@ -1,2 +1,3 @@
 ---
 basement_window:
+  initial: false
