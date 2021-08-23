@@ -1,0 +1,6 @@
+---
+google:
+  client_id: !secret google_client_id
+  client_secret: google_client_secret
+  track_new_calendar: true
+  calendar_access: read_write
