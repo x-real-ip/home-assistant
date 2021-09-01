@@ -48,5 +48,10 @@
         "name": "voordeur niet open gedaan entiteit fixen",
         "id": "6371f02aa26b464f8ed9cf24488036ba",
         "complete": false
+    },
+    {
+        "name": "add OTA safe mode esphome",
+        "id": "7ea68ddcfee44e689632d8ee58b16b34",
+        "complete": false
     }
 ]
