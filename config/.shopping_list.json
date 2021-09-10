@@ -1,23 +1,8 @@
 [
     {
-        "name": "sleepmode tv not going off",
-        "id": "4d513557a88f45cbb30fd456d5b44f79",
-        "complete": true
-    },
-    {
-        "name": "unlock kitchen lock when nobody is home and sleepmode",
-        "id": "f35b60b15c484d0b81f2469fcf32d08c",
-        "complete": true
-    },
-    {
         "name": "Overloop verlichting niet uit zetten bij slaapstand",
         "id": "93ca619c11dd4a288b8a0c9cbc9d2863",
         "complete": false
-    },
-    {
-        "name": "wasdroger zwave is dead",
-        "id": "5af83f6a301c4cc0885478e42c49bff1",
-        "complete": true
     },
     {
         "name": "activity Alles uit when tv power is 0",
@@ -30,11 +15,6 @@
         "complete": false
     },
     {
-        "name": "add prices in dsmr reader",
-        "id": "f61458b3c63d4527a3177fd2b99b0818",
-        "complete": true
-    },
-    {
         "name": "default must be alles uit",
         "id": "bc94b708fe444080b61901e68600e1d4",
         "complete": false
@@ -45,13 +25,18 @@
         "complete": false
     },
     {
-        "name": "voordeur niet open gedaan entiteit fixen",
-        "id": "6371f02aa26b464f8ed9cf24488036ba",
+        "name": "add OTA safe mode esphome",
+        "id": "7ea68ddcfee44e689632d8ee58b16b34",
         "complete": false
     },
     {
-        "name": "add OTA safe mode esphome",
-        "id": "7ea68ddcfee44e689632d8ee58b16b34",
+        "name": "tuinverlichting uit ochtend",
+        "id": "9a9b8d58359646bab697b11c04e8dec2",
+        "complete": false
+    },
+    {
+        "name": "06:30, Slaapstand verlichting is automatisch uitgeschakeld klopt niet",
+        "id": "eb472f797d534c6e83369e2446c8d025",
         "complete": false
     }
 ]
