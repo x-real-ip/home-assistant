@@ -1,0 +1,12 @@
+---
+platform: acv
+postcode: !secret home_zipcode
+housenumber: !secret home_number
+resources:
+  - today
+  - tomorrow
+  - grey
+  - green
+  - paper
+  - packages
+  - textile

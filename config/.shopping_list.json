@@ -2,7 +2,7 @@
     {
         "name": "Overloop verlichting niet uit zetten bij slaapstand",
         "id": "93ca619c11dd4a288b8a0c9cbc9d2863",
-        "complete": false
+        "complete": true
     },
     {
         "name": "activity Alles uit when tv power is 0",
@@ -17,7 +17,7 @@
     {
         "name": "default must be alles uit",
         "id": "bc94b708fe444080b61901e68600e1d4",
-        "complete": false
+        "complete": true
     },
     {
         "name": "water verbruik kaart",
@@ -32,11 +32,16 @@
     {
         "name": "tuinverlichting uit ochtend",
         "id": "9a9b8d58359646bab697b11c04e8dec2",
-        "complete": false
+        "complete": true
     },
     {
         "name": "06:30, Slaapstand verlichting is automatisch uitgeschakeld klopt niet",
         "id": "eb472f797d534c6e83369e2446c8d025",
+        "complete": true
+    },
+    {
+        "name": "deur sensoren namen fixen",
+        "id": "62f30ac47e7a45da8721cb1c7ecf85f6",
         "complete": false
     }
 ]

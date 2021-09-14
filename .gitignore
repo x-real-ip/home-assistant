@@ -6,6 +6,6 @@ prd-home-assistant-db.env
 /config/ip_bans.yaml
 /config/known_devices.yaml
 /config/secrets.yaml
-/config/home-assistant.log
+/config/*.log
 /config/google_calendars.yaml
 /config/.google.token
