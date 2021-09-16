@@ -7,12 +7,12 @@
     {
         "name": "activity Alles uit when tv power is 0",
         "id": "5799edc28faa4d9ca222e4f192ab69d2",
-        "complete": false
+        "complete": true
     },
     {
         "name": "when screen is not going off when music is selected try again ",
         "id": "f8cf06f1713b48c49c237a7cd2b7eeca",
-        "complete": false
+        "complete": true
     },
     {
         "name": "default must be alles uit",
@@ -42,6 +42,6 @@
     {
         "name": "deur sensoren namen fixen",
         "id": "62f30ac47e7a45da8721cb1c7ecf85f6",
-        "complete": false
+        "complete": true
     }
 ]
