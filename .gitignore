@@ -9,3 +9,4 @@ prd-home-assistant-db.env
 /config/*.log
 /config/google_calendars.yaml
 /config/.google.token
+/config/home-assistant.log.1
