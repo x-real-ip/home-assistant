@@ -2,6 +2,7 @@
 title: Home
 icon: "mdi:home"
 path: home
+type: masonry
 badges: []
 cards:
   - type: horizontal-stack

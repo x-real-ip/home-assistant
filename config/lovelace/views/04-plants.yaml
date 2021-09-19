@@ -2,6 +2,7 @@
 title: Plants
 icon: mdi:flower-tulip
 path: plants
+type: masonry
 badges: []
 cards:
   - !include ../cards/plant_ficus_lyrata.yaml

@@ -2,6 +2,7 @@
 title: Verlichting
 icon: "mdi:lightbulb-on"
 path: verlichting
+type: masonry
 badges:
   - entity: sensor.outdoor_light_dark
   - entity: sun.sun

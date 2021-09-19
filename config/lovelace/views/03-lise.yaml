@@ -2,6 +2,7 @@
 title: Lise
 icon: mdi:human-male-girl
 path: lise
+type: masonry
 badges: []
 cards:
   - !include ../cards/childlocks.yaml

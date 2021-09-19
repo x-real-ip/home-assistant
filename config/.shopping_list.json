@@ -43,5 +43,10 @@
         "name": "deur sensoren namen fixen",
         "id": "62f30ac47e7a45da8721cb1c7ecf85f6",
         "complete": true
+    },
+    {
+        "name": "https://www.home-assistant.io/integrations/proxmoxve/",
+        "id": "8157d28a186141f0988a4856e5a76dc3",
+        "complete": false
     }
 ]

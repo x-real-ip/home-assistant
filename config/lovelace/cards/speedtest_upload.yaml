@@ -1,0 +1,5 @@
+---
+type: sensor
+entity: sensor.speedtest_upload
+graph: line
+hours_to_show: 24
