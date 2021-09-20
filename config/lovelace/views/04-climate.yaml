@@ -1,0 +1,10 @@
+---
+title: Climate
+icon: mdi:home-thermometer
+path: climate
+type: sidebar
+badges: []
+cards:
+  - !include ../cards/thermostat_living_room.yaml
+  - !include ../cards/thermostat_lises_room.yaml
+  - !include ../cards/statistics-graph_living-room.yaml

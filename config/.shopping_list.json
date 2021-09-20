@@ -48,5 +48,10 @@
         "name": "https://www.home-assistant.io/integrations/proxmoxve/",
         "id": "8157d28a186141f0988a4856e5a76dc3",
         "complete": false
+    },
+    {
+        "name": "docker status card ",
+        "id": "60bfc8a217ca4ad7b4fa9ff7b7bdc014",
+        "complete": false
     }
 ]

@@ -1,0 +1,14 @@
+---
+type: "horizontal-stack"
+title: Speedtest
+cards:
+  - type: entities
+    title: null
+    show_header_toggle: false
+    entities:
+      - entity: sensor.speedtest_download
+        name: Download
+      - entity: sensor.speedtest_upload
+        name: Upload
+      - entity: sensor.speedtest_ping
+        name: Ping

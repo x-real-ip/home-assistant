@@ -1,3 +1,5 @@
 ---
 type: thermostat
 entity: climate.living_room
+view_layout:
+  position: sidebar

@@ -1,0 +1,8 @@
+---
+title: System
+icon: mdi:cog
+path: system
+badges: []
+cards:
+  - !include ../cards/speedtest.yaml
+  - !include ../cards/transmission.yaml

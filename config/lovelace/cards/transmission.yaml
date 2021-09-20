@@ -1,0 +1,23 @@
+---
+type: "vertical-stack"
+title: Transmission
+cards:
+  - type: entities
+    title: null
+    show_header_toggle: false
+    entities:
+      - entity: sensor.transmission_active_torrents
+        name: Actief
+        icon: mdi:download
+      - entity: sensor.transmission_completed_torrents
+        name: Compleet
+        icon: mdi:check
+      - entity: sensor.transmission_paused_torrents
+        name: Gepauzeerd
+        icon: mdi:pause-circle
+      - entity: switch.transmission_turtle_mode
+        icon: mdi:speedometer-slow
+        name: Langzaam downloaden
+      - entity: switch.transmission_switch
+        icon: mdi:toggle-switch
+        name: Transmission

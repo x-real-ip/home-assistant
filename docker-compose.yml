@@ -1,7 +1,6 @@
 ---
-version: '3.8'
+version: "3.8"
 services:
-
   prd-home-assistant-app:
     image: docker-registry.theautomation.nl/coen/prd-home-assistant-app:latest
     container_name: prd-home-assistant-app
@@ -14,6 +13,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./config:/config
+      - /var/run/docker.sock:/var/run/docker.sock
     env_file: prd-home-assistant-app.env
     network_mode: host
 
@@ -31,13 +31,11 @@ services:
 
 # VOLUMES
 volumes:
-
   prd-home-assistant-db-data:
     name: prd-home-assistant-db-data
 
 # NETWORKS
 networks:
-
   home-services:
     driver: bridge
     name: home-services
