@@ -1,0 +1,9 @@
+---
+type: custom:auto-entities
+card:
+  type: entities
+  title: Docker
+  show_header_toggle: false
+filter:
+  include:
+    - entity_id: switch.docker_*
