@@ -2,6 +2,4 @@
 type: statistics-graph
 title: "Woonkamer"
 entities:
-  - sensor.living_room_humidity
-  - entity: sensor.living_room_temperature
-    name: Inside
+  - sensor.living_room_temperature
