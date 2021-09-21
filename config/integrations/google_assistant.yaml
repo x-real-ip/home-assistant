@@ -1,0 +1,8 @@
+---
+google_assistant:
+  project_id: home-assistant--home-cfedc
+  service_account: !include /config/google_assistant/home-assistant--home-cfedc-9a906d84f96f.json
+  report_state: true
+  exposed_domains:
+    - switch
+    - light

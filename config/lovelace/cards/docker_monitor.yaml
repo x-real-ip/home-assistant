@@ -4,6 +4,11 @@ card:
   type: entities
   title: Docker
   show_header_toggle: false
+entities:
+  - entity: sensor.docker_containers_total
+  - entity: sensor.docker_containers_stopped
+  - entity: sensor.docker_cpu
+  - entity: sensor.docker_memory
 filter:
   include:
     - entity_id: switch.docker_*

@@ -1,2 +1,3 @@
 /config/custom_components/
 *.html
+/config/google_assistant/google_service.json
