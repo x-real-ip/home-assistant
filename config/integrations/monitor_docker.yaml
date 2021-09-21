@@ -1,0 +1,5 @@
+monitor_docker:
+  - name: Docker
+    containers: !include_dir_list ../entities/docker_monitor
+    monitored_conditions:
+      - allinone

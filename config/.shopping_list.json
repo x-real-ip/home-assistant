@@ -53,5 +53,15 @@
         "name": "docker status card ",
         "id": "60bfc8a217ca4ad7b4fa9ff7b7bdc014",
         "complete": false
+    },
+    {
+        "name": "expose to google assistant",
+        "id": "b3988ce222c64a85b6fc5c94cecf2414",
+        "complete": false
+    },
+    {
+        "name": "stofzuiger op NoT WiFi ",
+        "id": "e29f8a97cd234c18b42afb70375be932",
+        "complete": false
     }
 ]
