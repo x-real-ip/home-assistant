@@ -10,5 +10,4 @@ prd-home-assistant-db.env
 /config/google_calendars.yaml
 /config/.google.token
 /config/home-assistant.log.1
-config/google_service_account.json
-config/google_assistant/google_service_account.json
+/config/google_assistant/google_service_account.json

@@ -1,6 +1,6 @@
 ---
 google_assistant:
   project_id: !secret google_client_id_google_assistant
-  service_account: !include /config/google_assistant/google_service_account.json
+  service_account: !include ../google_assistant/google_service_account.json
   report_state: true
   exposed_domains: !include_dir_list ../google_assistant/exposed_domains
