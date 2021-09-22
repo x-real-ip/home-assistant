@@ -18,7 +18,6 @@ steps:
     commands:
       - mv prd-${DRONE_REPO_NAME}-app.env.example prd-${DRONE_REPO_NAME}-app.env
       - mv prd-${DRONE_REPO_NAME}-db.env.example prd-${DRONE_REPO_NAME}-db.env
-      - mv ./config/google_assistant/google_service_account.json.example ./config/google_assistant/google_service_account.json
       - docker-compose config -q
 
 ---
@@ -31,6 +30,7 @@ steps:
     pull: always
     commands:
       - mv config/secrets.yaml.example config/secrets.yaml
+      - mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json
       - python -m homeassistant --script check_config --config ./config/
 
   - name: dev
