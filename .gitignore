@@ -11,4 +11,4 @@ prd-home-assistant-db.env
 /config/.google.token
 /config/home-assistant.log.1
 config/google_service_account.json
-config/google_assistant/home-assistant--home-cfedc-9a906d84f96f.json
+config/google_assistant/google_service_account.json
