@@ -1,8 +1,6 @@
 ---
 google_assistant:
-  project_id: home-assistant--home-cfedc
-  service_account: !include /config/google_assistant/home-assistant--home-cfedc-9a906d84f96f.json
+  project_id: !secret google_client_id_google_assistant
+  service_account: !include /config/google_assistant/google_service_account.json
   report_state: true
-  exposed_domains:
-    - switch
-    - light
+  exposed_domains: !include_dir_list ../google_assistant/exposed_domains
