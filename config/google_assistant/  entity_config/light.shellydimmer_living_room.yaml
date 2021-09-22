@@ -1,0 +1,8 @@
+---
+light.shellydimmer_living_room:
+  expose: true
+  room: Woonkamer
+  name: Verlichting woonkamer
+  aliases:
+    - woonkamer verlichting
+    - lampen woonkamer

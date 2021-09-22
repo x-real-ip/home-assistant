@@ -13,8 +13,10 @@
 - Shelly 1 Relay
 - Shelly Plug-S
 - Shelly I3
+- Tado Bridge
 - Tado Smart Thermostat
-- Tado Smart Radiator Valves
+- Tado Smart Radiator Thermostat
+- Tado Wireless Temperature Sensor
 - ESP01S
 - ESP8622
 - ESP32
