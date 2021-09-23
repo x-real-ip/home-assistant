@@ -1,0 +1,8 @@
+---
+switch.adguard_protection:
+  name: Adblocker
+  room: Woonkamer
+  expose: true
+  aliases:
+    - adguard
+    - adblock

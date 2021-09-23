@@ -1,0 +1,8 @@
+---
+switch.childlock_kitchen_switch:
+  name: Keuken kinderbeveiliging
+  room: Keuken
+  expose: true
+  aliases:
+    - kinderbeveiliging
+    - keukenlade slot

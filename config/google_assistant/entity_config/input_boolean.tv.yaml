@@ -1,0 +1,7 @@
+---
+input_boolean.tv:
+  name: Tv
+  room: Woonkamer
+  expose: true
+  aliases:
+    - Televisie
