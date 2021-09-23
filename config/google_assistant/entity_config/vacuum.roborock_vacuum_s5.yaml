@@ -1,0 +1,9 @@
+---
+vacuum.roborock_vacuum_s5:
+  name: Stofzuiger
+  room: Woonkamer
+  expose: true
+  aliases:
+    - robotstofzuiger
+    - roborock
+    - robot
