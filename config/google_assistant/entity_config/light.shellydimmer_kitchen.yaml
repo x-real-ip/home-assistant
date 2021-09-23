@@ -1,0 +1,8 @@
+---
+light.shellydimmer_kitchen:
+  name: Keuken verlichting
+  room: Keuken
+  expose: true
+  aliases:
+    - keukenspots
+    - keukenlamp

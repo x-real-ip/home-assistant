@@ -1,0 +1,7 @@
+---
+light.shellydimmer_small_bedroom:
+  name: Lamp
+  room: Kleine slaapkamer
+  expose: true
+  aliases:
+    - kleine slaapkamer lamp

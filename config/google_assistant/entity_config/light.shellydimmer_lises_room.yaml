@@ -1,0 +1,7 @@
+---
+light.shellydimmer_lises_room:
+  name: Lamp
+  room: Lise's Kamer
+  expose: true
+  aliases:
+    - Lamp lise

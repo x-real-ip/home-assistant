@@ -1,0 +1,8 @@
+---
+light.shellydimmer_dinner_table:
+  name: Eettafel lamp
+  room: Woonkamer
+  expose: true
+  aliases:
+    - eettafel hanglamp
+    - eettafel verlichting

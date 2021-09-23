@@ -1,8 +1,7 @@
 ---
 light.shelly1_barn_door:
-  name: Verlichting schuur
+  name: Schuurdeur lamp
   room: Achtertuin
   expose: true
   aliases:
-    - schuur lamp
-    - lamp schuur
+    - schuurdeur verlichting
