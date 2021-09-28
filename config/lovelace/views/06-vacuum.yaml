@@ -1,0 +1,8 @@
+---
+title: Vacuum
+icon: mdi:robot-vacuum
+path: vacuum
+type: masonry
+badges: []
+cards:
+  - !include ../cards/vacuum.yaml

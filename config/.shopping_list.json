@@ -27,7 +27,7 @@
     {
         "name": "add OTA safe mode esphome",
         "id": "7ea68ddcfee44e689632d8ee58b16b34",
-        "complete": false
+        "complete": true
     },
     {
         "name": "tuinverlichting uit ochtend",
@@ -47,7 +47,7 @@
     {
         "name": "https://www.home-assistant.io/integrations/proxmoxve/",
         "id": "8157d28a186141f0988a4856e5a76dc3",
-        "complete": false
+        "complete": true
     },
     {
         "name": "docker status card ",
@@ -62,6 +62,26 @@
     {
         "name": "stofzuiger op NoT WiFi ",
         "id": "e29f8a97cd234c18b42afb70375be932",
+        "complete": true
+    },
+    {
+        "name": "alarm in orde maken node red",
+        "id": "3dc6f5a12ac446debdcb6ebe5a362637",
+        "complete": false
+    },
+    {
+        "name": "camera lise in frontend",
+        "id": "cabf52e0b43c48399701ef1df64d07f6",
+        "complete": false
+    },
+    {
+        "name": "powerplug versterker installeren",
+        "id": "a185986a3a434c2dbc13a4a5dfff2fe7",
+        "complete": false
+    },
+    {
+        "name": "knop maken voor internet op NoT",
+        "id": "b6d7ca17beb949d3b27c7136682dee73",
         "complete": false
     }
 ]
