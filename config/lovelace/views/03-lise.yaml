@@ -7,3 +7,4 @@ badges: []
 cards:
   - !include ../cards/childlocks.yaml
   - !include ../cards/thermostat_lises_room.yaml
+  - !include ../cards/camera_lise.yaml

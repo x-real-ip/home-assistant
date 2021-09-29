@@ -11,3 +11,5 @@ prd-home-assistant-db.env
 /config/.google.token
 /config/home-assistant.log.1
 /config/google_assistant/google_service_account.json
+/config/www/image/*
+/config/www/snapshots/*
