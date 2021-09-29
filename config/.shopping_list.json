@@ -67,7 +67,7 @@
     {
         "name": "alarm in orde maken node red",
         "id": "3dc6f5a12ac446debdcb6ebe5a362637",
-        "complete": false
+        "complete": true
     },
     {
         "name": "camera lise in frontend",
@@ -77,10 +77,10 @@
     {
         "name": "powerplug versterker installeren",
         "id": "a185986a3a434c2dbc13a4a5dfff2fe7",
-        "complete": false
+        "complete": true
     },
     {
-        "name": "knop maken voor internet op NoT",
+        "name": "knop en automation maken voor internet op NoT",
         "id": "b6d7ca17beb949d3b27c7136682dee73",
         "complete": false
     },
@@ -88,5 +88,20 @@
         "name": "add tv and message to tv",
         "id": "f716a65868c54d2685c2c9d38a0a4034",
         "complete": false
+    },
+    {
+        "name": "Droger aan energy toevoegen",
+        "id": "851228841d6f42caa143ed0da5ddecab",
+        "complete": true
+    },
+    {
+        "name": "pause inkomend telefoon gesprek",
+        "id": "9152915f36d344e2b1fe73bfd1683e42",
+        "complete": false
+    },
+    {
+        "name": "Beveliging verlichting is automatisch uitgeschakeld klopt niet",
+        "id": "e10a42e6ed2e4167a2f6aa20e8358be8",
+        "complete": true
     }
 ]
