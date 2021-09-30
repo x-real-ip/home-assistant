@@ -20,7 +20,7 @@
 - ESP01S
 - ESP8622
 - ESP32
-- Ubiquiti EdgeRouter X
+- pfSense
 - Solar Edge Inverter
 - ISKRA Smart Meter
 - RFXCOM 433trfx Transceiver
