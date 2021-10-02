@@ -103,5 +103,10 @@
         "name": "Beveliging verlichting is automatisch uitgeschakeld klopt niet",
         "id": "e10a42e6ed2e4167a2f6aa20e8358be8",
         "complete": true
+    },
+    {
+        "name": "Niemand is aanwezig. Lise&amp;#39;s slaapkamer, Eettafel stond nog aan en is nu automatisch uitgeschakeld.",
+        "id": "c1809a75006d406383d3da75b7524857",
+        "complete": false
     }
 ]
