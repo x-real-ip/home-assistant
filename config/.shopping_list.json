@@ -87,7 +87,7 @@
     {
         "name": "add tv and message to tv",
         "id": "f716a65868c54d2685c2c9d38a0a4034",
-        "complete": false
+        "complete": true
     },
     {
         "name": "Droger aan energy toevoegen",
@@ -97,7 +97,7 @@
     {
         "name": "pause inkomend telefoon gesprek",
         "id": "9152915f36d344e2b1fe73bfd1683e42",
-        "complete": false
+        "complete": true
     },
     {
         "name": "Beveliging verlichting is automatisch uitgeschakeld klopt niet",
@@ -107,6 +107,6 @@
     {
         "name": "Niemand is aanwezig. Lise&amp;#39;s slaapkamer, Eettafel stond nog aan en is nu automatisch uitgeschakeld.",
         "id": "c1809a75006d406383d3da75b7524857",
-        "complete": false
+        "complete": true
     }
 ]

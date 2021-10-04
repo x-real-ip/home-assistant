@@ -1,9 +1,6 @@
 ---
 type: markdown
 content: |-
-
-  **Meldingen**
-
   {{ states('sensor.message_home_page_1') }}
 
   {{ states('sensor.message_home_page_2') }}
