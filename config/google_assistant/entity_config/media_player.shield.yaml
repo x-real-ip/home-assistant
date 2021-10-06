@@ -1,0 +1,10 @@
+---
+media_player.shield:
+  name: Shield
+  room: Woonkamer
+  expose: true
+  aliases:
+    - media player
+    - shield
+    - chromecast
+    - tv

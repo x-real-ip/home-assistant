@@ -108,5 +108,20 @@
         "name": "Niemand is aanwezig. Lise&amp;#39;s slaapkamer, Eettafel stond nog aan en is nu automatisch uitgeschakeld.",
         "id": "c1809a75006d406383d3da75b7524857",
         "complete": true
+    },
+    {
+        "name": "google sync devices in frontend",
+        "id": "df88eddaee0d4807a31d9484748f1989",
+        "complete": false
+    },
+    {
+        "name": "ventilatie in front-end",
+        "id": "1b5d3bb6f9aa4c1ba4c5dc8a2acdc3ec",
+        "complete": false
+    },
+    {
+        "name": "media player uit home assistant naar Google home",
+        "id": "1c5efeb32ec24a3fa607bf28c1d8ecf5",
+        "complete": false
     }
 ]

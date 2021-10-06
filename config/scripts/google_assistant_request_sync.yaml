@@ -1,0 +1,4 @@
+---
+google_assistant_request_sync:
+  sequence:
+    - service: google_assistant.request_sync
