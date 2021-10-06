@@ -7,3 +7,4 @@ cards:
   - !include ../cards/speedtest.yaml
   - !include ../cards/transmission.yaml
   - !include ../cards/docker_monitor.yaml
+  - !include ../cards/google_assistant.yaml

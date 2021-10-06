@@ -1,0 +1,4 @@
+---
+sensor.rang_at:
+  friendly_name: Aangebeld
+  icon: mdi:gesture-tap-hold
