@@ -24,6 +24,8 @@
 - Solar Edge Inverter
 - ISKRA Smart Meter
 - RFXCOM 433trfx Transceiver
+- 433 MHz TS34C Thermo- en hygrosensor
+- 433 MHz Motion Sensor
 - LG SmartTV WebOS
 - WLED
 - Xioami Roborock S5
@@ -31,7 +33,6 @@
 - Google Home
 - Google Home Mini
 - Google Chromecast
-- 433mhz Motion Sensor
 - Aeotec Z-Wave Gen5 Stick
 - Aeotec Z-Wave Recessed Doorsensor
 - Fibaro Z-Wave Wall Plug
