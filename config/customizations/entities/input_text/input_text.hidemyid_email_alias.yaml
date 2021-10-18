@@ -1,0 +1,4 @@
+---
+input_text.hidemyid_mail_alias:
+  friendly_name: Alias
+  icon: mdi:at
