@@ -10,3 +10,8 @@ entities:
     icon: mdi:email-plus
     action_name: Toevoegen
     service: script.add_mail_alias
+  - type: call-service
+    name: " "
+    icon: mdi:email-minus
+    action_name: Verwijderen
+    service: script.delete_mail_alias

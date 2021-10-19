@@ -4,8 +4,8 @@ icon: mdi:cog
 path: system
 badges: []
 cards:
+  - !include ../cards/mail_alias.yaml
   - !include ../cards/speedtest.yaml
   - !include ../cards/transmission.yaml
   - !include ../cards/docker_monitor.yaml
   - !include ../cards/google_assistant.yaml
-  - !include ../cards/mail_alias.yaml

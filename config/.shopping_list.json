@@ -128,5 +128,10 @@
         "name": "Niemand is aanwezig. Lise&#39;s slaapkamer stond nog aan en is nu automatisch uitgeschakeld.",
         "id": "ded40de7bfd04c4ab63e6d0b44c888f5",
         "complete": false
+    },
+    {
+        "name": "nextcloud installeren",
+        "id": "07b11afa01ba47a0ada19542152aadb3",
+        "complete": false
     }
 ]
