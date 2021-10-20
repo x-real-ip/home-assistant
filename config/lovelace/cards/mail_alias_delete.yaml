@@ -1,0 +1,11 @@
+---
+type: button
+entity: script.delete_mail_alias
+show_name: false
+icon_height: 25px
+icon: mdi:email-minus
+tap_action:
+  action: call-service
+  service: script.turn_on
+  service_data:
+    entity_id: script.delete_mail_alias

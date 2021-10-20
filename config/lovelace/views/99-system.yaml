@@ -4,7 +4,13 @@ icon: mdi:cog
 path: system
 badges: []
 cards:
-  - !include ../cards/mail_alias.yaml
+  - type: vertical-stack
+    cards:
+      - !include ../cards/mail_alias.yaml
+      - type: horizontal-stack
+        cards:
+          - !include ../cards/mail_alias_add.yaml
+          - !include ../cards/mail_alias_delete.yaml
   - !include ../cards/speedtest.yaml
   - !include ../cards/transmission.yaml
   - !include ../cards/docker_monitor.yaml

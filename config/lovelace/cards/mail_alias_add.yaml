@@ -1,0 +1,11 @@
+---
+type: button
+entity: script.add_mail_alias
+show_name: false
+icon_height: 25px
+icon: mdi:email-plus
+tap_action:
+  action: call-service
+  service: script.turn_on
+  service_data:
+    entity_id: script.add_mail_alias
