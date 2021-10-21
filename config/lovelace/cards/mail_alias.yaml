@@ -1,5 +1,6 @@
 ---
 type: entities
+title: E-mail alias
 entities:
   - entity: input_text.hidemyid_mail_alias
     name: hidemyid.nl
