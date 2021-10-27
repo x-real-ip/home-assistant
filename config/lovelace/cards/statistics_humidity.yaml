@@ -1,0 +1,10 @@
+---
+type: history-graph
+title: "Relative luchtvochtigheid"
+entities:
+  - sensor.buienradar_humidity
+  - sensor.living_room_humidity
+  - sensor.basement_humidity
+  - sensor.kleine_kamer_humidity
+  - sensor.lise_s_kamer_humidity
+  - sensor.master_bedroom_humidity

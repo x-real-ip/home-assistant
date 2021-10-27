@@ -1,4 +1,0 @@
----
-platform: statistics
-entity_id: sensor.basement_humidity
-name: basement_humidity_statistics

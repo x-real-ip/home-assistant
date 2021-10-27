@@ -1,6 +1,0 @@
----
-type: statistics-graph
-title: "Kelder"
-entities:
-  - sensor.basement_humidity_statistics
-  - sensor.basement_temperature_statistics

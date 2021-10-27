@@ -7,4 +7,5 @@ badges: []
 cards:
   - !include ../cards/thermostat_living_room.yaml
   - !include ../cards/thermostat_lises_room.yaml
-  - !include ../cards/statistics-graph_living-room.yaml
+  - !include ../cards/thermostat_basement.yaml
+  - !include ../cards/statistics_humidity.yaml
