@@ -122,7 +122,7 @@
     {
         "name": "media player uit home assistant naar Google home",
         "id": "1c5efeb32ec24a3fa607bf28c1d8ecf5",
-        "complete": false
+        "complete": true
     },
     {
         "name": "Niemand is aanwezig. Lise&#39;s slaapkamer stond nog aan en is nu automatisch uitgeschakeld.",
@@ -132,6 +132,26 @@
     {
         "name": "nextcloud installeren",
         "id": "07b11afa01ba47a0ada19542152aadb3",
+        "complete": true
+    },
+    {
+        "name": "dimsnelheid aanpassen",
+        "id": "8bc86478a7a849699b0256c43f06abde",
+        "complete": false
+    },
+    {
+        "name": "huisbeveiliging meldingen uitzetten",
+        "id": "a03515a4dc8e45469a24c020b1e22c90",
+        "complete": false
+    },
+    {
+        "name": "add statistics sensors",
+        "id": "303bbd0cdd414f0d9ea4048c80be4e68",
+        "complete": false
+    },
+    {
+        "name": "zwave voordeur checken",
+        "id": "f9a02f01e8c44b08ae3644399cd2cdf8",
         "complete": false
     }
 ]

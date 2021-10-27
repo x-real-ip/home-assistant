@@ -1,0 +1,4 @@
+---
+platform: statistics
+entity_id: sensor.basement_temperature
+name: basement_temperature_statistics

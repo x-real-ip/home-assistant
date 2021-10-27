@@ -1,5 +1,6 @@
 ---
 type: statistics-graph
-title: "Woonkamer"
+title: "Kelder"
 entities:
-  - sensor.living_room_temperature
+  - sensor.basement_humidity_statistics
+  - sensor.basement_temperature_statistics
