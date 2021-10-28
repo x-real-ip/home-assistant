@@ -153,5 +153,10 @@
         "name": "zwave voordeur checken",
         "id": "f9a02f01e8c44b08ae3644399cd2cdf8",
         "complete": false
+    },
+    {
+        "name": "wekker warm water aan",
+        "id": "677499d549fc434e97587479f9430585",
+        "complete": false
     }
 ]
