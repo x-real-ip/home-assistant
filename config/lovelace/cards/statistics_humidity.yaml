@@ -1,6 +1,7 @@
 ---
 type: history-graph
-title: "Relative luchtvochtigheid"
+title: Relative luchtvochtigheid
+hours_to_show: 12
 entities:
   - sensor.buienradar_humidity
   - sensor.living_room_humidity

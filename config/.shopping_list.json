@@ -112,7 +112,7 @@
     {
         "name": "google sync devices in frontend",
         "id": "df88eddaee0d4807a31d9484748f1989",
-        "complete": false
+        "complete": true
     },
     {
         "name": "ventilatie in front-end",
