@@ -1,0 +1,3 @@
+---
+sensor.basement_temperature:
+  friendly_name: Kelder

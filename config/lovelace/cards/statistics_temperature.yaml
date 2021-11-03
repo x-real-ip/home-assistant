@@ -1,0 +1,11 @@
+---
+type: history-graph
+title: Temperatuur
+hours_to_show: 12
+entities:
+  - sensor.buienradar_temperature
+  - sensor.living_room_temperature
+  - sensor.basement_temperature
+  - sensor.kleine_kamer_temperature
+  - sensor.lise_s_kamer_temperature
+  - sensor.master_bedroom_temperature
