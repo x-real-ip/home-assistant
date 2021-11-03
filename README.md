@@ -8,32 +8,32 @@
 [Home Assistant](https://www.home-assistant.io/): Free and open-source home automation software designed to be the central home automation control system for smart home technology.
 
 ## Hardware
-
+- 433 MHz Motion Sensor
+- 433 MHz TS34C Thermo- en hygrosensor
+- Aeotec Z-Wave Gen5 Stick
+- Aeotec Z-Wave Recessed Doorsensor
+- ESP01S
+- ESP32
+- ESP8622
+- Fibaro Z-Wave Wall Plug
+- Google Chromecast
+- Google Home
+- Google Home Mini
+- ISKRA Smart Meter
+- LG SmartTV WebOS
+- Logitech Harmony Hub
+- Neo Coolman Z-Wave Wall Plug
+- PfSense
+- RFXCOM 433trfx Transceiver
 - Shelly Dimmer
 - Shelly 1 Relay
 - Shelly Plug-S
 - Shelly I3
+- Solar Edge Inverter
 - Tado Bridge
 - Tado Smart Thermostat
 - Tado Smart Radiator Thermostat
 - Tado Wireless Temperature Sensor
-- ESP01S
-- ESP8622
-- ESP32
-- pfSense
-- Solar Edge Inverter
-- ISKRA Smart Meter
-- RFXCOM 433trfx Transceiver
-- 433 MHz TS34C Thermo- en hygrosensor
-- 433 MHz Motion Sensor
-- LG SmartTV WebOS
 - WLED
 - Xioami Roborock S5
-- Logitech Harmony Hub
-- Google Home
-- Google Home Mini
-- Google Chromecast
-- Aeotec Z-Wave Gen5 Stick
-- Aeotec Z-Wave Recessed Doorsensor
-- Fibaro Z-Wave Wall Plug
-- Neo Coolman Z-Wave Wall Plug
+- Xiaomi Mi Flower Care Plant Sensor
