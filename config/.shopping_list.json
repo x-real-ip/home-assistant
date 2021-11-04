@@ -147,7 +147,7 @@
     {
         "name": "add statistics sensors",
         "id": "303bbd0cdd414f0d9ea4048c80be4e68",
-        "complete": false
+        "complete": true
     },
     {
         "name": "zwave voordeur checken",
@@ -172,6 +172,16 @@
     {
         "name": "uptime kuma",
         "id": "1b06d0fd48e5468e85f3b4e5e30c4e4a",
+        "complete": false
+    },
+    {
+        "name": "readme shield ipv chromecast",
+        "id": "e3d59d6cd72b44e78130a1c653dee8fa",
+        "complete": false
+    },
+    {
+        "name": "weekday vacuum collapse",
+        "id": "a29207b9bd524a53bccd50a9841ae88b",
         "complete": false
     }
 ]
