@@ -4,4 +4,4 @@ http:
   login_attempts_threshold: 5
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.20.0.0/24
+    - 172.22.0.0/24
