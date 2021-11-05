@@ -177,11 +177,31 @@
     {
         "name": "readme shield ipv chromecast",
         "id": "e3d59d6cd72b44e78130a1c653dee8fa",
-        "complete": false
+        "complete": true
     },
     {
         "name": "weekday vacuum collapse",
         "id": "a29207b9bd524a53bccd50a9841ae88b",
+        "complete": false
+    },
+    {
+        "name": "shelly i3 port80 in url",
+        "id": "b868e8d6519144cc80e987073b51a37c",
+        "complete": false
+    },
+    {
+        "name": "browser mod toast",
+        "id": "e6bfcad3276846ceabee7c37d5e58f2c",
+        "complete": false
+    },
+    {
+        "name": "backup scripts + notification",
+        "id": "2924471567d7418e8f98338348ff4853",
+        "complete": false
+    },
+    {
+        "name": "pfSense rule button",
+        "id": "6114b988f0674490abb120540fdc9d09",
         "complete": false
     }
 ]
