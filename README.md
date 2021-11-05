@@ -16,13 +16,14 @@
 - ESP32
 - ESP8622
 - Fibaro Z-Wave Wall Plug
-- Google Chromecast
+- Google Chromecast Ultra
 - Google Home
 - Google Home Mini
 - ISKRA Smart Meter
 - LG SmartTV WebOS
 - Logitech Harmony Hub
 - Neo Coolman Z-Wave Wall Plug
+- Nvidia Shield TV
 - PfSense
 - RFXCOM 433trfx Transceiver
 - Shelly Dimmer
