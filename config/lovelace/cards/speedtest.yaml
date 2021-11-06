@@ -1,9 +1,9 @@
 ---
 type: "horizontal-stack"
-title: Speedtest
+title: null
 cards:
   - type: entities
-    title: null
+    title: Speedtest
     show_header_toggle: false
     entities:
       - entity: sensor.speedtest_download

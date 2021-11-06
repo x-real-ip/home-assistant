@@ -1,9 +1,9 @@
 ---
 type: "vertical-stack"
-title: Transmission
+title: null
 cards:
   - type: entities
-    title: null
+    title: Transmission
     show_header_toggle: false
     entities:
       - entity: sensor.transmission_active_torrents

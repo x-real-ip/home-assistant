@@ -11,4 +11,4 @@ entities:
   - entity: sensor.docker_memory
 filter:
   include:
-    - entity_id: switch.docker_*
+    - entity_id: switch.docker_prd*
