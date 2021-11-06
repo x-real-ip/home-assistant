@@ -1,0 +1,6 @@
+---
+type: entities
+title: null
+show_header_toggle: false
+entities:
+  - entity: input_boolean.vacuum_cleaned

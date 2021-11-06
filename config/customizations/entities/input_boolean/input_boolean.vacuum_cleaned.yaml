@@ -1,0 +1,5 @@
+---
+input_boolean.vacuum_cleaned:
+  friendly_name: Schoongemaakt
+  initial: off
+  icon: mdi:calendar-today
