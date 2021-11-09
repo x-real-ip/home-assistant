@@ -208,5 +208,10 @@
         "name": "vacuum to iot",
         "id": "84f9762fc7904bdba06a2273edfcd1ed",
         "complete": false
+    },
+    {
+        "name": "stafzuiger to google home",
+        "id": "1b42745da1d346b19b6b185d3f4b07b6",
+        "complete": false
     }
 ]

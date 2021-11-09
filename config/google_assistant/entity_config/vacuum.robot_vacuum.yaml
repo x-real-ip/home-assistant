@@ -1,5 +1,5 @@
 ---
-vacuum.roborock_vacuum_s5:
+vacuum.robot_vacuum:
   name: Stofzuiger
   room: Woonkamer
   expose: true

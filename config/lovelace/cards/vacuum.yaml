@@ -1,6 +1,6 @@
 ---
 type: custom:vacuum-card
-entity: vacuum.roborock_vacuum_s5
+entity: vacuum.robot_vacuum
 stats:
   default:
     - attribute: filter_left
