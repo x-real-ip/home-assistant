@@ -1,0 +1,5 @@
+---
+input_boolean.mechanical_ventilation_position_3:
+  friendly_name: Stand 3
+  initial: on
+  icon: mdi:fan-speed-3
