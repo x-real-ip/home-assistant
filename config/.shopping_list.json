@@ -127,7 +127,7 @@
     {
         "name": "Niemand is aanwezig. Lise&#39;s slaapkamer stond nog aan en is nu automatisch uitgeschakeld.",
         "id": "ded40de7bfd04c4ab63e6d0b44c888f5",
-        "complete": false
+        "complete": true
     },
     {
         "name": "nextcloud installeren",
@@ -142,7 +142,7 @@
     {
         "name": "huisbeveiliging meldingen uitzetten",
         "id": "a03515a4dc8e45469a24c020b1e22c90",
-        "complete": false
+        "complete": true
     },
     {
         "name": "add statistics sensors",
@@ -207,11 +207,11 @@
     {
         "name": "vacuum to iot",
         "id": "84f9762fc7904bdba06a2273edfcd1ed",
-        "complete": false
+        "complete": true
     },
     {
         "name": "stafzuiger to google home",
         "id": "1b42745da1d346b19b6b185d3f4b07b6",
-        "complete": false
+        "complete": true
     }
 ]
