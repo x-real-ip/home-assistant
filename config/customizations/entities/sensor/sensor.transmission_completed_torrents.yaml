@@ -1,0 +1,4 @@
+---
+sensor.transmission_completed_torrents:
+  friendly_name: Compleet
+  icon: mdi:check

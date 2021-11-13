@@ -1,0 +1,7 @@
+---
+mediaplayer_destination:
+  options:
+    - Woonkamer TV
+    - Woonkamer Google Home Speaker
+    - Lise's Google Home Speaker
+  initial: Woonkamer TV

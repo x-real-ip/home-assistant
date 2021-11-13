@@ -1,0 +1,4 @@
+---
+switch.transmission_turtle_mode:
+  friendly_name: Langzaam downloaden
+  icon: mdi:speedometer-slow

@@ -1,5 +1,0 @@
----
-input_select.mediaplayer_source:
-  friendly_name: Bron
-  initial: Woonkamer TV
-  icon: mdi:speaker-wireless

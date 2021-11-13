@@ -1,0 +1,3 @@
+---
+sensor.speedtest_ping:
+  friendly_name: Ping

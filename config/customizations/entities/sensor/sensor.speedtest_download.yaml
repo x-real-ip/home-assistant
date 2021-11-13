@@ -1,0 +1,3 @@
+---
+sensor.speedtest_download:
+  friendly_name: Download

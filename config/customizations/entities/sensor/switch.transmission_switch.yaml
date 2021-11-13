@@ -1,0 +1,4 @@
+---
+switch.transmission_switch:
+  friendly_name: Transmission
+  icon: mdi:toggle-switch

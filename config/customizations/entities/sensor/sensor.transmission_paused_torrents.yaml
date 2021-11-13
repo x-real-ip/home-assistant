@@ -1,0 +1,4 @@
+---
+sensor.transmission_paused_torrents:
+  friendly_name: Gepauzeerd
+  icon: mdi:pause-circle
