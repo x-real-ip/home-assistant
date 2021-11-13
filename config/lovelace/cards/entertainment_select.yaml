@@ -1,5 +1,6 @@
 ---
 type: entities
+state_color: true
 entities:
   - entity: input_select.harmonyhub
   - entity: input_select.radio_station

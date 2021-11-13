@@ -1,5 +1,6 @@
 ---
 type: entities
+state_color: true
 entities:
   - entity: switch.doorbell_chime_active
   - entity: sensor.rang_at

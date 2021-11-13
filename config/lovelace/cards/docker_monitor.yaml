@@ -2,6 +2,7 @@
 type: custom:auto-entities
 card:
   type: entities
+  state_color: true
   title: Docker
   show_header_toggle: false
 entities:

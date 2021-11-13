@@ -4,6 +4,7 @@ title: null
 cards:
   - type: entities
     title: Transmission
+    state_color: true
     show_header_toggle: false
     entities:
       - entity: sensor.transmission_active_torrents
