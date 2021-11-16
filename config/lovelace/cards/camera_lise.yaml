@@ -1,6 +1,4 @@
-#type: picture-entity
-#entity: camera.camera_lise
-#camera_view: live
+---
 type: picture-glance
 title: null
 entities:
