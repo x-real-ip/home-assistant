@@ -1,6 +1,6 @@
 ---
 switch.childlock_kitchen_switch:
-  friendly_name: Keukenkast Lock
+  friendly_name: Keukenlade's
   icon: mdi:lock
   secondary_info: last-changed
   state_color: true

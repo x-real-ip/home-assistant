@@ -1,0 +1,6 @@
+---
+platform: thermal_comfort
+sensors:
+  small_bedroom:
+    temperature_sensor: sensor.small_bedroom_temperature
+    humidity_sensor: sensor.small_bedroom_humidity

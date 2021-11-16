@@ -1,0 +1,11 @@
+---
+type: history-graph
+title: Relative luchtvochtigheid
+hours_to_show: 12
+entities:
+  - sensor.outdoor_absolutehumidity
+  - sensor.living_room_absolutehumidity
+  - sensor.basement_absolutehumidity
+  - sensor.kleine_kamer_humidity
+  - sensor.lise_s_kamer_humidity
+  - sensor.master_bedroom_absolutehumidity

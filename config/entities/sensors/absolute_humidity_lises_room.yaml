@@ -1,0 +1,6 @@
+---
+platform: thermal_comfort
+sensors:
+  lises_room:
+    temperature_sensor: sensor.lises_room_temperature
+    humidity_sensor: sensor.lises_room_humidity
