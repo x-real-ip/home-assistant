@@ -10,4 +10,5 @@ cards:
   - !include ../cards/thermostat_basement.yaml
   - !include ../cards/thermostat_lises_room.yaml
   - !include ../cards/statistics_temperature.yaml
-  - !include ../cards/statistics_humidity.yaml
+  - !include ../cards/statistics_absolute_humidity.yaml
+  - !include ../cards/statistics_relative_humidity.yaml
