@@ -13,3 +13,4 @@ prd-home-assistant-db.env
 /config/google_assistant/google_service_account.json
 /config/www/image/*
 /config/www/snapshots/*
+/config/.shopping_list.json
