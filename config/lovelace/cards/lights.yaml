@@ -48,5 +48,6 @@ entities:
     entity: light.shellydimmer_barn_hanging_lamp
     step: 1
     toggle: true
+  - entity: light.christmas_tree
   - entity: light.shelly1_barn_door
   - entity: light.shelly1_front_door
