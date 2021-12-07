@@ -227,6 +227,11 @@
     {
         "name": "afwezig stand knop op muur",
         "id": "7d173708b8fc4b769d018028dd56d47d",
+        "complete": true
+    },
+    {
+        "name": "warm water knop toevoegen",
+        "id": "8b16c1446f2f4908a4fcbeaeb84ff82b",
         "complete": false
     }
 ]
