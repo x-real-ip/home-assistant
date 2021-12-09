@@ -26,11 +26,15 @@ _LOGGER = logging.getLogger(__name__)
 
 CONF_TEMPERATURE_SENSOR = 'temperature_sensor'
 CONF_HUMIDITY_SENSOR = 'humidity_sensor'
+CONF_SENSOR_TYPES = 'sensor_types'
 ATTR_HUMIDITY = 'humidity'
+
+DEFAULT_SENSOR_TYPES = ["absolutehumidity", "heatindex", "dewpoint", "perception"]
 
 SENSOR_SCHEMA = vol.Schema({
     vol.Required(CONF_TEMPERATURE_SENSOR): cv.entity_id,
     vol.Required(CONF_HUMIDITY_SENSOR): cv.entity_id,
+    vol.Optional(CONF_SENSOR_TYPES, default=DEFAULT_SENSOR_TYPES): cv.ensure_list,
     vol.Optional(CONF_ICON_TEMPLATE): cv.template,
     vol.Optional(CONF_ENTITY_PICTURE_TEMPLATE): cv.template,
     vol.Optional(ATTR_FRIENDLY_NAME): cv.string,
@@ -65,12 +69,14 @@ async def async_setup_platform(hass, config, async_add_entities,
     for device, device_config in config[CONF_SENSORS].items():
         temperature_entity = device_config.get(CONF_TEMPERATURE_SENSOR)
         humidity_entity = device_config.get(CONF_HUMIDITY_SENSOR)
+        config_sensor_types = device_config.get(CONF_SENSOR_TYPES)
         icon_template = device_config.get(CONF_ICON_TEMPLATE)
         entity_picture_template = device_config.get(CONF_ENTITY_PICTURE_TEMPLATE)
         friendly_name = device_config.get(ATTR_FRIENDLY_NAME, device)
         unique_id = device_config.get(CONF_UNIQUE_ID)
 
         for sensor_type in SENSOR_TYPES:
+            if sensor_type in config_sensor_types :
                 sensors.append(
                         SensorThermalComfort(
                                 hass,
@@ -100,27 +106,24 @@ class SensorThermalComfort(Entity):
         """Initialize the sensor."""
         self.hass = hass
         self.entity_id = async_generate_entity_id(ENTITY_ID_FORMAT, "{}_{}".format(device_id, sensor_type), hass=hass)
-        self._name = "{} {}".format(friendly_name, SENSOR_TYPES[sensor_type][1])
-        self._unit_of_measurement = SENSOR_TYPES[sensor_type][2]
-        self._state = None
-        self._device_state_attributes = {}
+        self._attr_name = "{} {}".format(friendly_name, SENSOR_TYPES[sensor_type][1])
+        self._attr_unit_of_measurement = SENSOR_TYPES[sensor_type][2]
+        self._attr_state = None
+        self._attr_extra_state_attributes = {}
         self._icon_template = icon_template
         self._entity_picture_template = entity_picture_template
-        self._icon = None
-        self._entity_picture = None
+        self._attr_icon = None
+        self._attr_entity_picture = None
         self._temperature_entity = temperature_entity
         self._humidity_entity = humidity_entity
-        self._device_class = SENSOR_TYPES[sensor_type][0]
+        self._attr_device_class = SENSOR_TYPES[sensor_type][0]
         self._sensor_type = sensor_type
         self._temperature = None
         self._humidity = None
-        self._unique_id = unique_id
-
-        async_track_state_change(
-            self.hass, self._temperature_entity, self.temperature_state_listener)
-
-        async_track_state_change(
-            self.hass, self._humidity_entity, self.humidity_state_listener)
+        self._attr_unique_id = None
+        if unique_id is not None:
+            self._attr_unique_id = unique_id + sensor_type
+        self._attr_should_poll = False
 
         temperature_state = hass.states.get(temperature_entity)
         if _is_valid_state(temperature_state):
@@ -221,52 +224,12 @@ class SensorThermalComfort(Entity):
         absHumidity /= absTemperature;
         return round(absHumidity, 2)
 
-    """Sensor Properties"""
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return self._name
+    async def async_added_to_hass(self):
+        async_track_state_change(
+            self.hass, self._temperature_entity, self.temperature_state_listener)
 
-    @property
-    def state(self):
-        """Return the state of the sensor."""
-        return self._state
-
-    @property
-    def device_state_attributes(self):
-        """Return the state attributes."""
-        return self._device_state_attributes
-
-    @property
-    def icon(self):
-        """Return the icon to use in the frontend, if any."""
-        return self._icon
-
-    @property
-    def device_class(self) -> Optional[str]:
-        """Return the device class of the sensor."""
-        return self._device_class
-
-    @property
-    def entity_picture(self):
-        """Return the entity_picture to use in the frontend, if any."""
-        return self._entity_picture
-
-    @property
-    def unit_of_measurement(self):
-        """Return the unit_of_measurement of the device."""
-        return self._unit_of_measurement
-
-    @property
-    def should_poll(self):
-        """No polling needed."""
-        return False
-
-    @property
-    def unique_id(self) -> str:
-        """Return a unique ID."""
-        if self._unique_id is not None:
-            return self._unique_id + self._sensor_type
+        async_track_state_change(
+            self.hass, self._humidity_entity, self.humidity_state_listener)
 
     async def async_update(self):
         """Update the state."""
@@ -283,9 +246,9 @@ class SensorThermalComfort(Entity):
             elif self._sensor_type == "comfortratio":
                 value = "comfortratio"
 
-        self._state = value
-        self._device_state_attributes[ATTR_TEMPERATURE] = self._temperature
-        self._device_state_attributes[ATTR_HUMIDITY] = self._humidity
+        self._attr_state = value
+        self._attr_extra_state_attributes[ATTR_TEMPERATURE] = self._temperature
+        self._attr_extra_state_attributes[ATTR_HUMIDITY] = self._humidity
 
         for property_name, template in (
                 ('_icon', self._icon_template),
@@ -302,7 +265,7 @@ class SensorThermalComfort(Entity):
                     # Common during HA startup - so just a warning
                     _LOGGER.warning('Could not render %s template %s,'
                                     ' the state is unknown.',
-                                    friendly_property_name, self._name)
+                                    friendly_property_name, self._attr_name)
                     continue
 
                 try:
@@ -310,7 +273,7 @@ class SensorThermalComfort(Entity):
                             getattr(super(), property_name))
                 except AttributeError:
                     _LOGGER.error('Could not render %s template %s: %s',
-                                  friendly_property_name, self._name, ex)
+                                  friendly_property_name, self._attr_name, ex)
 
 
 def _is_valid_state(state) -> bool:
