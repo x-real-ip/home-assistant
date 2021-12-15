@@ -17,7 +17,7 @@ from homeassistant.const import (
 from homeassistant.exceptions import TemplateError
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import Entity, async_generate_entity_id
-from homeassistant.helpers.event import async_track_state_change
+from homeassistant.helpers.event import async_track_state_change_event
 
 import math
 from enum import Enum
@@ -28,6 +28,7 @@ CONF_TEMPERATURE_SENSOR = 'temperature_sensor'
 CONF_HUMIDITY_SENSOR = 'humidity_sensor'
 CONF_SENSOR_TYPES = 'sensor_types'
 ATTR_HUMIDITY = 'humidity'
+DEVICE_CLASS_THERMAL_PERCEPTION ='thermal_comfort__thermal_perception'
 
 DEFAULT_SENSOR_TYPES = ["absolutehumidity", "heatindex", "dewpoint", "perception"]
 
@@ -49,7 +50,7 @@ SENSOR_TYPES = {
     'absolutehumidity': [DEVICE_CLASS_HUMIDITY, 'Absolute Humidity', 'g/m³'],
     'heatindex': [DEVICE_CLASS_TEMPERATURE, 'Heat Index', '°C'],
     'dewpoint': [DEVICE_CLASS_TEMPERATURE, 'Dew Point', '°C'],
-    'perception': [None, 'Thermal Perception', None],
+    'perception': [DEVICE_CLASS_THERMAL_PERCEPTION, 'Thermal Perception', None],
 }
 
 PERCEPTION_DRY = "dry"
@@ -133,8 +134,9 @@ class SensorThermalComfort(Entity):
         if _is_valid_state(humidity_state):
             self._humidity = float(humidity_state.state)
 
-    def temperature_state_listener(self, entity, old_state, new_state):
+    def temperature_state_listener(self, event):
         """Handle temperature device state changes."""
+        new_state = event.data.get("new_state")
         if _is_valid_state(new_state):
             unit = new_state.attributes.get(ATTR_UNIT_OF_MEASUREMENT)
             temp = util.convert(new_state.state, float)
@@ -145,8 +147,9 @@ class SensorThermalComfort(Entity):
 
         self.async_schedule_update_ha_state(True)
 
-    def humidity_state_listener(self, entity, old_state, new_state):
+    def humidity_state_listener(self, event):
         """Handle humidity device state changes."""
+        new_state = event.data.get("new_state")
         if _is_valid_state(new_state):
             self._humidity = float(new_state.state)
 
@@ -225,10 +228,10 @@ class SensorThermalComfort(Entity):
         return round(absHumidity, 2)
 
     async def async_added_to_hass(self):
-        async_track_state_change(
+        async_track_state_change_event(
             self.hass, self._temperature_entity, self.temperature_state_listener)
 
-        async_track_state_change(
+        async_track_state_change_event(
             self.hass, self._humidity_entity, self.humidity_state_listener)
 
     async def async_update(self):
@@ -277,4 +280,10 @@ class SensorThermalComfort(Entity):
 
 
 def _is_valid_state(state) -> bool:
-    return state and state.state != STATE_UNKNOWN and state.state != STATE_UNAVAILABLE and not math.isnan(float(state.state))
+    if state is not None:
+        if state.state not in (STATE_UNKNOWN, STATE_UNAVAILABLE):
+            try:
+                return not math.isnan(float(state.state))
+            except:
+                pass
+    return False
