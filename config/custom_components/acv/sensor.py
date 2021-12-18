@@ -211,7 +211,7 @@ class AbstractWasteSensor(Entity):
         return self._schedule.pickup_date.strftime('%Y-%m-%d')
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         if not self._schedule:
             return None
 
