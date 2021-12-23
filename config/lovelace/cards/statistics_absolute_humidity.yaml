@@ -7,5 +7,5 @@ entities:
   - sensor.living_room_absolutehumidity
   - sensor.basement_absolutehumidity
   - sensor.small_bedroom_absolutehumidity
-  - sensor.lises_kamer_absolutehumidity
+  - sensor.lises_room_absolutehumidity
   - sensor.master_bedroom_absolutehumidity

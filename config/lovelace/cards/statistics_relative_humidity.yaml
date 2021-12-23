@@ -7,5 +7,5 @@ entities:
   - sensor.living_room_humidity
   - sensor.basement_humidity
   - sensor.small_bedroom_humidity
-  - sensor.lises_kamer_humidity
+  - sensor.lises_room_humidity
   - sensor.master_bedroom_humidity
