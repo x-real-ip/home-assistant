@@ -8,7 +8,9 @@ cards:
   - !include ../cards/basement_ventilation.yaml
   - !include ../cards/thermostat_living_room.yaml
   - !include ../cards/thermostat_basement.yaml
+  - !include ../cards/thermostat_small_bedroom.yaml
   - !include ../cards/thermostat_lises_room.yaml
+  - !include ../cards/thermostat_master_bedroom.yaml
   - !include ../cards/statistics_temperature.yaml
   - !include ../cards/statistics_absolute_humidity.yaml
   - !include ../cards/statistics_relative_humidity.yaml
