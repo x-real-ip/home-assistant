@@ -6,3 +6,4 @@ type: masonry
 badges: []
 cards:
   - !include ../cards/plant_ficus_lyrata.yaml
+  - !include ../cards/plant_alocasia_cucullata.yaml
