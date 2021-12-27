@@ -1,0 +1,3 @@
+---
+sensor.pfsense_lan_gateway_wan_dhcp_status:
+  friendly_name: IP-adres

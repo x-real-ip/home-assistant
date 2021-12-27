@@ -1,0 +1,14 @@
+---
+type: entities
+title: null
+show_header_toggle: true
+entities:
+  - binary_sensor.pfsense_lan_firmware_updates_available
+  - binary_sensor.pfsense_lan_pending_notices_present
+  - sensor.pfsense_lan_system_boottime
+  - sensor.pfsense_lan_interface_wan_status
+  - sensor.pfsense_lan_interface_lan_status
+  - sensor.pfsense_lan_interface_iot_status
+  - sensor.pfsense_lan_interface_not_status
+  - sensor.pfsense_lan_interface_private_status
+  - sensor.pfsense_lan_interface_guest_status

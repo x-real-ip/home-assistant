@@ -1,0 +1,8 @@
+---
+type: horizontal-stack
+title: null
+cards:
+  - type: gauge
+    entity: sensor.pfsense_lan_cpu_usage
+  - type: gauge
+    entity: sensor.pfsense_lan_memory_used_percentage

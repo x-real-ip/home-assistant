@@ -12,8 +12,6 @@ cards:
         cards:
           - !include ../cards/mail_alias_add.yaml
           - !include ../cards/mail_alias_delete.yaml
-  - !include ../cards/speedtest.yaml
   - !include ../cards/transmission.yaml
-
   - !include ../cards/docker_monitor.yaml
   - !include ../cards/google_assistant.yaml

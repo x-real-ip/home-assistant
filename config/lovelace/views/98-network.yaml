@@ -1,0 +1,11 @@
+---
+title: Network
+icon: mdi:lan
+path: lan
+badges: []
+cards:
+  - !include ../cards/pfsense_ip.yaml
+  - !include ../cards/speedtest.yaml
+  - !include ../cards/pfsense_sensors.yaml
+  - !include ../cards/pfsense_system.yaml
+  - !include ../cards/pfsense_entities.yaml

@@ -30,3 +30,4 @@ cards:
   - !include ../cards/machines.yaml
   - !include ../cards/adguard.yaml
   - !include ../cards/garbage.yaml
+  - !include ../cards/rivm_stookalert.yaml

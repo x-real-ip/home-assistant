@@ -1,0 +1,3 @@
+---
+type: gauge
+entity: sensor.pfsense_lan_memory_used_percentage
