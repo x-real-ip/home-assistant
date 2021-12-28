@@ -1,0 +1,13 @@
+---
+type: vertical-stack
+title: null
+cards:
+  - type: entities
+    title: Printer
+    state_color: true
+    show_header_toggle: false
+    entities:
+      - entity: sensor.hp_deskjet_2540_series
+      - entity: sensor.hp_deskjet_2540_series_uptime
+      - entity: sensor.hp_deskjet_2540_series_black_ink
+      - entity: sensor.hp_deskjet_2540_series_tri_color_ink

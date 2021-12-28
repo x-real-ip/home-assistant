@@ -3,7 +3,7 @@ type: "horizontal-stack"
 title: null
 cards:
   - type: entities
-    title: E-mail alias
+    title: E-mail
     entities:
       - entity: input_text.hidemyid_mail_alias
         name: hidemyid.nl
