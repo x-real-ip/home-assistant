@@ -1,0 +1,13 @@
+---
+proxmoxve:
+  - host: !secret proxmox_host
+    username: !secret proxmox_username
+    password: !secret proxmox_password
+    verify_ssl: false
+    realm: pam
+    nodes:
+      - node: pve
+        vms:
+          - 100
+          - 101
+          - 1000
