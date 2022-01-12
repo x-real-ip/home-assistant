@@ -153,7 +153,7 @@ steps:
         from_secret: nodered_endpoint_username
       password:
         from_secret: nodered_endpoint_password
-      urls: http://nodered.docker/drone/notify
+      urls: http://docker-host.lan:1880/drone/notify
       skip_verify: true
       content_type: application/json
       template: |
