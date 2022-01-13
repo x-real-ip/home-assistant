@@ -16,3 +16,4 @@ cards:
   - !include ../cards/docker_monitor.yaml
   - !include ../cards/google_assistant.yaml
   - !include ../cards/printer.yaml
+  - !include ../cards/services_weblinks.yaml

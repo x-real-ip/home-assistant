@@ -1,0 +1,58 @@
+---
+type: entities
+title: Services
+show_header_toggle: false
+entities:
+  - type: weblink
+    url: http://docker-host.lan:3000/
+    icon: mdi:advertisements-off
+    name: Adguard Home
+  - type: weblink
+    url: http://docker-host.lan:6767/
+    icon: mdi:text-short
+    name: Bazarr
+  - type: weblink
+    url: http://docker-host.lan:6767/
+    icon: mdi:home-lightning-bolt
+    name: DSMR-Reader
+  - type: weblink
+    url: http://docker-host.lan:6052/
+    icon: mdi:car-esp
+    name: ESPHome
+  - type: weblink
+    url: http://docker-host.lan:9117/
+    icon: mdi:download-network
+    name: Jackett
+  - type: weblink
+    url: http://docker-host.lan:8096/
+    icon: mdi:movie-play
+    name: Jellyfin
+  - type: weblink
+    url: http://docker-host.lan:1880/
+    icon: mdi:sitemap
+    name: Node-RED
+  - type: weblink
+    url: http://docker-host.lan:8088/
+    icon: mdi:wifi-cog
+    name: TP-link Omada Controller
+  - type: weblink
+    url: http://docker-host.lan:8001/
+    icon: mdi:text-box-search-outline
+    name: Papermerge
+  - type: weblink
+    url: http://docker-host.lan:9000/
+    icon: mdi:docker
+    name: Portainer
+  - type: weblink
+    url: http://docker-host.lan:7878/
+    icon: mdi:filmstrip
+    name: Radarr
+  - type: weblink
+    url: http://docker-host.lan:8989/
+    icon: mdi:filmstrip-box-multiple
+    name: Sonarr
+
+  - type: weblink
+    url: https://pfsense.lan:444/
+    icon: mdi:router-wireless
+    name: pfSense
