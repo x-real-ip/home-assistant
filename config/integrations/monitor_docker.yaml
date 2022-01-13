@@ -1,3 +1,4 @@
+---
 monitor_docker:
   - name: Docker
     monitored_conditions:

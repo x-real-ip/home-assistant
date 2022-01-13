@@ -1,3 +1,4 @@
+---
 camera:
   - platform: generic
     name: Camera Lise
