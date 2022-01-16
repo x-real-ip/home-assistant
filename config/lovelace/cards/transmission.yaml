@@ -3,10 +3,30 @@ type: vertical-stack
 title: null
 cards:
   - type: entities
-    title: Transmission
+    title: Torrents
     state_color: true
     show_header_toggle: false
     entities:
+      - type: weblink
+        url: http://docker-host.lan:9091/
+        icon: mdi:download-box-outline
+        name: Transmission
+      - type: weblink
+        url: http://docker-host.lan:7878/
+        icon: mdi:filmstrip
+        name: Radarr
+      - type: weblink
+        url: http://docker-host.lan:8989/
+        icon: mdi:filmstrip-box-multiple
+        name: Sonarr
+      - type: weblink
+        url: http://docker-host.lan:9117/
+        icon: mdi:download-network
+        name: Jackett
+      - type: weblink
+        url: http://docker-host.lan:6767/
+        icon: mdi:text-short
+        name: Bazarr
       - entity: sensor.transmission_active_torrents
       - entity: sensor.transmission_completed_torrents
       - entity: sensor.transmission_paused_torrents

@@ -1,0 +1,17 @@
+---
+type: entities
+title: Network Services
+show_header_toggle: false
+entities:
+  - type: weblink
+    url: https://pfsense.lan:444/
+    icon: mdi:router-wireless
+    name: pfSense
+  - type: weblink
+    url: http://docker-host.lan:3000/
+    icon: mdi:advertisements-off
+    name: Adguard Home
+  - type: weblink
+    url: http://docker-host.lan:8088/
+    icon: mdi:wifi-cog
+    name: TP-link Omada Controller

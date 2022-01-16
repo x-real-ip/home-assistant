@@ -9,3 +9,4 @@ cards:
   - !include ../cards/pfsense_sensors.yaml
   - !include ../cards/pfsense_system.yaml
   - !include ../cards/pfsense_entities.yaml
+  - !include ../cards/networkservices_weblinks.yaml
