@@ -4,9 +4,9 @@ title: Services
 show_header_toggle: false
 entities:
   - type: weblink
-    url: https://192.168.1.2:8006/
+    url: https://proxmox-1:8006/
     icon: mdi:desktop-tower
-    name: Proxmox
+    name: Proxmox-1
   - type: weblink
     url: http://docker-host.lan:6767/
     icon: mdi:home-lightning-bolt
@@ -15,7 +15,6 @@ entities:
     url: http://docker-host.lan:6052/
     icon: mdi:car-esp
     name: ESPHome
-
   - type: weblink
     url: http://docker-host.lan:8096/
     icon: mdi:movie-play

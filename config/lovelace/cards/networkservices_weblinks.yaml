@@ -15,3 +15,11 @@ entities:
     url: http://docker-host.lan:8088/
     icon: mdi:wifi-cog
     name: TP-link Omada Controller
+  - type: weblink
+    url: http://switch-16p.lan/
+    icon: mdi:table-network
+    name: Switch 16-ports
+  - type: weblink
+    url: http://switch-8p.lan/
+    icon: mdi:table-network
+    name: Switch 8-ports
