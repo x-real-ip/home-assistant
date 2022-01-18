@@ -1,4 +1,3 @@
+---
 logger:
-  default: info
-  logs:
-    homeassistant.components.climate: debug
+  default: warning
