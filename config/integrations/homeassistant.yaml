@@ -1,4 +1,3 @@
 ---
 homeassistant:
   customize: !include_dir_merge_named ../customizations/entities
-# customize_glob: !include_dir_merge_named ../customizations/glob

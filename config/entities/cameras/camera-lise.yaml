@@ -1,0 +1,6 @@
+---
+platform: generic
+name: Camera Lise
+still_image_url: https://homeassistant.theautomation.nl/local/snapshots/camera-lise.jpg
+stream_source: !secret camera_url_lise
+verify_ssl: false

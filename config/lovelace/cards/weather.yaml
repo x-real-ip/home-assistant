@@ -1,3 +1,6 @@
 ---
 type: weather-forecast
 entity: weather.buienradar
+tap_action:
+  action: call-service
+  service: camera.buienradar

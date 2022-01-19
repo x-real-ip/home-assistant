@@ -2,4 +2,6 @@
 type: picture-glance
 entities:
   - camera.camera_lise
-image: /local/snapshots/camera-lise.jpg
+camera_image: camera.camera_lise
+tap_action:
+  action: more-info
