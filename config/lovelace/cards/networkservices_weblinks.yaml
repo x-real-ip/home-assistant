@@ -8,10 +8,6 @@ entities:
     icon: mdi:router-wireless
     name: pfSense
   - type: weblink
-    url: http://docker-host.lan:3000/
-    icon: mdi:advertisements-off
-    name: Adguard Home
-  - type: weblink
     url: http://docker-host.lan:8088/
     icon: mdi:wifi-cog
     name: TP-link Omada Controller

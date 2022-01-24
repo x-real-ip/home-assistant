@@ -28,6 +28,5 @@ cards:
   - !include ../cards/doorbell.yaml
   - !include ../cards/calendar.yaml
   - !include ../cards/machines.yaml
-  - !include ../cards/adguard.yaml
   - !include ../cards/garbage.yaml
   - !include ../cards/rivm_stookalert.yaml

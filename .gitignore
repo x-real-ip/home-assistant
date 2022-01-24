@@ -16,3 +16,5 @@ config/www/image/*
 config/www/snapshots/*
 config/.shopping_list.json
 config/home-assistant.log.fault
+
+**/__pycache__

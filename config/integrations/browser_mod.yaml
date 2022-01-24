@@ -1,2 +1,3 @@
 ---
-browser_mod: ~
+browser_mod:
+  prefix: "browser_mod_"

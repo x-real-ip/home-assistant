@@ -2,5 +2,11 @@
 type: weather-forecast
 entity: weather.buienradar
 tap_action:
-  action: call-service
-  service: camera.buienradar
+  action: fire-dom-event
+  browser_mod:
+    command: popup
+    title: Buienradar
+    card:
+      type: picture-entity
+      camera_view: live
+      entity: camera.buienradar

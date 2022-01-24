@@ -7,6 +7,10 @@
 
 [Home Assistant](https://www.home-assistant.io/): Free and open-source home automation software designed to be the central home automation control system for smart home technology.
 
+## Automations
+
+All automations run flows with [Node-RED](https://github.com/theautomation/node-red/tree/main/data/flows)
+
 ## Hardware
 
 - 433 MHz Motion Sensor
@@ -17,7 +21,7 @@
 - ESP32
 - ESP8622
 - Fibaro Z-Wave Wall Plug
-- First Alert Z-Wave Smoke Detector & Carbon Monoxide Alarm 2nd Generation
+- First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen
 - Google Home
 - Google Home Mini
 - ISKRA Smart Meter
