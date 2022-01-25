@@ -1,0 +1,7 @@
+---
+type: custom:mini-media-player
+entity: media_player.lise_s_kamer
+more_info: true
+artwork: full-cover
+source: icon
+sound_mode: icon
