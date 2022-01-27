@@ -15,8 +15,8 @@ cards:
   - !include ../cards/notifications.yaml
   - type: vertical-stack
     cards:
-      - !include ../cards/media_player_shield.yaml
       - !include ../cards/media_player_home_speaker.yaml
+      - !include ../cards/media_player_shield.yaml
       - !include ../cards/entertainment_select.yaml
       - type: horizontal-stack
         cards:
