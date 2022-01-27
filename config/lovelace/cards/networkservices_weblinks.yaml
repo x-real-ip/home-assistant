@@ -1,12 +1,12 @@
 ---
 type: entities
-title: Network Services
+title: Network Administration
 show_header_toggle: false
 entities:
   - type: weblink
     url: https://pfsense.lan:444/
-    icon: mdi:router-wireless
-    name: pfSense
+    icon: mdi:wall
+    name: pfSense Firewall
   - type: weblink
     url: http://docker-host.lan:8088/
     icon: mdi:wifi-cog
