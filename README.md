@@ -15,19 +15,20 @@ All automations run flows with [Node-RED](https://github.com/theautomation/node-
 
 - 433 MHz Motion Sensor
 - 433 MHz TS34C Thermo- en hygrosensor
-- Aeotec Z-Wave Gen5 Stick
-- Aeotec Z-Wave Recessed Doorsensor
+- Aeotec Z-Wave Gen5 Stick 868.42 MHz
+- Aeotec Z-Wave Gen5 Stick 908.42 MHz
+- Aeotec Z-Wave Recessed Doorsensor 868.42 MHz
 - ESP01S
 - ESP32
 - ESP8622
-- Fibaro Z-Wave Wall Plug
-- First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen
+- Fibaro Z-Wave Wall Plug 868.42 MHz
+- First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen 908.42 MHz
 - Google Home
 - Google Home Mini
 - ISKRA Smart Meter
 - LG SmartTV WebOS
 - Logitech Harmony Hub
-- Neo Coolman Z-Wave Wall Plug
+- Neo Coolman Z-Wave Wall Plug 868.42 MHz
 - Nvidia Shield TV
 - RFXCOM 433trfx Transceiver
 - Shelly Dimmer
