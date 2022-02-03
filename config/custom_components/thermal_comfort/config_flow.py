@@ -19,7 +19,14 @@ from .const import (
     DEFAULT_NAME,
     DOMAIN,
 )
-from .sensor import CONF_CUSTOM_ICONS, CONF_ENABLED_SENSORS, SensorType
+from .sensor import (
+    CONF_CUSTOM_ICONS,
+    CONF_ENABLED_SENSORS,
+    CONF_SCAN_INTERVAL,
+    POLL_DEFAULT,
+    SCAN_INTERVAL_DEFAULT,
+    SensorType,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -97,6 +104,7 @@ def get_sensors_by_device_class(
             Platform.BUTTON,
             Platform.CALENDAR,
             Platform.CAMERA,
+            Platform.CLIMATE,
             Platform.COVER,
             Platform.DEVICE_TRACKER,
             Platform.FAN,
@@ -111,12 +119,14 @@ def get_sensors_by_device_class(
             Platform.SCENE,
             Platform.SIREN,
             Platform.STT,
+            Platform.SWITCH,
             Platform.TTS,
             Platform.VACUUM,
             "automation",
             "person",
             "script",
             "scene",
+            "sun",
             "timer",
             "zone",
         ]
@@ -261,6 +271,12 @@ def get_sensors_by_device_class(
             "GiB/s",
         ]
         """We are sure that entities with this units could not be useful as data source in any case"""
+        additional_units = {
+            SensorDeviceClass.HUMIDITY: ["°C", "°F", "K"],
+            SensorDeviceClass.TEMPERATURE: ["%"],
+        }
+        units_for_exclude += additional_units.get(device_class, [])
+
         unit_of_measurement = state.attributes.get(
             "unit_of_measurement", state.attributes.get("native_unit_of_measurement")
         )
@@ -376,8 +392,14 @@ def build_schema(
         schema = schema.extend(
             {
                 vol.Optional(
-                    CONF_POLL, default=get_value(config_entry, CONF_POLL, False)
+                    CONF_POLL, default=get_value(config_entry, CONF_POLL, POLL_DEFAULT)
                 ): bool,
+                vol.Optional(
+                    CONF_SCAN_INTERVAL,
+                    default=get_value(
+                        config_entry, CONF_SCAN_INTERVAL, SCAN_INTERVAL_DEFAULT
+                    ),
+                ): vol.All(vol.Coerce(int), vol.Range(min=1)),
                 vol.Optional(
                     CONF_CUSTOM_ICONS,
                     default=get_value(config_entry, CONF_CUSTOM_ICONS, False),
