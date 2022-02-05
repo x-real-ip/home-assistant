@@ -1,4 +1,0 @@
----
-webostv:
-  host: !secret woonkamer_tv_ip
-  name: Tv Woonkamer
