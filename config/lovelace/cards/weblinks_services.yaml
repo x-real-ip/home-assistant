@@ -8,7 +8,7 @@ entities:
     icon: mdi:desktop-tower
     name: Proxmox-1
   - type: weblink
-    url: http://docker-host.lan:6767/
+    url: http://docker-host.lan:7777/
     icon: mdi:home-lightning-bolt
     name: DSMR-Reader
   - type: weblink
