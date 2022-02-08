@@ -1,4 +1,4 @@
 ---
 sensor.shellyplug_server_power:
-  friendly_name: Server
-  icon: mdi:power-socket-de
+  friendly_name: Hypervisor Server
+  icon: mdi:flash-alert-outline
