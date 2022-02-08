@@ -3,4 +3,4 @@ type: glance
 entities:
   - entity: binary_sensor.frontdoor_access_control_window_door_is_open
   - entity: binary_sensor.backdoor_access_control_window_door_is_open
-  - entity: binary_sensor.motion_backyard
+  - entity: binary_sensor.pt2262_ef9bc6

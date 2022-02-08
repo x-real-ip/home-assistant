@@ -1,4 +1,4 @@
 ---
-binary_sensor.motion_backyard:
+binary_sensor.pt2262_ef9bc6:
   friendly_name: Achtertuin
   device_class: motion
