@@ -1,0 +1,5 @@
+---
+type: custom:transmission-card
+hide_type: false
+default_type: active
+display_mode: full
