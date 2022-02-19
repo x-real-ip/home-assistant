@@ -4,7 +4,8 @@ icon: mdi:cog
 path: system
 badges: []
 cards:
-  - !include ../cards/server_power.yaml
+  - !include ../cards/hypervisor_server_power.yaml
+  - !include ../cards/storage_server_power.yaml
   - type: vertical-stack
     cards:
       - !include ../cards/mail_alias.yaml

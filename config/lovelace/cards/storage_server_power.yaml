@@ -1,0 +1,5 @@
+---
+type: sensor
+entity: sensor.shellyplug_storage_server_power
+graph: line
+detail: 2
