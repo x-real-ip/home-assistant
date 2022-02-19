@@ -1,0 +1,4 @@
+---
+sensor.shellyplug_storage_server_power:
+  friendly_name: Storage server
+  icon: mdi:lightning-bolt-circle
