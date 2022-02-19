@@ -2,9 +2,9 @@
 type: button
 entity: input_boolean.home_security
 tap_action:
-  action: toggle
+  action: none
 hold_action:
-  action: more-info
+  action: toggle
 show_icon: true
 show_name: false
 icon_height: 30px
