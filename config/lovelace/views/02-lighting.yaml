@@ -7,4 +7,7 @@ badges:
   - entity: sensor.outdoor_light_dark
   - entity: sun.sun
 cards:
-  - !include ../cards/lights.yaml
+  - !include ../cards/lights_floor_-1.yaml
+  - !include ../cards/lights_floor_0.yaml
+  - !include ../cards/lights_floor_1.yaml
+  - !include ../cards/lights_outdoor.yaml
