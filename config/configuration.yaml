@@ -1,3 +1,2 @@
 ---
-homeassistant:
-  packages: !include_dir_named integrations
+homeassistant: package !include_dir_named integrations
