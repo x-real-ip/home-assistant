@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'prettier --check ./config/**/*.yaml'
+                sh 'echo "hello world"'
             }
         }
     }
