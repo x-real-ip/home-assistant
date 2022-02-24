@@ -50,8 +50,7 @@ pipeline {
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
-                    notFailBuild: true
-            }
+                    notFailBuild: true)
         }
     }
 }
