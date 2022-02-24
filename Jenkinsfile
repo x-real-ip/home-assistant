@@ -51,6 +51,7 @@ pipeline {
                     deleteDirs: true,
                     disableDeferredWipeout: true,
                     notFailBuild: true
+            }
         }
     }
 }
