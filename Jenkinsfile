@@ -47,8 +47,7 @@ pipeline {
     post {
         // Clean after build
         always {
-            cleanWs(cleanWhenNotBuilt: false,
-                    cleanWhenAborted: true,
+            cleanWs(cleanWhenAborted: true,
                     cleanWhenFailure: true,
                     cleanWhenNotBuilt: true,
                     cleanWhenSuccess: true,
