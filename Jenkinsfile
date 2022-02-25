@@ -6,18 +6,19 @@ pipeline {
 
     stages {
 
-        stage('Validate yaml') {
+        stage('Validate') {
             agent {
                 docker { 
-                    image 'sdesbure/yamllint:latest' 
+                    image 'python:3' 
                     }
             }
             steps {
+                sh 'pip3 install --upgrade pip black flake8 mypy pylint yamllint'
                 sh 'yamllint -c ./.yamllint .'
             }
         }
 
-        stage ('Build') {
+        stage ('Build Image') {
             agent {
                 dockerfile {
                 filename 'app.dockerfile'
@@ -28,7 +29,9 @@ pipeline {
                 }
             }
 
-        stage('Test latest image') {
+
+
+        stage('Test Latest Image') {
             agent {
                 docker { 
                     image 'homeassistant/home-assistant:latest' 
