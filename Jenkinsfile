@@ -26,7 +26,7 @@ pipeline {
             }
             steps {
                 sh '''
-                docker build
+                docker build .
                 '''
                 }
             }
