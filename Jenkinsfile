@@ -19,14 +19,9 @@ pipeline {
         }
 
         stage ('Build Image') {
-            agent {
-                dockerfile {
-                filename 'app.dockerfile'
-                }
-            }
             steps {
                 sh """
-                docker build -t hello_world .
+                docker build -f app.dockerfile -t hello_world .
                 """
                 }
             }
