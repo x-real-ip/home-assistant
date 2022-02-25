@@ -17,10 +17,14 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            agent { dockerfile true }
+        stage ('Build') {
+            agent {
+                dockerfile {
+                filename 'app.dockerfile'
+            }
             steps {
                 sh 'echo "hello world"'
+                }
             }
         }
 
