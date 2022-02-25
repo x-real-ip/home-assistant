@@ -5,6 +5,7 @@ pipeline {
     }
 
     stages {
+
         stage('Validate yaml') {
             agent {
                 docker { 
@@ -15,6 +16,14 @@ pipeline {
                 sh 'yamllint -c ./.yamllint .'
             }
         }
+
+        stage('Build') {
+            agent { dockerfile true }
+            steps {
+                sh 'echo "hello world"'
+            }
+        }
+
         stage('Test latest image') {
             agent {
                 docker { 
