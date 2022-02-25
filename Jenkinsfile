@@ -25,7 +25,9 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker build .'
+                sh """
+                docker build -t hello_world .
+                """
                 }
             }
 
