@@ -60,12 +60,6 @@ pipeline {
                 sh 'python -m homeassistant --script check_config --config ./config/'
             }
         }
-
-        stage('Build') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
     }
     post {
         // Clean after build
