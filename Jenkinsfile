@@ -21,12 +21,12 @@ pipeline {
             agent {
                 dockerfile {
                 filename 'app.dockerfile'
+                }
             }
             steps {
                 sh 'echo "hello world"'
                 }
             }
-        }
 
         stage('Test latest image') {
             agent {
