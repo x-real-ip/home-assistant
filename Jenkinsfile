@@ -3,66 +3,59 @@ pipeline {
     environment {
         TEST= 'Test'
     }
-
     stages {
-
         stage('Validate') {
             agent {
-                docker { 
-                    image 'python:3' 
-                    }
+                docker { image 'python:3' }
             }
             steps {
                 sh 'pip3 install --upgrade pip black flake8 mypy pylint yamllint'
                 sh 'yamllint -c ./.yamllint .'
             }
         }
-
-        stage ('Build Image') {
+        stage('Build Image') {
             steps {
                 sh """
-                docker build -f app.dockerfile -t hello_world .
+                docker build -f app.dockerfile -t home-assistant .
                 """
                 }
             }
 
-        stage('Test Latest Image') {
-            agent {
-                docker { 
-                    image 'homeassistant/home-assistant:latest' 
+        stage('Run Tests') {
+            parallel {
+                stage('Test on latest') {
+                    agent {
+                        docker { image 'homeassistant/home-assistant:latest' }
                     }
-            }
-            steps {
-                sh 'mv config/secrets.yaml.example config/secrets.yaml'
-                sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                sh 'python -m homeassistant --script check_config --config ./config/'
+                    steps {
+                        sh 'mv config/secrets.yaml.example config/secrets.yaml'
+                        sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
+                        sh 'python -m homeassistant --script check_config --config ./config/'
+                    }
+                }
+                stage('Test on dev') {
+                    agent {
+                        docker { image 'homeassistant/home-assistant:dev' }
+                    }
+                    steps {
+                        sh 'mv config/secrets.yaml.example config/secrets.yaml'
+                        sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
+                        sh 'python -m homeassistant --script check_config --config ./config/'
+                    }
+                }
+                stage('Test on beta') {
+                    agent {
+                        docker { image 'homeassistant/home-assistant:beta' }
+                    }
+                    steps {
+                        sh 'mv config/secrets.yaml.example config/secrets.yaml'
+                        sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
+                        sh 'python -m homeassistant --script check_config --config ./config/'
+                    }
+                }
             }
         }
-        stage('Test dev image') {
-            agent {
-                docker { 
-                    image 'homeassistant/home-assistant:dev' 
-                    }
-            }
-            steps {
-                sh 'mv config/secrets.yaml.example config/secrets.yaml'
-                sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                sh 'python -m homeassistant --script check_config --config ./config/'
-            }
-        }
-        stage('Test beta image') {
-            agent {
-                docker { 
-                    image 'homeassistant/home-assistant:beta' 
-                    }
-            }
-            steps {
-                sh 'mv config/secrets.yaml.example config/secrets.yaml'
-                sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                sh 'python -m homeassistant --script check_config --config ./config/'
-            }
-        }
-    }
+    }   
     post {
         // Clean after build
         always {
