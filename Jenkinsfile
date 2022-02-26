@@ -29,8 +29,6 @@ pipeline {
                 }
             }
 
-
-
         stage('Test Latest Image') {
             agent {
                 docker { 
