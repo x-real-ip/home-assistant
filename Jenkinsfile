@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     environment {
         TEST= 'Test'
     }
@@ -14,6 +14,7 @@ pipeline {
             }
         }
         stage('Build Image') {
+            agent any
             steps {
                 sh """
                 docker build -f app.dockerfile -t home-assistant .
