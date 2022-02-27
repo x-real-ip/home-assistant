@@ -31,7 +31,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Building image
-                echo "========== BUILD =========="
+                echo "\n ========== BUILD ========== \n"
                 sh """
                 docker build -f app.dockerfile -t ${CUSTOM_IMAGE_NAME}:${IMAGE_VERSION} -t ${CUSTOM_IMAGE_NAME}:${BUILD_NUMBER} .
                 """
@@ -45,6 +45,7 @@ pipeline {
                         docker { image 'homeassistant/home-assistant:latest' }
                     }
                     steps {
+                        echo "\n ========== TEST ========== \n"
                         sh 'mv config/secrets.yaml.example config/secrets.yaml'
                         sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
                         sh 'python -m homeassistant --script check_config --config ./config/'
@@ -56,9 +57,13 @@ pipeline {
                         docker { image 'homeassistant/home-assistant:dev' }
                     }
                     steps {
+                        echo "\n ========== TEST ========== \n"
                         sh 'mv config/secrets.yaml.example config/secrets.yaml'
                         sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
                         sh 'python -m homeassistant --script check_config --config ./config/'
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh "exit 1"
+                        }
                     }
                 }
 
@@ -67,6 +72,7 @@ pipeline {
                         docker { image 'homeassistant/home-assistant:beta' }
                     }
                     steps {
+                        echo "\n ========== TEST ========== \n"
                         sh 'mv config/secrets.yaml.example config/secrets.yaml'
                         sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
                         sh 'python -m homeassistant --script check_config --config ./config/'
