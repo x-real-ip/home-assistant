@@ -70,10 +70,11 @@ pipeline {
                         docker { image 'homeassistant/home-assistant:beta' }
                     }
                     steps {
-                        echo "\n ========== TEST ========== \n"
-                        sh 'mv config/secrets.yaml.example config/secrets.yaml'
-                        sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                        sh 'python -m homeassistant --script check_config --config ./config/'
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh 'mv config/secrets.yaml.example config/secrets.yaml'
+                            sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
+                            sh 'python -m homeassistant --script check_config --config ./confi/'
+                        }
                     }
                 }
             }
