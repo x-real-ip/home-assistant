@@ -7,7 +7,7 @@ pipeline {
                 docker { image 'python:3' }
             }
             steps {
-                sh 'set +x && echo "====== VALIDATE CODE ======"'
+                sh 'set +x && echo "" && echo "========== VALIDATE CODE ==========" '
                 sh 'set -x'
                 sh 'pip3 install --upgrade pip black flake8 mypy pylint yamllint'
                 sh 'yamllint -c ./.yamllint .'
@@ -17,9 +17,10 @@ pipeline {
         stage('Build Image') {
             agent any
             steps {
-                sh 'echo "Building image..."'
+                sh 'set +x && echo "" && echo "========== BUILD IMAGE ==========" '
+                sh 'set -x'
                 sh """
-                docker build -f app.dockerfile -t home-assistant .
+                docker build -f app.dockerfile -t ${JOB_NAME} .
                 """
                 }
             }
