@@ -17,8 +17,7 @@ pipeline {
         stage('Build Image') {
             agent any
             steps {
-                sh 'set +x && echo "" && echo "========== BUILD IMAGE ==========" '
-                sh 'set -x'
+                echo "========== BUILD IMAGE =========="
                 sh """
                 docker build -f app.dockerfile -t ${JOB_NAME} .
                 """
