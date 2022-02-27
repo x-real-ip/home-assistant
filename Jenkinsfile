@@ -9,7 +9,7 @@ pipeline {
             steps {
                 sh 'set +x && echo "" && echo "========== VALIDATE CODE ==========" '
                 sh 'set -x'
-                sh 'pip3 install --upgrade pip black flake8 mypy pylint yamllint'
+                sh 'pip3 install --upgrade pip yamllint'
                 sh 'yamllint -c ./.yamllint .'
             }
         }
@@ -22,6 +22,7 @@ pipeline {
                 sh """
                 docker build -f app.dockerfile -t ${JOB_NAME} .
                 """
+                sh 'docker run hello-world'
                 }
             }
 
