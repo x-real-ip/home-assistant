@@ -2,9 +2,9 @@ pipeline {
     agent any
     stages {
 
-        stage('Clean up') {
+        stage('Cleanup') {
             steps {
-                sh 'docker system prune -all --volumes --force'
+                sh 'docker system prune --all --volumes --force'
             }
         }
 
