@@ -1,18 +1,18 @@
 pipeline {
     agent none
-    environment {
-        TEST= 'Test'
-    }
     stages {
+
         stage('Validate') {
             agent {
                 docker { image 'python:3' }
             }
             steps {
+                sh 'echo "Validate code...'
                 sh 'pip3 install --upgrade pip black flake8 mypy pylint yamllint'
                 sh 'yamllint -c ./.yamllint .'
             }
         }
+
         stage('Build Image') {
             agent any
             steps {
@@ -34,6 +34,7 @@ pipeline {
                         sh 'python -m homeassistant --script check_config --config ./config/'
                     }
                 }
+
                 stage('Test on dev') {
                     agent {
                         docker { image 'homeassistant/home-assistant:dev' }
@@ -44,6 +45,7 @@ pipeline {
                         sh 'python -m homeassistant --script check_config --config ./config/'
                     }
                 }
+
                 stage('Test on beta') {
                     agent {
                         docker { image 'homeassistant/home-assistant:beta' }
@@ -55,6 +57,7 @@ pipeline {
                     }
                 }
             }
+
         }
     }   
     post {
