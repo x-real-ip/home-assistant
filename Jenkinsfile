@@ -10,7 +10,7 @@ pipeline {
         stage('Cleanup') {
             steps {
                 // This will remove all build cache, stopped containers, networks and volumes not used by at least one container, dangling images.
-                echo "" && "========== CLEANUP =========="
+                echo "========== CLEANUP =========="
                 sh 'docker system prune --all --volumes --force'
             }
         }
