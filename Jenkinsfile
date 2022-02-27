@@ -1,9 +1,17 @@
 pipeline {
     agent any
+    environment {
+        IMAGE_IMAGE_NAME='home-assistant'
+        CUSTOM_IMAGE_NAME='home-assistant'
+        IMAGE_VERSION='latest'
+    }
     stages {
 
         stage('Cleanup') {
             steps {
+                // This will remove all build cache, stopped containers, networks and volumes not used by at least one container, dangling images.
+                sh 'set +x && echo "" && echo "========== CLEANUP ==========" '
+                sh 'set -x'
                 sh 'docker system prune --all --volumes --force'
             }
         }
@@ -13,6 +21,7 @@ pipeline {
                 docker { image 'python:3' }
             }
             steps {
+                // Check if code syntax is valid
                 sh 'set +x && echo "" && echo "========== VALIDATE CODE ==========" '
                 sh 'set -x'
                 sh 'pip3 install --upgrade pip yamllint'
@@ -21,13 +30,12 @@ pipeline {
         }
 
         stage('Build Image') {
-            agent any
             steps {
+                // Building image
                 echo "========== BUILD IMAGE =========="
                 sh """
-                docker build -f app.dockerfile -t ${JOB_NAME} .
+                docker build -f app.dockerfile -t ${CUSTOM_IMAGE_NAME}:${IMAGE_VERSION} -t ${CUSTOM_IMAGE_NAME}:${BUILD_NUMBER} .
                 """
-                sh 'docker run hello-world'
                 }
             }
 
