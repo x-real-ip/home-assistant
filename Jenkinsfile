@@ -7,7 +7,7 @@ pipeline {
                 docker { image 'python:3' }
             }
             steps {
-                sh 'echo "Validate code...'
+                sh 'echo "Validate code..."'
                 sh 'pip3 install --upgrade pip black flake8 mypy pylint yamllint'
                 sh 'yamllint -c ./.yamllint .'
             }
