@@ -2,6 +2,12 @@ pipeline {
     agent any
     stages {
 
+        stage('Clean up') {
+            steps {
+                sh 'docker system prune -all --volumes --force'
+            }
+        }
+
         stage('Validate') {
             agent {
                 docker { image 'python:3' }
