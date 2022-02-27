@@ -60,7 +60,7 @@ pipeline {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh 'mv config/secrets.yaml.example config/secrets.yaml'
                             sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                            sh 'python -m homeassistant --script check_config --config ./confi/'
+                            sh 'python -m homeassistant --script check_config --config ./config/'
                         }
                     }
                 }
@@ -73,7 +73,7 @@ pipeline {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh 'mv config/secrets.yaml.example config/secrets.yaml'
                             sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                            sh 'python -m homeassistant --script check_config --config ./confi/'
+                            sh 'python -m homeassistant --script check_config --config ./config/'
                         }
                     }
                 }
@@ -82,7 +82,7 @@ pipeline {
         }
     }   
     post {
-        // Clean after build
+        // Clean Jenkins workspace after build
         always {
             cleanWs(cleanWhenAborted: true,
                     cleanWhenFailure: true,
