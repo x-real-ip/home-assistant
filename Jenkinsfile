@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     stages {
 
         stage('Validate') {
@@ -65,7 +65,6 @@ pipeline {
     }   
     post {
         // Clean after build
-        agent any
         always {
             cleanWs(cleanWhenAborted: true,
                     cleanWhenFailure: true,
