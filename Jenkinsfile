@@ -43,7 +43,7 @@ pipeline {
             parallel {
                 stage('Test on latest') {
                     agent {
-                        docker { image "${CUSTOM_IMAGE_NAME}:${IMAGE_VERSION}" }
+                        docker { image "${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG}" }
                     }
                     steps {
                         echo "\n ========== TEST ========== \n"
