@@ -38,6 +38,14 @@ pipeline {
                 }
             }
 
+        stage('Compose') {
+            steps {
+                // Building image
+                echo "\n ========== COMPOSE ========== \n"
+                sh 'docker compose version'
+                }
+            }
+
         stage('Test') {
             parallel {
                 stage('Test on latest') {
