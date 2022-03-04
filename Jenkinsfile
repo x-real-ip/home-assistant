@@ -5,6 +5,8 @@ pipeline {
         CUSTOM_IMAGE_TAG = "latest"
         CUSTOM_IMAGE_NAME = "home-assistant-${ENVIRONMENT_SUFFIX}"
         ORIGINAL_IMAGE_NAME = "homeassistant/home-assistant"
+        DOCKER_REGISTRY_URL = "docker-registry.theautomation.nl"
+        DOCKER_REGISTRY_CREDENTIALS= credentials('DockerRegistry') 
     }
     stages {
 
@@ -77,6 +79,14 @@ pipeline {
                             sh 'python -m homeassistant --script check_config --config ./config/'
                         }
                     }
+                }
+            }
+
+        stage('Publish') {
+            steps {
+                // Building image
+                echo "\n ========== PUBLISH ========== \n"
+                sh "echo $DOCKER_REGISTRY_CREDENTIALS_PSW | docker login -u $DOCKER_REGISTRY_CREDENTIALS_USR --password-stdin"
                 }
             }
 
