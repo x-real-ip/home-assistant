@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         IMAGE_IMAGE_NAME='home-assistant'
-        CUSTOM_IMAGE_NAME='home-assistant'
+        CUSTOM_IMAGE_NAME='my-home-assistant'
         IMAGE_VERSION='latest'
     }
     stages {
@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 // Check if code syntax is valid
-                sh 'set +x && echo "" && echo "========== VALIDATE CODE ==========" '
+                echo "\n ========== VALIDATE CODE ========== \n"
                 sh 'set -x'
                 sh 'pip3 install --upgrade pip yamllint'
                 sh 'yamllint -c ./.yamllint .'
@@ -51,7 +51,7 @@ pipeline {
             parallel {
                 stage('Test on latest') {
                     agent {
-                        docker { image 'homeassistant/home-assistant:latest' }
+                        docker { image "${CUSTOM_IMAGE_NAME}:${IMAGE_VERSION}" }
                     }
                     steps {
                         echo "\n ========== TEST ========== \n"
