@@ -1,9 +1,10 @@
 pipeline {
     agent any
     environment {
-        IMAGE_IMAGE_NAME='home-assistant'
-        CUSTOM_IMAGE_NAME='my-home-assistant'
-        IMAGE_VERSION='latest'
+        ENVIRONMENT_SUFFIX = "prd"
+        CUSTOM_IMAGE_TAG = "latest"
+        CUSTOM_IMAGE_NAME = "home-assistant-${ENVIRONMENT_SUFFIX}"
+        ORIGINAL_IMAGE_NAME = "homeassistant/home-assistant"
     }
     stages {
 
@@ -33,7 +34,7 @@ pipeline {
                 // Building image
                 echo "\n ========== BUILD ========== \n"
                 sh """
-                docker build -f app.dockerfile -t ${CUSTOM_IMAGE_NAME}:${IMAGE_VERSION} -t ${CUSTOM_IMAGE_NAME}:${BUILD_NUMBER} .
+                docker build -f app.dockerfile -t ${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG} -t ${CUSTOM_IMAGE_NAME}:${BUILD_NUMBER} .
                 """
                 }
             }
@@ -52,9 +53,9 @@ pipeline {
                     }
                 }
 
-                stage('Test on dev') {
+                stage('Test dev') {
                     agent {
-                        docker { image 'homeassistant/home-assistant:dev' }
+                        docker { image "${ORIGINAL_IMAGE_NAME}:dev" }
                     }
                     steps {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -65,9 +66,9 @@ pipeline {
                     }
                 }
 
-                stage('Test on beta') {
+                stage('Test beta') {
                     agent {
-                        docker { image 'homeassistant/home-assistant:beta' }
+                        docker { image "${ORIGINAL_IMAGE_NAME}:beta" }
                     }
                     steps {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
