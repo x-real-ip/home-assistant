@@ -5,8 +5,8 @@ pipeline {
         CUSTOM_IMAGE_TAG = "latest"
         CUSTOM_IMAGE_NAME = "home-assistant-${ENVIRONMENT_SUFFIX}"
         ORIGINAL_IMAGE_NAME = "homeassistant/home-assistant"
-        REGISTRY_URL = "docker-registry.theautomation.nl"
-        REGISTRY_CREDENTIALS = credentials('DockerRegistry') 
+        DOCKER_REGISTRY_URL = "docker-registry.theautomation.nl"
+        DOCKER_REGISTRY_CREDENTIALS = credentials('DockerRegistry') 
     }
     stages {
 
@@ -84,12 +84,12 @@ pipeline {
         }
         stage('Publish') {
             steps {
-                // Building image
+                // Publish image
                 echo "\n ========== PUBLISH ========== \n"
-                sh "echo $DOCKER_REGISTRY_CREDENTIALS_PSW | docker login -u $DOCKER_REGISTRY_CREDENTIALS_USR --password-stdin"
+                sh 'echo $DOCKER_REGISTRY_CREDENTIALS_PSW | docker login -u $DOCKER_REGISTRY_CREDENTIALS_USR --password-stdin'
                 }
             }
-    }   
+    }
     post {
         // Clean Jenkins workspace after build
         always {
