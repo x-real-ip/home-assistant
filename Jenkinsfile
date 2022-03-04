@@ -5,8 +5,6 @@ pipeline {
         CUSTOM_IMAGE_TAG = "latest"
         CUSTOM_IMAGE_NAME = "home-assistant-${ENVIRONMENT_SUFFIX}"
         ORIGINAL_IMAGE_NAME = "homeassistant/home-assistant"
-        # DOCKER_REGISTRY_URL = "docker-registry.theautomation.nl"
-        # DOCKER_REGISTRY_CREDENTIALS = credentials('DockerRegistry') 
     }
     stages {
 
