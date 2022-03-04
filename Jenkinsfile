@@ -38,8 +38,8 @@ pipeline {
                 sh """
                 docker build -f app.dockerfile -t ${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG} -t ${CUSTOM_IMAGE_NAME}:${BUILD_NUMBER} .
                 """
-                }
             }
+        }
 
         stage('Test') {
             parallel {
@@ -80,6 +80,14 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+        stage('Publish') {
+            steps {
+                // Building image
+                echo "\n ========== PUBLISH ========== \n"
+                sh "echo $REGISTRY_CREDENTIALS_PSW | docker login ${REGISTRY_URL} -u $REGISTRY_CREDENTIALS_USR --password-stdin"
+                sh "docker logout ${REGISTRY_URL}"
             }
         }
     }
