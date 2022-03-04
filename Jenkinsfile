@@ -82,13 +82,6 @@ pipeline {
                 }
             }
         }
-        stage('Publish') {
-            steps {
-                // Building image
-                echo "\n ========== PUBLISH ========== \n"
-                sh "echo $DOCKER_REGISTRY_CREDENTIALS_PSW | docker login -u $DOCKER_REGISTRY_CREDENTIALS_USR --password-stdin"
-                }
-        }
     }
     post {
         // Clean Jenkins workspace after build
