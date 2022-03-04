@@ -42,7 +42,7 @@ pipeline {
             steps {
                 // Building image
                 echo "\n ========== COMPOSE ========== \n"
-                sh 'docker compose-version'
+                sh 'docker-compose version'
                 sh 'ls -la'
                 }
             }
