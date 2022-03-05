@@ -86,7 +86,7 @@ pipeline {
             steps {
                 // Building image
                 echo "\n ========== PUBLISH ========== \n"
-                sh "echo $REGISTRY_CREDENTIALS_PSW | docker login ${REGISTRY_URL} -u $REGISTRY_CREDENTIALS_USR --password-stdin"
+                sh 'echo ${REGISTRY_CREDENTIALS_PSW} | docker login ${REGISTRY_URL} -u ${REGISTRY_CREDENTIALS_USR} --password-stdin'
                 sh "docker logout ${REGISTRY_URL}"
             }
         }
