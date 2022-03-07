@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        ENVIRONMENT_SUFFIX = "prd"
+        ENVIRONMENT = "prd"
         CUSTOM_IMAGE_TAG = "latest"
-        CUSTOM_IMAGE_NAME = "home-assistant-${ENVIRONMENT_SUFFIX}"
+        CUSTOM_IMAGE_NAME = "home-assistant-${ENVIRONMENT}"
         ORIGINAL_IMAGE_NAME = "homeassistant/home-assistant"
         REGISTRY_URL = "docker-registry.theautomation.nl"
         REGISTRY_CREDENTIALS = credentials('DockerRegistry') 
