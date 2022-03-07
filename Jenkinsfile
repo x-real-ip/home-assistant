@@ -90,6 +90,12 @@ pipeline {
                 sh "docker logout ${REGISTRY_URL}"
             }
         }
+        stage('Deploy') {
+           steps {
+               // Deploy image to docker-host
+               sh '/usr/local/bin/docker-compose up'
+            }
+        }
     }
     post {
         // Clean Jenkins workspace after build
