@@ -93,7 +93,7 @@ pipeline {
         stage('Deploy') {
            steps {
                // Deploy image to docker-host
-               sh '/usr/local/bin/docker-compose up'
+               sh '/usr/local/bin/docker-compose --version'
             }
         }
     }
