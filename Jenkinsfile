@@ -93,7 +93,8 @@ pipeline {
         stage('Deploy') {
            steps {
                // Deploy image to docker-host
-               sh 'docker-compose --version'
+               sh 'ls -la'
+               sh 'docker-compose up'
             }
         }
     }
