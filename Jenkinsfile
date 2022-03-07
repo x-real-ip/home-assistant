@@ -7,6 +7,7 @@ pipeline {
         ORIGINAL_IMAGE_NAME = "homeassistant/home-assistant"
         REGISTRY_URL = "docker-registry.theautomation.nl"
         REGISTRY_CREDENTIALS = credentials('DockerRegistry') 
+        PATH = "$PATH:/usr/local/bin"
     }
     stages {
 
