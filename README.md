@@ -1,6 +1,6 @@
 # Home Assistant
 
-[![Build Status](https://jenkins.theautomation.nl/buildStatus/icon?job=home-assistant%2Fdevelop)](https://jenkins.theautomation.nl/job/home-assistant/job/develop/)
+[![Build Status](https://jenkins.theautomation.nl/buildStatus/icon?job=home-assistant)](https://jenkins.theautomation.nl/job/home-assistant/)
 ![GitHub repo size](https://img.shields.io/github/repo-size/theautomation/home-assistant?logo=Github)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/home-assistant?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/home-assistant/main?logo=github)
