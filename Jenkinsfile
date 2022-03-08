@@ -18,28 +18,28 @@ pipeline {
             }
         }
 
-        stage('Validate') {
-            agent {
-                docker { image 'python:3' }
-            }
-            steps {
-                // Check if code syntax is valid
-                echo "\n ========== VALIDATE CODE ========== \n"
-                sh 'set -x'
-                sh 'pip3 install --upgrade pip yamllint'
-                sh 'yamllint -c ./.yamllint .'
-            }
-        }
+        // stage('Validate') {
+        //     agent {
+        //         docker { image 'python:3' }
+        //     }
+        //     steps {
+        //         // Check if code syntax is valid
+        //         echo "\n ========== VALIDATE CODE ========== \n"
+        //         sh 'set -x'
+        //         sh 'pip3 install --upgrade pip yamllint'
+        //         sh 'yamllint -c ./.yamllint .'
+        //     }
+        // }
 
-        stage('Build') {
-            steps {
-                // Building image
-                echo "\n ========== BUILD ========== \n"
-                sh """
-                docker build -f app.dockerfile -t ${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG} -t ${CUSTOM_IMAGE_NAME}:${BUILD_NUMBER} .
-                """
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         // Building image
+        //         echo "\n ========== BUILD ========== \n"
+        //         sh """
+        //         docker build -f app.dockerfile -t ${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG} -t ${CUSTOM_IMAGE_NAME}:${BUILD_NUMBER} .
+        //         """
+        //     }
+        // }
 
         // stage('Test') {
         //     parallel {
@@ -93,9 +93,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(credentials: ['ssh-docker-host']) {
-                    sh '''
-                    cd /home/coen/docker-home-services/ && ls -l
-                    '''
+                    sh "cd /home/coen/docker-home-services/ && ls -l"
                 }
             }
         }
