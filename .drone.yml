@@ -92,7 +92,11 @@ depends_on:
 steps:
   - name: upgrade
     image: appleboy/drone-ssh
-    secrets: [docker_registry_username, docker_registry_password]
+    environment:
+      USERNAME:
+        from_secret: docker_registry_username
+      PASSWORD:
+        from_secret: docker_registry_password
     settings:
       host:
         from_secret: ssh_host
@@ -104,7 +108,7 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
-        - docker login docker-registry.theautomation.nl -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD}
+        - docker login docker-registry.theautomation.nl -u ${USERNAME] -p ${PASSWORD}
         - docker-compose pull
 
   - name: deploy
