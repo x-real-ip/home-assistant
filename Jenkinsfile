@@ -41,47 +41,47 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            parallel {
-                stage('Test on latest') {
-                    agent {
-                        docker { image "${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG}" }
-                    }
-                    steps {
-                        echo "\n ========== TEST ========== \n"
-                        sh 'mv config/secrets.yaml.example config/secrets.yaml'
-                        sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                        sh 'python -m homeassistant --script check_config --config ./config/'
-                    }
-                }
+        // stage('Test') {
+        //     parallel {
+        //         stage('Test on latest') {
+        //             agent {
+        //                 docker { image "${CUSTOM_IMAGE_NAME}:${CUSTOM_IMAGE_TAG}" }
+        //             }
+        //             steps {
+        //                 echo "\n ========== TEST ========== \n"
+        //                 sh 'mv config/secrets.yaml.example config/secrets.yaml'
+        //                 sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
+        //                 sh 'python -m homeassistant --script check_config --config ./config/'
+        //             }
+        //         }
 
-                stage('Test dev') {
-                    agent {
-                        docker { image "${ORIGINAL_IMAGE_NAME}:dev" }
-                    }
-                    steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh 'mv config/secrets.yaml.example config/secrets.yaml'
-                            sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                            sh 'python -m homeassistant --script check_config --config ./config/'
-                        }
-                    }
-                }
+        //         stage('Test dev') {
+        //             agent {
+        //                 docker { image "${ORIGINAL_IMAGE_NAME}:dev" }
+        //             }
+        //             steps {
+        //                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        //                     sh 'mv config/secrets.yaml.example config/secrets.yaml'
+        //                     sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
+        //                     sh 'python -m homeassistant --script check_config --config ./config/'
+        //                 }
+        //             }
+        //         }
 
-                stage('Test beta') {
-                    agent {
-                        docker { image "${ORIGINAL_IMAGE_NAME}:beta" }
-                    }
-                    steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh 'mv config/secrets.yaml.example config/secrets.yaml'
-                            sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
-                            sh 'python -m homeassistant --script check_config --config ./config/'
-                        }
-                    }
-                }
-            }
-        }
+        //         stage('Test beta') {
+        //             agent {
+        //                 docker { image "${ORIGINAL_IMAGE_NAME}:beta" }
+        //             }
+        //             steps {
+        //                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        //                     sh 'mv config/secrets.yaml.example config/secrets.yaml'
+        //                     sh 'mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json'
+        //                     sh 'python -m homeassistant --script check_config --config ./config/'
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         stage('Publish') {
             steps {
                 // Building image
@@ -91,10 +91,12 @@ pipeline {
             }
         }
         stage('Deploy') {
-           steps {
-               // Deploy image to docker-host
-               sh 'ls -la'
-               sh 'docker run -it hello-world'
+            steps {
+                sshagent(credentials: ['ssh-docker-host']) {
+                    sh '''
+                    cd /home/coen/docker-home-services/ && ls -l
+                    '''
+                }
             }
         }
     }
