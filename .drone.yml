@@ -103,7 +103,6 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
-        - echo ${DOCKER-REGISTRY-PASSWORD} | docker login --username coen --password-stdin
         - docker-compose pull
 
   - name: deploy
