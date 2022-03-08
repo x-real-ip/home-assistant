@@ -93,7 +93,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sshagent(credentials: ['ssh-docker-host']) {
-                    sh "cd /home/coen/docker-home-services/ && ls -l"
+                    sh "cd /media/ && ls -l"
                 }
             }
         }
