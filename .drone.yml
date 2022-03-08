@@ -92,7 +92,7 @@ depends_on:
 steps:
   - name: upgrade
     image: appleboy/drone-ssh
-    secrets: [docker-registry-username, docker-registry-password]
+    secrets: [docker_registry_username, docker_registry_password]
     settings:
       host:
         from_secret: ssh_host
