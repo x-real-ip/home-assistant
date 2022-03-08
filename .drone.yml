@@ -61,9 +61,9 @@ steps:
     image: plugins/docker
     settings:
       username:
-        from_secret: docker-registry-username
+        from_secret: docker_registry_username
       password:
-        from_secret: docker-registry-password
+        from_secret: docker_registry_password
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
       dockerfile: app.dockerfile
@@ -73,9 +73,9 @@ steps:
     image: plugins/docker
     settings:
       username:
-        from_secret: docker-registry-username
+        from_secret: docker_registry_username
       password:
-        from_secret: docker-registry-password
+        from_secret: docker_registry_password
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
       dockerfile: db.dockerfile
