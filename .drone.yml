@@ -99,10 +99,15 @@ steps:
         from_secret: ssh_user
       password:
         from_secret: ssh_password
+      registry-username:
+        from_secret: docker-registry-username
+      registry-password:
+        from_secret: docker-registry-password
       port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
+        - echo ${registry-password} | docker login --username ${registry-username} --password-stdin
         - docker-compose pull
 
   - name: deploy
