@@ -94,7 +94,7 @@ pipeline {
            steps {
                // Deploy image to docker-host
                sh 'ls -la'
-               sh 'docker-compose up'
+               sh 'docker run -it hello-world'
             }
         }
     }

@@ -2,7 +2,7 @@
 version: "3.8"
 services:
   prd-home-assistant-app:
-    image: docker-registry.theautomation.nl/coen/prd-home-assistant-app:latest
+    image: docker-registry.theautomation.nl/coen/home-assistant-prd:latest
     container_name: prd-home-assistant-app
     depends_on:
       prd-home-assistant-db:
