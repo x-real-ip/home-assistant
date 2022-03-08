@@ -108,7 +108,7 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
-        - docker login docker-registry.theautomation.nl -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD}
+        - docker login docker-registry.theautomation.nl -u $${DOCKER_REGISTRY_USERNAME} -p $${DOCKER_REGISTRY_PASSWORD}
         - docker-compose pull
 
   - name: deploy
