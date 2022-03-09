@@ -33,19 +33,19 @@ steps:
       - mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json
       - python -m homeassistant --script check_config --config ./config/
 
-  - name: dev
-    image: homeassistant/home-assistant:dev
-    pull: always
-    failure: ignore
-    commands:
-      - python -m homeassistant --script check_config --config ./config/
+#   - name: dev
+#     image: homeassistant/home-assistant:dev
+#     pull: always
+#     failure: ignore
+#     commands:
+#       - python -m homeassistant --script check_config --config ./config/
 
-  - name: beta
-    image: homeassistant/home-assistant:beta
-    pull: always
-    failure: ignore
-    commands:
-      - python -m homeassistant --script check_config --config ./config/
+#   - name: beta
+#     image: homeassistant/home-assistant:beta
+#     pull: always
+#     failure: ignore
+#     commands:
+#       - python -m homeassistant --script check_config --config ./config/
 
 ---
 kind: pipeline
@@ -69,17 +69,17 @@ steps:
       dockerfile: app.dockerfile
       auto_tag: true
 
-  - name: publish db
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_registry_username
-      password:
-        from_secret: docker_registry_password
-      registry: docker-registry.theautomation.nl
-      repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
-      dockerfile: db.dockerfile
-      auto_tag: true
+#   - name: publish db
+#     image: plugins/docker
+#     settings:
+#       username:
+#         from_secret: docker_registry_username
+#       password:
+#         from_secret: docker_registry_password
+#       registry: docker-registry.theautomation.nl
+#       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
+#       dockerfile: db.dockerfile
+#       auto_tag: true
 
 ---
 kind: pipeline
@@ -108,7 +108,7 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
-        - echo "${DOCKER_REGISTRY_USERNAME}
+        - echo "${DOCKER_REGISTRY_USERNAME}"
 #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
         - docker-compose pull
 
