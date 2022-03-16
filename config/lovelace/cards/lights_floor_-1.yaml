@@ -1,7 +1,7 @@
 ---
 type: entities
 show_header_toggle: true
-title: Kelder
+title: ~
 entities:
   - type: custom:slider-entity-row
     entity: light.shellydimmer_basement_stairs
