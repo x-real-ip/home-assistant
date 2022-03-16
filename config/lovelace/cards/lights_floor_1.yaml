@@ -1,7 +1,7 @@
 ---
 type: entities
 show_header_toggle: true
-title: Boven
+title: ~
 entities:
   - type: custom:slider-entity-row
     entity: light.shellydimmer_master_bedroom
