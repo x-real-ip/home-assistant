@@ -112,13 +112,17 @@ steps:
         - echo "${DOCKER_REGISTRY_USERNAME}"
         - echo "${docker_registry_username}"
         - echo ${DOCKER_REGISTRY_USERNAME}
+        - echo $${DOCKER_REGISTRY_USERNAME}
         - echo ${docker_registry_username}
+        - echo $${docker_registry_username}
         - echo $DOCKER_REGISTRY_USERNAME
         - echo $docker_registry_username
         - echo "${DOCKER_REGISTRY_PASSWORD}"
         - echo "${docker_registry_password}"
         - echo ${DOCKER_REGISTRY_PASSWORD}
+        - echo $${DOCKER_REGISTRY_PASSWORD}
         - echo ${docker_registry_password}
+        - echo $${docker_registry_password}
         - echo $DOCKER_REGISTRY_PASSWORD
         - echo $docker_registry_password
         #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
