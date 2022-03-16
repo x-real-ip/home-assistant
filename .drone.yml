@@ -142,7 +142,7 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
-        - docker image prune -f
+        - docker system prune --all --force --volumes
 
 ---
 kind: pipeline
