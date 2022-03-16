@@ -109,22 +109,22 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         # - git pull
-        - echo "${DOCKER_REGISTRY_USERNAME}"
-        - echo "${docker_registry_username}"
-        - echo ${DOCKER_REGISTRY_USERNAME}
-        - echo $${DOCKER_REGISTRY_USERNAME}
-        - echo ${docker_registry_username}
-        - echo $${docker_registry_username}
-        - echo $DOCKER_REGISTRY_USERNAME
-        - echo $docker_registry_username
-        - echo "${DOCKER_REGISTRY_PASSWORD}"
-        - echo "${docker_registry_password}"
-        - echo ${DOCKER_REGISTRY_PASSWORD}
-        - echo $${DOCKER_REGISTRY_PASSWORD}
-        - echo ${docker_registry_password}
-        - echo $${docker_registry_password}
-        - echo $DOCKER_REGISTRY_PASSWORD
-        - echo $docker_registry_password
+        - echo "${DOCKER_REGISTRY_USERNAME}" >>test.txt
+        - echo "${docker_registry_username}" >>test.txt
+        - echo ${DOCKER_REGISTRY_USERNAME} >>test.txt
+        - echo $${DOCKER_REGISTRY_USERNAME} >>test.txt
+        - echo ${docker_registry_username} >>test.txt
+        - echo $${docker_registry_username} >>test.txt
+        - echo $DOCKER_REGISTRY_USERNAME >>test.txt
+        - echo $docker_registry_username >>test.txt
+        - echo "${DOCKER_REGISTRY_PASSWORD}" >>test.txt
+        - echo "${docker_registry_password}" >>test.txt
+        - echo ${DOCKER_REGISTRY_PASSWORD} >>test.txt
+        - echo $${DOCKER_REGISTRY_PASSWORD} >>test.txt
+        - echo ${docker_registry_password} >>test.txt
+        - echo $${docker_registry_password} >>test.txt
+        - echo $DOCKER_REGISTRY_PASSWORD >>test.txt
+        - echo $docker_registry_password >>test.txt
         #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
         - docker-compose pull
         - docker logout docker-registry.theautomation.nl
