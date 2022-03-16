@@ -33,61 +33,61 @@ steps:
       - mv config/google_assistant/google_service_account.json.example config/google_assistant/google_service_account.json
       - python -m homeassistant --script check_config --config ./config/
 
-#   - name: dev
-#     image: homeassistant/home-assistant:dev
-#     pull: always
-#     failure: ignore
-#     commands:
-#       - python -m homeassistant --script check_config --config ./config/
+  - name: dev
+    image: homeassistant/home-assistant:dev
+    pull: always
+    failure: ignore
+    commands:
+      - python -m homeassistant --script check_config --config ./config/
 
-#   - name: beta
-#     image: homeassistant/home-assistant:beta
-#     pull: always
-#     failure: ignore
-#     commands:
-#       - python -m homeassistant --script check_config --config ./config/
+  - name: beta
+    image: homeassistant/home-assistant:beta
+    pull: always
+    failure: ignore
+    commands:
+      - python -m homeassistant --script check_config --config ./config/
 
-# ---
-# kind: pipeline
-# type: docker
-# name: build
+---
+kind: pipeline
+type: docker
+name: build
 
-# depends_on:
-#   - validate
-#   - test
+depends_on:
+  - validate
+  - test
 
-# steps:
-#   - name: publish app
-#     image: plugins/docker
-#     settings:
-#       username:
-#         from_secret: docker_registry_username
-#       password:
-#         from_secret: docker_registry_password
-#       registry: docker-registry.theautomation.nl
-#       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
-#       dockerfile: app.dockerfile
-#       auto_tag: true
+steps:
+  - name: publish app
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_registry_username
+      password:
+        from_secret: docker_registry_password
+      registry: docker-registry.theautomation.nl
+      repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
+      dockerfile: app.dockerfile
+      auto_tag: true
 
-#   - name: publish db
-#     image: plugins/docker
-#     settings:
-#       username:
-#         from_secret: docker_registry_username
-#       password:
-#         from_secret: docker_registry_password
-#       registry: docker-registry.theautomation.nl
-#       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
-#       dockerfile: db.dockerfile
-#       auto_tag: true
+  - name: publish db
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_registry_username
+      password:
+        from_secret: docker_registry_password
+      registry: docker-registry.theautomation.nl
+      repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
+      dockerfile: db.dockerfile
+      auto_tag: true
 
 ---
 kind: pipeline
 type: docker
 name: upgrade
 
-# depends_on:
-#   - build
+depends_on:
+  - build
 
 steps:
   - name: upgrade
