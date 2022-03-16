@@ -100,11 +100,9 @@ steps:
       password:
         from_secret: ssh_password
       port: 22
-    envs:
-      docker_registry_username:
-        from_secret: docker_registry_username
-      docker_registry_password:
-        from_secret: docker_registry_password
+      envs:
+        - docker_registry_username
+        - docker_registry_password
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
