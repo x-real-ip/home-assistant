@@ -104,6 +104,7 @@ steps:
       password:
         from_secret: ssh_password
       port: 22
+      envs: [docker_registry_password]
       script_stop: true
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
