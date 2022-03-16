@@ -102,12 +102,14 @@ steps:
       port: 22
       script_stop: true
       envs:
-        - docker_registry_username
-        - docker_registry_password
+        - docker_registry_username:
+            from_secret: docker_registry_username
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
-        - echo "${DOCKER_REGISTRY_USERNAME}"
+        - echo "${docker_registry_username}"
+        - echo ${docker_registry_username}
+        - echo $docker_registry_username
         #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
         - docker-compose pull
         - docker logout docker-registry.theautomation.nl
