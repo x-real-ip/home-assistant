@@ -114,7 +114,7 @@ steps:
         - git pull
         - echo $${DOCKER_REGISTRY_PASSWORD} >>test.txt
         - echo $${DOCKER_REGISTRY_USERNAME} >>test.txt
-        #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
+        - docker login docker-registry.theautomation.nl -u $${DOCKER_REGISTRY_USERNAME} -p $${DOCKER_REGISTRY_PASSWORD}
         - docker-compose pull
         - docker logout docker-registry.theautomation.nl
 
