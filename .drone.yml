@@ -93,7 +93,8 @@ steps:
   - name: upgrade
     image: appleboy/drone-ssh
     environment:
-      DOCKER_REGISTRY_USERNAME: coen
+      DOCKER_REGISTRY_USERNAME:
+        from_secret: docker_registry_username
       DOCKER_REGISTRY_PASSWORD:
         from_secret: docker_registry_password
     settings:
@@ -104,27 +105,15 @@ steps:
       password:
         from_secret: ssh_password
       port: 22
-      envs: [docker_registry_password]
+      envs:
+        - docker_registry_password
+        - docker_registry_username
       script_stop: true
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
-        # - git pull
-        - echo "${DOCKER_REGISTRY_USERNAME}" >>test.txt
-        - echo "${docker_registry_username}" >>test.txt
-        - echo ${DOCKER_REGISTRY_USERNAME} >>test.txt
-        - echo $${DOCKER_REGISTRY_USERNAME} >>test.txt
-        - echo ${docker_registry_username} >>test.txt
-        - echo $${docker_registry_username} >>test.txt
-        - echo $DOCKER_REGISTRY_USERNAME >>test.txt
-        - echo $docker_registry_username >>test.txt
-        - echo "${DOCKER_REGISTRY_PASSWORD}" >>test.txt
-        - echo "${docker_registry_password}" >>test.txt
-        - echo ${DOCKER_REGISTRY_PASSWORD} >>test.txt
+        - git pull
         - echo $${DOCKER_REGISTRY_PASSWORD} >>test.txt
-        - echo ${docker_registry_password} >>test.txt
-        - echo $${docker_registry_password} >>test.txt
-        - echo $DOCKER_REGISTRY_PASSWORD >>test.txt
-        - echo $docker_registry_password >>test.txt
+        - echo $${DOCKER_REGISTRY_USERNAME} >>test.txt
         #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
         - docker-compose pull
         - docker logout docker-registry.theautomation.nl
