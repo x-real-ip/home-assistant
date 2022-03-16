@@ -101,14 +101,14 @@ steps:
         from_secret: ssh_password
       port: 22
     envs:
-      DOCKER_REGISTRY_USERNAME:
+      docker_registry_username:
         from_secret: docker_registry_username
-      DOCKER_REGISTRY_PASSWORD:
+      docker_registry_password:
         from_secret: docker_registry_password
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
-        - echo "${DOCKER_REGISTRY_USERNAME}"
+        - echo $DOCKER_REGISTRY_USERNAME
         #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
         - docker-compose pull
 
