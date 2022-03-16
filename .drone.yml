@@ -47,27 +47,27 @@ steps:
 #     commands:
 #       - python -m homeassistant --script check_config --config ./config/
 
----
-kind: pipeline
-type: docker
-name: build
+# ---
+# kind: pipeline
+# type: docker
+# name: build
 
-depends_on:
-  - validate
-  - test
+# depends_on:
+#   - validate
+#   - test
 
-steps:
-  - name: publish app
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_registry_username
-      password:
-        from_secret: docker_registry_password
-      registry: docker-registry.theautomation.nl
-      repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
-      dockerfile: app.dockerfile
-      auto_tag: true
+# steps:
+#   - name: publish app
+#     image: plugins/docker
+#     settings:
+#       username:
+#         from_secret: docker_registry_username
+#       password:
+#         from_secret: docker_registry_password
+#       registry: docker-registry.theautomation.nl
+#       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
+#       dockerfile: app.dockerfile
+#       auto_tag: true
 
 #   - name: publish db
 #     image: plugins/docker
@@ -86,8 +86,8 @@ kind: pipeline
 type: docker
 name: upgrade
 
-depends_on:
-  - build
+# depends_on:
+#   - build
 
 steps:
   - name: upgrade
@@ -107,9 +107,10 @@ steps:
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
         - git pull
-        - echo ${DOCKER_REGISTRY_USERNAME}
+        - echo "${DOCKER_REGISTRY_USERNAME}"
         #         - docker login docker-registry.theautomation.nl -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
         - docker-compose pull
+        - docker logout docker-registry.theautomation.nl
 
   - name: deploy
     image: appleboy/drone-ssh
