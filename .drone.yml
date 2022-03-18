@@ -128,7 +128,7 @@ steps:
       port: 22
       script:
         - cd /home/coen/docker-home-services/${DRONE_REPO_NAME}/
-        - docker-compose up -d
+        - docker-compose up -d --force-recreate
 
   - name: clean
     image: appleboy/drone-ssh
