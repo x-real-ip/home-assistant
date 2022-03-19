@@ -22,16 +22,12 @@ services:
     container_name: prd-home-assistant-db
     restart: always
     volumes:
-      - prd-home-assistant-db-data:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     env_file: prd-home-assistant-db.env
     ports:
       - 3306:3306
     networks:
       - home-assistant
-
-volumes:
-  prd-home-assistant-db-data:
-    name: prd-home-assistant-db-data
 
 networks:
   home-assistant:
