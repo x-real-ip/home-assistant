@@ -67,7 +67,8 @@ steps:
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-app
       dockerfile: app.dockerfile
-      auto_tag: true
+      tags:
+        - latest
 
   - name: publish db
     image: plugins/docker
@@ -79,7 +80,8 @@ steps:
       registry: docker-registry.theautomation.nl
       repo: docker-registry.theautomation.nl/coen/prd-${DRONE_REPO_NAME}-db
       dockerfile: db.dockerfile
-      auto_tag: true
+      tags:
+        - latest
 
 ---
 kind: pipeline

@@ -12,9 +12,10 @@ config/google_calendars.yaml
 config/.google.token
 config/home-assistant.log.1
 config/google_assistant/google_service_account.json
-config/www/image/*
 config/www/snapshots/*
 config/.shopping_list.json
 config/home-assistant.log.fault
+
+data/
 
 **/__pycache__
