@@ -1,4 +1,4 @@
-FROM homeassistant/home-assistant:2022.3
+FROM homeassistant/home-assistant:2022.4
 
 COPY ./config /config
 
