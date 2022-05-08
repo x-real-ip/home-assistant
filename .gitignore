@@ -1,21 +1,19 @@
-prd-home-assistant-app.env
-prd-home-assistant-db.env
+./src/config/.cloud/
+src/config/.storage/
+src/config/deps
+src/config/ip_bans.yaml
+src/config/known_devices.yaml
+src/config/secrets.yaml
+src/config/*.log
+src/config/google_calendars.yaml
+src/config/.google.token
+src/config/home-assistant.log.1
+./src/config/google_assistant/google_service_account.json
+src/config/www/snapshots/*
+src/config/.shopping_list.json
+src/config/home-assistant.log.fault
 
-config/.cloud/
-config/.storage/
-config/deps
-config/ip_bans.yaml
-config/known_devices.yaml
-config/secrets.yaml
-config/*.log
-config/google_calendars.yaml
-config/.google.token
-config/home-assistant.log.1
-config/google_assistant/google_service_account.json
-config/www/snapshots/*
-config/.shopping_list.json
-config/home-assistant.log.fault
-
-data/
+src/data/
 
 **/__pycache__
+src/config/google_assistant/google_service_account.json.example
