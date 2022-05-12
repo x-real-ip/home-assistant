@@ -73,6 +73,7 @@ spec:
         - name: home-assistant-mysql
           image: mysql:8.0.28
           imagePullPolicy: Always
+          resources: {}
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -132,10 +133,12 @@ spec:
         - name: home-assistant
           image: homeassistant/home-assistant:2022.4
           imagePullPolicy: Always
+          resources: {}
           securityContext:
             privileged: true
           ports:
             - containerPort: 8123
+
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config
