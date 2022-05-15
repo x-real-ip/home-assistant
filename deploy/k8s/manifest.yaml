@@ -36,18 +36,23 @@ spec:
       storage: 15Gi
   volumeName: pvc-76c0c05c-0383-4557-b121-5d1612f317ca
 
-# ---
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: home-assistant-mysql-secrets
-#   namespace: home-automation
-#   labels:
-#     app: home-assistant
-# type: Opaque
-# data:
-#   mysql-username: <REDACTED>
-#   mysql-password: <REDACTED>
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: home-assistant-mysql-secrets
+  namespace: home-automation
+spec:
+  encryptedData:
+    mysql-password: AgBB1+myDfZHeclXKsUWIPJJ8Wa53C3EqBBdV+pKv6LsNYN7H/O24wH2HvRk4JzQ2N8zaOBLB3R3Pco6gqRaMOX0PlCyN487sgfCSLhrbYlvwGEqWnwRSeCh6OUFGy8oXhUZSGUOk6mAE/30G28GUvBvJI6+2XE1v4Gugah9Q639z9XelpTXE4qMXG/pjHXpoubhzlPqtp/DuuL97SV9usoiF+DpTedo7iwggwvz630Ckc5W73gTnVtJhQSdy6ESvZoMgSrbeKjjG4CwPdY3vC0aIcdzkvaPO8Wu1v4ihDBjwhCl8DVV+dMU9StqBI3GO6piMWgeOVRYDl6HOtfzhweQPMkF8qdWi339PJiWNAtH6zwd8qSnMhPpeJYIZa3t+SxWdZ9skoXCWBvP+6eKtIOaWW2GuzIsODK0IaEk2E+IRNUKJxVQGURM1W/C7vo7vSsBxC8ekDtwv/JlyoUOonPdXqwM6TIu8HUQxnFIhblahn7qgF+MSBLyZQ+wkvx4dHauPp5oYvsBeEh94axP5ABDRu6I5JFZjj0cp56ySG3QBhlk6xVbCjAqSDQL/gv3wxeWWb2VQIlfY+ttIa0n6mhsTtvAfE/Sl5tN4SW+SUvgX87oEAf3zcH+c+Hq5pVc3CkerH4rek9OqAPEWxlTY8jbQ+QJ4UDcL1f4pbP7M5E8elnXuBtU41Hb7ZvDlQVJN/BlUA2o/PXVuKvI7vPa8ojIrlmOqLtw
+    mysql-username: AgA+J9bRUk+pudCHs2BPdbQOsW0ud7fDv47CBLQfTGx8CuOoFlLtjb71WYc5uUSTd1shM9Kk/p9gJ6rikY+zYBwe+jFeKdRf+1Bcs0sJ1iIcYr3Cjh57hWp/PGYwcdsN2wN5RYFRAEZf//vj5PWCtUcOuOlVU/DOqMeltICORgKxKuJHw3DfbILJ4SytVQd8PpAGLqEdd23xX5frG1nSgocrYRY89H+YxVmRPOK4++tNwHigQMmJJY5maEadSYFelaukFSdphu+H0DFNcoKA7PiJslx+C8cTHSfM/XY/5TxBc/S0EAP5JQTGYDQGj37odLLqwWtsgg8jFYxJbKsIGbwvFnxlGIOf8ZEsDm1jnW2FxDruX1Y92vgyinftFH+WKD0kxacV543HiHLpEpglz3TUeHk6bR8I0Lqi65OCEPku65tqmRzbWXOMUQoIX3e7aCwNNQbi2+9rw0ccyuIxw+SMnwD9kzfkZNuIpzhzwW6f/aADUY0bzdcbdRO4tPo8CP4N3yQ3jHmNvI6Rc0gBUOk6BE0reNptKUcXW9GPvVnSagyOohcMFFOsol7CMhCObGDMKra8FaJ7wxhT4M7tQxdDoiYSanBUEuRrK50VAJ5CDUqT4cMroEKfCyDivGzXNhU8O6jFP8SlX79XJz03nFO2PchzfddqoZM3qf6imbyJmm6hT0igrGj17bdZIknJndPT+lzmdZveLw3Cu5mQQA==
+  template:
+    type: Opaque
+    metadata:
+      name: home-assistant-mysql-secrets
+      namespace: home-automation
+      labels:
+        app: home-assistant
 
 ---
 kind: Deployment
