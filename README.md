@@ -8,7 +8,7 @@
 
 ## Automations
 
-All automations are running in Node-RED [flows](https://github.com/theautomation/node-red/tree/main/data/flows)
+All my automations are running in Node-RED [flows](https://github.com/theautomation/node-red/tree/main/data/flows)
 
 ## Hardware
 
