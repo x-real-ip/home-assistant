@@ -45,3 +45,14 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 - WLED
 - Xioami Roborock S5
 - Xiaomi Mi Flower Care Plant Sensor
+
+## Folder Structure Conventions     
+
+    
+    ├── cicd   
+    │   ├── argocd             # GitOps Argo continuous delivery application yaml('s)
+    │   ├── tekton             # Tekton continuous intergration pipeline yaml('s)
+    ├── deploy                 
+    │   ├── k8s                # Kubernetes manifest yaml('s)
+    │   ├── docker             # Dockefile(s) to build container image(s)
+    ├── src                    # Application source code
