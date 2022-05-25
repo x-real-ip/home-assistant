@@ -27,7 +27,7 @@ spec:
           value: $(params.branch-name)
         - name: deleteExisting
           value: "true"
-    - name: yaml-lint-run
+    - name: linter
       taskRef:
         name: yaml-lint
       runAfter:
