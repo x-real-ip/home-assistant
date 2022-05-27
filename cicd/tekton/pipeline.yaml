@@ -1,5 +1,5 @@
-apiVersion: tekton.dev/v1beta1
 kind: Pipeline
+apiVersion: tekton.dev/v1beta1
 metadata:
   name: test-and-build-image
   namespace: devops
@@ -21,6 +21,24 @@ spec:
         - name: deleteExisting
           value: "true"
 
+    - name: check-prettier
+      taskRef:
+        name: prettier
+      runAfter:
+        - fetch-repo
+      workspaces:
+        - name: source
+          workspace: shared-data
+      params:
+        - name: args
+          value:
+            - --config
+            - ".prettierrc.yaml"
+            - --ignore-path
+            - "./.prettierignore.yaml"
+            - --check
+            - "./src/config/**/*.yaml"
+
     - name: linter
       taskRef:
         name: yaml-lint
@@ -33,30 +51,21 @@ spec:
         - name: args
           value: ["."]
 
-    - name: check-prettier
-      taskRef:
-        name: prettier
-      runAfter:
-        - fetch-repo
-      workspaces:
-        - name: source
-          workspace: shared-data
-      params:
-        - name: args
-          value:
-            - --check
-            - "./src/config/**/*.yaml"
-
-    # - name: cat-readme
-    #   runAfter: ["fetch-repo"] # Wait until the clone is done before reading the readme.
-    #   workspaces:
-    #     - name: source
-    #       workspace: shared-data
-    #   taskSpec:
-    #     workspaces:
-    #       - name: source
-    #     steps:
-    #       - image: zshusers/zsh:4.3.15
-    #         script: |
-    #           #!/usr/bin/env zsh
-    #           cat $(workspaces.source.path)/README.md
+---
+kind: PipelineRun
+apiVersion: tekton.dev/v1beta1
+metadata:
+  name: home-assistant-build
+  namespace: devops
+spec:
+  pipelineRef:
+    name: test-and-build-image
+  workspaces:
+    - name: shared-data
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
