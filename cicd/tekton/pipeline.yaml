@@ -4,13 +4,6 @@ metadata:
   name: test-and-build-image
   namespace: devops
 spec:
-  params:
-    - name: repo-url
-      type: string
-      description: The git repository URL to clone from.
-    - name: branch-name
-      type: string
-      description: The git branch to clone.
   workspaces:
     - name: shared-data
   tasks:
@@ -22,11 +15,12 @@ spec:
           workspace: shared-data
       params:
         - name: url
-          value: $(params.repo-url)
+          value: https://github.com/theautomation/home-assistant.git
         - name: revision
-          value: $(params.branch-name)
+          value: main
         - name: deleteExisting
           value: "true"
+
     - name: linter
       taskRef:
         name: yaml-lint
@@ -38,6 +32,20 @@ spec:
       params:
         - name: args
           value: ["."]
+
+    - name: check-prettier
+      taskRef:
+        name: prettier
+      runAfter:
+        - fetch-repo
+      workspaces:
+        - name: source
+          workspace: shared-data
+      params:
+        - name: args
+          value:
+            - --check
+            - "./src/config/**/*.yaml"
 
     # - name: cat-readme
     #   runAfter: ["fetch-repo"] # Wait until the clone is done before reading the readme.

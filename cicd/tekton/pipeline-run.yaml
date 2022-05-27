@@ -6,11 +6,6 @@ metadata:
 spec:
   pipelineRef:
     name: test-and-build-image
-  params:
-    - name: repo-url
-      value: https://github.com/theautomation/home-assistant.git
-    - name: branch-name
-      value: main
   workspaces:
     - name: shared-data
       volumeClaimTemplate:
