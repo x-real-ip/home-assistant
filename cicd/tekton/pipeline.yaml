@@ -21,7 +21,7 @@ spec:
         - name: deleteExisting
           value: "true"
 
-    - name: check-prettier
+    - name: check-code-style
       taskRef:
         name: prettier
       runAfter:
@@ -39,7 +39,7 @@ spec:
             - --check
             - "./src/config/**/*.yaml"
 
-    - name: linter
+    - name: check-yaml-style
       taskRef:
         name: yaml-lint
       runAfter:
@@ -50,6 +50,58 @@ spec:
       params:
         - name: args
           value: ["."]
+
+    - name: check-hass-config-latest
+      taskRef:
+        name: home-assistant
+      runAfter:
+        - fetch-repo
+      workspaces:
+        - name: home-assistant-code
+          workspace: shared-data
+      params:
+        - name: args
+          value:
+            - --script
+            - "check_config"
+            - --config
+            - "./src/config/"
+
+    - name: check-hass-config-dev
+      taskRef:
+        name: home-assistant
+      runAfter:
+        - fetch-repo
+      workspaces:
+        - name: home-assistant-code
+          workspace: shared-data
+      params:
+        - name: containerImage
+          value: "homeassistant/home-assistant:dev"
+        - name: args
+          value:
+            - --script
+            - "check_config"
+            - --config
+            - "./src/config/"
+
+    - name: check-hass-config-beta
+      taskRef:
+        name: home-assistant
+      runAfter:
+        - fetch-repo
+      workspaces:
+        - name: home-assistant-code
+          workspace: shared-data
+      params:
+        - name: containerImage
+          value: "homeassistant/home-assistant:beta"
+        - name: args
+          value:
+            - --script
+            - "check_config"
+            - --config
+            - "./src/config/"
 
 ---
 kind: PipelineRun
