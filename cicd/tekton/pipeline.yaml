@@ -55,7 +55,8 @@ spec:
       taskRef:
         name: home-assistant
       runAfter:
-        - fetch-repo
+        - check-code-style
+        - check-yaml-style
       workspaces:
         - name: home-assistant-code
           workspace: shared-data
@@ -71,7 +72,8 @@ spec:
       taskRef:
         name: home-assistant
       runAfter:
-        - fetch-repo
+        - check-code-style
+        - check-yaml-style
       workspaces:
         - name: home-assistant-code
           workspace: shared-data
@@ -89,7 +91,8 @@ spec:
       taskRef:
         name: home-assistant
       runAfter:
-        - fetch-repo
+        - check-code-style
+        - check-yaml-style
       workspaces:
         - name: home-assistant-code
           workspace: shared-data

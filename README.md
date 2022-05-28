@@ -36,14 +36,15 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 - Shelly Dimmer2
 - Shelly 1 Relay
 - Shelly Plug-S
-- Shelly I3
+- Shelly i3
 - Solar Edge Inverter
 - Tado Bridge
 - Tado Smart Thermostat
 - Tado Smart Radiator Thermostat
 - Tado Wireless Temperature Sensor
 - WLED
-- Xioami Roborock S5
+- Xioami Roborock S55
+- Xioami Roborock S6 Pure
 - Xiaomi Mi Flower Care Plant Sensor
 
 ## Folder Structure Conventions     
