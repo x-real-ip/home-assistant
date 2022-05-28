@@ -1,0 +1,3 @@
+FROM homeassistant/home-assistant:2022.5
+
+COPY ./src/config /config
