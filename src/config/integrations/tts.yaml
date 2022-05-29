@@ -5,4 +5,3 @@ tts:
     cache: true
     cache_dir: /tts
     time_memory: 300
-    base_url: !secret base_url_https

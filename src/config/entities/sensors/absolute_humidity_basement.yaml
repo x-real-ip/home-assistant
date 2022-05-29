@@ -1,6 +1,0 @@
----
-platform: thermal_comfort
-sensors:
-  basement:
-    temperature_sensor: sensor.basement_temperature
-    humidity_sensor: sensor.basement_humidity

@@ -1,6 +1,0 @@
----
-platform: thermal_comfort
-sensors:
-  master_bedroom:
-    temperature_sensor: sensor.master_bedroom_temperature
-    humidity_sensor: sensor.master_bedroom_humidity
