@@ -136,6 +136,7 @@ spec:
                       - k3s-worker-01
       securityContext:
         runAsUser: 1000
+        fsGroup: 1000
       containers:
         - name: home-assistant
           image: homeassistant/home-assistant:2022.5
