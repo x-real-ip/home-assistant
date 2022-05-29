@@ -12,8 +12,5 @@ src/config/home-assistant.log.1
 src/config/www/snapshots/*
 src/config/.shopping_list.json
 src/config/home-assistant.log.fault
-
 src/data/
-
 **/__pycache__
-src/config/google_assistant/google_service_account.json.example
