@@ -47,13 +47,25 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 - Xioami Roborock S6 Pure
 - Xiaomi Mi Flower Care Plant Sensor
 
-## Folder Structure Conventions     
+## Folder Structure Conventions
 
-    
-    ├── cicd   
-    │   ├── argocd             # GitOps Argo continuous delivery application yaml('s)
-    │   ├── tekton             # Tekton continuous intergration pipeline yaml('s)
     ├── deploy                 
     │   ├── k8s                # Kubernetes manifest yaml('s)
     │   ├── docker             # Dockefile(s) to build container image(s)
     ├── src                    # Application source code
+
+## MDNS
+
+To get MDNS working, install Avahi-daemon on the host where the pod is running on. 
+
+```bash
+sudo apt-get install avahi-daemon
+```
+
+Turn on the reflector. Go into `/etc/avahi/avahi-daemon.conf` and change the reflector section to:
+
+```
+ [reflector]
+ enable-reflector=yes
+ reflect-ipv=no
+```
