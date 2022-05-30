@@ -119,7 +119,7 @@ spec:
     matchLabels:
       app: home-assistant
   strategy:
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
