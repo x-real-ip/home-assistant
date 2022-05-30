@@ -134,6 +134,8 @@ spec:
                     operator: In
                     values:
                       - k3s-worker-01
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: home-assistant
           image: homeassistant/home-assistant:2022.5
@@ -143,7 +145,6 @@ spec:
             privileged: true
           ports:
             - containerPort: 8123
-
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config

@@ -1,0 +1,6 @@
+---
+platform: thermal_comfort
+sensors:
+  outdoor:
+    temperature_sensor: sensor.buienradar_temperature
+    humidity_sensor: sensor.buienradar_humidity
