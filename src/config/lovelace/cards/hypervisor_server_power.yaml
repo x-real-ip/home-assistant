@@ -1,5 +1,5 @@
 ---
 type: sensor
-entity: sensor.shellyplug_server_power
+entity: sensor.shellyplug_hypervisor_server_power
 graph: line
 detail: 2
