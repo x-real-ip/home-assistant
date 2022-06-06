@@ -185,7 +185,8 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: home-assistant
-          image: homeassistant/home-assistant:2022.5
+          # image: homeassistant/home-assistant:2022.5
+          image: docker-registry.devops.svc:5000/home-automation/home-assistant:latest
           imagePullPolicy: Always
           resources: {}
           securityContext:
