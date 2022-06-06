@@ -1,40 +1,87 @@
 ---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-home-assistant-db
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-home-assistant-db
+    volumeAttributes:
+      portal: storage-server.lan:3260
+      iqn: iqn.2005-10.org.freenas.ctl:home-assistant-db
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-home-assistant-config
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-home-assistant-config
+    volumeAttributes:
+      server: storage-server.lan
+      share: /mnt/r10_8tb/k8s/home-assistant-config/
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-iscsi-home-assistant-data
+  name: pvc-iscsi-home-assistant-db
   namespace: home-automation
-  labels:
-    app: home-assistant
   annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-csi"
+    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
 spec:
-  storageClassName: freenas-iscsi-csi
+  storageClassName: freenas-iscsi-manual-csi
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
-  volumeName: pvc-bc7cde7b-ce07-4ada-8a2e-b1c7f65b1109
+      storage: 10Gi
+  volumeName: pv-iscsi-home-assistant-db
 
 ---
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
   name: pvc-nfs-home-assistant-config
   namespace: home-automation
-  labels:
-    app: home-assistant
   annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-nfs-csi"
+    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
 spec:
-  storageClassName: ""
+  storageClassName: freenas-nfs-manual-csi
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 15Gi
-  volumeName: pvc-76c0c05c-0383-4557-b121-5d1612f317ca
+      storage: 20Gi
+  volumeName: pv-nfs-home-assistant-config
 
 ---
 kind: SealedSecret
@@ -98,12 +145,12 @@ spec:
             - name: MYSQL_DATABASE
               value: home-assistant
           volumeMounts:
-            - name: home-assistant-data
+            - name: home-assistant-db
               mountPath: /var/lib/mysql
       volumes:
-        - name: home-assistant-data
+        - name: home-assistant-db
           persistentVolumeClaim:
-            claimName: pvc-iscsi-home-assistant-data
+            claimName: pvc-iscsi-home-assistant-db
 
 ---
 kind: Deployment
