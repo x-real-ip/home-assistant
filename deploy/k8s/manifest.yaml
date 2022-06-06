@@ -186,7 +186,7 @@ spec:
       containers:
         - name: home-assistant
           # image: homeassistant/home-assistant:2022.5
-          image: http://docker-registry.k8s.lan/home-automation/home-assistant
+          image: "http://docker-registry.k8s.lan/home-automation/home-assistant"
           imagePullPolicy: Always
           resources: {}
           securityContext:
