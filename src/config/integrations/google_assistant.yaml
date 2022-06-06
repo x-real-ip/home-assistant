@@ -1,7 +1,0 @@
----
-google_assistant:
-  project_id: !secret google_client_id_google_assistant
-  service_account: !include ../google_assistant/google_service_account.json
-  report_state: true
-  expose_by_default: false
-  entity_config: !include_dir_merge_named ../google_assistant/entity_config/
