@@ -51,7 +51,7 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 
     ├── deploy                 
     │   ├── k8s                # Kubernetes manifest yaml('s)
-    │   ├── docker             # Dockefile(s) to build container image(s)
+    │   ├── container          # Containerfiles) to build container image(s)
     ├── src                    # Application source code
 
 ## mDNS
