@@ -186,7 +186,7 @@ spec:
       containers:
         - name: home-assistant
           # image: homeassistant/home-assistant:2022.5
-          image: "https://container-image-registry.theautomation.nl/home-automation/home-assistant"
+          image: "https://container-image-registry.theautomation.nl/home-automation/home-assistant:latest"
           imagePullPolicy: Always
           resources: {}
           securityContext:
