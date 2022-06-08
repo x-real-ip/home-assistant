@@ -180,7 +180,7 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - k3s-worker-01
+                      - k3s-master-01
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       containers:
