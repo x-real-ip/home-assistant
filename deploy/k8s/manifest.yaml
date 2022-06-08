@@ -221,20 +221,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: home-assistant
-  namespace: prd-ext
-  labels:
-    app: home-assistant
-spec:
-  type: ExternalName
-  externalName: home-assistant.home-automation.svc.cluster.local
-  ports:
-    - port: 80
-
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: home-assistant
   namespace: home-automation
   labels:
     app: home-assistant
@@ -247,6 +233,20 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8123
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: home-assistant
+  namespace: prd-ext
+  labels:
+    app: home-assistant
+spec:
+  type: ExternalName
+  externalName: home-assistant.home-automation.svc.cluster.local
+  ports:
+    - port: 80
 
 ---
 kind: Ingress
