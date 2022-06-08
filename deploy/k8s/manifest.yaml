@@ -185,7 +185,8 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: home-assistant
-          image: homeassistant/home-assistant:2022.5
+          # image: homeassistant/home-assistant:2022.5
+          image: "https://container-image-registry.theautomation.nl/home-automation/home-assistant"
           imagePullPolicy: Always
           resources: {}
           securityContext:
@@ -199,7 +200,8 @@ spec:
         - name: home-assistant-config
           persistentVolumeClaim:
             claimName: pvc-nfs-home-assistant-config
-
+      imagePullSecrets:
+        - name: container-image-registry-credentials
 ---
 kind: Service
 apiVersion: v1
