@@ -7,7 +7,7 @@ badges: []
 cards:
   - type: horizontal-stack
     cards:
-      - !include ../cards/guest_button.yaml
+      # - !include ../cards/guest_button.yaml
       - !include ../cards/home_security_button.yaml
       - !include ../cards/sleep_mode_button.yaml
   - !include ../cards/weather.yaml
