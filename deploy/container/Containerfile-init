@@ -1,5 +1,3 @@
 FROM ubuntu:22.10
 
-RUN apt-get install jq -y
-
-RUN curl -h
+RUN apt-get update && apt-get install -y curl jq
