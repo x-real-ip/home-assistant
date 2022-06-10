@@ -102,6 +102,18 @@ spec:
     mysql-username: AgBKfwM0TNyLu2CKvvyGYhf5ofPUcFO3mYxe9qFaEmRu13urC1pfHuPxzUThtZjkWryGdkyMaVyWdpMn5z9uBha37DL20uqCxLNVeexuLEePK0XIWnhRNdEfjI030JQRltg17RxLXpNCt8vI4TUY3hJSY6W0aR98e7Z9zl5IvfsTygCJUwb9szOf59wXrhIPddnnX3aNfTVFjCoJwg9KCtEp4lT2ecaZ5aOS7+XzWLhtjlX6CdmiBzgAT0Y1+6J/7rr6l5c3Kh5t++1gPuitC7/UxP+Z9zHIyEXDZDz50mbKoPF6hXcPdlbJc0WjOAD4f1IZM8J5G/X/Y+rIqHa3PM5zS9nbJMeFvS7tuIGAk4zEVoxI/ARFz7thJ0TWWrDMJDyfEGc5Y8wZDfi38W8ey7koSgtJPn23IHy+0//EQ3sK5yt1rnmjj9Aord7H3NxBlcaMIfyyKVJSXhm/uZWiCde5qOf4ctm/bboKBFFAQlC7bQyrv2teBpppS4LVTvIiyZ2v0giSUNVGJv6LJZeNhQ8OAZxf5clhw4uZETJKkx84VAUxuOrMXTtpsX7Y2A56gokyx2/MXmeQtMxpAY2wpt8OpRcLNDOAT8yIeQuBjJYOOAfCAvEYVYqZcvJdMyH9OcIjQlkTpnjHkgzwbHeeNOAAF0bxspeiiMikYDT7nRwM6aIIrFZsG1asWYyNWbOPZukZJPDtwwqatpgtwefleA==
 
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shelly-script
+  namespace: home-automation
+data:
+  shelly-script.sh: |
+    set -x
+    echo "Hello World from config script"
+    curl -h
+
+---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -172,17 +184,16 @@ spec:
       labels:
         app: home-assistant
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - k3s-master-01
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
+      initContainers:
+        - name: init-home-assistant
+          image: "stedolan/jq:latest"
+          command: ["sh", "-c", "/script/shelly-script.sh"]
+          volumeMounts:
+            - name: shelly-script
+              mountPath: /script/shelly-script.sh
+              subPath: shelly-script.sh
       containers:
         - name: home-assistant
           image: "container-image-registry.theautomation.nl/home-automation/home-assistant:latest"
@@ -199,8 +210,13 @@ spec:
         - name: home-assistant-config
           persistentVolumeClaim:
             claimName: pvc-nfs-home-assistant-config
+        - name: shelly-script
+          configMap:
+            name: shelly-script
+            defaultMode: 0777
       imagePullSecrets:
         - name: container-image-registry-credentials
+
 ---
 kind: Service
 apiVersion: v1
