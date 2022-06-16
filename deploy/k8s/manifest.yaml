@@ -45,7 +45,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server.lan
-      share: /mnt/r10_8tb/k8s/home-assistant-config/.storage/
+      share: /mnt/r10_8tb/k8s/home-assistant-config/config
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -258,10 +258,10 @@ spec:
               value: "1000"
           volumeMounts:
             - name: home-assistant-config
-              mountPath: /config/.storage
-              subPath: .storage
-            - name: secrets
               mountPath: /config
+              subPath: config
+            # - name: secrets
+            #   mountPath: /config
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
