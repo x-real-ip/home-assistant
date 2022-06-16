@@ -261,8 +261,7 @@ spec:
               mountPath: /config/.storage
               subPath: .storage
             - name: secrets
-              mountPath: /config/secrets.yaml
-              subPath: secrets.yaml
+              mountPath: /config
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
