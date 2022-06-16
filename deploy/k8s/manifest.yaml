@@ -175,10 +175,6 @@ metadata:
   labels:
     app: home-assistant
 spec:
-  securityContext:
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
   replicas: 1
   selector:
     matchLabels:
@@ -207,6 +203,9 @@ spec:
           resources: {}
           securityContext:
             privileged: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
           ports:
             - containerPort: 8123
           volumeMounts:
