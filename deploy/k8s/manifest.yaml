@@ -45,7 +45,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server.lan
-      share: /mnt/r10_8tb/k8s/home-assistant-config/
+      share: /mnt/r10_8tb/k8s/home-assistant-config/.storage
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -225,8 +225,6 @@ spec:
   selector:
     matchLabels:
       app: home-assistant
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -259,8 +257,8 @@ spec:
             - name: PGID
               value: "1000"
           volumeMounts:
-            - name: home-assistant-config
-              mountPath: /config
+            # - name: home-assistant-config
+            #   mountPath: /config
             - name: secrets
               mountPath: /config
       volumes:
