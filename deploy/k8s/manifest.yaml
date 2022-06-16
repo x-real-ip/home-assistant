@@ -259,7 +259,7 @@ spec:
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config
-              subPath: /config
+              subPath: config
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
