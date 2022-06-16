@@ -210,13 +210,13 @@ spec:
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config
-      env:
-        - name: TZ
-          value: Europe/Amsterdam
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "1000"
+          env:
+            - name: TZ
+              value: Europe/Amsterdam
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
