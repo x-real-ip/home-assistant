@@ -259,11 +259,10 @@ spec:
             - name: PGID
               value: "1000"
           volumeMounts:
-            # - name: home-assistant-config
-            #   mountPath: /config
+            - name: home-assistant-config
+              mountPath: /config
             - name: secrets
-              mountPath: /config/secrets.yaml
-              subPath: secrets.yaml
+              mountPath: /config
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
