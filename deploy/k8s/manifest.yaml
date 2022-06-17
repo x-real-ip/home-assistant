@@ -242,17 +242,18 @@ spec:
             - containerPort: 8123
           env:
             - name: TZ
-              value: Europe/Amsterdam
+              value: "Europe/Amsterdam"
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
           volumeMounts:
+            - name: home-assistant-config
+              mountPath: /config
+              subPath: config
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
-            - name: home-assistant-config
-              mountPath: /config
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
