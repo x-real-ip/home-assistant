@@ -23,8 +23,8 @@ spec:
       provisioner_driver: node-manual
 
 ---
-apiVersion: v1
 kind: PersistentVolume
+apiVersion: v1
 metadata:
   name: pv-nfs-home-assistant-config
 spec:
@@ -177,6 +177,8 @@ spec:
           image: mysql:8.0.28
           imagePullPolicy: Always
           resources: {}
+          ports:
+            - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -353,7 +355,7 @@ metadata:
 spec:
   ingressClassName: nginx-public
   rules:
-    - host: home-assistant.theautomation.nl
+    - host: "home-assistant.theautomation.nl"
       http:
         paths:
           - path: "/"
