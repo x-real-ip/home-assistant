@@ -120,24 +120,15 @@ spec:
   template:
     data:
       secrets.yaml: |-
-        # DATABASE URL
         db_url: mysql://{{ index . "mysql-username" }}:{{ index . "mysql-password" }}@home-assistant-mysql.home-automation.svc.cluster.local/home-assistant?charset=utf8mb4
-
-        # HOME
         home_zipcode: {{ index . "home_zipcode" }}
         home_number: {{ index . "home_number" }}
         home_city: {{ index . "home_city" }}
         home_latitude: {{ index . "home_latitude" }}
         home_longitude: {{ index . "home_longitude" }}
-
-        # VACUUM
         vacuum_token: 1234
-
-        # IP ADDRESSES
         docker-host: 192.168.1.240
         nvidia_shield_ip: 192.168.30.60
-
-        # PROXMOX
         proxmox_host: 192.168.1.2
         proxmox_username: root
         proxmox_password: {{ index . "proxmox_password" }}
