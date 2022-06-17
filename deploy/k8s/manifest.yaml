@@ -223,14 +223,14 @@ spec:
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
-      initContainers:
-        - name: init-home-assistant
-          image: "container-image-registry.theautomation.nl/home-automation/home-assistant-init:latest@sha256:4ac107cfb1e10a7eb9c72f91a8f85f39b282559d61cf3901c73002a145a94abc"
-          command: ["sh", "-c", "/script/shelly-script.sh"]
-          volumeMounts:
-            - name: shelly-script
-              mountPath: /script/shelly-script.sh
-              subPath: shelly-script.sh
+      # initContainers:
+      #   - name: init-home-assistant
+      #     image: "container-image-registry.theautomation.nl/home-automation/home-assistant-init:latest@sha256:4ac107cfb1e10a7eb9c72f91a8f85f39b282559d61cf3901c73002a145a94abc"
+      #     command: ["sh", "-c", "/script/shelly-script.sh"]
+      #     volumeMounts:
+      #       - name: shelly-script
+      #         mountPath: /script/shelly-script.sh
+      #         subPath: shelly-script.sh
       containers:
         - name: home-assistant
           image: "container-image-registry.theautomation.nl/home-automation/home-assistant:latest@sha256:91a21396abe49a7d707d0f5e60524b063f24767b7be8bb9b1dc4ec0a6ec23125"
@@ -248,11 +248,11 @@ spec:
             - name: PGID
               value: "1000"
           volumeMounts:
-            - name: home-assistant-config
-              mountPath: /config
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
+            - name: home-assistant-config
+              mountPath: /config
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
