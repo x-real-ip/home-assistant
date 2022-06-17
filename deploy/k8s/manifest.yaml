@@ -45,7 +45,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server.lan
-      share: /mnt/r10_8tb/k8s/home-assistant-config/
+      share: /mnt/r10_8tb/k8s/home-assistant-config/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -223,14 +223,14 @@ spec:
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
-      initContainers:
-        - name: init-home-assistant
-          image: "container-image-registry.theautomation.nl/home-automation/home-assistant-init:latest@sha256:8e85eb7f7eca9bfe413095db17d945ef9b193663bc4617608054a954e2442fba"
-          command: ["sh", "-c", "/script/shelly-script.sh"]
-          volumeMounts:
-            - name: shelly-script
-              mountPath: /script/shelly-script.sh
-              subPath: shelly-script.sh
+      # initContainers:
+      #   - name: init-home-assistant
+      #     image: "container-image-registry.theautomation.nl/home-automation/home-assistant-init:latest@sha256:8e85eb7f7eca9bfe413095db17d945ef9b193663bc4617608054a954e2442fba"
+      #     command: ["sh", "-c", "/script/shelly-script.sh"]
+      #     volumeMounts:
+      #       - name: shelly-script
+      #         mountPath: /script/shelly-script.sh
+      #         subPath: shelly-script.sh
       containers:
         - name: home-assistant
           image: "container-image-registry.theautomation.nl/home-automation/home-assistant:latest@sha256:abb8b5ce290362011199402d6ad80f98b937d640c67552444eb8ac69bb70281d"
@@ -248,8 +248,8 @@ spec:
             - name: PGID
               value: "1000"
           volumeMounts:
-            # - name: home-assistant-config
-            #   mountPath: /config
+            - name: home-assistant-config
+              mountPath: /config/.storage
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
