@@ -251,11 +251,11 @@ spec:
               value: "1000"
           livenessProbe:
             httpGet:
-              path: /
+              path: /manifest.json
               port: 8123
           readinessProbe:
             httpGet:
-              path: /
+              path: /manifest.json
               port: 8123
           volumeMounts:
             - name: home-assistant-config
