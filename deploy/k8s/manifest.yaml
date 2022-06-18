@@ -249,6 +249,14 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8123
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8123
           volumeMounts:
             - name: home-assistant-config
               mountPath: /config/.storage
