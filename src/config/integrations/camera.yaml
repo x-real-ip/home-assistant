@@ -1,0 +1,2 @@
+---
+camera: !include_dir_merge_named ../entities/cameras
