@@ -4,7 +4,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/home-assistant?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/home-assistant/main?logo=github)
 
-Application running in Kubernetes <img src="/assets/img/k8s.png" alt="K8s" style="height: 50px; width:50px;"/>
+Application running in Kubernetes <img src="[/assets/img/k8s.png](https://github.com/theautomation/kubernetes-gitops/blob/97af4cd2099dd96f5670dd7e54a8908fa9e74f3d/assets/img/k8s.png)" alt="K8s" style="height: 40px; width:40px;"/>
 
 [Home Assistant](https://www.home-assistant.io/): Free and open-source home automation software designed to be the central home automation control system for smart home technology.
 
