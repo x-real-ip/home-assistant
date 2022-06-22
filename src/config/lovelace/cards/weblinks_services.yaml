@@ -4,7 +4,7 @@ title: Services
 show_header_toggle: false
 entities:
   - type: weblink
-    url: https://proxmox-1:8006/
+    url: https://proxmox.lan:8006/
     icon: mdi:desktop-tower
     name: Proxmox-1
   - type: weblink
@@ -16,7 +16,7 @@ entities:
     icon: mdi:car-esp
     name: ESPHome
   - type: weblink
-    url: http://docker-host.lan:8096/
+    url: http://jellyfin.k8s.lan
     icon: mdi:movie-play
     name: Jellyfin
   - type: weblink
@@ -24,6 +24,6 @@ entities:
     icon: mdi:sitemap
     name: Node-RED
   - type: weblink
-    url: http://docker-host.lan:8001/
+    url: http://docker-host.lan:8800
     icon: mdi:text-box-search-outline
     name: Papermerge

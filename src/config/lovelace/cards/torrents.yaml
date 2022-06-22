@@ -8,23 +8,23 @@ cards:
     show_header_toggle: false
     entities:
       - type: weblink
-        url: http://docker-host.lan:9091/
+        url: http://transmission.k8s.lan/
         icon: mdi:download-box-outline
         name: Transmission
       - type: weblink
-        url: http://docker-host.lan:7878/
+        url: http://radarr.k8s.lan/
         icon: mdi:filmstrip
         name: Radarr
       - type: weblink
-        url: http://docker-host.lan:8989/
+        url: http://sonarr.k8s.lan/
         icon: mdi:filmstrip-box-multiple
         name: Sonarr
       - type: weblink
-        url: http://docker-host.lan:9117/
+        url: http://prowlarr.k8s.lan/
         icon: mdi:download-network
-        name: Jackett
+        name: Prowlarr
       - type: weblink
-        url: http://docker-host.lan:6767/
+        url: http://bazarr.k8s.lan/
         icon: mdi:text-short
         name: Bazarr
       - entity: sensor.transmission_active_torrents
