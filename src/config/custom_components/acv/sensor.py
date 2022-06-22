@@ -150,7 +150,7 @@ class WasteApiReader:
 
     def _find_unique_address_id(self):
         data = {
-            'postCode': self.postcode,
+            'postCode': self.postcode.replace(" ", "").upper(),
             'houseNumber': self.housenumber
         }
         response = self._do_post_request('FetchAdress', data)
