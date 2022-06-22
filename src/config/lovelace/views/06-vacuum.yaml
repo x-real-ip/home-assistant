@@ -5,5 +5,5 @@ path: vacuum
 type: masonry
 badges: []
 cards:
-  - !include ../cards/vacuum.yaml
+  - !include ../cards/vacuum_map.yaml
   - !include ../cards/vacuum_cleaned.yaml
