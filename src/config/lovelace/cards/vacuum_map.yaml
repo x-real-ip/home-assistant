@@ -1,8 +1,10 @@
 ---
 type: custom:xiaomi-vacuum-map-card
+title: Stofzuiger Begane grond
 preset_name: Live map S6
 entity: vacuum.roborock_vacuum_s6
 map_source:
   camera: camera.xiaomi_cloud_map_extractor
 calibration_source:
   camera: true
+two_finger_pan: true
