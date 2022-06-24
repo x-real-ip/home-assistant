@@ -152,7 +152,7 @@ metadata:
 data:
   shelly-script.sh: |
     ip_subnet="192.168.40"
-    ip_start="100"
+    ip_start="99"
     ip_end="140"
     ip=$(hostname -I | cut -d' ' -f1)
     for i in $(seq ${ip_start} ${ip_end}); do curl -v -m 2 "http://${ip_subnet}.${i}/settings?coiot_enable=true&coiot_peer=${ip}" 2>/dev/null && curl -v -m 2 "http://${ip_subnet}.${i}/reboot" 2>/dev/null; done
