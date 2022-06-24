@@ -232,7 +232,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:
         - name: init-home-assistant
-          image: "container-image-registry.theautomation.nl/home-automation/home-assistant-init:latest@sha256:78a0ba0c5c05230db5930dcb99d6fbeaee26d02390a9ba8878353650ebcf27e1"
+          image: "container-image-registry.theautomation.nl/home-automation/home-assistant-init:latest@sha256:b0c3152ffd63756b15ba01543e8bb8a22fbc2f51b86839eead60bb392a0a4287"
           command: ["sh", "-c", "/script/shelly-script.sh"]
           volumeMounts:
             - name: shelly-script
@@ -240,7 +240,7 @@ spec:
               subPath: shelly-script.sh
       containers:
         - name: home-assistant
-          image: "container-image-registry.theautomation.nl/home-automation/home-assistant:latest@sha256:596f47442ab07575ffc3be96a71501c1b5c1b082258fabe8845e7061ae6a234f"
+          image: "container-image-registry.theautomation.nl/home-automation/home-assistant:latest@sha256:f31b6aa43ed837f8c24ea8acf1c3f11101e6cafe454db333db833815f3d8d1d7"
           imagePullPolicy: Always
           resources: {}
           securityContext:
