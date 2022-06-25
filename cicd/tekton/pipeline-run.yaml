@@ -1,0 +1,22 @@
+---
+kind: PipelineRun
+apiVersion: tekton.dev/v1beta1
+metadata:
+  name: home-assistant
+  namespace: devops
+spec:
+  serviceAccountName: build-bot
+  pipelineRef:
+    name: home-assistant
+  workspaces:
+    - name: github-ssh
+      secret:
+        secretName: github-ssh
+    - name: shared-data
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
