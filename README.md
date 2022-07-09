@@ -50,10 +50,14 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 
 ## Folder Structure Conventions
 
+    ├── cicd                 
+    │   ├── argocd             # ArgoCD application that automates the deployment of the desired application states
+    │   ├── tekton             # Tekton CI pipeline 
     ├── deploy                 
     │   ├── k8s                # Kubernetes manifest yaml('s)
-    │   ├── container          # Containerfiles) to build container image(s)
-    ├── src                    # Application source code
+    │   ├── container          # Containerfiles to build container image(s)
+    ├── src                    
+    │   ├── ...                # Application source code
 
 ## mDNS
 
