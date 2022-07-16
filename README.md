@@ -14,7 +14,6 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 
 ## Hardware
 
-- test
 - 433 MHz Motion Sensor
 - 433 MHz TS34C Thermo- en hygrosensor
 - Aeotec Z-Wave Gen5 Stick 868.42 MHz

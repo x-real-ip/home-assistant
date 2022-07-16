@@ -6,6 +6,7 @@ metadata:
   namespace: devops
   annotations:
     notifications.argoproj.io/subscribe.slack: cicd
+    argocd.argoproj.io/manifest-generate-paths: /deploy
 spec:
   project: default
   source:
