@@ -5,3 +5,4 @@ recorder:
     domains:
       - automation
       - updater
+      - light
