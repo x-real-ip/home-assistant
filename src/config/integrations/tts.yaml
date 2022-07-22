@@ -4,4 +4,4 @@ tts:
     service_name: google_say
     cache: true
     cache_dir: /tts
-    time_memory: 300
+    time_memory: 57600
