@@ -10,7 +10,7 @@ Application running in Kubernetes <img src="https://github.com/theautomation/kub
 
 ## Automations
 
-All my automations are running in Node-RED [flows](https://github.com/theautomation/node-red/tree/main/data/flows)
+All my automations are running in Node-RED [flows](https://github.com/theautomation/node-red/blob/main/src/data/flows.json)
 
 ## Hardware
 
