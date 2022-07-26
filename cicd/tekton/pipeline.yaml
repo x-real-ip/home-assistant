@@ -208,7 +208,7 @@ spec:
         - name: GIT_SCRIPT
           value: |
             git add ./deploy/k8s/manifest.yaml
-            git commit -m "tekton set new image digest"
+            git commit -m "[Bot] Tekton set new image digest"
             git remote set-url origin git@github.com:theautomation/$(context.pipeline.name).git
             git push origin HEAD:main
 
