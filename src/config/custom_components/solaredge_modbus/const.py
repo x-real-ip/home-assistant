@@ -2,6 +2,7 @@ DOMAIN = "solaredge_modbus"
 DEFAULT_NAME = "solaredge"
 DEFAULT_SCAN_INTERVAL = 30
 DEFAULT_PORT = 1502
+DEFAULT_MODBUS_ADDRESS = 1
 DEFAULT_READ_METER1 = False
 DEFAULT_READ_METER2 = False
 DEFAULT_READ_METER3 = False
@@ -10,6 +11,7 @@ DEFAULT_READ_BATTERY2 = False
 CONF_SOLAREDGE_HUB = "solaredge_hub"
 ATTR_STATUS_DESCRIPTION = "status_description"
 ATTR_MANUFACTURER = "Solaredge"
+CONF_MODBUS_ADDRESS = "modbus_address"
 CONF_READ_METER1 = "read_meter_1"
 CONF_READ_METER2 = "read_meter_2"
 CONF_READ_METER3 = "read_meter_3"
@@ -283,6 +285,18 @@ BATTERY_STATUSSES = {
     10: "Sleep"
 }
 
+EXPORT_CONTROL_MODE = {
+    0: "Disabled",
+    1: "Direct Export Limitation",
+    2: "Indirect Export Limitation",
+    4: "Production Limitation"
+}
+
+EXPORT_CONTROL_LIMIT_MODE = {
+    0: "Total",
+    1: "Per phase"
+}
+
 STOREDGE_CONTROL_MODE = {
     0: "Disabled",
     1: "Maximize Self Consumption",
@@ -307,6 +321,15 @@ STOREDGE_CHARGE_DISCHARGE_MODE = {
     5: "Discharge to match load",
     7: "Maximize self consumption",
 }
+
+EXPORT_CONTROL_SELECT_TYPES = [
+    ["Export control mode", "export_control_mode", 0xE000, EXPORT_CONTROL_MODE],
+    ["Export control limit mode", "export_control_limit_mode", 0xE001, EXPORT_CONTROL_LIMIT_MODE],
+]
+
+EXPORT_CONTROL_NUMBER_TYPES = [
+    ["Export control site limit", "export_control_site_limit", 0xE002, "f", {"min": 0, "max": 10000, "unit": "W"}],
+]
 
 STORAGE_SELECT_TYPES = [
     ["Storage Control Mode", "storage_contol_mode", 0xE004, STOREDGE_CONTROL_MODE],

@@ -308,10 +308,13 @@ class PfSenseData:
         if "previous_state" in previous_state.keys():
             del previous_state["previous_state"]
 
-        self._state["system_info"] = self._get_system_info()
-        self._state["host_firmware_version"] = self._get_host_firmware_version()
+        # ensure clean state each interval
+        self._state = {}
         self._state["update_time"] = current_time
         self._state["previous_state"] = previous_state
+
+        self._state["system_info"] = self._get_system_info()
+        self._state["host_firmware_version"] = self._get_host_firmware_version()
 
         if "scope" in opts.keys() and opts["scope"] == "device_tracker":
             try:
@@ -638,6 +641,14 @@ class PfSenseEntity(CoordinatorEntity, RestoreEntity):
             client.restart_service_if_running(service_name)
         else:
             client.restart_service(service_name)
+
+    def service_reset_state_table(self):
+        client = self._get_pfsense_client()
+        client.reset_state_table()
+    
+    def service_kill_states(self, source: str, destination: str = None):
+        client = self._get_pfsense_client()
+        client.kill_states(source, destination)
 
     def service_system_halt(self):
         client = self._get_pfsense_client()
