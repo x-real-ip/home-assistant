@@ -86,6 +86,6 @@ Add hostnetwork en dnspolicy in K8s deployment
 
 Copy installed custom components from pod to local git repo directory
 ```console
-rm -r /home/coen/github/home-assistant/src/config/custom_components/* && \
-kubectl cp home-automation/<pod-name>:/config/custom_components /home/coen/github/home-assistant/src/config/custom_components
+rm -r /home/coen/github/home-assistant/src/config/custom_components/* \
+&& kubectl cp home-automation/<pod-name>:/config/custom_components /home/coen/github/home-assistant/src/config/custom_components
 ```
