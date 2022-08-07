@@ -1,13 +1,19 @@
 kind: Pipeline
 apiVersion: tekton.dev/v1beta1
 metadata:
-  name: home-assistant-pipeline
+  name: home-assistant
   namespace: devops
 spec:
+  params:
+    - name: gitrevision
+      default: main
+    - name: gitrepositoryurl
+    - name: gitrepositoryname
   workspaces:
     - name: shared-data
     - name: github-ssh
   tasks:
+
     - name: git-clone
       taskRef:
         name: git-clone
@@ -18,9 +24,9 @@ spec:
           workspace: github-ssh
       params:
         - name: url
-          value: https://github.com/theautomation/home-assistant.git
+          value: "$(params.gitrepositoryurl)"
         - name: revision
-          value: main
+          value: "$(params.gitrevision)"
         - name: deleteExisting
           value: "true"
 
@@ -66,7 +72,7 @@ spec:
           workspace: shared-data
       params:
         - name: IMAGE
-          value: container-image-registry.devops.svc:5000/home-automation/$(context.pipelineRun.name)-init:latest
+          value: container-image-registry.devops.svc:5000/home-automation/$(params.gitrepositoryname)-init:latest
         - name: DOCKERFILE
           value: ./deploy/container/Containerfile-init
         - name: PUSH_EXTRA_ARGS
@@ -87,7 +93,7 @@ spec:
           workspace: shared-data
       params:
         - name: IMAGE
-          value: container-image-registry.devops.svc:5000/home-automation/$(context.pipelineRun.name):latest
+          value: container-image-registry.devops.svc:5000/home-automation/$(params.gitrepositoryname):latest
         - name: DOCKERFILE
           value: ./deploy/container/Containerfile
         - name: PUSH_EXTRA_ARGS
@@ -109,7 +115,7 @@ spec:
         - name: IMAGE_REPO
           value: home-automation
         - name: IMAGE
-          value: $(context.pipelineRun.name)-init
+          value: $(params.gitrepositoryname)-init
         - name: IMAGE_DIGEST
           value: $(tasks.build-push-home-assistant-init-image.results.IMAGE_DIGEST)
 
@@ -125,7 +131,7 @@ spec:
         - name: IMAGE_REPO
           value: home-automation
         - name: IMAGE
-          value: $(context.pipelineRun.name)
+          value: $(params.gitrepositoryname)
         - name: IMAGE_DIGEST
           value: $(tasks.build-push-home-assistant-image.results.IMAGE_DIGEST)
 
@@ -208,8 +214,8 @@ spec:
         - name: GIT_SCRIPT
           value: |
             git add ./deploy/k8s/manifest.yaml
-            git commit -a -m "[Bot] Tekton set new image digest"
-            git remote set-url origin git@github.com:theautomation/$(context.pipeline.name).git
+            git commit -m "[Bot] Tekton set new image digest"
+            git remote set-url origin git@github.com:theautomation/$(params.gitrepositoryname).git
             git push origin HEAD:main
 
     - name: slack-message
@@ -221,4 +227,4 @@ spec:
         - name: token-secret
           value: token-secret
         - name: message
-          value: "Tekton had run $(context.pipelineRun.name) successfully"
+          value: "Tekton had run $(params.gitrepositoryname) successfully"
