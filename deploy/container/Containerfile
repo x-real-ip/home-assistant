@@ -1,3 +1,3 @@
-FROM homeassistant/home-assistant:2022.8.2
+FROM homeassistant/home-assistant:2022.8
 
 COPY ./src/config /config
