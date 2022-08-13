@@ -1,0 +1,10 @@
+---
+type: gauge
+entity: sensor.solaredge_modbus_ac_power
+needle: true
+min: 0
+max: 3680
+severity:
+  red: 0
+  yellow: 900
+  green: 1500
