@@ -12,7 +12,7 @@ cards:
       - !include ../cards/sleep_mode_button.yaml
   - !include ../cards/weather.yaml
   - !include ../cards/energy-distribution.yaml
-  - !include ../cards/solarenergy_production.yaml
+  - !include ../cards/solarenergy_currently_returned.yaml
   - !include ../cards/notifications.yaml
   - type: vertical-stack
     cards:
