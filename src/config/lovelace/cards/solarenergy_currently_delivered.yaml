@@ -1,6 +1,6 @@
 ---
 type: gauge
-entity: sensor.dsmr_reading_electricity_currently_returned
+entity: sensor.dsmr_reading_electricity_currently_delivered
 needle: true
 min: 0
 max: 3.680
