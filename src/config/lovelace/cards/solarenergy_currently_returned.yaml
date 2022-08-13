@@ -1,0 +1,10 @@
+---
+type: gauge
+entity: sensor.dsmr_reading_electricity_currently_returned
+needle: true
+min: 0
+max: 3680
+severity:
+  red: 0
+  yellow: 500
+  green: 1000
