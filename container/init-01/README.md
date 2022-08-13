@@ -1,0 +1,1 @@
+Init container that runs a bash script for updating Shelly devices.
