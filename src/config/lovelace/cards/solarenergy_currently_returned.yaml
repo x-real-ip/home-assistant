@@ -5,6 +5,6 @@ needle: true
 min: 0
 max: 3680
 severity:
-  red: 0
-  yellow: 500
-  green: 1000
+  red: 0.000
+  yellow: 0.500
+  green: 1.000
