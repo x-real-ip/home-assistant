@@ -1,10 +1,10 @@
 ---
 type: gauge
-entity: sensor.dsmr_reading_electricity_currently_returned
+entity: sensor.custom_energy
 needle: true
-min: 0
+min: -3.680
 max: 3.680
 severity:
-  red: 0
-  yellow: 0.500
+  red: -3.680
+  yellow: 0
   green: 1.000
