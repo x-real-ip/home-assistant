@@ -1,6 +1,6 @@
 ---
 type: gauge
-entity: sensor.custom_energy
+entity: sensor.energy_round
 needle: true
 min: -3.680
 max: 3.680
