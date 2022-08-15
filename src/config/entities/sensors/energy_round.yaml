@@ -1,6 +1,0 @@
----
-platform: template
-sensors:
-  energy_round:
-    value_template: "{{ (states.sensor.custom_energy.state | float) | round(3) }}"
-    unit_of_measurement: Kw

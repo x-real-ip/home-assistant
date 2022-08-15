@@ -1,6 +1,0 @@
----
-platform: thermal_comfort
-sensors:
-  living_room:
-    temperature_sensor: sensor.living_room_temperature
-    humidity_sensor: sensor.living_room_humidity
