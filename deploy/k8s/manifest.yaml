@@ -1,0 +1,382 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-iscsi-home-assistant-db
+spec:
+  storageClassName: "freenas-iscsi-manual-csi"
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: xfs
+    volumeHandle: pv-iscsi-home-assistant-db
+    volumeAttributes:
+      portal: storage-server.lan:3260
+      iqn: iqn.2005-10.org.freenas.ctl:home-assistant-db
+      lun: "0"
+      node_attach_driver: iscsi
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pv-nfs-home-assistant-config
+spec:
+  storageClassName: "freenas-nfs-manual-csi"
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4
+    - nolock
+    - noatime
+  csi:
+    driver: org.democratic-csi.node-manual
+    readOnly: false
+    fsType: nfs
+    volumeHandle: pv-nfs-home-assistant-config
+    volumeAttributes:
+      server: storage-server.lan
+      share: /mnt/r10_8tb/k8s/home-assistant-config/.storage/
+      node_attach_driver: nfs
+      provisioner_driver: node-manual
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-iscsi-home-assistant-db
+  namespace: home-automation
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
+spec:
+  storageClassName: freenas-iscsi-manual-csi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+  volumeName: pv-iscsi-home-assistant-db
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-nfs-home-assistant-config
+  namespace: home-automation
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "freenas-nfs-manual-csi"
+spec:
+  storageClassName: freenas-nfs-manual-csi
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: pv-nfs-home-assistant-config
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: home-assistant-mysql-secrets
+  namespace: home-automation
+spec:
+  template:
+    type: Opaque
+    metadata:
+      name: home-assistant-mysql-secrets
+      namespace: home-automation
+      labels:
+        app.kubernetes.io/name: home-assistant
+  encryptedData:
+    mysql-password: AgCNdkoIWe6CiRnK4F2ZVGTyslkqxtGibVTKEfiMrD5WepmqguVVAy0Afs+IAnf01Im3NcuzhfjhYKwjpCfwhzC3NFcHlgVgbUwbAY8vIlpQoUn3Gd4xdtkpNToiXLB3bdVyONymgJ8Mg2g3XbEUCfpMqTvc3tsk43NkzzXR+vVhVMSvbgC+NWcbQSg4a7Vim2JTiYmot1XPp35GD7+zjy6Lt0ZPpL1SWJZrkdccOf6Ptkhk1XaslV8Uy9dprL5LcwLW5ghNd/lraHCl/zOHpmdcqYHwm7D9UrEzQ0qyDCsbXJ+AGZ1XzO8LK3kiyWe5uWM0oMqtVo5DrK+5rpnorc6sR9wYHiYHWlXfZCV8+hEpt+GEHKQTp8/Vq4EYYY31Yrf/Ubq7QIBcb3eYjJ1nR4Y5U+HVV/ognwUHCr9MurG7Ti0twuYc9O0a7aT0azTGydL72giScEEf3DOBmPyPOMTBJouB+Uw9r6VKUbyL+JAUpnWQybRK/y3v6f6Raa+AcESS7wYa4bsisdz+bvGEgsQ5YNv3b/OvQ2H/odN6iMADeFnn8IjeUqtZXhLldXHNxLV3M6Jwqm1jyFpKXUQ/nKMlcvsFP0FX+Q2FMr5xtHgMcjSb5rgF7n29OJmne0IDr5T8J9Hw3ly1xEMH5Cq+1C6LMc6TzoKbTo6lvr51XvC/A9BtHIs+l1n3HxP9zB2Iyo+yy+wi+GYY0Idc65nuEoIcDbeGLFuA
+    mysql-username: AgBKfwM0TNyLu2CKvvyGYhf5ofPUcFO3mYxe9qFaEmRu13urC1pfHuPxzUThtZjkWryGdkyMaVyWdpMn5z9uBha37DL20uqCxLNVeexuLEePK0XIWnhRNdEfjI030JQRltg17RxLXpNCt8vI4TUY3hJSY6W0aR98e7Z9zl5IvfsTygCJUwb9szOf59wXrhIPddnnX3aNfTVFjCoJwg9KCtEp4lT2ecaZ5aOS7+XzWLhtjlX6CdmiBzgAT0Y1+6J/7rr6l5c3Kh5t++1gPuitC7/UxP+Z9zHIyEXDZDz50mbKoPF6hXcPdlbJc0WjOAD4f1IZM8J5G/X/Y+rIqHa3PM5zS9nbJMeFvS7tuIGAk4zEVoxI/ARFz7thJ0TWWrDMJDyfEGc5Y8wZDfi38W8ey7koSgtJPn23IHy+0//EQ3sK5yt1rnmjj9Aord7H3NxBlcaMIfyyKVJSXhm/uZWiCde5qOf4ctm/bboKBFFAQlC7bQyrv2teBpppS4LVTvIiyZ2v0giSUNVGJv6LJZeNhQ8OAZxf5clhw4uZETJKkx84VAUxuOrMXTtpsX7Y2A56gokyx2/MXmeQtMxpAY2wpt8OpRcLNDOAT8yIeQuBjJYOOAfCAvEYVYqZcvJdMyH9OcIjQlkTpnjHkgzwbHeeNOAAF0bxspeiiMikYDT7nRwM6aIIrFZsG1asWYyNWbOPZukZJPDtwwqatpgtwefleA==
+
+---
+kind: SealedSecret
+apiVersion: bitnami.com/v1alpha1
+metadata:
+  name: secrets
+  namespace: home-automation
+spec:
+  encryptedData:
+    home_city: AgB32fImBW+KQuWoucddExEyDa62N9lARUA7Rw5OIkBM9QAnAMbPc+SuegSSaZJHDUM5QhIUEDhVnZYEJYiBBzSl1AkGCvcG1MPkiIQT8VOwJF24NYbbXNnEFXAw7rj/e8q7pvxUudeb9MQuH6+Saeb8v6ArvYDHRAgiWb6b4TLrIx0/uBgzB19+w60r+MZjhDbL4w6vBdo34uR0voU80iLHV6c7v4//nsshdr032Q653ra/R0EIrBse7o+eJLT16SeGzs4eRwt/wnb+jvocSQVkQHoVk7KgwkoQfVZnxCPwPyEt9Ek/MobVCgzYLGUqCnHRLDwkc0nN000xrg1lauf0i5QIQ0vZUblCv+tVag2eFFidjapwoyWrXCouB5WeUldqUqOcnO9qSU3lMDSiajNfEJrdIbc3/biFeeYexkRFjzjF0zzpzok1Bgh7DgwTAjwsjERARL5wDFnym85jaKyEqkdKR/L/ydwjLf2CvnAwfZMVfyipJgT9DMXJ07c1VgMCL0JFlHXUXCIuOoG1cmv1a7uSMjB3/bbWR6wAANqAcBbGMBcWGafJ8LotAel2doXj3HH/qNaeSzU/PMisY24BYS8FN1GoewUzyZKehAAX5eWYAMxNRGa/cPPBbwvtqJ6DJx2OPfZVYuhZxUhpxn8T0dIahwZB0YupzeH5aUYYTd7F7rvgEm5rhPlNOwdGYi3JLLQ=
+    home_latitude: AgBFpZH5hpCDao6lqsfeU7ZIfOFmOFUstaQT4x4S8Z5HKRu48Lt7ewrProyoTRULPZHLKbdRv04EVLJgNK+yHSRkhhrLtKGEc7B3uvjh/JxrvgvoOrYBv8aystnF2H9tczl73lGU+JkHCGgTtzpfBtt6Gqh+12iQZmUo7yVySAAq6zwmmQa65YnEqT2ueh5o10j25YMzOXUdQE7hrSVLbOeJxXb04UcE8SwQQT7GUqo2b41a1G7MLayTOVZPWcTSLxoAecLSXMLEILUsiOCVw+1RlOokssCDLP6EX/uQNnNTWUywlmSSMLwXI0fRgcM73qqaTgOFZUux6KgDMdlCdleP6V3pJfCzq8TbYSCxvcyO4R00w+wByvKI9JTDsi6oOEMwRZm8ZS3XcxJYcibf1AGDxXUHylkHh1aHydbp9Jf+f954jINR5cwY+93VmcIpg7wUE+YiVIXsQSHS0AkzNsSPggH9wsGYZ7QCnGjcw+D5z3enCQDZB3117wIrxCLPszEQVZR6noZ5MJKSf/B8oPfFY8rg1b7acAvc5lE7ZcyE/XD6PZDCPQufRSqmMreP0FP9D99AsNtgk19fikQBhivZ7s9Eo0+J+UQh3abJujT9Kca6yNPk6bzh39UEEdeU3Ut+DYRNFaMb8BETuBHmVgWFl61xp1RFnvTNoYUr74T4u2yKmjJlu7KRK/izhl9pHBWiTHHtWIZnb50=
+    home_longitude: AgBNo0ehNX/w4NChavR1pipTijzj94kZyAODfZmwspYg7+F8sxHfmW4KUzfb60qbim2pPv3xs8GbDMDFu07oftI5wmJSbFIJAgt6r3B0QHr+TFIwb85UJSjYSoNPiTitaZcKEK+CR+KqE2Wtu/tgEvt8PSSahP8kIAUj0j3MYbpfR1oI+dbpj1Ig7SvJDrNV28eGPT6SJj9kIxLRbf0gcjeAVQyChQllfzpHu3qbSNfoM8SYBLZ1LV7dW4rRJBYRIYUgLO1qOeZ6MU5IBjBt0zDnDhNfobsTht3JMdjXVnEol9HoKVAOy0VsD2tx+IUFKocIeod6AYPnzEC/6qfZrdfQX7TILg5k/gAhmuaDJFteySQ9ADBAfcNN2xg3pt0DMgg7vhwnt3hf4kopjXTbzxVwzGkf0k7OXahpUAhPLoYoupYbkKfhNdQ5T8NDNzBdFytSWd4sl6so9sv9vFcjnde1QdWMxLKV93gtEbtTwjFNxex3SdPrSi8YJFRUU/nYmpWVp3X93TxysMEMh7ioTTe+1c72k+9n5yMcUcH6T+9Z4IbyxajeTFq7wkCCVFqcc9P88DOeyCstREz6OpZE1myqxjIGoQz/xitEqbcbGtn1jGyQ0ty9hp483GdM9exaHbjGO1U5niJgOZF2tC+YMZtJp2WMob/jyqTl6DrQbePZF5SjF4XFt5NqS+75HB7MKL2NcOIKiqFzkw==
+    home_number: AgAxZyXBIIadrL755AwXvsBeJqsMYAh/aon5Qv/D8QYxuPalaI8WvhSxR203A7BiGQ1emGF7LjAygTQ0UjA76OAe+MF68IoeZRODDpIwaKJXy4SWCkiCBzuYTUQEuoK+Z+CN53nduw/C3zk+q3kzQa36q4FXfyXD8DOwYae3EBsE+b7I63+URAJxv1ltk4wss6h4wx9/oav+usvfJkGMKTrU19rGiIeGNndYfRB5VRjZCd1mUssVQeAtkd+gpYqJlCZaFeK9QFSMzQAlAIs4qKgFmSyMAoehxD0ZbXIoz3FgdllETCt/DKsK24PRZLMhsOQobW1L4XC5bwVuhiSAv6nbGm042jTN902OLvWlFh/7vgOtEf+cPgYzJHac58VlDDi6HQhMZKVqErnoCL2VyaAzvWluOVRvMaBCbZTQxKA0OxZFoRhFnsy0TetgAH4jArvYHAofLkTwQceFQisHCZiIoqEIZ3UcVWZk21p1W7JHjMX2EMhkT+NYJ3L1SqcLk3ARRswpeeHIEfoQ3nzk16BfzDQYsCcLTe8c/kmlfsTHvXypo73cQeg/9kut0rxupYm2JXeZZOzfFLSPKHqdW2pXz2yUrKhxsBKZx/obVjQpJT7fLCNNeMAbMwSyu8yWibhXjjKIgkFHUy8uVGeNr22SaQ/Syq9lY1DDJGShB//KTevjqeyrKy2cfZzpVBlOGFRt
+    home_zipcode: AgBWK3vu6a3QXK/HcMcM99RBypTr08kwPHOGBUMBImz2ySCEcbT+vIzBIJOQPVFnRD0ouYRlEHEDrjoxUa0bEn39MG2AjFVDcZZ0DO967KCnnCoRqC16LSGpja3bf+A9Ts1exODHVPzbPdTPHqHenTxDyehaaN5/F+/6uWF+qGWhyzFUEswVypshaGka50OPe/c8l74kfRmk9F/8w229/BlTt35D4/VAdc9fFe84dSK5vh9f/J33aXQUwtRG7hlR1qPVXcXxRguqlP5dM61jq/9+0gGd6etlG2oJbdQotug2hAsOzl1YD4oNasDYgRQsyBpye9RyrSgxmTjZPddpC/GIHm1DRAGS9s/U8pymZQczlrrPrvZJSr8PnwSjkHLrQE5g0OpC3bX14cD6eYdF+P+gNdnVEDtNXVtH2XS5gy5UWzefljqeP8oyAfT6GWu/pUpDvsHoAAgiSWCBKJ5VDrUafNEI6e9sKTTt/zlG2dWmF2JgzA0YxfhTvpzAOftXXSWkjEttelvh0KWCAQCwXwfOS/HUdFhqHZW32WS/ca3IuEZBYtLDAzLqvdjht8P5m98wjXo7o9OfBv9dCB5QOVy4BJm0Oc3xSA9/5LDJRO15utisdEnvk/+7q9Q5dstebDL1zUi+A7RGNBdbzoWMFuOjhpnMxJywNaHGaY1XoXTPAJaeSjBs9ZXJ/DL45aMV7t1CWtyKAz0=
+    mysql-password: AgAK/MdC8Bnsqo3xNPT26CgE0TBtl6TY3QWV+z8Hvyk9VtxAF6EFnlBnNJ1fgAgiwX2xDHHhU8LIY70SfZuaIMe06I1sfnIdGhhPkDL4R7mSwD2Estrw7EQqBmph8Fp8gHgEs5HJT6ZumJ8Up0ibvgRUNoqOSITAzQ6wwrSS6ukniUD0wG7ulEVMaK8xv0mbHE7f8zluPdRSQRZNjgu6MXlUCcy9Yx9IGaoNVdLnB8yq0OpbCPh1Fa/2IWdOTmizgeywgb0RKBFuarN2zic0QhO7kJXwyWhPjUbX2cCzfUdMS3o3By+DT2XgggcjlvwQZv1d9RkToZXeeOyziKzYIqOHwWhIK+CNnpH+VutqV4ujojMl7OHQqRHwbkkpNIdLnhkA4s7JoLhooCJWdOWhamK/P0taxOY+gExyPHBoidO4jaaCpLv5VE0bk5XPpIO0EDfempPecUqhNioUD6NgZXr4iSMRiIFTF/WZngTPQtXn+7K9G+vf5dJS8YTQCXbuA16uhemG7f3kAWc1fdhd6I5FRtbdS2YeQKcE1Fn6sRd8z5t9aA1hGILmhnx9953nvi+ynf7YeYH2orYxxwrAhskn8eDM6MD/IfIsY5myzsrBzcnp+mBI8ldD9TOof/Omjmd8ukND8Ag+oTXDdlQBP5ay/8tVVKxhVdIRK8g6UfK0ZncdVtKryKxgBMW58gT84/J+AoShnBsojJxs2p4UClYOwFbuLaep
+    mysql-username: AgBfzU112hY+kA/320q1htZch0/ZHnlVgS0zjDYwFK/qEMX/BQtuAw6sIjeEZLf5XHSMOxNnQ7ffuepyI3oSzChXu+F/DVo6TjIJgm7vSGzyvD5+WnAb4/Z/3CMMY+9GpX+Qp8MRKx758bkieiqzvL7tTwSN7pwxwuabd9xpF+ylht+Dtc7tUXBSidf68mEyNlPRuzcyS2wjIaNxAHfDEQ39xCfOMB14dWUfDi0e8Ws48aUjTIUBIGY8x/JhJwEkCYLMKZiV8qd/UzHrZ33QKJAt6FjSXqiRF+QyXeHNlStIU2N8Dqy/JbniUZPqsbZAc/W29YdwRruuHEgOjQ/zE55xhxkssFw1CRnLOMVcmJ0Alheo+T+j5tfZ+ErqUDmJGNrB47XZMwHpGsIkzrZutODDO4BRzflnfdWpYvnClfMJ5vp2reQe4gr902ovAVcA7JLJlecKndBON6mp7Vi6tsKgK50fDx00Nr2Rd3TCgz8QpNnCxsaoddLPyQbEjlgx37BWJPmDFTROI1nJLjc5a6KRXH5A2x97GYKok16nRHEXqwUFH7uJQUYi8m1JOUxsThzC2Do4ZjmlXWIhn8JVwj3o2zNbAAaEdrG5O6RrmYLL0fs2lgiVCeJEbqSCDkEmoQ06Rv+9E1tCRcl3h8g8S5ZmvknI1OpMu5F8q/35S7DWIYCoMqwQxyBVg+aQ9PViBQfwSenNmSPgiF/1JdGmQQ==
+    proxmox_password: AgBNfVZmCoDGDHUe2WgUE/e91c8q4dZazjp73uGRDuBykeEJ4PyBU3syoOFanFjiXixLs4PDZs/U9rSoRZv1cAUIdOJtiCQaR9x42hg6ySDZtmhGcNmxXE0JhCHn1pE1IWCvjpSdPfjo72GHC76QisxLVfCK06npeC78IDmuR6Mrm1slzUaCVllevxexx0vsAgi04Cri/vLJwNcWU/kL/89y/KYt7BCQpNTVg5ba2JqdJSoFt3A6yepMkuBEhIAMojStwpkO2EJBxqfN7FSa2JfsHhObEDyrjywr61N+55Y1ev+Xf/4Q9vTiSmZrKfZ5BmSRb4D01BmL4wTgGjNtC5JFh8TISLIff2OWFMXlO1xFwBuRLLOXs9WGbqCTQ4/JCFwXsTkM8dWhNn0H2V+DuG3pzERJGpKdkNn3hDs92bf5ck/Bs7aZv3NNJOf+qOpc/rndsUOw4x91CP0IfmBrgWr1JQhODD4Eh4uuto7WgAM4Xt0CN4DGQSwG8EO5dr9+BiAbpu28PKC4kTG3udi3K8NKzjBiAUxi//c99Cm81lmB5yGNhIm1f73aim9uFd7c8jZ7TJl71LR9KzGXpWE6YOxUHEVcIghGT8RxifuKYdtkOjVXh8VnWhRbHSKPvRCVQruc+3nTqCaO9Q+TKrUaPRvF1KB1cx6wJvZVlQUI4lbSQeuLXTLdXNwNZF754uWXY0q70nXwAIoBWg==
+    xiaomi_cloud_password: AgA+WTXg1/FiudIGihWdSle680B5mhndJ+j/WES1k4wN9Y7DYPtqq1Ck+HEMwT9SCRa+y+326+DLEx+kpK/seE1YU/knfVIPewLr/djSLvfYzkcVD2ZVhXxp7LsIRdAW3YsjH+7h2Dktbe5YYehBoHHWMN6fsR+c0YaSQlmB4cAWfrXIYNLl5eXwdNY3RBVx2IsTGPG1q5QUUihlQqSj9mZlP4LiGzH7dgAhkmPm37chs5zrSHtm54m5tTC2qe6MAFQfX7pFbz84jKVj12as5ufRwhPm/GZeAcsnVDKWVC/SJz+Sr0xjKKP5mVtySZmrwx1S3GF1hNlhuNEQq4XIEhoLpQU9U6hVvasfQOrdLDnx3Qwlk7DkVgiYc7wZrWXDTFCEbhsYPZq1H0l2GKhqlirINUK6lfn9gonfNCZqddfEEbA79Gj2vLlb/W4pE+mCxEisA6pstZu3nD5kyrvQGRCEeFXpBcQqOKjqGfeWlq4A8qZ/aIvAW5YofiX4dKBk2KBhQlJrfwQstCjv9432/psfU372thlrNllRMVA210eXNGFmzzkc+lmj9crdJCi1tqGhhX4YIZCQwGOOscN/uaXCCjer9BoYBzwX31JkVMGvMyqizykybRnOpvtxO+zk4VAgvyIakKwIcorrlzeNRqzW2mtVW73sG7UZP3xTMCkMwcT62EQQCu/wGEqHDw3lx3wSSCQsksoQVN8FFq6YQm3i
+    xiaomi_cloud_username: AgAgzhMDzFEY4xWJxnMrK6U3pt9hq/N7r69lgNO+S2W04D38uIm37qQzlU7Vn96005TyErDisCrX7azfJBSDFHbIXZWIB4NVcnl6Oe7zjw1e9XpYKgXMgwRI2GM5I9EpfCA+bXfVvBWT5UOGABV801vUHejBKEk4IlR4g+7rsiOt+dSGxMn0+Av5JYPPrJGZZVXJbLCe7sbe6jqxD+UmzhYLlqJ23rz/YVOaJZQmYuekuQHd2PjoXBmbyzEMWrR0VFjEkylCcCZjSjpTvJ+F74VRewuIgHUa/E9mNM7kksrftxfNv4Hgas3U0GLVmJTiqqGCi+vPFIzk7xi2syc0jmtYpyaEV0s1i0vzIgPQImQFJe9Ajme9YAeGX/UrBKE8e+iMQiOJMKXGTTTR8EEaF0hg/i5rqxtXAnBDAtCfMA9CrCy1CTspWBjYsYOo8A4zv3s6OFhkBA7yQn7sRWMSRLlDCJTQ6AxN2y97tULJyLasiTTUGBxs9iZaRYdDKDS2zj9ufMqwEfD9CMPLvWyF8mz97JFVNxiGcWQ+1hk5jQsD700Kc29AuLQym7izCVmvdF3GdbZB41GyoZZoJyIuT0NC/7Go4st7NkY3OznUC6H4kF4WZNKEp5BbxuJhgs6wMNRnVNjajZPQTl6LvvFho2zC2LJYCggS2wB4hGytlL/NlM2AXnwUvZQqzhE3ndl50aQ9uIteQ0UTt7Q1XnrZIVvq
+    xiaomi_vacuum_s6_token: AgBsQ3tXCX8kK8wGg8x42scIhHKg5Ux5PxEDgFb274aMnFdNA2ezb8Nx5l1q/nLqhILZ09KAWYKyf3uAYjOU9YO4izw4qEjhR9JTsAaQ1AoQ7OxZICKX2JIrJQH8UXdjJj3/o5XUTdKmAO1t/TcZXwZcdOWxE56bwzcBTZoj3ue6b8jXN57h0oLEA1WlKmUgB53nBz/3y4CrLZpWE6HWeOiv8MbCx58Lu85tR1hJGe/igABf2ZrJFBzqzNu24b2dZvFVNYV2sfw2Ic7KZXgHQDlZPJD5t+eBLAosmgBp9Bznmgmo4yYJA0ab5DLamzUYzX73NLIdTuPgzlI1er2K2KRFTBiK+VsyigJewiPSxiszlej6VP0M2X0K8XbokwiWOqKY08LjQmu5Kh3ZXdmOO/WlOjHKfdOt1qytEPfm7Wigwg9fUwHoFpgtZIIK3HVyXtcJ9eVJSiv5hx3fDwu4SZ3ZYJjIJ39cbuAv0Rg3JY6ymhGegAmEITCGgVNL6YwkG3P4AodM0uVftElumk9gjh5Q+ff1uQkjEDAPUceD38aUzaqGX8VJm2x2zbBSiGjVrilS7x+PPtk8ogtZfIXPo4enLC4oKQp3BDiB/LrasRVsDxqgbxYWo9ki3ehaHIDW2jilYGl5pglnAgBUsNG8r27/rZ6Vdtjrb2EpbSSXgzGyPGUhq9cvxrCNN2p5T9juDRJJvpdXuMAxRZz7fg+IhDTc2qvtzjZHO9zZcXjKvCAVaA==
+  template:
+    data:
+      secrets.yaml: |-
+        db_url: mysql://{{ index . "mysql-username" }}:{{ index . "mysql-password" }}@home-assistant-mysql.home-automation.svc.cluster.local/home-assistant?charset=utf8mb4
+        home_zipcode: {{ index . "home_zipcode" }}
+        home_number: {{ index . "home_number" }}
+        home_city: {{ index . "home_city" }}
+        home_latitude: {{ index . "home_latitude" }}
+        home_longitude: {{ index . "home_longitude" }}
+        nvidia_shield_ip: 192.168.30.60
+        proxmox_host: 192.168.1.2
+        proxmox_username: root
+        proxmox_password: {{ index . "proxmox_password" }}
+        xiaomi_cloud_password: {{ index . "xiaomi_cloud_password" }}
+        xiaomi_cloud_username: {{ index . "xiaomi_cloud_username" }}
+        xiaomi_vacuum_s6_token: {{ index . "xiaomi_vacuum_s6_token" }}
+    metadata:
+      labels:
+        app.kubernetes.io/name: home-assistant
+      name: secrets
+      namespace: home-automation
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: shelly-script
+  namespace: home-automation
+data:
+  shelly-script.sh: |
+    ip_subnet="192.168.40"
+    ip_start="99"
+    ip_end="140"
+    ip=$(hostname -I | cut -d' ' -f1)
+    for i in $(seq ${ip_start} ${ip_end}); do curl -v -m 2 "http://${ip_subnet}.${i}/settings?coiot_enable=true&coiot_peer=${ip}" 2>/dev/null && curl -v -m 2 "http://${ip_subnet}.${i}/reboot" 2>/dev/null; done
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: home-assistant-mysql
+  namespace: home-automation
+  labels:
+    app: home-assistant
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: home-assistant-mysql
+  template:
+    metadata:
+      labels:
+        app: home-assistant-mysql
+    spec:
+      containers:
+        - name: home-assistant-mysql
+          image: mysql:8.0.28
+          resources: {}
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-mysql-secrets
+                  key: mysql-password
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-mysql-secrets
+                  key: mysql-username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: home-assistant-mysql-secrets
+                  key: mysql-password
+            - name: MYSQL_DATABASE
+              value: home-assistant
+          volumeMounts:
+            - name: home-assistant-db
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: home-assistant-db
+          persistentVolumeClaim:
+            claimName: pvc-iscsi-home-assistant-db
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: home-assistant
+  namespace: home-automation
+  labels:
+    app: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-assistant
+  template:
+    metadata:
+      labels:
+        app: home-assistant
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      initContainers:
+        - name: init-home-assistant
+          image: "container-image-registry.theautomation.nl/home-automation/home-assistant-init:latest@sha256:c4fadd0c84a51e21d90642365f474d9e225c7536ce2a4d4e386bb22d1578d69d"
+          command: ["sh", "-c", "/script/shelly-script.sh"]
+          volumeMounts:
+            - name: shelly-script
+              mountPath: /script/shelly-script.sh
+              subPath: shelly-script.sh
+      containers:
+        - name: home-assistant
+          image: "container-image-registry.theautomation.nl/home-automation/home-assistant:latest@sha256:cb5a9b3b67b713f2209bb36dccaf698dd7322d956d63ba4a046d78337bdca4a5"
+          imagePullPolicy: Always
+          resources: {}
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: 8123
+          env:
+            - name: TZ
+              value: "Europe/Amsterdam"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          livenessProbe:
+            httpGet:
+              path: /manifest.json
+              port: 8123
+          readinessProbe:
+            httpGet:
+              path: /manifest.json
+              port: 8123
+          volumeMounts:
+            - name: home-assistant-config
+              mountPath: /config/.storage
+            - name: secrets
+              mountPath: /config/secrets.yaml
+              subPath: secrets.yaml
+      volumes:
+        - name: home-assistant-config
+          persistentVolumeClaim:
+            claimName: pvc-nfs-home-assistant-config
+        - name: shelly-script
+          configMap:
+            name: shelly-script
+            defaultMode: 0777
+        - name: secrets
+          secret:
+            secretName: secrets
+      imagePullSecrets:
+        - name: container-image-registry-credentials
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: home-assistant-mysql
+  namespace: home-automation
+  labels:
+    app: home-assistant
+spec:
+  selector:
+    app: home-assistant-mysql
+  type: ClusterIP
+  ports:
+    - port: 3306
+      protocol: TCP
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: home-assistant
+  namespace: home-automation
+  labels:
+    app: home-assistant
+spec:
+  selector:
+    app: home-assistant
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8123
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: home-assistant
+  namespace: prd-ext
+  labels:
+    app: home-assistant
+spec:
+  type: ExternalName
+  externalName: home-assistant.home-automation.svc.cluster.local
+  ports:
+    - port: 80
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: home-assistant
+  namespace: home-automation
+  labels:
+    app: home-assistant
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: home-assistant.k8s.lan
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: home-assistant
+                port:
+                  number: 80
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: home-assistant
+  namespace: prd-ext
+  labels:
+    app: home-assistant
+  annotations:
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: "home-assistant.theautomation.nl"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: home-assistant
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - home-assistant.theautomation.nl
+      secretName: cloudflare-tls
