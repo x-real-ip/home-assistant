@@ -1,4 +1,0 @@
----
-sensor.shellyplug_hypervisor_server_power:
-  friendly_name: Hypervisor server
-  icon: mdi:lightning-bolt-circle

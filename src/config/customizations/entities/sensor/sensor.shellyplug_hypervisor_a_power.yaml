@@ -1,0 +1,4 @@
+---
+sensor.shellyplug_hypervisor_a_power:
+  friendly_name: Hypervisor-a
+  icon: mdi:lightning-bolt-circle
