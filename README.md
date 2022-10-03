@@ -1,5 +1,6 @@
 # Home Assistant
 
+[![Build Status](https://drone.theautomation.nl/api/badges/theautomation/home-assistant/status.svg)](https://drone.theautomation.nl/theautomation/home-assistant)
 ![GitHub repo size](https://img.shields.io/github/repo-size/theautomation/home-assistant-code?logo=Github)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/home-assistant-code?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/home-assistant-code/main?logo=github)
