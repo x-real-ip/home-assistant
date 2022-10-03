@@ -323,7 +323,7 @@ metadata:
   labels:
     app: home-assistant
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx-private
   rules:
@@ -337,6 +337,10 @@ spec:
                 name: home-assistant
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - home-assistant.k8s.lan
+      secretName: tls-wildcard-k8s-lan
 
 ---
 kind: Ingress
@@ -348,7 +352,7 @@ metadata:
     app: home-assistant
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx-public
   rules:
