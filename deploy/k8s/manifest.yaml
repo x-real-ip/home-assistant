@@ -231,7 +231,7 @@ spec:
               subPath: shelly-script.sh
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/library/home-assistant:3"
+          image: "harbor.k8s.lan/library/home-assistant:5"
           imagePullPolicy: Always
           resources: {}
           securityContext:
