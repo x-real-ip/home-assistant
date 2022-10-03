@@ -1,3 +1,4 @@
 src/config/custom_components/
+src/config/custom_components
 *.html
 src/config/google_assistant/google_service_account.json
