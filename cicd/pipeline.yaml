@@ -59,7 +59,7 @@ steps:
         $${REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
-  - name: init-01 update kubernetes manifest
+  - name: init-01-update kubernetes manifest
     image: alpine:latest
     environment:
       PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/library"
@@ -71,7 +71,7 @@ steps:
         && chmod +x /usr/bin/yq
       - |
         application="init-01-$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
-        yq -i '(.spec | select(.template.spec.containers[]).template.spec.containers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
+        yq -i '(.spec | select(.template.spec.initContainers[]).template.spec.initContainers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
       - cat ./deploy/k8s/manifest.yaml
 
   - name: build and push image
@@ -122,7 +122,7 @@ steps:
         && chmod +x /usr/bin/yq
       - |
         application="$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
-        yq -i '(.spec | select(.template.spec.initContainers[]).template.spec.initContainers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
+        yq -i '(.spec | select(.template.spec.containers[]).template.spec.containers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
       - cat ./deploy/k8s/manifest.yaml
 
   - name: push kubernetes manifest
