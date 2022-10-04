@@ -148,7 +148,7 @@ data:
     ip_end="140"
     ip=$(hostname -I | cut -d' ' -f1)
     for i in $(seq ${ip_start} ${ip_end}); do curl -v -m 2 "http://${ip_subnet}.${i}/settings?coiot_enable=true&coiot_peer=${ip}" 2>/dev/null && curl -v -m 2 "http://${ip_subnet}.${i}/reboot" 2>/dev/null; done
-
+spec: {}
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -222,7 +222,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:
         - name: init-01-home-assistant
-          image: "harbor.k8s.lan/library/init-01-home-assistant:8"
+          image: "harbor.k8s.lan/library/init-01-home-assistant:11"
           command: ["sh", "-c", "/script/shelly-script.sh"]
           volumeMounts:
             - name: shelly-script
@@ -230,7 +230,7 @@ spec:
               subPath: shelly-script.sh
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/library/home-assistant:8"
+          image: "harbor.k8s.lan/library/home-assistant:11"
           imagePullPolicy: Always
           resources: {}
           securityContext:
