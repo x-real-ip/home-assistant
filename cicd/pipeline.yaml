@@ -59,7 +59,7 @@ steps:
         $${REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
-  - name: init-01-update kubernetes manifest
+  - name: init-01 update kubernetes manifest
     image: alpine:latest
     environment:
       PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/library"
@@ -74,7 +74,7 @@ steps:
         yq -i '(.spec | select(.template.spec.initContainers[]).template.spec.initContainers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
       - cat ./deploy/k8s/manifest.yaml
 
-  - name: build and push image
+  - name: main build and push image
     image: quay.io/buildah/stable
     privileged: true
     environment:
@@ -110,7 +110,7 @@ steps:
         $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
-  - name: update kubernetes manifest
+  - name: main update kubernetes manifest
     image: alpine:latest
     environment:
       PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/library"
