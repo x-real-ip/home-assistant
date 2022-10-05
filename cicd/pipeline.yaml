@@ -59,21 +59,6 @@ steps:
         $${REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
-  - name: init-01 update kubernetes manifest
-    image: alpine:latest
-    environment:
-      PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/library"
-      YQ_VERSION: "v4.27.5"
-    commands:
-      - |
-        wget https://github.com/mikefarah/yq/releases/download/$${YQ_VERSION}/yq_linux_amd64 \
-        -O /usr/bin/yq \
-        && chmod +x /usr/bin/yq
-      - |
-        application="init-01-$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
-        yq -i '(.spec | select(.template.spec.initContainers[]).template.spec.initContainers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
-      - cat ./deploy/k8s/manifest.yaml
-
   - name: main build and push image
     image: quay.io/buildah/stable
     privileged: true
@@ -110,7 +95,15 @@ steps:
         $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
-  - name: main update kubernetes manifest
+---
+kind: pipeline
+type: kubernetes
+name: upgrade
+
+depends_on:
+  - publish
+
+  - name: upgrade kubernetes manifest
     image: alpine:latest
     environment:
       PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/library"
@@ -120,6 +113,9 @@ steps:
         wget https://github.com/mikefarah/yq/releases/download/$${YQ_VERSION}/yq_linux_amd64 \
         -O /usr/bin/yq \
         && chmod +x /usr/bin/yq
+      - |
+        application="init-01-$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
+        yq -i '(.spec | select(.template.spec.initContainers[]).template.spec.initContainers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
       - |
         application="$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
         yq -i '(.spec | select(.template.spec.containers[]).template.spec.containers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
