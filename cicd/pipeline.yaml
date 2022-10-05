@@ -103,6 +103,7 @@ name: upgrade
 depends_on:
   - publish
 
+steps:
   - name: upgrade kubernetes manifest
     image: alpine:latest
     environment:
