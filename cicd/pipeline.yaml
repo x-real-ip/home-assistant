@@ -17,7 +17,7 @@ steps:
 ---
 kind: pipeline
 type: kubernetes
-name: publish
+name: build
 
 depends_on:
   - validate
