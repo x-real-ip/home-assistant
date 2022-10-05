@@ -101,7 +101,7 @@ type: kubernetes
 name: upgrade
 
 depends_on:
-  - publish
+  - build
 
 steps:
   - name: upgrade kubernetes manifest
