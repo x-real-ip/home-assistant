@@ -16,7 +16,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-home-assistant-db
     volumeAttributes:
-      portal: storage-server.lan:3260
+      portal: storage-server-lagg.lan:3260
       iqn: iqn.2005-10.org.freenas.ctl:home-assistant-db
       lun: "0"
       node_attach_driver: iscsi
@@ -43,7 +43,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
-      server: storage-server.lan
+      server: storage-server-lagg.lan
       share: /mnt/r10_8tb/k8s/home-assistant-config/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -149,7 +149,7 @@ data:
     ip_end="130"
     ip=$(hostname -I | cut -d' ' -f1)
     for i in $(seq ${ip_start} ${ip_end}); do curl -m 2 "http://${ip_subnet}.${i}/settings?coiot_enable=true&coiot_peer=${ip}" 2>/dev/null | jq && curl -m 2 "http://${ip_subnet}.${i}/reboot" 2>/dev/null | jq; done
-spec: {}
+
 ---
 kind: Deployment
 apiVersion: apps/v1
