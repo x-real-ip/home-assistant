@@ -3,10 +3,12 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: pv-iscsi-home-assistant-db
+  labels:
+    app: home-assistant-postgresql
 spec:
   storageClassName: "freenas-iscsi-manual-csi"
   capacity:
-    storage: 30Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -21,6 +23,7 @@ spec:
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
+
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -47,22 +50,7 @@ spec:
       share: /mnt/r10_8tb/k8s/home-assistant-config/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: pvc-iscsi-home-assistant-db
-  namespace: home-automation
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "freenas-iscsi-manual-csi"
-spec:
-  storageClassName: freenas-iscsi-manual-csi
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 30Gi
-  volumeName: pv-iscsi-home-assistant-db
+
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -79,26 +67,27 @@ spec:
     requests:
       storage: 20Gi
   volumeName: pv-nfs-home-assistant-config
+
 ---
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
 metadata:
-  name: home-assistant-mysql-secrets
+  name: home-assistant-postgresql-secret
   namespace: home-automation
 spec:
+  encryptedData:
+    postgresql-password: AgB1KiQV0j9hxxf4ZGygPO0bK4ouZHF0d9kxmdeb/6N5LSSDsKH9QV32pZvF0PeaW2q6r26gwJviazU7yGy5VZ822D/p7P/97XOD5CWxJrCawQMVSk2iSAHXCH3DxFsPZac+Drh8668OYWKtySecPMjGel+snbtpXXuCrv8iJ15LXdAmTVEJdFR9uOcPuxgmvpQk+hMM54i0i4vtb5mx1sR1L0ApSpAKXBTGlvizFkxg3slIoXbl5GEmili1R655HuCSC9yPXJT4dZQfolYC6xW6stGEsPKbGeXjZbpxusOjXq8ZEJFhxMMpeaAXUdZ62lcrJt+uPCQfYOUo/ES6+4ztduf4K5Ubg14iQM+RizbTHaOl3pYfnUKr8LHhqexny6bQIJu11TDsMWHHVQvso8gp0+C2DRjobPW/oQwEKcj/EQBuseN9qovO6ivlToRzicOPFhFD0ac5bDUNx30txXwSk5QojYdAMSPqwL3cQUKmZ1STPnNK3lbxY1+fQE1gtj5G7Mpq8Fr77rWb4MbYX9xCIOU54VCjC7TGsCBrzO5ul9Wui0fPskUzrZ+RJpHXAa1kmUFqRlzgJrHvN7LpU2XzhDvvO0SqDQsSWnToCNM9Y3okZk+NV32u0h7ycOUV2+V/+L8xUutzdMP/9TznvHGq8R+oTxQZDGNftwSssHY2W+S6JZ/qC8OtJJk1iHBtwfWSghzGRNsGGE7RM1fq8jcQIWIuU4/K
   template:
     type: Opaque
     metadata:
-      name: home-assistant-mysql-secrets
+      name: home-assistant-postgresql-secret
       namespace: home-automation
       labels:
-        app.kubernetes.io/name: home-assistant
-  encryptedData:
-    mysql-password: AgBT6ulgx3DmQ0fxlVzEXZn1AzOQboc6EY9lyRgUUEu1nYaCb/sX9lU68v5L5hMsqE3Lk45ylD01I1C7VLvfw4ic1hZoyLJ9T/+WdE/EA/4mxOBviz02ghDM8d0CxFiLoLfBPctG8tXQbSNihNYDn0x15kO4QlVVD7/XZhUhTw1lr1GsvSikailLlfPgly3hljjBN/C3ymBqqEj/pmO+h2wcFyMavrI6Wm5XgKJV76e5HgQAyYv9CSGJ4WKSM8e8Gr60rRNmLnv7wU1thvrj/VkMK9IjIyy/EogwgDHWVtefrWDh/+upf+tezzP/PjtiEFrOYAea2xFZzxZ1PI6Trc/TpI0CZneDE1bHdysbZXW08hDWxjcR2KS8N08VR5LUriAT+QMa4TnPE9d6UrYZ6zgaJ+7vVawWxlj8Zrm+de7bMzSpVvZQRXrTqKWLOS8BpmuW8PDywyZJfssARFKO8sXJXMH7ZTdbG7IJJZi9kSdsDe/3SG2MutZCb5H+xrodftVSgtXeM+Oe1U37sjYWRnK8msdODo1OsRFkvHrTleUaOtVWvB3G6dF6FHxhlUgmBfLukFFMm6G6qM1IL3UQIXoyXcwGguv8EEKBmE8kl1xxAFPL/T1zIb+uSVg26V75/LvliNh/BJzIsTo9qiEEYVbXjy1y5xEymqa8x1I/Hp45uEq/+8eE6pEY90b7+YUjg+MmbEQIrsOIf/7IU4f9lMlBysSTbYmDo6yqq8rAeAwHCg==
-    mysql-username: AgDnFG/NLagy/LUox/nruL9HjgLHuK0btprgiyvunB3e7IVc4gYfF1TLcByW4eZK3LqkJ01eVvMgtInMzgl8oRgPwZ4HfxnxkOPQb2kCyyAIfz61DfgOq3bSt/gXcV4+XrCR5/bRLLddz+mBDEQ+h1mXoqSJm0qaVmILI4YtMQTyhk2Py0Vbe6H9vWjOCYYvjKOxu7C+1qIsj0FzjNxCj/hfugL3AjpGPWQ/NY7ovu5QSlYT/jLaZeX1muRM/VrciV9zArpoZ82T8tFheDIXzbd2K7301Zh77MdnedISokEBCYWnJxa7wVnKLYL+eCC+J2xj0NmkvNg9afuu3KqP1+eOoZYxeFAnHWvAAdTYu6e0wgc2wJdSDgQio+eVzSswSCBQxMlFrS+y6DDZEytlF2mwEAEOwe1xKpTZm5n5/PIDBAthv1SHiFryLJFKmNN+LgEM9j19x2kV7pK5u2GqwWH+H5QpvZas0RN41SIiSWCZ1mEPZGMPKdrpdaXKVdrRSOVH/Ez98dUoB7UMV27OooWLIcdmPUK0C6V9SdsAnGhEA+3aGOjyIGs2/womVjvKoo1ivjhZVOxfQEkmreLYZzesRUGUJUjkVjLG5BEjXYrNLE/MEMGQn8X0Xnh3rkszaWMeyLCZDVYiRbMzETQ61W0oQx7tJJ1gcM+EI/qp9eSFf58aIbE2MlaBfkewTye1D8Wuof7QEsLzpGV/kK/WHv+nELPqFA==
+        app: home-assistant-postgresql
+
 ---
-kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
 metadata:
   name: secrets
   namespace: home-automation
@@ -109,15 +98,14 @@ spec:
     home_longitude: AgDHcGDimGbOFt4MiFLfRMVcapPaELs5ltNKz4H/KhmppaezkxbhCoCOsSqpXlZ1GN0mofznsfapMdlJxCojOl3D7AL9NgZmE3UFnEje46Lu8LCUdLbHvzXKUY9X/LIh4rfsxFvFfUqSHqVqJhndf+8lXdhPU+/o1wImQ1IAS/CBpj7/Zp6fri1cZMVcqYpops8kqf9Ny2r4ZovDkxV13zaW14bKG8DcAD25R0Bs+2rVhd7qckXGCZfw7eqxJdQu94guS1ohTvMoM8mIj7wUMIB6HamI9XO0az/lmDiKkYg9UNPJrkrqzHIVQcJVEEeosnjXWYeNwzF8m0kjlfcXNEGWronhns3eirC63lfKX/l+CWvt0l50tprJee3lwmor7fGCT93/txCGO16nABOYnOxPNI69I/MkfbT+ORwRsDZV6isgdWH6aUuRzLtEpckxZRrYhdsR8EN3KAI7ar/1dqKjxhYIvAIL2axAJ7gjhZeQkMNnRjT3EZDw4Ik0f7ws3bT6Ryl77FIxw6ntdsyM7D058wWRE5Hu0kbtieItzmqjCqaBPRzhZPuR47OdWMzTJ3ax8zso8yGS7bzNrNIpae8fRuy8o/ccVXwTukTRLpPVUmTIwVnUXqIT0XhYspFfkefjIkjInfuGNjjdjeBHV+rOPDQpw94LMu0/xky2+y/BI63yPvlWkvw7yOidl332mDk3peg42uWvjA==
     home_number: AgB6U94NdKzDSwIlIhIRLbo8Jwu4gNJxGv2Wbyj8dILUIFwcPGwMMAUmoAtIW8gfLjsKXgYCZvzOfQpdOWqk6IK82xdvX3NiqekK+8CjexbsqcsrD05hAdFi+xaC0iU4OopSh2BTwlwlE77HPPFlzvzOiDTJ6XP5q2n9AfSl0fQR0XDhKTJ26HGi30nprM88F8ajn1RDQF/ZPFCmbFmvRgc3zRFckvF7rTYRdONpFP9l6PpNHiR8JrP4fts/q6tZDIPAvbb3jKuFBCEb8i9qCVOlGFtXB5ynRKFejyxwbibba5jZxlWn7KlN05jqFFi9A1MP0QaJvS3x5o+/7cU7Daw5NCJi2+hISLyEFmBQGSS55GPoB6la5krmt/jpczX3uv8dKKd+9Z7cHxn6a1hX3BVXkcwuPurXuPRCL0IpvLcmGU9dv1IHDvf2gqQIKW72y2xUVhHqZMYE5U8N9z5zBr5r7OGZINXTgPekSzKAsUpsBBYbv8cXPZ35MliaZHErZdDiH6wr4jHZgza3iE5CQqUOqA1sE/4yGF3Y1T1vZdYM6+3hmrlh9QazjQSbs+nk7J7jAZkH87dBcQhaoP9WEbLmp6Be32rAod7f7nWRvCHM5/Twx/IvhusTe4PWC/PgIQrOYi+jjLAV6P+FR3jJAFB3QlPHgsTdwsFxA0BmhDwVSPeng/v1rTy+8QeCKdt2p8J2
     home_zipcode: AgAKbN6Rqg98xRpgqr9DuGrNaWrap1I5TSquM9EZ6gHmf50Uu87nlgeAbNeGkhdKCtPgDwXg1A/khNwizOgKPrqdCRdS9GZUdtF6k9paRAvHBTTE9PJh4DbCMVO81psgwMBVfCdda9O7vYnSmSlS6ZND1PMV2BmV7/bic2JaJm0c4D7rZB6PXw8ReMWH87VK4OQB2Osl38lo7SCuSQmMycmIebEz7U4akQskhwC3uexnjhvIW+MshTJG7z9eMfbG2HhH4QVdbgbxgxeGVyLForLXmw9h6uqGa1flcH7rtI6CBwS2dmPXjy0bRq3Uxs9tf/LTMhr/CPwMhADRlFNRcRddexS75wdYrtIIn9lGmEDLD1Xi5C7WQOGVc9jnPpQtxvqG66QvhUzSTsydSPTyra9r0ACsxnA4o4jjT9/kwEucmZM4d7YihCwNLMGpPfS5aXXtWjaONknBUsIIq4MDpgcnySTxR53mqvO/5xK2Ua/6glhmMRik9jrBkKa4I0qv5Hy7jmEIk86vuS8X6O1DGL/zBPph/ftEXcQP1fREIXPzPdPph/SDxx4DLxK/kfSQX2w4+iOqOh9+bm/qrei+m6PrVJV/C9Oy52Wv3g2RJ19BSAFDtbfsQkDTK8rWwXAmHucPiFzxVwmHKGwkySMF+jtOAW2SYdga+WqZpbYgBKzUKxWVfNDyrXoxDE+wZn7x+2MLReayS20=
-    mysql-password: AgApe2KjSZhVniU1L9W1tiISU5p1vx/gn49iScakiCzguKYeGseWhJjFvSqvvgoVoUzfAOYdBzTxiSvEMWeKvzfcStv8ETBS4MH6g7/hopzn86KDXuw8LfQGTOkVj+tBkZjGfXRBacBsZxnPiOM8Sxc/gSFTI1Ah9zbbPM28JrCH0NBP7+2eiwpzfkkjPYZLpYjWZRuIEbj+cPVKFHX/hdzuU/cUEe2J97BkXX9uC7tTk+I5oiTzBC9rHWQRkKdUq27lFTOLke9w3xlygPBbNIZHQaMBoEKD7CPqvCACu1voxPypix/w6oG7E4bBv7KCfJkR9NM38km6VFYvkdEzsZPGdjwZuP/VmdaXdqR5gWUmyzXre+bN3+HDuXCbY9p3uD8dKYdiRxG8V8qyTh3oExLsvNGXVQsxooYOk2t15iTlIY1T+1LXup30GweShoJvv3YNi3l//BxHDHeDY5P2kBU/HhAAGTCZg+x8AM2nhDjd9LJZCLsWUPuD67EewrTNVQaBWK64l0smVxrlglgIrTUcR2bugwWiyOTA+6Yw5mEU/8whbnh7EBYrwlE3ymTtbaOH2Y+1cMwYK3JU9sGo8eIPgsC0DJHgXCJsyzwW34kSwjapbhVqE59FyQZkr3s4pmhKWMafr2FZYwEy0DtQX6wXpjwiMzX31wisPrtiFD0B/sv3enafac9SZ6MV7Q0QuF6bDlxIrlEQ2k/mVtZuhVHiUZdcW/Fn
-    mysql-username: AgAu6EdT0IakH5Ns4TiSUI1WaXVzo1BPa+dvw/N+f3WSnr6oNUV/XIA/xkkFYJ8nsVqcelYIX7KqBzIDwVtJZAe9Ts4KocRjAACX+itbuCf90T844GJInxV/Iap7LJPi4XVP2ZFpOy/Ed465X49sSm1E8L+YhxxCHr0XNG9rtTRRFV8Rh+n3lC7rECziZ7u+xfSCBV0XhHl6ZvOEMTiqLdgpsbtyxEclTe/n0jKRQvo+BpqMNwL8MT+52h4WyoPWGcehxzFLcZ82CHPIOZERVl7AGlyo39s16LuwSLRQaSGzkBPh8V4MHXZkKaMQQqOp4UGkxRQm9aYr/7JT3dxogb1RQkB6biw0l7JElVkLysXj8Vmw9qhBAJdnnmY8TIn1WLKb1xnTwBZ3K6UQ6FdN9RMeuJ+/zeQz1JJKoafvWzlWGrZopCfKdwudAaPSbQ0rxuIsP9wFgMsLalJzMyBfy3pA4VE477mPeJTVaTiKNs2toVRyK1gDyL/LzuOSaijixrnJxp+fuTLpzHqLdmsbyFspesB4E88gSqdEAbxaXmHiij1ac0tGwj2jiSRhRM65hpTTGGT/jUtvkdF3SAulPuk9GgUMBxIOk6B/ZAT1P/wOeD13sSVFDi76JWO1uUd0imHo6zQW31qLWtcCVtQJ8aTnlKPYD8NOEoSFltvKcEUMy/orLIpSJJZBDQyTkEMhXYi/8Bv+QJKkeFB0yWoSjw==
+    postgresql-password: AgDA8sWjSYFqt9ARyGtqNDR7iJ675Uyxe4DohUDOc+8ztHILld5QHGUneUmOZG7kCiiHxQpcQyBB5KAhG+VDkWol6swtndB6+WtNxBGt/elE44OyChnSSoWL9VpdZENtEK/cYqoiQl1ep2jdhDI92/Cjo5aiAsRnFHSXmoIn1Qs0xTxC9eodHD8iEN8SSrSjfhK27DeUMmbxut3Qujkb52W/Otx40FKZ5syuU26G4m516cvzTDwmayJUS3p6ma4c7AYo2eeEW/cOoh6xRIS1iYmIS9pqiqv1QzC6ZCWWXo+d3zfll624/fFFkp5bWuB7Em1JvGW9jg1jeSaeHCZZuLjikKe5/6E7P/yiodTLJOxot3eSkHwqoV56K1D0+mCBtABfJAVUJf64USXs2JieiyrFOx4ZLRBcTbHZc2cpXG6h6/NaK5Kn+bKpEkcWFDKPXQI3UK/+fnpPobfQwVjpe24nrq2ueOr4aEkMjr00V/HKIl+t0lV7Tg0xgrza65iw9cTGywy4ZGSPgDqEC9BxKlAefhcWFSf17eD9M+tiHexs140qbBlf8T8yWav5HUzk9CrDqGGMYX9Ul9azEYs2UOpeejfpqoF5Om3sSxpkFNJHNVIxdzwcxKzz/nXTOfUYmAXQ0liuhHCkLO3ZXKSm3hYbBA5YD3+bluRSvSf6i61Kij/uYYHJylPG8RZwprAMwrb5U5UDiU3mkVXNZx9x25Lo6mKknfe1
     xiaomi_cloud_password: AgAJcv9vZvcmF3dYX/xaHB7WIAyFjvaGjVsVykyvZSVTk+peiCGMPUmEZ9ydNnBvPAB+YZG9x3eyqP0Yn3wOI88Qph0rC3wH++D485kEPesBPsrhcVSVIGlAUQ+oGOk7JUDoq3T3GS0gfP071064yZAp8kH0Mi/UZNC8pKWEScQhBo061Naq+UI8OQY/2yKx4JHDTIWorv/61mObaflxw8v1rnyR1hPyzXmDC0/VM3SoRhTZY+wHLHCl0n/f5QU+tU2+TZaHIbuKYfBEXoJniGnNlI74236aZ4UdnX/PX7p2yF8pox4fic46bn7OhEPpRIhSZVZgoIJcQFhShqMuUMdyoM7N+Hh8bsRxiZL4QSwHJWZTQeXAsngWjnzgC7Gh4s9JJxMnlbZGL2WXKiNzBrD/plpQeOiShQGf2VsF2gUREtpH5ZPwUd+H3JgDz010Xv451PRi3sTzWAcN86ScqNPmYNC6FF8q5bu4+YmxomN9iVBr1Xm0NMIVzHjer/TlZgQca8aSgye+TUtjkoqcW9qhnhXqlEqAR2/HYMhZ384kCv0lN3CVjFQLGV6BCKWkQAJ5R9xHG1ZX0kH+v71why2CIZcJ0dCRayd0RdTvmLVDOgNguR72VWXXmj0rKRNAs+eLgqOa2T7YCGxoEXiLoaRu3HvLwh18HxnSsHSjGLCCAF+UoF0zCLbGWJIQIcEnbFtLLeD3VDOAiuUPoAzkH8ix
     xiaomi_cloud_username: AgAbhK9jR6q/0/v0NnqwMcm8dhUOwbpI5qDXpnSNfAyHEWO9CjOSOKjhMfMjpUc7xMlm/6cjaZiHVWx6DvjbKJXDj78LGYVF+klYVVCB478Z/kdv0bqTaqtzWp87IrPHB6p0KPwtHW3Gqk1pTALR9BDt7pCp5ZWWAAOp6tDLbo+evT7yMY3hpZeB2YR9L0irDr4LXWdSn0Cueb0IPTNF9tzsH9a1kPSxE5huQlOgjLxLqqb8i0Xk7MJe3r2qsXGigSjA2uPn3QrpPfkrPZGqgu19oPO/+3QOc23b92z/mE88v9JProkbK9vQ71aoTUDB9SQ9cKaXruR5jFIXCzJf2Od4O/ER5j6QpA4Ty/roebVurPsizudUQ5J8y3a/IYVBvm2HLg+m6Oisd6rh/SWKjzrJMMFnmxCLAL3Op1TiED2bb+GJAdmZMQBN+3O13PsHjWQvBLRgo+uAtOOP4c1qCp1udRgdzwsisLYHqAjr4gdbqG9H4eR0mU1CBJnHKnweymD702ONhBUwa5Gsji9vQk2/AoYoYj/QZJ1MGTdcZJgl2ZFGp7icrzWqSRW+mhjDJo3eXURSX2yJmzYw+QMpkBxb3FNbW0Kl/FFB4qwfreY+DDH4jZSV+UpLi8Zr5xXj3CFa8l/rK2r3EChYmPvONACuRZrzN13Je9DmjY9fvZYrVgbrPtpttPXPf6+lhDa5DEUp2ajwLqKCVeCRwZwcPGX5
     xiaomi_vacuum_s6_token: AgAcm9eDmKZBcDhP1X0vRxJnKIoc8a8vxfDFHqRgtWKdPukqOl0lgKuaR7fhc3zwc04bGg6FwKgxNWNtqmisoqIKXSI4BCQfu6qkyWNH26pbxDmfPuC9BEKp5oLQgdtld+1RKI8RN/0TFUi9oto2qNK0L3MuYHbSuSeQxwrTb0BrGssqPSvflVHzizaK3mlnDM1uyZnSSbaL4Cnvgpf4ZruO4Ucq2dJUGh8A/fK3NIk+JxedvzBV5bOvKsz3emlFykmqSeP3++lVQU7q8VYEmFQyz3UWNrinMz3FFAdcMFt1xpY50vgJbbiNlb3LMEBPv5Ym8fZlna9LVviNeRXHd5xC0qL7G+mvOXhPoEV4GNxr8P+ltyrSC0jSB/txOKN52ZM/yoGOKWQsecwibmoY5/BaHDjzzXE0LHMjeaWrBTRvGHsFDN/2rdLw4+Y2MOYQc33xJ7F4RHbBotpfP9vS3p76ElFxN3ZE7eGkB5uB58A7rN66OxSNGIImtgqOxAQ+IOYQnrtFT4yCO1IF2oR9ahV6Dr2097z9FRGEv4/uj35LRFL5JD6teWIYApLQaiNM1LeksccAxTxoH3lIr7wox1ZigUHUU/s8Kb8TpHq+ySdtlX9hEkWUboplyVPklq/g5p9L47qPXqAHKLwA06Pe0sBJyig5qqiDy3G7m3FObeHgko3aULEm2fOL7Ha5A7gPzBrHbDX22ASXaA60Oj2IsQxOLUaTeq+1AATJffWcx8XCXA==
   template:
     data:
       secrets.yaml: |-
-        db_url: mysql://{{ index . "mysql-username" }}:{{ index . "mysql-password" }}@home-assistant-mysql.home-automation.svc.cluster.local/home-assistant?charset=utf8mb4
+        db_url: postgresql://home-assistant:{{ index . "postgresql-password" }}@home-assistant-postgresql-hl.home-automation.svc.cluster.local/home-assistant
         home_zipcode: {{ index . "home_zipcode" }}
         home_number: {{ index . "home_number" }}
         home_city: {{ index . "home_city" }}
@@ -132,9 +120,10 @@ spec:
         proxmox_password: test
     metadata:
       labels:
-        app.kubernetes.io/name: home-assistant
+        app: home-assistant
       name: secrets
       namespace: home-automation
+
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -151,56 +140,138 @@ data:
     for i in $(seq ${ip_start} ${ip_end}); do curl -m 2 "http://${ip_subnet}.${i}/settings?coiot_enable=true&coiot_peer=${ip}" 2>/dev/null | jq && curl -m 2 "http://${ip_subnet}.${i}/reboot" 2>/dev/null | jq; done
 
 ---
-kind: Deployment
+kind: StatefulSet
 apiVersion: apps/v1
 metadata:
-  name: home-assistant-mysql
+  name: home-assistant-postgresql
   namespace: home-automation
   labels:
-    app: home-assistant
+    app: home-assistant-postgresql
 spec:
   replicas: 1
-  strategy:
+  serviceName: home-assistant-postgresql-hl
+  updateStrategy:
+    rollingUpdate: {}
     type: RollingUpdate
   selector:
     matchLabels:
-      app: home-assistant-mysql
+      app: home-assistant-postgresql
   template:
     metadata:
+      name: home-assistant-postgresql
       labels:
-        app: home-assistant-mysql
+        app: home-assistant-postgresql
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: home-assistant-postgresql
+                namespaces:
+                  - home-automation
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      securityContext:
+        fsGroup: 1000
+      hostNetwork: false
+      hostIPC: false
       containers:
-        - name: home-assistant-mysql
-          image: mysql:8.0.28
-          resources: {}
-          ports:
-            - containerPort: 3306
+        - name: postgresql
+          image: docker.io/bitnami/postgresql:14.5.0
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            runAsUser: 1000
           env:
-            - name: MYSQL_ROOT_PASSWORD
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: "/bitnami/postgresql"
+            - name: PGDATA
+              value: "/bitnami/postgresql/data"
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: "no"
+            - name: POSTGRESQL_ENABLE_TLS
+              value: "no"
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: "off"
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: "error"
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: "pgaudit"
+            - name: POSTGRESQL_DATABASE
+              value: "home-assistant"
+            - name: POSTGRESQL_USERNAME
+              value: "home-assistant"
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: home-assistant-mysql-secrets
-                  key: mysql-password
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-mysql-secrets
-                  key: mysql-username
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: home-assistant-mysql-secrets
-                  key: mysql-password
-            - name: MYSQL_DATABASE
-              value: home-assistant
+                  name: home-assistant-postgresql-secret
+                  key: postgresql-password
+          ports:
+            - containerPort: 5432
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "home-assistant" -h 127.0.0.1 -p 5432
+          readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "home-assistant" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+          resources:
+            limits: {}
+            requests:
+              cpu: 250m
+              memory: 256Mi
           volumeMounts:
-            - name: home-assistant-db
-              mountPath: /var/lib/mysql
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
       volumes:
-        - name: home-assistant-db
-          persistentVolumeClaim:
-            claimName: pvc-iscsi-home-assistant-db
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        selector:
+          matchLabels:
+            app: home-assistant-postgresql
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: freenas-iscsi-manual-csi
+        resources:
+          requests:
+            storage: "40Gi"
+
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -272,21 +343,27 @@ spec:
             secretName: secrets
       imagePullSecrets:
         - name: container-image-registry-credentials
+
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: home-assistant-mysql
+  name: home-assistant-postgresql-hl
   namespace: home-automation
   labels:
-    app: home-assistant
+    app: home-assistant-postgresql
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   selector:
-    app: home-assistant-mysql
+    app: home-assistant-postgresql
   type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
   ports:
-    - port: 3306
-      protocol: TCP
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: 5432
+
 ---
 kind: Service
 apiVersion: v1
@@ -304,6 +381,7 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8123
+
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
@@ -331,6 +409,7 @@ spec:
     - hosts:
         - home-assistant.k8s.lan
       secretName: tls-wildcard-k8s-lan
+
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
