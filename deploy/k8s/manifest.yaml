@@ -133,7 +133,6 @@ data:
     ip_end="130"
     ip=$(hostname -I | cut -d' ' -f1)
     for i in $(seq ${ip_start} ${ip_end}); do curl -m 2 "http://${ip_subnet}.${i}/settings?coiot_enable=true&coiot_peer=${ip}" 2>/dev/null | jq && curl -m 2 "http://${ip_subnet}.${i}/reboot" 2>/dev/null | jq; done
-spec: {}
 ---
 kind: StatefulSet
 apiVersion: apps/v1
@@ -240,10 +239,10 @@ spec:
                   exec pg_isready -U "home-assistant" -h 127.0.0.1 -p 5432
                   [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
           resources:
-            limits: {}
             requests:
               cpu: 250m
               memory: 256Mi
+            limits: {}
           volumeMounts:
             - name: dshm
               mountPath: /dev/shm
