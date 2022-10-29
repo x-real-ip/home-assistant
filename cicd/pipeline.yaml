@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-type: kubernetes
+type: docker
 name: validate
 
 steps:
@@ -16,7 +16,7 @@ steps:
 
 ---
 kind: pipeline
-type: kubernetes
+type: docker
 name: build
 
 depends_on:
@@ -61,7 +61,7 @@ steps:
 
 ---
 kind: pipeline
-type: kubernetes
+type: docker
 name: upgrade
 
 depends_on:
