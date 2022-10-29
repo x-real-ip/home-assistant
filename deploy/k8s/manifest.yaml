@@ -119,21 +119,7 @@ spec:
         app: home-assistant
       name: secrets
       namespace: home-automation
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: shelly-script
-  namespace: home-automation
-data:
-  shelly-script.sh: |
-    set -e
-    ip_subnet="192.168.40"
-    ip_start="99"
-    ip_end="130"
-    ip=$(hostname -I | cut -d' ' -f1)
-    for i in $(seq ${ip_start} ${ip_end}); do curl -m 2 "http://${ip_subnet}.${i}/settings?coiot_enable=true&coiot_peer=${ip}" 2>/dev/null | jq && curl -m 2 "http://${ip_subnet}.${i}/reboot" 2>/dev/null | jq; done
-spec: {}
+
 ---
 kind: StatefulSet
 apiVersion: apps/v1
@@ -289,11 +275,7 @@ spec:
       initContainers:
         - name: shelly-init
           image: "harbor.k8s.lan/k8s/shelly-init:latest"
-          command: ["sh", "-c", "/script/shelly-script.sh"]
-          volumeMounts:
-            - name: shelly-script
-              mountPath: /script/shelly-script.sh
-              subPath: shelly-script.sh
+          command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
       containers:
         - name: home-assistant
           image: "harbor.k8s.lan/k8s/home-assistant:45"
@@ -336,7 +318,7 @@ spec:
           secret:
             secretName: secrets
       imagePullSecrets:
-        - name: container-image-registry-credentials
+        - name: harbor-registry-creds
 ---
 kind: Service
 apiVersion: v1
