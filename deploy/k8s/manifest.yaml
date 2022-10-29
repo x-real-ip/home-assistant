@@ -119,7 +119,6 @@ spec:
         app: home-assistant
       name: secrets
       namespace: home-automation
-
 ---
 kind: StatefulSet
 apiVersion: apps/v1
@@ -278,7 +277,7 @@ spec:
           command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/k8s/home-assistant:45"
+          image: "harbor.k8s.lan/k8s/home-assistant:46"
           imagePullPolicy: Always
           resources: {}
           securityContext:
