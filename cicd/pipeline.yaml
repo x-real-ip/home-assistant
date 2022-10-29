@@ -35,7 +35,7 @@ steps:
       TLSVERIFY: "false"
       USERNAME: "robot-k8s+drone-ci"
       PASSWORD:
-        from_secret: harbor_registry_password
+        from_secret: harbor_registry_drone_password
     commands:
       - |
         echo "Build image..."
