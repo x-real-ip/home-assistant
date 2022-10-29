@@ -286,8 +286,8 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:
-        - name: init-01-home-assistant
-          image: "harbor.k8s.lan/library/init-01-home-assistant:32"
+        - name: shelly-init
+          image: "harbor.k8s.lan/k8s/shelly-init:latest"
           command: ["sh", "-c", "/script/shelly-script.sh"]
           volumeMounts:
             - name: shelly-script
@@ -295,7 +295,7 @@ spec:
               subPath: shelly-script.sh
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/library/home-assistant:32"
+          image: "harbor.k8s.lan/k8s/home-assistant:32"
           imagePullPolicy: Always
           resources: {}
           securityContext:
