@@ -26,11 +26,12 @@ steps:
   - name: build and push image
     image: quay.io/buildah/stable
     privileged: true
+    network_mode: host
     environment:
       REGISTRY_HOST: "harbor.k8s.lan/k8s"
       CONTAINERFILE: "./deploy/container/Containerfile"
       STORAGE_DRIVER: "overlay"
-      FORMAT: "oci"
+      FORMAT: "docker"
       CONTEXT: "."
       TLSVERIFY: "false"
       USERNAME: "robot-drone-ci"
@@ -70,8 +71,9 @@ depends_on:
 steps:
   - name: upgrade kubernetes manifest
     image: alpine:latest
+    network_mode: host
     environment:
-      PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/library"
+      PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/k8s"
       YQ_VERSION: "v4.27.5"
     commands:
       - |
