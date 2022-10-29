@@ -28,7 +28,7 @@ steps:
     privileged: true
     environment:
       REGISTRY_HOST: "harbor.k8s.lan/k8s"
-      CONTAINERFILE: "./deploy/container/main/Containerfile"
+      CONTAINERFILE: "./deploy/container/Containerfile"
       STORAGE_DRIVER: "overlay"
       FORMAT: "oci"
       CONTEXT: "."
@@ -100,10 +100,10 @@ steps:
 
 ---
 kind: secret
-name: harbor_registry_password
+name: harbor_registry_drone_password
 get:
   path: harbor-registry-drone-password
-  name: DRONE_PASSWORD
+  name: harbor-robot-password
 
 ---
 kind: secret
