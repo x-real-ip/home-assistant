@@ -1,68 +1,6 @@
 ---
 kind: pipeline
 type: docker
-name: validate
-
-steps:
-  # - name: prettier
-  #   image: tmknom/prettier:latest
-  #   commands:
-  #     - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore.yaml" --check "./src/config/**/*.yaml"
-
-  - name: yamllint
-    image: sdesbure/yamllint:latest
-    commands:
-      - yamllint -c ./cicd/.yamllint.yaml .
-
----
-kind: pipeline
-type: docker
-name: build
-
-depends_on:
-  - validate
-
-steps:
-  - name: build and push image
-    image: quay.io/buildah/stable
-    privileged: true
-    network_mode: host
-    environment:
-      REGISTRY_HOST: "harbor.k8s.lan/k8s"
-      CONTAINERFILE: "./deploy/container/Containerfile"
-      STORAGE_DRIVER: "overlay"
-      FORMAT: "docker"
-      CONTEXT: "."
-      TLSVERIFY: "false"
-      USERNAME: "robot-drone-ci"
-      PASSWORD:
-        from_secret: harbor_registry_drone_password
-    commands:
-      - |
-        echo "Build image..."
-        buildah --storage-driver=$${STORAGE_DRIVER} bud --format=$${FORMAT} \
-        --tls-verify=$${TLSVERIFY} --no-cache \
-        -f $${CONTAINERFILE} \
-        -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
-        -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
-        --layers=true $${CONTEXT}
-      - |
-        echo "Push image with latest tag..."
-        buildah push --creds=$${USERNAME}:$${PASSWORD} \
-        --tls-verify=$${TLSVERIFY} \
-        $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
-        docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest
-      - |
-        echo "Push image with buildnumber tag..."
-        buildah push --creds=$${USERNAME}:$${PASSWORD} \
-        --tls-verify=$${TLSVERIFY} \
-        --digestfile=/tmp/image-digest \
-        $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
-        docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
-
----
-kind: pipeline
-type: docker
 name: upgrade
 
 depends_on:
@@ -70,35 +8,13 @@ depends_on:
 
 steps:
   - name: upgrade kubernetes manifest
-    image: alpine:latest
+    image: alpine:3
     network_mode: host
     environment:
-      PUBLIC_REGISTRY_HOST: "harbor.k8s.lan/k8s"
-      YQ_VERSION: "v4.27.5"
+      REGISTRY_NAME: "k8s"
     commands:
-      - |
-        wget https://github.com/mikefarah/yq/releases/download/$${YQ_VERSION}/yq_linux_amd64 \
-        -O /usr/bin/yq \
-        && chmod +x /usr/bin/yq
-      - |
-        application="init-01-$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/init-01-$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
-        yq -i '(.spec | select(.template.spec.initContainers[]).template.spec.initContainers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
-      - |
-        application="$${DRONE_REPO_NAME}" image="$${PUBLIC_REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}" \
-        yq -i '(.spec | select(.template.spec.containers[]).template.spec.containers[] | select(.name == strenv(application)).image) |= strenv(image)' ./deploy/k8s/manifest.yaml
+      - sed -i -e 's%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/k8s/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}%1' ./deploy/k8s/manifest.yaml
       - cat ./deploy/k8s/manifest.yaml
-
-  - name: push kubernetes manifest
-    image: appleboy/drone-git-push
-    settings:
-      remote_name: "git@github.com:${DRONE_REPO}"
-      branch: ${DRONE_BRANCH}
-      force: false
-      commit: true
-      commit_message: "[bot] [skip ci] bump image tag"
-      author_name: ci-bot
-      ssh_key:
-        from_secret: github_ssh_key
 
 ---
 kind: secret
