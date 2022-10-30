@@ -41,11 +41,9 @@ steps:
       - |
         echo "Build image..."
         buildah --storage-driver=$${STORAGE_DRIVER} bud --format=$${FORMAT} \
-        --tls-verify=$${TLSVERIFY} --no-cache \
-        -f $${CONTAINERFILE} \
+        --tls-verify=$${TLSVERIFY} -f $${CONTAINERFILE} \
         -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
         -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
-        --layers=true $${CONTEXT}
       - |
         echo "Push image with latest tag..."
         buildah push --creds=$${USERNAME}:$${PASSWORD} \
