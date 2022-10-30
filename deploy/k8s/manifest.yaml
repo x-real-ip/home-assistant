@@ -23,6 +23,7 @@ spec:
       lun: "0"
       node_attach_driver: iscsi
       provisioner_driver: node-manual
+
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -49,6 +50,7 @@ spec:
       share: /mnt/r10_8tb/k8s/home-assistant-config/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
+
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -65,6 +67,7 @@ spec:
     requests:
       storage: 20Gi
   volumeName: pv-nfs-home-assistant-config
+
 ---
 kind: SealedSecret
 apiVersion: bitnami.com/v1alpha1
@@ -81,6 +84,7 @@ spec:
       namespace: home-automation
       labels:
         app: home-assistant-postgresql
+
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -119,6 +123,7 @@ spec:
         app: home-assistant
       name: secrets
       namespace: home-automation
+
 ---
 kind: StatefulSet
 apiVersion: apps/v1
@@ -251,6 +256,7 @@ spec:
         resources:
           requests:
             storage: "40Gi"
+
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -318,6 +324,7 @@ spec:
             secretName: secrets
       imagePullSecrets:
         - name: harbor-registry-creds
+
 ---
 kind: Service
 apiVersion: v1
@@ -337,6 +344,7 @@ spec:
     - name: tcp-postgresql
       port: 5432
       targetPort: 5432
+
 ---
 kind: Service
 apiVersion: v1
@@ -354,6 +362,7 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8123
+
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
@@ -381,6 +390,7 @@ spec:
     - hosts:
         - home-assistant.k8s.lan
       secretName: tls-wildcard-k8s-lan
+
 ---
 kind: Ingress
 apiVersion: networking.k8s.io/v1
