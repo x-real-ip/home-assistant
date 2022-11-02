@@ -115,9 +115,6 @@ spec:
         xiaomi_cloud_password: {{ index . "xiaomi_cloud_password" }}
         xiaomi_cloud_username: {{ index . "xiaomi_cloud_username" }}
         xiaomi_vacuum_s6_token: {{ index . "xiaomi_vacuum_s6_token" }}
-        proxmox_host: test
-        proxmox_username: test
-        proxmox_password: test
     metadata:
       labels:
         app: home-assistant
