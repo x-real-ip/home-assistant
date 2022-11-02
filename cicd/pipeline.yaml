@@ -24,7 +24,7 @@ steps:
     pull: always
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-      - hass --script check_config --config ./config/
+      - hass --script check_config --config ./src/config/
 
 ---
 kind: pipeline
