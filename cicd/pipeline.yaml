@@ -24,7 +24,6 @@ steps:
     pull: always
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-      - mv ./src/config/google_assistant/google_service_account.json.example ./src/config/google_assistant/google_service_account.json
       - python -m homeassistant --script check_config --config ./src/config/
 
 ---
