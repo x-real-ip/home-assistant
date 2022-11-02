@@ -24,7 +24,7 @@ steps:
     pull: always
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-      - python -m homeassistant --script check_config --config ./src/config/
+      - hass --script check_config --config ./config/
 
 ---
 kind: pipeline
