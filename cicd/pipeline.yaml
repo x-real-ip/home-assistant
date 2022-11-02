@@ -16,11 +16,25 @@ steps:
 
 ---
 kind: pipeline
+name: test
+
+steps:
+  - name: latest
+    image: homeassistant/home-assistant:latest
+    pull: always
+    commands:
+      - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+      - mv ./src/config/google_assistant/google_service_account.json.example ./src/config/google_assistant/google_service_account.json
+      - python -m homeassistant --script check_config --config ./src/config/
+
+---
+kind: pipeline
 type: docker
 name: build
 
 depends_on:
   - validate
+  - test
 
 steps:
   - name: build and push image
