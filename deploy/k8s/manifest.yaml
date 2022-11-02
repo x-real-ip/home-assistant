@@ -283,7 +283,7 @@ spec:
           command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/k8s/home-assistant:60"
+          image: "harbor.k8s.lan/k8s/home-assistant:64"
           imagePullPolicy: Always
           resources: {}
           securityContext:
