@@ -61,21 +61,23 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: upgrade
+name: deploy
 
 depends_on:
   - build
 
 steps:
-  - name: upgrade kubernetes manifest
+  - name: upgrade k8s manifest
     image: alpine:3
     network_mode: host
     environment:
       REGISTRY_NAME: "k8s"
     commands:
-      - sed -i -e "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1" ./deploy/k8s/manifest.yaml
+      - sed -i -e
+        "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1"
+        ./deploy/k8s/manifest.yaml
 
-  - name: push kubernetes manifest
+  - name: push k8s manifest
     image: appleboy/drone-git-push
     settings:
       remote_name: "git@github.com:${DRONE_REPO}"
@@ -86,6 +88,21 @@ steps:
       author_name: ci-bot
       ssh_key:
         from_secret: github_ssh_key
+
+  - name: apply k8s manifest
+    image: bitnami/kubectl
+    volumes:
+      - name: kubeconfig
+        path: /.kube
+    network_mode: host
+    commands:
+      - cat ./deploy/k8s/manifest.yaml
+      - kubectl apply -f ./deploy/k8s/manifest.yaml
+
+volumes:
+  - name: kubeconfig
+    host:
+      path: /var/lib/.kube
 
 ---
 kind: secret
