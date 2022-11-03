@@ -1,3 +1,3 @@
-FROM https://ghcr.io/homeassistant/home-assistant:2022.11
+FROM docker.io/homeassistant/home-assistant:2022.11
 
 COPY ./src/config /config
