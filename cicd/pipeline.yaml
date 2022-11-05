@@ -6,8 +6,9 @@ name: validate
 steps:
   - name: prettier
     image: tmknom/prettier:latest
+    user: root
     commands:
-      - chmod -R +rw ./src/config/**/*.yaml
+      # - chmod -R +rw ./src/config/**/*.yaml
       - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
 
   - name: yamllint
