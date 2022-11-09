@@ -383,10 +383,10 @@ spec:
                 name: home-assistant
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - home-assistant.k8s.lan
-      secretName: tls-wildcard-k8s-lan
+  # tls:
+  #   - hosts:
+  #       - home-assistant.k8s.lan
+  #     secretName: tls-wildcard-k8s-lan
 
 ---
 kind: Ingress
