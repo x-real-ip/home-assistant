@@ -1,3 +1,5 @@
 ---
 homeassistant:
+  external_url: "https://home-assistant.theautomation.nl"
+  internal_url: "http://home-assistant.k8s.lan"
   customize: !include_dir_merge_named ../customizations/entities
