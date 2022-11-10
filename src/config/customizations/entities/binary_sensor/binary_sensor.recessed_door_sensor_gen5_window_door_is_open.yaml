@@ -1,0 +1,3 @@
+---
+binary_sensor.recessed_door_sensor_gen5_window_door_is_open:
+  friendly_name: Achterdeur
