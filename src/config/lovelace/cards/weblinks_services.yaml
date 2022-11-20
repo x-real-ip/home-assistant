@@ -8,22 +8,26 @@ entities:
     icon: mdi:desktop-tower
     name: Proxmox
   - type: weblink
-    url: http://docker-host.lan:7777/
+    url: https://storage-server.lan/
+    icon: mdi:nas
+    name: Truenas
+  - type: weblink
+    url: https://dsmr-reader.k8s.lan/
     icon: mdi:home-lightning-bolt
     name: DSMR-Reader
   - type: weblink
-    url: http://docker-host.lan:6052/
+    url: https://esphome.k8s.lan/
     icon: mdi:car-esp
     name: ESPHome
   - type: weblink
-    url: http://jellyfin.k8s.lan
+    url: https://jellyfin.k8s.lan/
     icon: mdi:movie-play
     name: Jellyfin
   - type: weblink
-    url: http://docker-host.lan:1880/
+    url: http://node-red.k8s.lan/
     icon: mdi:sitemap
     name: Node-RED
   - type: weblink
-    url: http://docker-host.lan:8800
+    url: https://paperless.k8s.lan/
     icon: mdi:text-box-search-outline
     name: Papermerge
