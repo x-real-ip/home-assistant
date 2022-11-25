@@ -5,7 +5,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/home-assistant-code?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/home-assistant-code/main?logo=github)
 
-Application running in Kubernetes <img src="https://github.com/theautomation/kubernetes-gitops/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 40px; width:40px;"/>
+<img src="https://github.com/theautomation/kubernetes-gitops/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 30px; width:30px;"/> Application running in Kubernetes.
 
 [Home Assistant](https://www.home-assistant.io/): Free and open-source home automation software designed to be the central home automation control system for smart home technology.
 
@@ -48,27 +48,14 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 - Xioami Roborock S6 Pure
 - Xiaomi Mi Flower Care Plant Sensor
 
-## Folder Structure Conventions
-
-    ├── cicd                 
-    │   ├── argocd             # ArgoCD application that automates the deployment of the desired application states
-    │   ├── tekton             # Tekton CI pipeline 
-    ├── deploy                 
-    │   ├── k8s                # Kubernetes manifest yaml('s)
-    │   ├── container          # Containerfiles to build container image(s)
-    ├── src                    
-    │   ├── ...                # Application source code
-
 ## mDNS
 
 To get mDNS (zeroconf) working in K8s, install Avahi-daemon on the host where the pod is running on. 
-
 ```bash
 sudo apt-get install avahi-daemon
 ```
 
 Turn on the reflector. Go into `/etc/avahi/avahi-daemon.conf` and change the reflector section to:
-
 ```
  [reflector]
  enable-reflector=yes
@@ -76,7 +63,6 @@ Turn on the reflector. Go into `/etc/avahi/avahi-daemon.conf` and change the ref
 ```
 
 Add hostnetwork en dnspolicy in K8s deployment
-
 ```yaml
 ...
       hostNetwork: true
@@ -86,6 +72,7 @@ Add hostnetwork en dnspolicy in K8s deployment
 ```
 
 ## Other
+
 Copy installed custom components from pod to local git repo directory
 ```console
 rm -r /home/coen/github/home-assistant/src/config/custom_components/* \
