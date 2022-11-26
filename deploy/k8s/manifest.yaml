@@ -312,10 +312,6 @@ spec:
         - name: home-assistant-config
           persistentVolumeClaim:
             claimName: pvc-nfs-home-assistant-config
-        - name: shelly-script
-          configMap:
-            name: shelly-script
-            defaultMode: 0777
         - name: secrets
           secret:
             secretName: secrets
