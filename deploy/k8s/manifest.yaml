@@ -288,7 +288,7 @@ spec:
         #       mountPath: /config/
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/k8s/home-assistant:104"
+          image: "harbor.k8s.lan/k8s/home-assistant:105"
           imagePullPolicy: Always
           resources: {}
           securityContext:
