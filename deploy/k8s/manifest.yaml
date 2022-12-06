@@ -32,7 +32,7 @@ metadata:
 spec:
   storageClassName: "freenas-nfs-manual-csi"
   capacity:
-    storage: 20Gi
+    storage: 5Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
@@ -47,7 +47,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server-lagg.lan
-      share: /mnt/r10_8tb/k8s/home-assistant-config/
+      share: /mnt/r01_1tb/k8s/home-assistant-config/
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -65,7 +65,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 20Gi
+      storage: 5Gi
   volumeName: pv-nfs-home-assistant-config
 
 ---
@@ -274,10 +274,10 @@ spec:
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
-      initContainers:
-        - name: shelly-init
-          image: "harbor.k8s.lan/k8s/shelly-init:latest"
-          command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
+      # initContainers:
+      #   - name: shelly-init
+      #     image: "harbor.k8s.lan/k8s/shelly-init:latest"
+      #     command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
       containers:
         - name: home-assistant
           image: "harbor.k8s.lan/k8s/home-assistant:103"
