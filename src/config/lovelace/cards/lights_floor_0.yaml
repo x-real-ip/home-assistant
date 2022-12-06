@@ -16,4 +16,4 @@ entities:
     entity: light.shellydimmer_kitchen
     step: 1
     toggle: true
-  # - entity: light.christmas_tree
+  - entity: light.christmas_tree
