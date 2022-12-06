@@ -47,7 +47,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server-lagg.lan
-      share: /mnt/r01_1tb/k8s/home-assistant-config/
+      share: /mnt/r01_1tb/k8s/home-assistant-config/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -274,10 +274,18 @@ spec:
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
-      # initContainers:
-      #   - name: shelly-init
-      #     image: "harbor.k8s.lan/k8s/shelly-init:latest"
-      #     command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
+      initContainers:
+        - name: shelly-init
+          image: "harbor.k8s.lan/k8s/shelly-init:latest"
+          command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
+          resources: {}
+        # - name: git-clone-init
+        #   image: "alpine/git"
+        #   command: ["sh", "-c", "mkdir -p /config/delete/ && mv !(/config/delete|/config/.storage) delete && rm -rf delete/"]
+        #   resources: {}
+        #   volumeMounts:
+        #     - name: home-assistant-config
+        #       mountPath: /config/
       containers:
         - name: home-assistant
           image: "harbor.k8s.lan/k8s/home-assistant:104"
@@ -304,7 +312,7 @@ spec:
               port: 8123
           volumeMounts:
             - name: home-assistant-config
-              mountPath: /config/
+              mountPath: /config/.storage
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
