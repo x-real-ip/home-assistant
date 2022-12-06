@@ -47,7 +47,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server-lagg.lan
-      share: /mnt/r10_8tb/k8s/home-assistant-config/.storage/
+      share: /mnt/r10_8tb/k8s/home-assistant-config/
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -304,7 +304,7 @@ spec:
               port: 8123
           volumeMounts:
             - name: home-assistant-config
-              mountPath: /config/.storage
+              mountPath: /config/
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
@@ -379,10 +379,6 @@ spec:
                 name: home-assistant
                 port:
                   number: 80
-  # tls:
-  #   - hosts:
-  #       - home-assistant.k8s.lan
-  #     secretName: tls-wildcard-k8s-lan
 
 ---
 kind: Ingress
