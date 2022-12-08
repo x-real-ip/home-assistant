@@ -165,31 +165,9 @@ spec:
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1000
+          ports:
+            - containerPort: 5432
           env:
-            - name: BITNAMI_DEBUG
-              value: "false"
-            - name: POSTGRESQL_PORT_NUMBER
-              value: "5432"
-            - name: POSTGRESQL_VOLUME_DIR
-              value: "/bitnami/postgresql"
-            - name: PGDATA
-              value: "/bitnami/postgresql/data"
-            - name: POSTGRESQL_ENABLE_LDAP
-              value: "no"
-            - name: POSTGRESQL_ENABLE_TLS
-              value: "no"
-            - name: POSTGRESQL_LOG_HOSTNAME
-              value: "false"
-            - name: POSTGRESQL_LOG_CONNECTIONS
-              value: "false"
-            - name: POSTGRESQL_LOG_DISCONNECTIONS
-              value: "false"
-            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
-              value: "off"
-            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
-              value: "error"
-            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
-              value: "pgaudit"
             - name: POSTGRESQL_DATABASE
               value: "home-assistant"
             - name: POSTGRESQL_USERNAME
@@ -199,8 +177,6 @@ spec:
                 secretKeyRef:
                   name: home-assistant-postgresql-secret
                   key: postgresql-password
-          ports:
-            - containerPort: 5432
           livenessProbe:
             failureThreshold: 6
             initialDelaySeconds: 30
@@ -275,29 +251,6 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       initContainers:
-        - name: cleanup-config-init
-          image: "bash:alpine3.16"
-          command:
-            [
-              "bash",
-              "-c",
-              "cp -vr /config/ /home/backup/ && rm -vrf /config/.* /config/* && cp -vr /home/backup/.storage /config/.storage",
-            ]
-          resources: {}
-          volumeMounts:
-            - name: home-assistant-config
-              mountPath: /config/
-        - name: git-clone-init
-          image: "alpine/git"
-          command: ["/bin/sh", "-c"]
-          args:
-            [
-              "git clone https://github.com/theautomation/home-assistant.git && mv home-assistant/src/config/* /config",
-            ]
-          resources: {}
-          volumeMounts:
-            - name: home-assistant-config
-              mountPath: /config/
         - name: shelly-init
           image: "harbor.k8s.lan/k8s/shelly-init:latest"
           command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
