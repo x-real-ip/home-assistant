@@ -47,7 +47,7 @@ spec:
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
       server: storage-server-lagg.lan
-      share: /mnt/r01_1tb/k8s/home-assistant-config/
+      share: /mnt/r01_1tb/k8s/home-assistant-config/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
 
@@ -281,7 +281,7 @@ spec:
               port: 8123
           volumeMounts:
             - name: home-assistant-config
-              mountPath: /config/
+              mountPath: /config/.storage/
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
