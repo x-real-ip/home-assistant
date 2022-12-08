@@ -32,4 +32,4 @@ cards:
   - !include ../cards/machines.yaml
   - !include ../cards/garbage.yaml
   - !include ../cards/rivm_stookalert.yaml
-  - !include ../cards/home_tile.yaml
+  - !include ../cards/frontyard_powersocket.yaml

@@ -1,0 +1,5 @@
+---
+type: tile
+entity: switch.shelly1_frontyard_powersocket
+tap_action:
+  action: toggle
