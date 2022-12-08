@@ -1,0 +1,4 @@
+---
+switch.shelly1_frontyard_powersocket:
+  friendly_name: Voortuin stopcontact
+  icon: mdi:power-socket-de
