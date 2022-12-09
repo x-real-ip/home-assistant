@@ -257,7 +257,7 @@ spec:
           resources: {}
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/k8s/home-assistant:111"
+          image: "harbor.k8s.lan/k8s/home-assistant:112"
           imagePullPolicy: Always
           resources: {}
           securityContext:
