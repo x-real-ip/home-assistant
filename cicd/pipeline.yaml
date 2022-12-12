@@ -45,7 +45,7 @@ steps:
       REGISTRY_HOST: "harbor.k8s.lan/k8s"
       CONTAINERFILE: "./deploy/container/Containerfile"
       STORAGE_DRIVER: "overlay"
-      FORMAT: "docker"
+      FORMAT: "oci"
       CONTEXT: "."
       TLSVERIFY: "false"
       USERNAME: "robot-drone-ci"
