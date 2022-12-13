@@ -119,6 +119,33 @@ volumes:
       path: /var/lib/.kube
 
 ---
+kind: pipeline
+type: docker
+name: notify
+
+depends_on:
+  - deploy
+
+trigger:
+  status:
+    - success
+    - failure
+
+steps:
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook_url
+      channel: cicd
+      template: >
+        {{#success build.status}}
+          Build and deploy {{build.number}} of {{repo.name}} succeeded.
+        {{else}}
+          Build and deploy {{build.number}} of {{repo.name}} failed.
+        {{/success}}
+
+---
 kind: secret
 name: harbor_registry_drone_password
 get:
@@ -131,3 +158,10 @@ name: github_ssh_key
 get:
   path: github-ssh-keys
   name: id_rsa
+
+---
+kind: secret
+name: slack_webhook_url
+get:
+  path: slack-webhook-url
+  name: url
