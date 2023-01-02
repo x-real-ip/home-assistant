@@ -92,14 +92,14 @@ steps:
         ./deploy/k8s/manifest.yaml
 
   - name: push k8s manifest
-    image: appleboy/drone-git-push:linux-amd64
+    image: appleboy/drone-git-push:0.2.2
     settings:
       remote_name: "git@github.com:${DRONE_REPO}"
       branch: ${DRONE_BRANCH}
       force: false
       commit: true
       commit_message: "[bot] [skip ci] bump image tag"
-      # author_name: ci-bot
+      author_name: ci-bot
       ssh_key:
         from_secret: github_ssh_key
 
