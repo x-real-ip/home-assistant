@@ -274,7 +274,7 @@ spec:
             - until pg_isready -h home-assistant-postgresql-hl -U ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/k8s/home-assistant:129"
+          image: "harbor.k8s.lan/k8s/home-assistant:130"
           imagePullPolicy: Always
           resources: {}
           securityContext:
