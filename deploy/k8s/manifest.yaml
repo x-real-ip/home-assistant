@@ -113,7 +113,7 @@ spec:
         home_city: {{ index . "home_city" }}
         home_latitude: {{ index . "home_latitude" }}
         home_longitude: {{ index . "home_longitude" }}
-        nvidia_shield_ip: 192.168.30.60
+        nvidia_shield_ip: 10.0.30.60
         xiaomi_cloud_password: {{ index . "xiaomi_cloud_password" }}
         xiaomi_cloud_username: {{ index . "xiaomi_cloud_username" }}
         xiaomi_vacuum_s6_token: {{ index . "xiaomi_vacuum_s6_token" }}
