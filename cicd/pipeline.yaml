@@ -99,7 +99,7 @@ steps:
       force: false
       commit: true
       commit_message: "[bot] [skip ci] bump image tag"
-      author_name: ci-bot
+      # author_name: ci-bot
       ssh_key:
         from_secret: github_ssh_key
 
