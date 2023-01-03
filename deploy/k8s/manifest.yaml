@@ -401,4 +401,4 @@ spec:
   tls:
     - hosts:
         - home-assistant.theautomation.nl
-      secretName: cloudflare-tls
+      secretName: tls-wildcard-theautomation-nl
