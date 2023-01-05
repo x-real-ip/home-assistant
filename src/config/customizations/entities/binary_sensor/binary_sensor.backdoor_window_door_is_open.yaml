@@ -1,0 +1,3 @@
+---
+binary_sensor.backdoor_window_door_is_open:
+  friendly_name: Achterdeur
