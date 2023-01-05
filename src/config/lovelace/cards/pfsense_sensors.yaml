@@ -5,8 +5,8 @@ cards:
   - type: sensor
     graph: line
     detail: 2
-    entity: sensor.pfsense_lan_dhcp_leases_online
+    entity: sensor.pfsense_dhcp_leases_online
   - type: sensor
     graph: line
     detail: 2
-    entity: sensor.pfsense_lan_dhcp_leases_total
+    entity: sensor.pfsense_dhcp_leases_total
