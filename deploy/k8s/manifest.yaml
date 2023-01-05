@@ -133,6 +133,8 @@ metadata:
     app: home-assistant-postgresql
 spec:
   replicas: 1
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
   serviceName: home-assistant-postgresql-hl
   updateStrategy:
     rollingUpdate: {}
