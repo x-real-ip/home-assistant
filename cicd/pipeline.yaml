@@ -15,17 +15,17 @@ steps:
     commands:
       - yamllint -c ./cicd/.yamllint.yaml .
 
-# ---
-# kind: pipeline
-# name: test
+---
+kind: pipeline
+name: test
 
-# steps:
-#   - name: latest
-#     image: homeassistant/home-assistant:latest
-#     pull: always
-#     commands:
-#       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-#       - hass --script check_config --config ./src/config/
+steps:
+  - name: latest
+    image: homeassistant/home-assistant:latest
+    pull: always
+    commands:
+      - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+      - hass --script check_config --config ./src/config/
 
 ---
 kind: pipeline
@@ -34,7 +34,7 @@ name: build
 
 depends_on:
   - validate
-  # - test
+  - test
 
 steps:
   - name: build and push image
