@@ -116,7 +116,7 @@ spec:
         home_latitude: {{ index . "home_latitude" }}
         home_longitude: {{ index . "home_longitude" }}
         radicale_gezamelijk_username: {{ index . "radicale_gezamelijk_username" }}
-        radicale_gezamelijk_password: {{ index . "radicale_gezamelijk_password" }}
+        radicale_gezamelijk_password: "{{ index . "radicale_gezamelijk_password" }}"
         nvidia_shield_ip: 10.0.30.60
         xiaomi_cloud_password: {{ index . "xiaomi_cloud_password" }}
         xiaomi_cloud_username: {{ index . "xiaomi_cloud_username" }}
