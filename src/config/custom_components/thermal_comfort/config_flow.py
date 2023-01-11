@@ -282,7 +282,9 @@ def get_sensors_by_device_class(
 
     def filter_thermal_comfort_ids(entity_id: str) -> bool:
         """Filter out device_ids containing our SensorType."""
-        return all(sensor_type not in entity_id for sensor_type in SensorType)
+        return all(
+            sensor_type.to_shortform() not in entity_id for sensor_type in SensorType
+        )
 
     filters_for_additional_sensors: list[callable] = [
         filter_useless_device_class,
@@ -422,7 +424,7 @@ def build_schema(
                         default=list(SensorType),
                     ): cv.multi_select(
                         {
-                            sensor_type: sensor_type.to_name()
+                            sensor_type: sensor_type.to_title()
                             for sensor_type in SensorType
                         }
                     ),
@@ -461,8 +463,6 @@ def check_input(hass: HomeAssistant, user_input: dict) -> dict:
 
 class ThermalComfortConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Configuration flow for setting up new thermal_comfort entry."""
-
-    VERSION = 2
 
     @staticmethod
     @callback
