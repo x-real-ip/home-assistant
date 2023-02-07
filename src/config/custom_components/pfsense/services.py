@@ -11,13 +11,13 @@ from .const import (
     SERVICE_EXEC_COMMAND,
     SERVICE_EXEC_PHP,
     SERVICE_FILE_NOTICE,
+    SERVICE_KILL_STATES,
+    SERVICE_RESET_STATE_TABLE,
     SERVICE_RESTART_SERVICE,
     SERVICE_SEND_WOL,
     SERVICE_SET_DEFAULT_GATEWAY,
     SERVICE_START_SERVICE,
     SERVICE_STOP_SERVICE,
-    SERVICE_RESET_STATE_TABLE,
-    SERVICE_KILL_STATES,
     SERVICE_SYSTEM_HALT,
     SERVICE_SYSTEM_REBOOT,
 )
@@ -84,6 +84,7 @@ class ServiceRegistrar:
             schema=cv.make_entity_service_schema(
                 {
                     vol.Required("service_name"): vol.Any(cv.string),
+                    vol.Optional("service"): vol.Any(cv.string),
                 }
             ),
             service_func=_async_send_service,
@@ -95,6 +96,7 @@ class ServiceRegistrar:
             schema=cv.make_entity_service_schema(
                 {
                     vol.Required("service_name"): vol.Any(cv.string),
+                    vol.Optional("service"): vol.Any(cv.string),
                 }
             ),
             service_func=_async_send_service,
@@ -106,7 +108,10 @@ class ServiceRegistrar:
             schema=cv.make_entity_service_schema(
                 {
                     vol.Required("service_name"): vol.Any(cv.string),
-                    vol.Optional("only_if_running"): cv.boolean,
+                    vol.Optional("only_if_running"): vol.Any(
+                        cv.positive_int, cv.string, cv.boolean
+                    ),
+                    vol.Optional("service"): vol.Any(cv.string),
                 }
             ),
             service_func=_async_send_service,
@@ -118,7 +123,7 @@ class ServiceRegistrar:
             schema={},
             service_func=_async_send_service,
         )
-        
+
         self.hass.services.async_register(
             domain=DOMAIN,
             service=SERVICE_KILL_STATES,

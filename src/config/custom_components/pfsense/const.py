@@ -4,9 +4,8 @@ from __future__ import annotations
 from typing import Final
 
 from homeassistant.components.sensor import (
-    DEVICE_CLASS_TEMPERATURE,
-    DEVICE_CLASS_TIMESTAMP,
     STATE_CLASS_MEASUREMENT,
+    SensorDeviceClass,
     SensorEntityDescription,
 )
 from homeassistant.const import (
@@ -194,26 +193,26 @@ SENSOR_TYPES: Final[dict[str, SensorEntityDescription]] = {
         icon="mdi:speedometer-medium",
         # entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
     ),
-    "telemetry.cpu.load_average.one_minute": SensorEntityDescription(
-        key="telemetry.cpu.load_average.one_minute",
-        name="CPU Load Average One Minute",
-        native_unit_of_measurement=PERCENTAGE,
+    "telemetry.system.load_average.one_minute": SensorEntityDescription(
+        key="telemetry.system.load_average.one_minute",
+        name="System Load Average One Minute",
+        # native_unit_of_measurement=PERCENTAGE,
         icon="mdi:speedometer-slow",
         state_class=STATE_CLASS_MEASUREMENT,
         # entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
     ),
-    "telemetry.cpu.load_average.five_minute": SensorEntityDescription(
-        key="telemetry.cpu.load_average.five_minute",
-        name="CPU Load Average Five Minute",
-        native_unit_of_measurement=PERCENTAGE,
+    "telemetry.system.load_average.five_minute": SensorEntityDescription(
+        key="telemetry.system.load_average.five_minute",
+        name="System Load Average Five Minute",
+        # native_unit_of_measurement=PERCENTAGE,
         icon="mdi:speedometer-slow",
         state_class=STATE_CLASS_MEASUREMENT,
         # entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
     ),
-    "telemetry.cpu.load_average.fifteen_minute": SensorEntityDescription(
-        key="telemetry.cpu.load_average.fifteen_minute",
-        name="CPU Load Average Fifteen Minute",
-        native_unit_of_measurement=PERCENTAGE,
+    "telemetry.system.load_average.fifteen_minute": SensorEntityDescription(
+        key="telemetry.system.load_average.fifteen_minute",
+        name="System Load Average Fifteen Minute",
+        # native_unit_of_measurement=PERCENTAGE,
         icon="mdi:speedometer-slow",
         state_class=STATE_CLASS_MEASUREMENT,
         # entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
@@ -223,7 +222,7 @@ SENSOR_TYPES: Final[dict[str, SensorEntityDescription]] = {
         key="telemetry.system.temp",
         name="System Temperature",
         native_unit_of_measurement=TEMP_CELSIUS,
-        device_class=DEVICE_CLASS_TEMPERATURE,
+        device_class=SensorDeviceClass.TEMPERATURE,
         icon="mdi:thermometer",
         state_class=STATE_CLASS_MEASUREMENT,
         # entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
@@ -231,8 +230,8 @@ SENSOR_TYPES: Final[dict[str, SensorEntityDescription]] = {
     "telemetry.system.boottime": SensorEntityDescription(
         key="telemetry.system.boottime",
         name="System Boottime",
-        native_unit_of_measurement=TIME_SECONDS,
-        device_class=DEVICE_CLASS_TIMESTAMP,
+        # native_unit_of_measurement=TIME_SECONDS,
+        device_class=SensorDeviceClass.TIMESTAMP,
         icon="mdi:clock-outline",
         # entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
     ),
