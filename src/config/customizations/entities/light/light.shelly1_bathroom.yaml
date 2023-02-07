@@ -1,0 +1,4 @@
+---
+light.shelly1_bathroom:
+  friendly_name: Badkamer
+  icon: mdi:wall-sconce-flat  
