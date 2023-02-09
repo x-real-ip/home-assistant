@@ -169,7 +169,7 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: docker.io/bitnami/postgresql:14.5.0
+          image: "harbor.k8s.lan/dockerhub-proxy/bitnami/postgresql:14.5.0"
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1000
@@ -267,7 +267,7 @@ spec:
           command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
           resources: {}
         - name: postgresql-isready
-          image: bitnami/postgresql:14.5.0
+          image: "harbor.k8s.lan/dockerhub-proxy/bitnami/postgresql:14.5.0"
           env:
             - name: POSTGRESQL_USERNAME
               valueFrom:
