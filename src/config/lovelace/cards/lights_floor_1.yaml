@@ -16,4 +16,4 @@ entities:
     step: 1
     toggle: true
   - entity: light.shelly1_upstairs_hall
-  - entity: light.bathroom
+  - entity: light.shelly1_bathroom
