@@ -259,13 +259,7 @@ spec:
       labels:
         app: home-assistant
     spec:
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
       initContainers:
-        - name: shelly-init
-          image: "harbor.k8s.lan/k8s/shelly-init:latest"
-          command: ["sh", "-c", "/usr/local/bin/shelly-init.sh"]
-          resources: {}
         - name: postgresql-isready
           image: "harbor.k8s.lan/dockerhub-proxy/bitnami/postgresql:14.5.0"
           env:
@@ -287,6 +281,9 @@ spec:
             privileged: true
           ports:
             - containerPort: 8123
+              protocol: TCP
+            - containerPort: 5683
+              protocol: UDP
           env:
             - name: TZ
               value: "Europe/Amsterdam"
@@ -355,6 +352,24 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8123
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: home-assistant-coiot
+  namespace: home-automation
+  labels:
+    app: home-assistant
+spec:
+  selector:
+    app: home-assistant
+  type: ClusterIP
+  ports:
+    - name: coiot
+      protocol: UDP
+      port: 5683
+      targetPort: 5683
 
 ---
 kind: Ingress
