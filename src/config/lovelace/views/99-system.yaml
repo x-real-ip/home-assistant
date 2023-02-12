@@ -5,6 +5,7 @@ path: system
 badges: []
 cards:
   - !include ../cards/hypervisor_a_power.yaml
+  - !include ../cards/hypervisor_b_power.yaml
   - !include ../cards/storage_server_power.yaml
   - !include ../cards/torrents.yaml
   - !include ../cards/google_assistant.yaml
