@@ -6,4 +6,4 @@ url: https://radicale.theautomation.nl/
 custom_calendars:
   - name: "babysitter"
     calendar: "Lise"
-    search: "past op"
+    search: ".*past op.*"
