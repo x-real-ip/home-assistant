@@ -3,10 +3,18 @@ type: vertical-stack
 title: null
 cards:
   - type: entities
-    title: Torrents
+    title: Films en Series
     state_color: true
     show_header_toggle: false
     entities:
+      - type: weblink
+        url: https://jellyseerr.k8s.lan/
+        icon: mdi:movie-search
+        name: Jellyseerr
+      - type: weblink
+        url: https://jellyfin.k8s.lan/
+        icon: mdi:movie-play
+        name: Jellyfin
       - type: weblink
         url: http://transmission.k8s.lan/
         icon: mdi:download-box-outline

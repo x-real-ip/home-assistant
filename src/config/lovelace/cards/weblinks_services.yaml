@@ -20,14 +20,10 @@ entities:
     icon: mdi:car-esp
     name: ESPHome
   - type: weblink
-    url: https://jellyfin.k8s.lan/
-    icon: mdi:movie-play
-    name: Jellyfin
-  - type: weblink
     url: http://node-red.k8s.lan/
     icon: mdi:sitemap
     name: Node-RED
   - type: weblink
     url: https://paperless.k8s.lan/
     icon: mdi:text-box-search-outline
-    name: Papermerge
+    name: Paperless
