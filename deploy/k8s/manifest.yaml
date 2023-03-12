@@ -276,7 +276,6 @@ spec:
         - name: home-assistant
           image: "harbor.k8s.lan/k8s/home-assistant:182"
           imagePullPolicy: Always
-          resources: {}
           securityContext:
             privileged: true
           ports:
@@ -305,6 +304,7 @@ spec:
             - name: secrets
               mountPath: /config/secrets.yaml
               subPath: secrets.yaml
+          resources: {}
       volumes:
         - name: home-assistant-config
           persistentVolumeClaim:
