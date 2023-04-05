@@ -15,6 +15,11 @@ steps:
     commands:
       - yamllint -c ./cicd/.yamllint.yaml .
 
+trigger:
+  branch:
+  - main
+  - feature/*
+
 ---
 kind: pipeline
 name: test
@@ -26,6 +31,12 @@ steps:
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
       - hass --script check_config --config ./src/config/
+
+trigger:
+  branch:
+  - feature/*
+  event:
+  - pull_request
 
 ---
 kind: pipeline
@@ -72,6 +83,10 @@ steps:
         $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
 
+trigger:
+  branch:
+  - main
+
 ---
 kind: pipeline
 type: docker
@@ -117,6 +132,10 @@ volumes:
   - name: kubeconfig
     host:
       path: /var/lib/.kube
+
+trigger:
+  branch:
+  - main
 
 ---
 kind: pipeline
