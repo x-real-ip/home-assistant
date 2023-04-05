@@ -17,8 +17,8 @@ steps:
 
 trigger:
   branch:
-  - main
-  - feature/*
+    - main
+    - feature/*
 
 ---
 kind: pipeline
@@ -34,9 +34,9 @@ steps:
 
 trigger:
   branch:
-  - feature/*
+    - feature/*
   event:
-  - pull_request
+    - pull_request
 
 ---
 kind: pipeline
@@ -85,7 +85,7 @@ steps:
 
 trigger:
   branch:
-  - main
+    - main
 
 ---
 kind: pipeline
@@ -135,7 +135,7 @@ volumes:
 
 trigger:
   branch:
-  - main
+    - main
 
 ---
 kind: pipeline
