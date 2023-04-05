@@ -5,13 +5,17 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/home-assistant?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/home-assistant/main?logo=github)
 
-<img src="https://github.com/theautomation/kubernetes-gitops/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 30px; width:30px;"/> Application running in Kubernetes.
+<img src="https://github.com/theautomation/kubernetes-gitops/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 30px; width:30px;"/>
+Application running in Kubernetes.
 
-[Home Assistant](https://www.home-assistant.io/): Free and open-source home automation software designed to be the central home automation control system for smart home technology.
+[Home Assistant](https://www.home-assistant.io/): Free and open-source home
+automation software designed to be the central home automation control system
+for smart home technology.
 
 ## Automations
 
-All my automations are running in Node-RED [flows](https://github.com/theautomation/node-red-code/blob/main/src/data/flows.json)
+All my automations are running in Node-RED
+[flows](https://github.com/theautomation/node-red-code/blob/main/src/data/flows.json)
 
 ## Hardware
 
@@ -50,12 +54,16 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 
 ## mDNS
 
-To get mDNS (zeroconf) working in K8s, install Avahi-daemon on the host where the pod is running on. 
+To get mDNS (zeroconf) working in K8s, install Avahi-daemon on the host where
+the pod is running on.
+
 ```bash
 sudo apt-get install avahi-daemon
 ```
 
-Turn on the reflector. Go into `/etc/avahi/avahi-daemon.conf` and change the reflector section to:
+Turn on the reflector. Go into `/etc/avahi/avahi-daemon.conf` and change the
+reflector section to:
+
 ```
  [reflector]
  enable-reflector=yes
@@ -63,18 +71,20 @@ Turn on the reflector. Go into `/etc/avahi/avahi-daemon.conf` and change the ref
 ```
 
 Add hostnetwork en dnspolicy in K8s deployment
+
 ```yaml
-...
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
-      containers:
-...
+
+---
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
+containers:
 ```
 
 ## Other
 
 Copy installed custom components from pod to local git repo directory
+
 ```console
 rm -r /home/coen/github/home-assistant/src/config/custom_components/* \
-&& kubectl cp home-automation/<pod-name>:/config/custom_components /home/coen/github/home-assistant/src/config/custom_components
+for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/custom_components /home/coen/github/home-assistant/src/config/custom_components; done
 ```
