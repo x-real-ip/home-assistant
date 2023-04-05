@@ -1,0 +1,4 @@
+---
+solaredge_modbus_ac_energy_kwh_today:
+  source: sensor.solaredge_modbus_ac_energy_kwh
+  cycle: daily
