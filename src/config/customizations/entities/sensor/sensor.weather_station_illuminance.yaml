@@ -1,0 +1,3 @@
+---
+sensor.weather_station_illuminance:
+  friendly_name: Lichtsterkte
