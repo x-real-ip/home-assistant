@@ -145,11 +145,6 @@ name: notify
 depends_on:
   - deploy
 
-trigger:
-  status:
-    - success
-    - failure
-
 steps:
   - name: slack
     image: plugins/slack
@@ -163,6 +158,13 @@ steps:
         {{else}}
           Build and deploy {{build.number}} of {{repo.name}} failed.
         {{/success}}
+
+trigger:
+  branch:
+    - main
+  status:
+    - success
+    - failure
 
 ---
 kind: secret
