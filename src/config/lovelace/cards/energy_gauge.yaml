@@ -2,9 +2,9 @@
 type: gauge
 entity: sensor.custom_energy
 needle: true
-min: -3.680
-max: 3.680
+min: -3680
+max: 3680
 severity:
-  red: -3.680
+  green: 1000
   yellow: 0
-  green: 1.000
+  red: -3680
