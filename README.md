@@ -73,7 +73,6 @@ reflector section to:
 Add hostnetwork en dnspolicy in K8s deployment
 
 ```yaml
-
 ---
 hostNetwork: true
 dnsPolicy: ClusterFirstWithHostNet
@@ -85,6 +84,6 @@ containers:
 Copy installed custom components from pod to local git repo directory
 
 ```console
-rm -r /home/coen/github/home-assistant/src/config/custom_components/* \
+rm -r /home/coen/github/home-assistant/src/config/custom_components/* &&
 for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/custom_components /home/coen/github/home-assistant/src/config/custom_components; done
 ```
