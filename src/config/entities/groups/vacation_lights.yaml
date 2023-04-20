@@ -1,0 +1,17 @@
+---
+vacation_lights:
+  name: Vakantie lampen
+  entities:
+    - light.shelly1_barn_door
+    - light.shelly1_bathroom
+    - light.shelly1_front_door
+    - light.shelly1_upstairs_hall
+    - light.shellydimmer_backyard_string_l
+    - light.shellydimmer_barn_hanging_lamp
+    - light.shellydimmer_basement
+    - light.shellydimmer_dinner_table
+    - light.shellydimmer_kitchen
+    - light.shellydimmer_lises_room
+    - light.shellydimmer_living_room
+    - light.shellydimmer_master_bedroom
+    - light.shellydimmer_small_bedroom
