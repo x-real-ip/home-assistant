@@ -14,8 +14,7 @@ for smart home technology.
 
 ## Automations
 
-All my automations are running in Node-RED
-[flows](https://github.com/theautomation/node-red/tree/main/src/data)
+All my automations are running in Node-RED [flows](https://github.com/theautomation/node-red/tree/main/src/data) as an alternative automation engine.
 
 ## Hardware
 
