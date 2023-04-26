@@ -1,0 +1,7 @@
+---
+tv_media_players:
+  name: TV mediaplayers
+  entities:
+    - media_player.lg_webos_smart_tv
+    - media_player.shield
+    - media_player.shield_2
