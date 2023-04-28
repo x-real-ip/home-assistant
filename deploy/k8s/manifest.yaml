@@ -406,6 +406,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-protocol: "true"
 spec:
   ingressClassName: nginx-public
   rules:
