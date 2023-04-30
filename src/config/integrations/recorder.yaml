@@ -11,3 +11,6 @@ recorder:
       - light
       - script
       - switch
+      - media_player
+    entity_globs:
+      - weather.*
