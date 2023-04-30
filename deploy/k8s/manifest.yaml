@@ -364,7 +364,7 @@ metadata:
 spec:
   selector:
     app: home-assistant
-  type: None
+  type: ClusterIP
   ports:
     - name: coiot
       protocol: UDP
