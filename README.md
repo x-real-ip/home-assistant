@@ -51,32 +51,6 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 - Xioami Roborock S6 Pure
 - Xiaomi Mi Flower Care Plant Sensor
 
-## mDNS
-
-To get mDNS (zeroconf) working in K8s, install Avahi-daemon on the host where
-the pod is running on.
-
-```bash
-sudo apt-get install avahi-daemon
-```
-
-Turn on the reflector. Go into `/etc/avahi/avahi-daemon.conf` and change the
-reflector section to:
-
-```
- [reflector]
- enable-reflector=yes
- reflect-ipv=no
-```
-
-Add hostnetwork en dnspolicy in K8s deployment
-
-```yaml
----
-hostNetwork: true
-dnsPolicy: ClusterFirstWithHostNet
-containers:
-```
 
 ## Other
 
