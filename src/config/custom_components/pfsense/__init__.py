@@ -20,7 +20,7 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.entity_registry import async_get_registry
+from homeassistant.helpers.entity_registry import async_get
 from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
@@ -347,17 +347,17 @@ class PfSenseData:
                 ] = self._are_notices_pending()
                 new_state["notices"]["pending_notices"] = self._get_notices()
 
-                lease_stats = {"total": 0, "online": 0, "offline": 0}
+                lease_stats = {"total": 0, "online": 0, "idle_offline": 0}
                 for lease in new_state["dhcp_leases"]:
                     if "act" in lease.keys() and lease["act"] == "expired":
                         continue
 
                     lease_stats["total"] += 1
                     if "online" in lease.keys():
-                        if lease["online"] == "online":
+                        if lease["online"] in ["active", "online"]:
                             lease_stats["online"] += 1
-                        if lease["online"] == "offline":
-                            lease_stats["offline"] += 1
+                        if lease["online"] in ["offline", "idle/offline", "idle"]:
+                            lease_stats["idle_offline"] += 1
 
                 new_state["dhcp_stats"]["leases"] = lease_stats
 
@@ -582,7 +582,7 @@ class CoordinatorEntityManager:
                 # del self.entities[entity_unique_id]
 
     async def async_remove_entity(self, entity):
-        registry = await async_get_registry(self.hass)
+        registry = await async_get(self.hass)
         if entity.entity_id in registry.entities:
             registry.async_remove(entity.entity_id)
 
