@@ -198,7 +198,8 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p 5432
+                - exec pg_isready -U "${POSTGRESQL_USERNAME}" -h 127.0.0.1 -p
+                  5432
           readinessProbe:
             failureThreshold: 6
             initialDelaySeconds: 5
@@ -254,6 +255,8 @@ spec:
   selector:
     matchLabels:
       app: home-assistant
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -271,7 +274,8 @@ spec:
           command:
             - "sh"
             - "-c"
-            - until pg_isready -h home-assistant-postgresql-hl -U ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
+            - until pg_isready -h home-assistant-postgresql-hl -U
+              ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: home-assistant
           image: "harbor.k8s.lan/k8s/home-assistant:233"
