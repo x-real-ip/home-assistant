@@ -1,0 +1,10 @@
+---
+platform: template
+sensors:
+  energy_production_today_combined:
+    friendly_name: Solar production forecast Estimated energy production - today
+    value_template:
+      "{{ states('sensor.energy_production_today') | float +
+      states('sensor.energy_production_today_2')| float }}"
+    device_class: energy
+    unit_of_measurement: kWh

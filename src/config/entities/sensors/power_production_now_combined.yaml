@@ -1,0 +1,10 @@
+---
+platform: template
+sensors:
+  power_production_now_combined:
+    friendly_name: Solar production forecast Estimated power production - now
+    value_template:
+      "{{ states('sensor.energy_production_tomorrow') | float +
+      states('sensor.energy_production_tomorrow_2')| float }}"
+    device_class: power
+    unit_of_measurement: W

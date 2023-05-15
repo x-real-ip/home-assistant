@@ -1,0 +1,11 @@
+---
+platform: template
+sensors:
+  energy_next_hour_combined:
+    friendly_name:
+      Solar production forecast Estimated energy production - next hour
+    value_template:
+      "{{ states('sensor.energy_next_hour') | float +
+      states('sensor.energy_next_hour_2')| float }}"
+    device_class: energy
+    unit_of_measurement: kWh
