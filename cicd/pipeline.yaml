@@ -35,8 +35,7 @@ steps:
 trigger:
   branch:
     - main
-  event:
-    - pull_request
+    - feature/*
 
 ---
 kind: pipeline
