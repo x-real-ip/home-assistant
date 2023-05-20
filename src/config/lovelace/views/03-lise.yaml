@@ -8,4 +8,3 @@ cards:
   - !include ../cards/childlocks.yaml
   - !include ../cards/thermostat_lises_room.yaml
   - !include ../cards/camera_lise.yaml
-  - !include ../cards/media_player_lise_s_kamer.yaml
