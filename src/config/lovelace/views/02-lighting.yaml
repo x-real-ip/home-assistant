@@ -1,7 +1,7 @@
 ---
 title: Verlichting
 icon: mdi:lamps
-path: verlichting
+path: lighting
 badges:
   - entity: sensor.outdoor_light_dark
   - entity: sun.sun

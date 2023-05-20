@@ -1,7 +1,7 @@
 ---
 title: Network
 icon: mdi:lan
-path: lan
+path: network
 badges: []
 cards:
   - !include ../cards/pfsense_ip.yaml
