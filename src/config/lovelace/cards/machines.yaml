@@ -1,6 +1,0 @@
----
-type: glance
-entities:
-  - entity: binary_sensor.washing_machine
-  - entity: binary_sensor.tumble_dryer
-  - entity: binary_sensor.dishwasher

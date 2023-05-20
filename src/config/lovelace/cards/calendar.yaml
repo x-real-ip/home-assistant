@@ -1,8 +1,0 @@
----
-type: calendar
-initial_view: listWeek
-entities:
-  - calendar.coen_anne
-  - calendar.lise
-  - calendar.schoonmaak
-  - calendar.verjaardagen

@@ -1,6 +1,0 @@
----
-type: glance
-entities:
-  - entity: binary_sensor.frontdoor_window_door_is_open
-  - entity: binary_sensor.backdoor_window_door_is_open
-  - entity: binary_sensor.pt2262_ef9bc6

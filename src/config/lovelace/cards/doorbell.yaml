@@ -1,6 +1,0 @@
----
-type: entities
-state_color: true
-entities:
-  - entity: switch.doorbell_chime_active
-    secondary_info: last-changed

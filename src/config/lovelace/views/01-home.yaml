@@ -1,4 +1,8 @@
+---
 title: Home
+icon: "mdi:lightbulb-on"
+path: verlichting
+type: masonry
 cards:
   - type: custom:mushroom-chips-card
     chips:
@@ -62,7 +66,7 @@ cards:
       type: tile
       entity: sensor.afval_vandaag
       icon: mdi:delete
-      vertical: true
+      vertical: false
       color: green
       name: ACV vandaag
   - type: conditional
@@ -73,7 +77,7 @@ cards:
       type: tile
       entity: sensor.afval_morgen
       icon: mdi:delete
-      vertical: true
+      vertical: false
       color: green
       name: ACV morgen
   - square: false
@@ -200,13 +204,13 @@ cards:
     layout: horizontal
   - type: markdown
     content: |-
-      - {{ states('sensor.message_home_page_1') }}
+      {{ states('sensor.message_home_page_1') }}
 
-      - {{ states('sensor.message_home_page_2') }}
+      {{ states('sensor.message_home_page_2') }}
 
-      - {{ states('sensor.message_home_page_3') }}
+      {{ states('sensor.message_home_page_3') }}
 
-      - {{ states('sensor.message_home_page_4') }}
+      {{ states('sensor.message_home_page_4') }}
   - type: custom:mushroom-climate-card
     entity: climate.living_room
     layout: vertical
@@ -300,12 +304,15 @@ cards:
       - type: tile
         entity: binary_sensor.washing_machine
         vertical: true
+        icon: mdi:washing-machine
       - type: tile
         entity: binary_sensor.tumble_dryer
         vertical: true
+        icon: mdi:tumble-dryer
       - type: tile
         entity: binary_sensor.dishwasher
         vertical: true
+        icon: mdi:dishwasher
     columns: 3
   - square: false
     type: grid

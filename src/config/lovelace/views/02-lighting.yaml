@@ -1,13 +1,204 @@
 ---
 title: Verlichting
-icon: "mdi:lightbulb-on"
+icon: mdi:lamps
 path: verlichting
-type: masonry
 badges:
   - entity: sensor.outdoor_light_dark
   - entity: sun.sun
 cards:
-  - !include ../cards/lights_floor_0.yaml
-  - !include ../cards/lights_floor_1.yaml
-  - !include ../cards/lights_outdoor.yaml
-  - !include ../cards/lights_floor_-1.yaml
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: ""
+        subtitle: Begane grond
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_living_room
+        name: Woonkamer
+        icon: mdi:lightbulb-multiple
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_dinner_table
+        name: Eettafel
+        icon: mdi:ceiling-light
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_kitchen
+        name: Keuken
+        icon: mdi:lightbulb-spot
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: ""
+        subtitle: Eerste verdieping
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_master_bedroom
+        name: Slaapkamer
+        icon: mdi:ceiling-light
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_lises_room
+        name: Lise's slaapkamer
+        icon: mdi:ceiling-light
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_small_bedroom
+        name: Kleine slaapkamer
+        icon: mdi:ceiling-light
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shelly1_upstairs_hall
+        name: Overloop
+        icon: mdi:ceiling-light
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: false
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shelly1_bathroom
+        name: Badkamer
+        icon: mdi:lightbulb-spot
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: false
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: ""
+        subtitle: Buiten
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_backyard_string_l
+        name: Achtertuin
+        icon: mdi:string-lights
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_barn_hanging_lamp
+        name: Schuur hanglamp
+        icon: mdi:outdoor-lamp
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shelly1_barn_door
+        name: Schuur
+        icon: mdi:spotlight-beam
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: false
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shelly1_front_door
+        name: Voordeur
+        icon: mdi:coach-lamp
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: false
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+  - type: vertical-stack
+    cards:
+      - type: custom:mushroom-title-card
+        title: ""
+        subtitle: Souterrain
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_basement_stairs
+        name: Keldertrap
+        icon: mdi:lightbulb-spot
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_basement
+        name: Kelder
+        icon: mdi:lightbulb-spot
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shellydimmer_laundry_room
+        name: Wasruimte
+        icon: mdi:lightbulb-spot
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: true
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
+      - type: custom:mushroom-light-card
+        entity: light.shelly1_front_door
+        name: Schuur
+        icon: mdi:coach-lamp
+        layout: horizontal
+        fill_container: false
+        show_brightness_control: false
+        collapsible_controls: false
+        show_color_control: false
+        show_color_temp_control: false
+        use_light_color: false
