@@ -191,14 +191,3 @@ cards:
         show_color_control: false
         show_color_temp_control: false
         use_light_color: false
-      - type: custom:mushroom-light-card
-        entity: light.shelly1_front_door
-        name: Schuur
-        icon: mdi:coach-lamp
-        layout: horizontal
-        fill_container: false
-        show_brightness_control: false
-        collapsible_controls: false
-        show_color_control: false
-        show_color_temp_control: false
-        use_light_color: false
