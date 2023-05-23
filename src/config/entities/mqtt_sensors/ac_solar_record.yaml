@@ -5,4 +5,4 @@ state_topic: "/home/solar/ac_solar_record"
 value_template: "{{ payload }}"
 json_attributes_topic: "/home/solar/ac_solar_record"
 json_attributes_template: >
-  { "date": "{{date}}" }
+  { "date": "{{ date }}" }
