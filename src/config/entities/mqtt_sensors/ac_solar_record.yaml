@@ -2,7 +2,7 @@
 name: "mqtt_ac_solar_record"
 unit_of_measurement: "kWh"
 state_topic: "/home/solar/ac_solar_record"
-value_template: "{{ value_json.payload }}"
+value_template: "{{ payload }}"
 json_attributes_topic: "/home/solar/ac_solar_record"
 json_attributes_template: >
-  { "date": {{value_json.date}} }
+  { "date": "{{date}}" }
