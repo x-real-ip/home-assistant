@@ -1,2 +1,6 @@
 ---
+name: "mqtt_ac_solar_record"
 state_topic: "/home/solar/ac_solar_record"
+unit_of_measurement: "kWh"
+device_class: "sensor"
+json_attributes_topic: "/home/solar/ac_solar_record/attributes"
