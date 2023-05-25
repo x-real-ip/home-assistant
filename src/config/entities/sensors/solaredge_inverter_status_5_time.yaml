@@ -1,0 +1,8 @@
+---
+platform: history_stats
+name: Inverter status 5 time
+entity_id: sensor.solaredge_modbus_status
+state: "5"
+type: time
+start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+end: "{{ now() }}"
