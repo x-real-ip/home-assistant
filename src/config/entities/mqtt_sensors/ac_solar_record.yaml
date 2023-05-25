@@ -5,4 +5,4 @@ state_topic: "/homeassistant/solar/ac_solar_record"
 value_template: "{{ value_json.payload }}"
 json_attributes_topic: "/homeassistant/solar/ac_solar_record"
 json_attributes_template: >
-  { "date": "{{ value_json.date }}" }
+  { "date": "{{ value_json.date | tojson }}" }
