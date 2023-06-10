@@ -64,55 +64,6 @@ trigger:
 ---
 kind: pipeline
 type: docker
-name: build
-
-depends_on:
-  - validate
-  - test
-
-steps:
-  - name: build and push image
-    image: quay.io/buildah/stable
-    privileged: true
-    network_mode: host
-    environment:
-      REGISTRY_HOST: "harbor.k8s.lan/k8s"
-      CONTAINERFILE: "./deploy/container/Containerfile"
-      STORAGE_DRIVER: "overlay"
-      FORMAT: "oci"
-      CONTEXT: "."
-      TLSVERIFY: "false"
-      USERNAME: "robot-drone-ci"
-      PASSWORD:
-        from_secret: harbor_registry_drone_password
-    commands:
-      - |
-        echo "Build image..."
-        buildah --storage-driver=$${STORAGE_DRIVER} bud --format=$${FORMAT} \
-        --tls-verify=$${TLSVERIFY} -f $${CONTAINERFILE} \
-        -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
-        -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
-      - |
-        echo "Push image with latest tag..."
-        buildah push --creds=$${USERNAME}:$${PASSWORD} \
-        --tls-verify=$${TLSVERIFY} \
-        $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
-        docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest
-      - |
-        echo "Push image with buildnumber tag..."
-        buildah push --creds=$${USERNAME}:$${PASSWORD} \
-        --tls-verify=$${TLSVERIFY} \
-        --digestfile=/tmp/image-digest \
-        $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
-        docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
-
-trigger:
-  branch:
-    - main
-
----
-kind: pipeline
-type: docker
 name: deploy
 
 depends_on:
