@@ -51,7 +51,7 @@ steps:
         -t $${DRONE_REPO_NAME}:latest
 
   - name: test
-    image: $${DRONE_REPO_NAME}:latest
+    image: ${DRONE_REPO_NAME}:latest
     pull: always
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
