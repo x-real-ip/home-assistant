@@ -31,8 +31,6 @@ depends_on:
 steps:
   - name: build image
     image: quay.io/buildah/stable
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
     privileged: true
     network_mode: host
     environment:
@@ -51,9 +49,10 @@ steps:
         buildah --storage-driver=$${STORAGE_DRIVER} bud --format=$${FORMAT} \
         --tls-verify=$${TLSVERIFY} -f $${CONTAINERFILE} \
         -t $${DRONE_REPO_NAME}:latest
+      - buildah push $${DRONE_REPO_NAME}:latest
 
   - name: test
-    image: ${DRONE_REPO_NAME}:latest
+    image: docker://${DRONE_REPO_NAME}:latest
     pull: always
     commands:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
