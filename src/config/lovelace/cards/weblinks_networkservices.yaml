@@ -4,7 +4,7 @@ title: Network Administration
 show_header_toggle: false
 entities:
   - type: weblink
-    url: https://pfsense.lan:10443/
+    url: https://10.0.99.1:1080/
     icon: mdi:wall
     name: pfSense Firewall
   - type: weblink
