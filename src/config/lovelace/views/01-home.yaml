@@ -202,15 +202,6 @@ cards:
     fill_container: false
     secondary_info: state
     layout: horizontal
-  - type: markdown
-    content: |-
-      {{ states('sensor.message_home_page_1') }}
-
-      {{ states('sensor.message_home_page_2') }}
-
-      {{ states('sensor.message_home_page_3') }}
-
-      {{ states('sensor.message_home_page_4') }}
   - type: custom:mushroom-climate-card
     entity: climate.living_room
     layout: vertical
