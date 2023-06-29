@@ -286,9 +286,6 @@ cards:
       - type: tile
         entity: binary_sensor.backdoor_window_door_is_open
         vertical: true
-      - type: tile
-        entity: binary_sensor.pt2262_ef9bc6
-        vertical: true
   - square: false
     type: grid
     cards:

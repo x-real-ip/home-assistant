@@ -14,12 +14,12 @@ for smart home technology.
 
 ## Automations
 
-All my automations are running in Node-RED [flows](https://github.com/theautomation/node-red/tree/main/src/data) as an alternative automation engine.
+All my automations are running in Node-RED
+[flows](https://github.com/theautomation/node-red/tree/main/src/data) as an
+alternative automation engine.
 
 ## Hardware
 
-- 433 MHz Motion Sensor
-- 433 MHz TS34C Thermo- en hygrosensor
 - Aeotec Z-Wave Gen5 Stick 868.42 MHz
 - Aeotec Z-Wave Gen5 Stick 908.42 MHz
 - Aeotec Z-Wave Recessed Doorsensor 868.42 MHz
@@ -33,9 +33,7 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 - ISKRA Smart Meter
 - LG SmartTV WebOS
 - Logitech Harmony Hub
-- Neo Coolman Z-Wave Wall Plug 868.42 MHz
 - Nvidia Shield TV
-- RFXCOM 433trfx Transceiver
 - Shelly Dimmer
 - Shelly Dimmer2
 - Shelly 1 Relay
@@ -49,8 +47,6 @@ All my automations are running in Node-RED [flows](https://github.com/theautomat
 - WLED
 - Xioami Roborock S55
 - Xioami Roborock S6 Pure
-- Xiaomi Mi Flower Care Plant Sensor
-
 
 ## Other
 

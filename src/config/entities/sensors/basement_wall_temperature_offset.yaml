@@ -3,6 +3,6 @@ platform: template
 sensors:
   basement_wall_temperature_offset:
     value_template:
-      "{{states.sensor.tfa_ts34c_cresta_2e_0e_temperature.state | float - 1 |
+      "{{states.sensor.basement_wall_temperature.state | float - 1 |
       round(1) }}"
     unit_of_measurement: °C
