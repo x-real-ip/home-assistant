@@ -27,6 +27,7 @@ cards:
       - type: entity
         entity: input_boolean.sleep_mode
         content_info: name
+        icon_color: amber
         tap_action:
           action: none
         hold_action:
