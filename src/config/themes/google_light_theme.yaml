@@ -102,3 +102,9 @@ google_light_theme:
   energy-battery-out-color: "#4db6ac"
   energy-battery-in-color: "#f06292"
   energy-gas-color: "#8E021b"
+
+gauge_solar:
+  info-color: "grey" # former label-badge-blue
+  success-color: var(--energy-solar-color) # former label-badge-green
+  warning-color: "orange" # former label-badge-yellow
+  error-color: "green" # former label-badge-red
