@@ -1,8 +1,8 @@
 ---
 title: Energy
+icon: mdi:lightning-bolt
+path: energy
 type: sidebar
-subview: true
-badges: []
 cards:
   - type: energy-date-selection
   - type: energy-usage-graph
