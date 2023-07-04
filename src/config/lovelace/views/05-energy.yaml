@@ -1,0 +1,159 @@
+---
+title: Energy
+type: sidebar
+subview: true
+badges: []
+cards:
+  - type: energy-date-selection
+  - type: energy-usage-graph
+  - type: energy-solar-graph
+  - type: energy-gas-graph
+  - type: energy-water-graph
+  - type: energy-devices-graph
+  - type: energy-sources-table
+  - chart_type: bar
+    period: hour
+    days_to_show: 1
+    type: statistics-graph
+    entities:
+      - sensor.solaredge_modbus_ac_power
+      - sensor.power_production_now
+    stat_types:
+      - max
+    hide_legend: false
+  - type: history-graph
+    hours_to_show: 16
+    entities:
+      - entity: sensor.solaredge_modbus_ac_power
+    show_names: false
+  - type: history-graph
+    hours_to_show: 16
+    show_names: false
+    entities:
+      - entity: sensor.custom_energy
+        name: Energie netto
+  - type: history-graph
+    hours_to_show: 16
+    show_names: false
+    entities:
+      - entity: sensor.weather_station_illuminance
+  - type: energy-distribution
+    view_layout:
+      position: sidebar
+    link_dashboard: false
+  - type: gauge
+    view_layout:
+      position: sidebar
+    entity: sensor.solaredge_modbus_ac_power
+    name: Zonne-energieproductie
+    needle: true
+    min: 0
+    max: 3680
+    severity:
+      green: 0
+      yellow: 1
+      red: 0
+  - type: gauge
+    view_layout:
+      position: sidebar
+    entity: sensor.custom_energy
+    needle: true
+    min: -4
+    max: 4
+    severity:
+      green: 1
+      yellow: 0
+      red: -4
+  - type: vertical-stack
+    view_layout:
+      position: sidebar
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.solaredge_modbus_status
+            state_color: true
+            icon: mdi:list-status
+            secondary_info:
+              attribute: status_description
+          - entity: sensor.dsmr_meter_stats_electricity_tariff
+            state_color: true
+            icon: mdi:transmission-tower
+          - entity: sensor.solaredge_modbus_ac_energy_kwh_today
+            state_color: true
+            name: Zonne-energieproductie vandaag
+            secondary_info: last-changed
+          - entity: sensor.mqtt_ac_solar_record
+            state_color: true
+            icon: mdi:chart-bell-curve
+            name: Zonne-energieproductie dagrecord
+            secondary_info:
+              attribute: date
+          - entity: sensor.inverter_production_curtailed_today
+            secondary_info: last-changed
+            name: Productie ingeperkt vandaag
+            state_color: true
+          - entity: sensor.inverter_production_curtailed_alltime
+            secondary_info: last-changed
+            name: Productie ingeperkt alltime
+            state_color: true
+  - type: energy-solar-consumed-gauge
+    view_layout:
+      position: sidebar
+  - type: energy-grid-neutrality-gauge
+    view_layout:
+      position: sidebar
+  - type: energy-carbon-consumed-gauge
+    view_layout:
+      position: sidebar
+  - type: gauge
+    view_layout:
+      position: sidebar
+    entity: sensor.dsmr_reading_phase_voltage_l1
+    name: AC Voltage
+    min: 207
+    max: 253
+    needle: true
+    severity:
+      green: null
+      yellow: 235
+      red: 250
+  - type: gauge
+    view_layout:
+      position: sidebar
+    entity: sensor.solaredge_modbus_temp_sink
+    max: 55
+    severity:
+      green: 0
+      yellow: 55
+      red: 60
+  - type: custom:horizon-card
+    view_layout:
+      position: sidebar
+  - type: entities
+    view_layout:
+      position: sidebar
+    state_color: true
+    entities:
+      - entity: sensor.power_production_now_combined
+        icon: mdi:solar-power
+        secondary_info: last-changed
+        name: Actueel
+      - entity: sensor.energy_next_hour_combined
+        icon: mdi:solar-power
+        name: Volgende uur
+        secondary_info: last-changed
+      - entity: sensor.energy_current_hour_combined
+        name: Dit uur
+        icon: mdi:solar-power
+        secondary_info: last-changed
+      - entity: sensor.energy_production_today_combined
+        name: Vandaag
+        icon: mdi:solar-power
+        secondary_info: last-changed
+      - entity: sensor.energy_production_tomorrow_combined
+        name: Morgen
+        icon: mdi:solar-power
+        secondary_info: last-changed
+      - entity: sensor.power_highest_peak_time_today
+        name: Piekmoment
+        secondary_info: last-updated
