@@ -278,7 +278,7 @@ spec:
               ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/k8s/home-assistant:287"
+          image: "harbor.k8s.lan/k8s/home-assistant:288"
           imagePullPolicy: Always
           securityContext:
             privileged: true
