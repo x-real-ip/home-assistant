@@ -114,7 +114,7 @@ cards:
           artwork: cover-fit
           info: scroll
       - type: custom:mushroom-select-card
-        entity: input_select.harmonyhub
+        entity: input_select.entertainment_activity
         fill_container: false
         layout: horizontal
         secondary_info: none
