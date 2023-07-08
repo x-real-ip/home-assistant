@@ -1,7 +1,8 @@
 ---
-harmonyhub:
+entertainment_activity:
   options:
     - Alles Uit
     - TV
+    - Radio
     - Scherm Uit
   initial: Alles Uit
