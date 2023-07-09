@@ -1,8 +1,8 @@
 ---
 entertainment_activity:
   options:
-    - Alles Uit
+    - Uitschakelen
     - TV
     - Radio
     - Scherm Uit
-  initial: Alles Uit
+  initial: Uitschakelen
