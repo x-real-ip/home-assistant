@@ -1,0 +1,7 @@
+{% macro radio_badge_color(radio_station_selection) %}
+    {% if states("input_select.radio_station") == radio_station_selection %}
+        blue
+    {% else %}
+        Null
+    {% endif %}
+{% endmacro %}
