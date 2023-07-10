@@ -1,0 +1,7 @@
+{% macro radio_badge_icon(radio_station_selection) %}
+    {% if states("input_select.radio_station") == radio_station_selection %}
+        mdi:music
+    {% else %}
+        Null
+    {% endif %}
+{% endmacro %}
