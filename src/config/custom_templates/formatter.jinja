@@ -13,3 +13,11 @@
         Null
     {% endif %}
 {% endmacro %}
+
+{% macro tv_chip_icon_color() %}
+    {% if is_state("binary_sensor.tv_device", "on") %}
+        blue
+    {% else %}
+        black
+    {% endif %}
+{% endmacro %}
