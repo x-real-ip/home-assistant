@@ -92,3 +92,19 @@ google_dark_theme:
   input-label-ink-color: var(--secondary-text-color)
   input-idle-line-color: var(--primary-text-color)
   input-hover-line-color: var(--accent-color)
+
+  # ----- Custom Section -----
+
+  # Energy
+  energy-grid-consumption-color: "#488fc2"
+  energy-grid-return-color: "#8353d1"
+  energy-solar-color: "#ff9800"
+  energy-non-fossil-color: "#0f9d58"
+  energy-battery-out-color: "#4db6ac"
+  energy-battery-in-color: "#f06292"
+  energy-gas-color: "#8E021b"
+
+  # Blur
+  dialog-backdrop-filter: blur(5px)
+  iron-overlay-backdrop-opacity: 1
+  iron-overlay-backdrop-background-color: rgba(0, 0, 0, 0.32)

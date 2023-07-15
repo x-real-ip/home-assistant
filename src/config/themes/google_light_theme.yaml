@@ -103,8 +103,7 @@ google_light_theme:
   energy-battery-in-color: "#f06292"
   energy-gas-color: "#8E021b"
 
-gauge_solar:
-  info-color: "grey" # former label-badge-blue
-  success-color: var(--energy-solar-color) # former label-badge-green
-  warning-color: "orange" # former label-badge-yellow
-  error-color: "green" # former label-badge-red
+  # Blur
+  dialog-backdrop-filter: blur(5px)
+  iron-overlay-backdrop-opacity: 1
+  iron-overlay-backdrop-background-color: rgba(0, 0, 0, 0.32)
