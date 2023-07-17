@@ -1,3 +1,4 @@
+---
 views:
   - type: custom:grid-layout
     title: home
@@ -92,19 +93,19 @@ views:
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:home
                 icon_color: blue
                 layout: vertical
                 fill_container: false
                 tap_action:
                   action: call-service
-                  service: ''
+                  service: ""
                   target: {}
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:lightbulb
                 icon_color: yellow
                 layout: vertical
@@ -118,8 +119,8 @@ views:
                     dismissable: true
                     autoclose: false
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:lightning-bolt
                 icon_color: orange
                 layout: vertical
@@ -128,8 +129,8 @@ views:
                   action: navigate
                   navigation_path: energy
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:vacuum
                 icon_color: purple
                 layout: vertical
@@ -164,23 +165,23 @@ views:
                               label:
                                 text: Prullenbak
                                 x: 29235
-                                'y': 26134
+                                "y": 26134
                                 offset_y: 35
                               icon:
                                 name: mdi:trash-can
                                 x: 29235
-                                'y': 26134
+                                "y": 26134
                         - template: vacuum_clean_segment
                           predefined_selections:
-                            - id: '16'
+                            - id: "16"
                               icon:
                                 name: mdi:broom
                                 x: 30675
-                                'y': 33275
+                                "y": 33275
                               label:
                                 text: Hal
                                 x: 30675
-                                'y': 33275
+                                "y": 33275
                                 offset_y: 35
                               outline:
                                 - - 28000
@@ -191,15 +192,15 @@ views:
                                   - 37150
                                 - - 28000
                                   - 37150
-                            - id: '17'
+                            - id: "17"
                               icon:
                                 name: mdi:broom
                                 x: 26725
-                                'y': 31400
+                                "y": 31400
                               label:
                                 text: Woonkamer
                                 x: 26725
-                                'y': 31400
+                                "y": 31400
                                 offset_y: 35
                               outline:
                                 - - 24700
@@ -210,15 +211,15 @@ views:
                                   - 33600
                                 - - 24700
                                   - 33600
-                            - id: '18'
+                            - id: "18"
                               icon:
                                 name: mdi:broom
                                 x: 26775
-                                'y': 25250
+                                "y": 25250
                               label:
                                 text: Eetkamer
                                 x: 26775
-                                'y': 25250
+                                "y": 25250
                                 offset_y: 35
                               outline:
                                 - - 24750
@@ -229,15 +230,15 @@ views:
                                   - 29350
                                 - - 24750
                                   - 29350
-                            - id: '19'
+                            - id: "19"
                               icon:
                                 name: mdi:broom
                                 x: 29725
-                                'y': 27500
+                                "y": 27500
                               label:
                                 text: Keuken
                                 x: 29725
-                                'y': 27500
+                                "y": 27500
                                 offset_y: 35
                               outline:
                                 - - 28650
@@ -249,8 +250,8 @@ views:
                                 - - 28650
                                   - 29350
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:cog
                 icon_color: red
                 layout: vertical
@@ -278,7 +279,7 @@ views:
                   {% else %}
                   blue
                   {% endif %}
-                content: '{{ (states(entity))}} W'
+                content: "{{ (states(entity))}} W"
               - type: template
                 entity: sensor.solaredge_modbus_ac_power
                 icon: mdi:solar-power
@@ -288,7 +289,7 @@ views:
                   {% else %}
                   disabled
                   {% endif %}
-                content: '{{ (states(entity, with_unit=True)) }}'
+                content: "{{ (states(entity, with_unit=True)) }}"
               - type: template
                 entity: sensor.watermeter_pulse
                 icon: |-
@@ -303,12 +304,12 @@ views:
                   {% else %}
                     disabled
                   {% endif %}
-                content: '{{ (states(entity, with_unit=True)) }}'
+                content: "{{ (states(entity, with_unit=True)) }}"
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-entity-card
                 entity: switch.shelly1_frontyard_powersocket
-                icon: ''
+                icon: ""
                 fill_container: false
                 secondary_info: none
                 name: Voortuin
@@ -325,7 +326,7 @@ views:
                 tap_action:
                   action: toggle
               - type: custom:mushroom-entity-card
-                icon: ''
+                icon: ""
                 fill_container: false
                 secondary_info: none
                 name: Keukenlade's
@@ -352,11 +353,12 @@ views:
                 'icon', none) %}
                   mdi:message
                 {% else %}
-                  {{ state_attr('binary_sensor.wall_dashboard_notification', 'icon') }}
+                  {{ state_attr('binary_sensor.wall_dashboard_notification',
+                'icon') }}
                 {% endif %}
               icon_color: green
-              badge_color: ''
-              badge_icon: ''
+              badge_color: ""
+              badge_icon: ""
           - type: custom:mushroom-select-card
             entity: input_select.entertainment_activity
             fill_container: false
@@ -425,7 +427,7 @@ views:
                     - type: template
                       entity: binary_sensor.receiver_device
                       icon: mdi:audio-video
-                      content: ''
+                      content: ""
                       tap_action:
                         action: call-service
                         service: button.press
@@ -451,8 +453,8 @@ views:
                         {% else %}
                           black
                         {% endif %}
-                      picture: ''
-                      content: ''
+                      picture: ""
+                      content: ""
                       double_tap_action:
                         action: none
                       tap_action:
@@ -475,8 +477,8 @@ views:
                   columns: 6
                   cards:
                     - type: custom:mushroom-template-card
-                      primary: ''
-                      secondary: ''
+                      primary: ""
+                      secondary: ""
                       icon: mdi:radio
                       layout: horizontal
                       picture: /local/img/radio/radio1.png
@@ -487,16 +489,16 @@ views:
                           entity_id: input_select.radio_station
                         data:
                           option: NPO Radio 1
-                      icon_color: ''
+                      icon_color: ""
                       badge_icon: >-
                         {% from 'formatter.jinja' import radio_badge_icon %}  {{
                         radio_badge_icon("NPO Radio 1") }}
                       badge_color: >-
-                        {% from 'formatter.jinja' import radio_badge_color %} 
+                        {% from 'formatter.jinja' import radio_badge_color %}
                         {{ radio_badge_color("NPO Radio 1") }}
                     - type: custom:mushroom-template-card
-                      primary: ''
-                      secondary: ''
+                      primary: ""
+                      secondary: ""
                       icon: mdi:radio
                       layout: vertical
                       picture: /local/img/radio/radio2.png
@@ -507,16 +509,16 @@ views:
                           entity_id: input_select.radio_station
                         data:
                           option: NPO Radio 2
-                      icon_color: ''
+                      icon_color: ""
                       badge_icon: >-
                         {% from 'formatter.jinja' import radio_badge_icon %}  {{
                         radio_badge_icon("NPO Radio 2") }}
                       badge_color: >-
-                        {% from 'formatter.jinja' import radio_badge_color %} 
+                        {% from 'formatter.jinja' import radio_badge_color %}
                         {{ radio_badge_color("NPO Radio 2") }}
                     - type: custom:mushroom-template-card
-                      primary: ''
-                      secondary: ''
+                      primary: ""
+                      secondary: ""
                       icon: mdi:radio
                       layout: vertical
                       picture: /local/img/radio/3fm.png
@@ -527,16 +529,16 @@ views:
                           entity_id: input_select.radio_station
                         data:
                           option: NPO 3FM
-                      icon_color: ''
+                      icon_color: ""
                       badge_icon: >-
                         {% from 'formatter.jinja' import radio_badge_icon %}  {{
                         radio_badge_icon("NPO 3FM") }}
                       badge_color: >-
-                        {% from 'formatter.jinja' import radio_badge_color %} 
+                        {% from 'formatter.jinja' import radio_badge_color %}
                         {{ radio_badge_color("NPO 3FM") }}
                     - type: custom:mushroom-template-card
-                      primary: ''
-                      secondary: ''
+                      primary: ""
+                      secondary: ""
                       icon: mdi:radio
                       layout: vertical
                       picture: /local/img/radio/radio4.png
@@ -547,16 +549,16 @@ views:
                           entity_id: input_select.radio_station
                         data:
                           option: NPO Radio 4
-                      icon_color: ''
+                      icon_color: ""
                       badge_icon: >-
                         {% from 'formatter.jinja' import radio_badge_icon %}  {{
                         radio_badge_icon("NPO Radio 4") }}
                       badge_color: >-
-                        {% from 'formatter.jinja' import radio_badge_color %} 
+                        {% from 'formatter.jinja' import radio_badge_color %}
                         {{ radio_badge_color("NPO Radio 4") }}
                     - type: custom:mushroom-template-card
-                      primary: ''
-                      secondary: ''
+                      primary: ""
+                      secondary: ""
                       icon: mdi:radio
                       layout: vertical
                       picture: /local/img/radio/radio538.png
@@ -567,16 +569,16 @@ views:
                           entity_id: input_select.radio_station
                         data:
                           option: Radio 538
-                      icon_color: ''
+                      icon_color: ""
                       badge_icon: >-
                         {% from 'formatter.jinja' import radio_badge_icon %}  {{
                         radio_badge_icon("Radio 538") }}
                       badge_color: >-
-                        {% from 'formatter.jinja' import radio_badge_color %} 
+                        {% from 'formatter.jinja' import radio_badge_color %}
                         {{ radio_badge_color("Radio 538") }}
                     - type: custom:mushroom-template-card
-                      primary: ''
-                      secondary: ''
+                      primary: ""
+                      secondary: ""
                       icon: mdi:radio
                       layout: vertical
                       picture: /local/img/radio/radio10.png
@@ -587,17 +589,17 @@ views:
                           entity_id: input_select.radio_station
                         data:
                           option: Radio 10
-                      icon_color: ''
+                      icon_color: ""
                       badge_icon: >-
                         {% from 'formatter.jinja' import radio_badge_icon %}  {{
                         radio_badge_icon("Radio 10") }}
                       badge_color: >-
-                        {% from 'formatter.jinja' import radio_badge_color %} 
+                        {% from 'formatter.jinja' import radio_badge_color %}
                         {{ radio_badge_color("Radio 10") }}
                 - type: conditional
                   conditions:
                     - entity: media_player.shield
-                      state_not: 'off'
+                      state_not: "off"
                     - entity: media_player.shield
                       state_not: unavailable
                   card:
@@ -656,7 +658,7 @@ views:
                           - type: template
                             entity: binary_sensor.receiver_device
                             icon: mdi:audio-video
-                            content: ''
+                            content: ""
                             tap_action:
                               action: call-service
                               service: button.press
@@ -683,8 +685,8 @@ views:
                               {% else %}
                                 black
                               {% endif %}
-                            picture: ''
-                            content: ''
+                            picture: ""
+                            content: ""
                             double_tap_action:
                               action: none
                             tap_action:
@@ -786,7 +788,7 @@ views:
                 icon_color: amber
                 entity: binary_sensor.frontdoor_window_door_is_open
               - type: custom:mushroom-entity-card
-                icon: ''
+                icon: ""
                 layout: vertical
                 fill_container: false
                 secondary_info: state
@@ -794,7 +796,7 @@ views:
                 entity: binary_sensor.backdoor_window_door_is_open
               - type: custom:mushroom-entity-card
                 name: Stookalert
-                icon: ''
+                icon: ""
                 layout: vertical
                 fill_container: false
                 secondary_info: state
