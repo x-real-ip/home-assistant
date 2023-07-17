@@ -1,0 +1,11 @@
+---
+platform: template
+sensors:
+  media_player_background:
+    friendly_name: "Media Player Background"
+    value_template: >-
+      {% if is_state('input_select.radio_station', 'NPO Radio 2') %}
+        /local/img/radio/radio2_background.png
+      {% else %}
+        /local/img/radio/radio2_background.png
+      {% endif %}
