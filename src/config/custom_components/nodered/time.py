@@ -1,48 +1,60 @@
-"""Select platform for nodered."""
-from homeassistant.components.select import SelectEntity
+"""Sensor platform for nodered."""
+import logging
+
+from dateutil import parser
+from homeassistant.components.time import TimeEntity
 from homeassistant.components.websocket_api import event_message
 from homeassistant.const import CONF_ICON, CONF_ID, CONF_TYPE
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 
-from custom_components.nodered.number import CONF_VALUE
-
 from . import NodeRedEntity
 from .const import (
     CONF_CONFIG,
-    CONF_OPTIONS,
-    CONF_SELECT,
+    CONF_TIME,
     EVENT_VALUE_CHANGE,
     NODERED_DISCOVERY_NEW,
-    SELECT_ICON,
+    TIME_ICON,
 )
 
+_LOGGER = logging.getLogger(__name__)
+
+
 CONF_STATE = "state"
+CONF_VALUE = "value"
 
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
-    """Set up the text platform."""
+    """Set up the number platform."""
 
     async def async_discover(config, connection):
         await _async_setup_entity(hass, config, async_add_entities, connection)
 
     async_dispatcher_connect(
         hass,
-        NODERED_DISCOVERY_NEW.format(CONF_SELECT),
+        NODERED_DISCOVERY_NEW.format(CONF_TIME),
         async_discover,
     )
 
 
 async def _async_setup_entity(hass, config, async_add_entities, connection):
-    """Set up the Node-RED text."""
+    """Set up the Node-RED number."""
 
-    async_add_entities([NodeRedSelect(hass, config, connection)])
+    async_add_entities([NodeRedNumber(hass, config, connection)])
 
 
-class NodeRedSelect(NodeRedEntity, SelectEntity):
-    """Node-RED text class."""
+def _convert_string_to_time(value):
+    """Convert string to time."""
+    if value is None:
+        return None
+    return parser.parse(value).time()
 
+
+class NodeRedNumber(NodeRedEntity, TimeEntity):
+    """Node-RED number class."""
+
+    _attr_native_value = None
     _bidirectional = True
-    _component = CONF_SELECT
+    _component = CONF_TIME
 
     def __init__(self, hass, config, connection):
         """Initialize the number."""
@@ -50,23 +62,21 @@ class NodeRedSelect(NodeRedEntity, SelectEntity):
         self._message_id = config[CONF_ID]
         self._connection = connection
 
-    async def async_select_option(self, option: str) -> None:
-        """Set new option."""
+    async def async_set_value(self, value) -> None:
+        """Set new value."""
         self._connection.send_message(
             event_message(
-                self._message_id, {CONF_TYPE: EVENT_VALUE_CHANGE, CONF_VALUE: option}
+                self._message_id, {CONF_TYPE: EVENT_VALUE_CHANGE, CONF_VALUE: value}
             )
         )
 
     def update_entity_state_attributes(self, msg):
         """Update the entity state attributes."""
         super().update_entity_state_attributes(msg)
-        self._attr_current_option = msg.get(CONF_STATE)
+        self._attr_native_value = _convert_string_to_time(msg.get(CONF_STATE))
 
     def update_discovery_config(self, msg):
         """Update the entity config."""
         super().update_discovery_config(msg)
 
-        self._attr_icon = msg[CONF_CONFIG].get(CONF_ICON, SELECT_ICON)
-        if msg[CONF_CONFIG].get(CONF_OPTIONS) is not None:
-            self._attr_options = msg[CONF_CONFIG].get(CONF_OPTIONS)
+        self._attr_icon = msg[CONF_CONFIG].get(CONF_ICON, TIME_ICON)

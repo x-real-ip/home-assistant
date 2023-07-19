@@ -605,14 +605,22 @@ views:
                   card:
                     type: vertical-stack
                     cards:
-                      - type: custom:mini-media-player
-                        entity: media_player.shield
-                        group: false
-                        name: Nvidia Shield
-                        source: icon
-                        info: short
-                        background: /local/img/radio/radio_background4.jpg
-                        artwork: material
+                      - type: custom:config-template-card
+                        variables:
+                          background: states['sensor.media_player_background'].state
+                        entities:
+                          - media_player.shield
+                        card:
+                          type: custom:mini-media-player
+                          entity: media_player.shield
+                          group: false
+                          name: Nvidia Shield
+                          source: icon
+                          info: short
+                          background: ${background}
+                          artwork: material
+                          hide:
+                            info: true
                       - type: custom:mushroom-chips-card
                         alignment: start
                         chips:
