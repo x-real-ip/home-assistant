@@ -1,6 +1,7 @@
 """Constants for Roborock."""
 from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from homeassistant.components.button import DOMAIN as BUTTON_DOMAIN
+from homeassistant.components.calendar import DOMAIN as CALENDAR_DOMAIN
 from homeassistant.components.camera import DOMAIN as CAMERA_DOMAIN
 from homeassistant.components.number import DOMAIN as NUMBER_DOMAIN
 from homeassistant.components.select import DOMAIN as SELECT_DOMAIN
@@ -22,6 +23,7 @@ CONF_HOME_DATA = "home_data"
 
 BINARY_SENSOR = BINARY_SENSOR_DOMAIN
 BUTTON = BUTTON_DOMAIN
+CALENDAR = CALENDAR_DOMAIN
 CAMERA = CAMERA_DOMAIN
 NUMBER = NUMBER_DOMAIN
 SELECT = SELECT_DOMAIN

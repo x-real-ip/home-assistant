@@ -1,11 +1,19 @@
 """Domain dict for Roborock."""
-from typing import TypedDict
+from typing import Optional, TypedDict
 
 from . import RoborockDataUpdateCoordinator
+from .store import LocalCalendarStore
 
 
-class DomainData(TypedDict):
-    """Define integration domain data."""
+class DeviceEntryData(TypedDict):
+    """Define integration device entry data."""
 
-    coordinators: list[RoborockDataUpdateCoordinator]
+    coordinator: RoborockDataUpdateCoordinator
+    calendar: LocalCalendarStore
+
+
+class EntryData(TypedDict):
+    """Define integration entry data."""
+
+    devices: dict[str, Optional[DeviceEntryData]]
     platforms: list[str]
