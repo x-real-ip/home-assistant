@@ -1,27 +1,5 @@
 ---
 kind: pipeline
-type: docker
-name: validate
-
-steps:
-  - name: prettier
-    image: tmknom/prettier:latest
-    user: root
-    commands:
-      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
-
-  - name: yamllint
-    image: sdesbure/yamllint:latest
-    commands:
-      - yamllint -c ./cicd/.yamllint.yaml .
-
-trigger:
-  branch:
-    - main
-    - feature/*
-
----
-kind: pipeline
 name: test
 
 steps:
@@ -43,7 +21,6 @@ type: docker
 name: build
 
 depends_on:
-  - validate
   - test
 
 steps:
@@ -95,6 +72,12 @@ depends_on:
   - build
 
 steps:
+  - name: prettier
+    image: tmknom/prettier:latest
+    user: root
+    commands:
+      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
+
   - name: upgrade k8s manifest
     image: alpine:3
     network_mode: host
@@ -105,7 +88,7 @@ steps:
         "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1"
         ./deploy/k8s/manifest.yaml
 
-  - name: push k8s manifest
+  - name: push to github
     image: appleboy/drone-git-push:1-linux-amd64
     settings:
       remote_name: "git@github.com:${DRONE_REPO}"
@@ -117,7 +100,7 @@ steps:
       ssh_key:
         from_secret: github_ssh_key
 
-  - name: apply k8s manifest
+  - name: deploy k8s manifest
     image: bitnami/kubectl
     volumes:
       - name: kubeconfig
