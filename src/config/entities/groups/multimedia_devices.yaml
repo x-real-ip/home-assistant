@@ -4,3 +4,4 @@ multimedia_devices:
   entities:
     - binary_sensor.receiver_device
     - binary_sensor.tv_device
+    - binary_sensor.tvscreen_device
