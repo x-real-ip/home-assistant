@@ -24,7 +24,7 @@ views:
             content_info: name
           - type: entity
             entity: input_boolean.home_security
-            icon_color: amber
+            icon_color: deep-orange
             content_info: name
             tap_action:
               action: toggle
@@ -147,82 +147,54 @@ views:
             cards:
               - type: energy-distribution
                 link_dashboard: false
-          - type: custom:mushroom-chips-card
-            chips:
-              - type: template
-                entity: sensor.custom_energy
-                icon: |-
-                  {% if states(entity)|int > 0 %}
-                  mdi:transmission-tower
-                  {% else %}
-                  mdi:transmission-tower-export
-                  {% endif %}
-                icon_color: |-
-                  {% if states(entity)|int > 0 %}
-                  purple
-                  {% else %}
-                  blue
-                  {% endif %}
-                content: "{{ (states(entity))}} W"
-              - type: template
-                entity: sensor.solaredge_modbus_ac_power
-                icon: mdi:solar-power
-                icon_color: |-
-                  {% if states(entity)|int > 0 %}
-                  orange
-                  {% else %}
-                  disabled
-                  {% endif %}
-                content: "{{ (states(entity, with_unit=True)) }}"
-              - type: template
-                entity: sensor.watermeter_pulse
-                icon: |-
-                  {% if states(entity)|int > 0 %}
-                  mdi:water
-                  {% else %}
-                  mdi:water-off
-                  {% endif %}
-                icon_color: |-
-                  {% if states(entity)|int > 0 %}
-                    #00bcd4
-                  {% else %}
-                    disabled
-                  {% endif %}
-                content: "{{ (states(entity, with_unit=True)) }}"
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: template
+                    entity: sensor.custom_energy
+                    icon: |-
+                      {% if states(entity)|int > 0 %}
+                      mdi:transmission-tower
+                      {% else %}
+                      mdi:transmission-tower-export
+                      {% endif %}
+                    icon_color: |-
+                      {% if states(entity)|int > 0 %}
+                      purple
+                      {% else %}
+                      blue
+                      {% endif %}
+                    content: "{{ (states(entity))}} W"
+                  - type: template
+                    entity: sensor.solaredge_modbus_ac_power
+                    icon: mdi:solar-power
+                    icon_color: |-
+                      {% if states(entity)|int > 0 %}
+                      orange
+                      {% else %}
+                      disabled
+                      {% endif %}
+                    content: "{{ (states(entity, with_unit=True)) }}"
+                  - type: template
+                    entity: sensor.watermeter_pulse
+                    icon: |-
+                      {% if states(entity)|int > 0 %}
+                      mdi:water
+                      {% else %}
+                      mdi:water-off
+                      {% endif %}
+                    icon_color: |-
+                      {% if states(entity)|int > 0 %}
+                        #00bcd4
+                      {% else %}
+                        disabled
+                      {% endif %}
+                    content: "{{ (states(entity, with_unit=True)) }}"
         view_layout:
           grid-area: middle
       - type: vertical-stack
         cards:
-          - type: conditional
-            conditions:
-              - entity: sensor.afval_morgen
-                state_not: Geen
-            card:
-              type: custom:mushroom-template-card
-              primary: Afval
-              secondary: >-
-                Let op, morgenochtend wordt de {{ states('sensor.afval_morgen')
-                }} container opgehaald.
-              icon: >-
-                {% if is_state_attr('binary_sensor.wall_dashboard_notification',
-                'icon', none) %}
-                  mdi:message
-                {% else %}
-                  {{ state_attr('binary_sensor.wall_dashboard_notification',
-                'icon') }}
-                {% endif %}
-              icon_color: green
-              badge_color: ""
-              badge_icon: ""
-          - type: custom:mushroom-climate-card
+          - type: thermostat
             entity: climate.living_room
-            name: Woonkamer
-            icon: mdi:thermometer
-            show_temperature_control: true
-            secondary_info: state
-            hvac_modes:
-              - auto
-            collapsible_controls: false
           - type: custom:mushroom-select-card
             entity: input_select.entertainment_activity
             fill_container: false
@@ -241,94 +213,41 @@ views:
             card:
               type: vertical-stack
               cards:
-                - type: custom:mini-media-player
-                  entity: media_player.shield
-                  artwork: cover-fit
-                  group: false
-                  name: Nvidia Shield
-                - type: custom:mushroom-chips-card
-                  alignment: start
-                  chips:
-                    - type: action
-                      icon: mdi:volume-off
-                      tap_action:
-                        action: call-service
-                        service: script.turn_on
-                        service_data:
-                          entity_id: script.harmonyhub_mute_receiver
-                    - type: action
-                      icon: mdi:volume-minus
-                      tap_action:
-                        action: call-service
-                        service: script.turn_on
-                        service_data:
-                          entity_id: script.harmonyhub_volume_down_receiver
-                    - type: action
-                      icon: mdi:volume-plus
-                      tap_action:
-                        action: call-service
-                        service: script.turn_on
-                        service_data:
-                          entity_id: script.harmonyhub_volume_up_receiver
-                    - type: action
-                      icon: mdi:speaker
-                      tap_action:
-                        action: call-service
-                        service: script.turn_on
-                        service_data:
-                          entity_id: script.harmonyhub_speaker_2_or_4_receiver
-                    - type: entity
-                      entity: button.beeldscherm
-                      name: Beeldscherm
-                      content_info: none
-                      tap_action:
-                        action: call-service
-                        service: button.press
-                        target:
-                          entity_id: button.beeldscherm
-                        data: {}
-                      icon: mdi:television-ambient-light
-                    - type: template
-                      entity: binary_sensor.receiver_device
-                      icon: mdi:audio-video
-                      content: ""
-                      tap_action:
-                        action: call-service
-                        service: button.press
-                        target:
-                          entity_id: button.receiver
-                        data: {}
-                      icon_color: |-
-                        {% if is_state("binary_sensor.receiver_device", "on") %}
-                          blue
-                        {% else %}
-                          black
-                        {% endif %}
-                      double_tap_action:
-                        action: none
-                      hold_action:
-                        action: none
-                    - type: template
-                      entity: binary_sensor.tv_device
-                      icon: mdi:television
-                      icon_color: |-
-                        {% if is_state("binary_sensor.tv_device", "on") %}
-                          blue
-                        {% else %}
-                          black
-                        {% endif %}
-                      picture: ""
-                      content: ""
-                      double_tap_action:
-                        action: none
-                      tap_action:
-                        action: call-service
-                        service: button.press
-                        target:
-                          entity_id: button.tv_device
-                        data: {}
-                      hold_action:
-                        action: none
+                - type: conditional
+                  conditions:
+                    - entity: media_player.shield
+                      state_not: "off"
+                    - entity: media_player.shield
+                      state_not: unavailable
+                  card:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mini-media-player
+                        entity: media_player.shield
+                        name: Nvidia Shield
+                        icon: mdi:cast
+                        artwork: cover-fit
+                        group: false
+                - type: vertical-stack
+                  cards:
+                    - type: conditional
+                      conditions:
+                        - entity: media_player.shield_android_tv
+                          state_not: "off"
+                        - entity: media_player.shield_android_tv
+                          state_not: unavailable
+                        - entity: media_player.shield
+                          state_not: playing
+                        - entity: media_player.shield
+                          state_not: paused
+                      card:
+                        type: vertical-stack
+                        cards:
+                          - type: custom:mini-media-player
+                            entity: media_player.shield_android_tv
+                            artwork: cover-fit
+                            group: false
+                            name: Shield Android TV
           - type: conditional
             conditions:
               - entity: input_select.entertainment_activity
@@ -673,227 +592,152 @@ views:
                         hide:
                           info: true
                           power: true
-                      - type: custom:mushroom-chips-card
-                        alignment: start
-                        chips:
-                          - type: action
-                            icon: mdi:volume-off
-                            tap_action:
-                              action: call-service
-                              service: script.turn_on
-                              service_data:
-                                entity_id: script.harmonyhub_mute_receiver
-                          - type: action
-                            icon: mdi:volume-minus
-                            tap_action:
-                              action: call-service
-                              service: script.turn_on
-                              service_data:
-                                entity_id: script.harmonyhub_volume_down_receiver
-                          - type: action
-                            icon: mdi:volume-plus
-                            tap_action:
-                              action: call-service
-                              service: script.turn_on
-                              service_data:
-                                entity_id: script.harmonyhub_volume_up_receiver
-                          - type: action
-                            icon: mdi:speaker
-                            tap_action:
-                              action: call-service
-                              service: script.turn_on
-                              service_data:
-                                entity_id: script.harmonyhub_speaker_2_or_4_receiver
-                          - type: entity
-                            entity: button.beeldscherm
-                            name: Beeldscherm
-                            content_info: none
-                            tap_action:
-                              action: call-service
-                              service: button.press
-                              target:
-                                entity_id: button.beeldscherm
-                              data: {}
-                            icon: mdi:television-ambient-light
-                          - type: template
-                            entity: binary_sensor.receiver_device
-                            icon: mdi:audio-video
-                            content: ""
-                            tap_action:
-                              action: call-service
-                              service: button.press
-                              target:
-                                entity_id: button.receiver
-                              data: {}
-                            icon_color: >-
-                              {% if is_state("binary_sensor.receiver_device",
-                              "on") %}
-                                blue
-                              {% else %}
-                                black
-                              {% endif %}
-                            double_tap_action:
-                              action: none
-                            hold_action:
-                              action: none
-                          - type: template
-                            entity: binary_sensor.tv_device
-                            icon: mdi:television
-                            icon_color: |-
-                              {% if is_state("binary_sensor.tv_device", "on") %}
-                                blue
-                              {% else %}
-                                black
-                              {% endif %}
-                            picture: ""
-                            content: ""
-                            double_tap_action:
-                              action: none
-                            tap_action:
-                              action: call-service
-                              service: button.press
-                              target:
-                                entity_id: button.tv_device
-                              data: {}
-                            hold_action:
-                              action: none
-          - type: custom:atomic-calendar-revive
-            enableModeChange: true
-            entities:
-              - entity: calendar.lise
-                name: Lise
-              - entity: calendar.nederlandse_feestdagen
-                name: Nederlandse Feestdagen
-              - entity: calendar.verjaardagen
-                name: Verjaardagen
-              - entity: calendar.coen_anne
-                name: Coen & Anne
-              - entity: calendar.schoonmaak
-                name: Schoonmaak
-              - entity: calendar.lise_babysitter
-                name: babysitter
-            sortByStartTime: true
-            showDate: false
-            hideDuplicates: false
-            showMultiDayEventParts: false
-            hoursOnSameLine: true
-            compactMode: false
-            showMultiDay: true
-            showRelativeTime: true
-            hideFinishedEvents: true
-            showDeclined: false
-            firstDayOfWeek: 1
-            maxDaysToShow: 2
-            showCurrentEventLine: false
-            showMonth: false
-            showDescription: false
-            showFullDayProgress: true
-            showWeekDay: true
-            showEventIcon: false
-            showCalendarName: false
-            showEventDate: true
-            showTimeRemaining: false
-            showAllDayHours: false
-            showWeekNumber: false
-            showLastCalendarWeek: false
-            disableCalLink: false
-            dimFinishedEvents: true
-            refreshInterval: 300
-            hoursFormat: HH:mm
-            card_mod:
-              style: |
-                :host {
-                  font-size: 13px;
-                }
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.receiver_device
+                state: "on"
+            card:
+              type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+                - type: action
+                  icon: mdi:volume-off
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.harmonyhub_mute_receiver
+                - type: action
+                  icon: mdi:volume-minus
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.harmonyhub_volume_down_receiver
+                - type: action
+                  icon: mdi:volume-plus
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.harmonyhub_volume_up_receiver
+                - type: action
+                  icon: mdi:speaker
+                  tap_action:
+                    action: call-service
+                    service: script.turn_on
+                    service_data:
+                      entity_id: script.harmonyhub_speaker_2_or_4_receiver
+                - type: entity
+                  entity: button.beeldscherm
+                  name: Beeldscherm
+                  content_info: none
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    target:
+                      entity_id: button.beeldscherm
+                    data: {}
+                  icon: mdi:television-ambient-light
+                - type: template
+                  entity: binary_sensor.receiver_device
+                  icon: mdi:audio-video
+                  content: ""
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    target:
+                      entity_id: button.receiver
+                    data: {}
+                  icon_color: |-
+                    {% if is_state("binary_sensor.receiver_device", "on") %}
+                      blue
+                    {% else %}
+                      black
+                    {% endif %}
+                  double_tap_action:
+                    action: none
+                  hold_action:
+                    action: none
+                - type: template
+                  entity: binary_sensor.tv_device
+                  icon: mdi:television
+                  icon_color: |-
+                    {% if is_state("binary_sensor.tv_device", "on") %}
+                      blue
+                    {% else %}
+                      black
+                    {% endif %}
+                  picture: ""
+                  content: ""
+                  double_tap_action:
+                    action: none
+                  tap_action:
+                    action: call-service
+                    service: button.press
+                    target:
+                      entity_id: button.tv_device
+                    data: {}
+                  hold_action:
+                    action: none
+          - type: conditional
+            conditions:
+              - entity: input_select.entertainment_activity
+                state: Uitschakelen
+            card:
+              type: custom:atomic-calendar-revive
+              enableModeChange: true
+              entities:
+                - entity: calendar.lise
+                  name: Lise
+                - entity: calendar.nederlandse_feestdagen
+                  name: Nederlandse Feestdagen
+                - entity: calendar.verjaardagen
+                  name: Verjaardagen
+                - entity: calendar.coen_anne
+                  name: Coen & Anne
+                  blocklist: Vakantie (Coen|Anne)
+                - entity: calendar.schoonmaak
+                  name: Schoonmaak
+                - entity: calendar.lise_babysitter
+                  name: babysitter
+              sortByStartTime: true
+              showDate: false
+              hideDuplicates: false
+              showMultiDayEventParts: false
+              hoursOnSameLine: true
+              compactMode: false
+              showMultiDay: true
+              showRelativeTime: true
+              hideFinishedEvents: true
+              showDeclined: false
+              firstDayOfWeek: 1
+              maxDaysToShow: 2
+              showCurrentEventLine: false
+              showMonth: false
+              showDescription: false
+              showFullDayProgress: true
+              showWeekDay: true
+              showEventIcon: false
+              showCalendarName: false
+              showEventDate: true
+              showTimeRemaining: false
+              showAllDayHours: false
+              showWeekNumber: false
+              showLastCalendarWeek: false
+              disableCalLink: false
+              dimFinishedEvents: true
+              refreshInterval: 300
+              hoursFormat: HH:mm
+              card_mod:
+                style: |
+                  :host {
+                    font-size: 13px;
+                  }
         view_layout:
           grid-area: left
       - type: vertical-stack
         cards:
-          - square: false
-            type: grid
-            columns: 3
-            cards:
-              - type: custom:mushroom-entity-card
-                entity: binary_sensor.washing_machine
-                layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: amber
-              - type: custom:mushroom-entity-card
-                entity: binary_sensor.tumble_dryer
-                icon: mdi:tumble-dryer
-                layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: amber
-              - type: custom:mushroom-entity-card
-                entity: binary_sensor.dishwasher
-                icon: mdi:dishwasher
-                layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: amber
-          - square: false
-            type: grid
-            columns: 3
-            cards:
-              - type: custom:mushroom-entity-card
-                layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: amber
-                entity: binary_sensor.frontdoor_window_door_is_open
-              - type: custom:mushroom-entity-card
-                icon: ""
-                layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: amber
-                entity: binary_sensor.backdoor_window_door_is_open
-              - type: custom:mushroom-entity-card
-                name: Stookalert
-                icon: ""
-                layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: amber
-                entity: binary_sensor.stookalert_gelderland
-          - type: custom:gap-card
-            height: 10
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-entity-card
-                entity: switch.shelly1_frontyard_powersocket
-                icon: ""
-                fill_container: false
-                secondary_info: none
-                name: Voortuin
-                icon_color: amber
-                tap_action:
-                  action: toggle
-                layout: vertical
-              - type: custom:mushroom-entity-card
-                icon: mdi:vacuum
-                fill_container: false
-                secondary_info: none
-                icon_color: amber
-                entity: input_boolean.auto_cleaning
-                name: Automatisch
-                tap_action:
-                  action: toggle
-                layout: vertical
-              - type: custom:mushroom-entity-card
-                icon: ""
-                fill_container: false
-                secondary_info: none
-                name: Keukenlade's
-                icon_color: amber
-                entity: switch.childlock_kitchen_switch
-                tap_action:
-                  action: toggle
-                layout: vertical
-          - type: custom:gap-card
-            height: 10
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-light-card
@@ -926,17 +770,102 @@ views:
                 entity: light.shelly1_upstairs_hall
                 layout: vertical
                 secondary_info: none
+          - type: custom:gap-card
+            height: 10
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: switch.shelly1_frontyard_powersocket
+                icon: ""
+                fill_container: false
+                secondary_info: none
+                name: Voortuin
+                icon_color: purple
+                tap_action:
+                  action: toggle
+                layout: vertical
+              - type: custom:mushroom-entity-card
+                icon: mdi:vacuum
+                fill_container: false
+                secondary_info: none
+                icon_color: purple
+                entity: input_boolean.auto_cleaning
+                name: Automatisch
+                tap_action:
+                  action: toggle
+                layout: vertical
+              - type: custom:mushroom-entity-card
+                icon: ""
+                fill_container: false
+                secondary_info: none
+                name: Keukenlade's
+                icon_color: purple
+                entity: switch.childlock_kitchen_switch
+                tap_action:
+                  action: toggle
+                layout: vertical
+          - type: custom:gap-card
+            height: 10
+          - square: false
+            type: grid
+            columns: 3
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.washing_machine
+                layout: vertical
+                fill_container: false
+                secondary_info: state
+                icon_color: cyan
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.tumble_dryer
+                icon: mdi:tumble-dryer
+                layout: vertical
+                fill_container: false
+                secondary_info: state
+                icon_color: cyan
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.dishwasher
+                icon: mdi:dishwasher
+                layout: vertical
+                fill_container: false
+                secondary_info: state
+                icon_color: cyan
+          - square: false
+            type: grid
+            columns: 3
+            cards:
+              - type: custom:mushroom-entity-card
+                layout: vertical
+                fill_container: false
+                secondary_info: state
+                icon_color: cyan
+                entity: binary_sensor.frontdoor_window_door_is_open
+              - type: custom:mushroom-entity-card
+                icon: ""
+                layout: vertical
+                fill_container: false
+                secondary_info: state
+                icon_color: cyan
+                entity: binary_sensor.backdoor_window_door_is_open
+              - type: custom:mushroom-entity-card
+                name: Stookalert
+                icon: ""
+                layout: vertical
+                fill_container: false
+                secondary_info: state
+                icon_color: deep-orange
+                entity: binary_sensor.stookalert_gelderland
         view_layout:
           grid-area: right
   - title: lights
     path: lights
     type: custom:grid-layout
     layout:
-      grid-template-columns: 50% auto 50%
+      grid-template-columns: 33% auto 33%
       grid-template-rows: auto
       grid-template-areas: |
         "header header header"
-        "left . right"
+        "left middle right"
     badges: []
     cards:
       - type: custom:mushroom-chips-card
@@ -951,70 +880,10 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 title: ""
-                subtitle: Buiten
-              - type: custom:mushroom-light-card
-                entity: light.shellydimmer_backyard_string_l
-                name: Achtertuin
-                icon: mdi:string-lights
-                layout: horizontal
-                fill_container: false
-                show_brightness_control: true
-                collapsible_controls: false
-                show_color_control: false
-                show_color_temp_control: false
-                use_light_color: false
-              - type: custom:mushroom-light-card
-                entity: light.shellydimmer_barn_hanging_lamp
-                name: Schuur hanglamp
-                icon: mdi:outdoor-lamp
-                layout: horizontal
-                fill_container: false
-                show_brightness_control: true
-                collapsible_controls: false
-                show_color_control: false
-                show_color_temp_control: false
-                use_light_color: false
-              - type: custom:mushroom-light-card
-                entity: light.shelly1_barn_door
-                name: Schuur
-                icon: mdi:spotlight-beam
-                layout: horizontal
-                fill_container: false
-                show_brightness_control: false
-                collapsible_controls: false
-                show_color_control: false
-                show_color_temp_control: false
-                use_light_color: false
-              - type: custom:mushroom-light-card
-                entity: light.shelly1_front_door
-                name: Voordeur
-                icon: mdi:coach-lamp
-                layout: horizontal
-                fill_container: false
-                show_brightness_control: false
-                collapsible_controls: false
-                show_color_control: false
-                show_color_temp_control: false
-                use_light_color: false
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-title-card
-                title: ""
                 subtitle: Souterrain
               - type: custom:mushroom-light-card
                 entity: light.shellydimmer_basement_stairs
                 name: Keldertrap
-                icon: mdi:lightbulb-spot
-                layout: horizontal
-                fill_container: false
-                show_brightness_control: true
-                collapsible_controls: false
-                show_color_control: false
-                show_color_temp_control: false
-                use_light_color: false
-              - type: custom:mushroom-light-card
-                entity: light.shellydimmer_basement
-                name: Kelder
                 icon: mdi:lightbulb-spot
                 layout: horizontal
                 fill_container: false
@@ -1034,40 +903,9 @@ views:
                 show_color_control: false
                 show_color_temp_control: false
                 use_light_color: false
-        view_layout:
-          grid-area: left
-      - type: vertical-stack
-        cards:
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-title-card
-                title: ""
-                subtitle: Begane grond
               - type: custom:mushroom-light-card
-                entity: light.shellydimmer_living_room
-                name: Woonkamer
-                icon: mdi:lightbulb-multiple
-                layout: horizontal
-                fill_container: false
-                show_brightness_control: true
-                collapsible_controls: false
-                show_color_control: false
-                show_color_temp_control: false
-                use_light_color: false
-              - type: custom:mushroom-light-card
-                entity: light.shellydimmer_dinner_table
-                name: Eettafel
-                icon: mdi:ceiling-light
-                layout: horizontal
-                fill_container: false
-                show_brightness_control: true
-                collapsible_controls: false
-                show_color_control: false
-                show_color_temp_control: false
-                use_light_color: false
-              - type: custom:mushroom-light-card
-                entity: light.shellydimmer_kitchen
-                name: Keuken
+                entity: light.shellydimmer_basement
+                name: Kelder
                 icon: mdi:lightbulb-spot
                 layout: horizontal
                 fill_container: false
@@ -1076,6 +914,10 @@ views:
                 show_color_control: false
                 show_color_temp_control: false
                 use_light_color: false
+        view_layout:
+          grid-area: left
+      - type: vertical-stack
+        cards:
           - type: vertical-stack
             cards:
               - type: custom:mushroom-title-card
@@ -1138,6 +980,90 @@ views:
                 use_light_color: false
         view_layout:
           grid-area: right
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: ""
+            subtitle: Begane grond
+          - type: custom:mushroom-light-card
+            entity: light.shellydimmer_living_room
+            name: Woonkamer
+            icon: mdi:lightbulb-multiple
+            layout: horizontal
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: false
+            show_color_control: false
+            show_color_temp_control: false
+            use_light_color: false
+          - type: custom:mushroom-light-card
+            entity: light.shellydimmer_dinner_table
+            name: Eettafel
+            icon: mdi:ceiling-light
+            layout: horizontal
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: false
+            show_color_control: false
+            show_color_temp_control: false
+            use_light_color: false
+          - type: custom:mushroom-light-card
+            entity: light.shellydimmer_kitchen
+            name: Keuken
+            icon: mdi:lightbulb-spot
+            layout: horizontal
+            fill_container: false
+            show_brightness_control: true
+            collapsible_controls: false
+            show_color_control: false
+            show_color_temp_control: false
+            use_light_color: false
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.shellydimmer_backyard_string_l
+                name: Achtertuin
+                icon: mdi:string-lights
+                layout: horizontal
+                fill_container: false
+                show_brightness_control: true
+                collapsible_controls: false
+                show_color_control: false
+                show_color_temp_control: false
+                use_light_color: false
+              - type: custom:mushroom-light-card
+                entity: light.shellydimmer_barn_hanging_lamp
+                name: Schuur hanglamp
+                icon: mdi:outdoor-lamp
+                layout: horizontal
+                fill_container: false
+                show_brightness_control: true
+                collapsible_controls: false
+                show_color_control: false
+                show_color_temp_control: false
+                use_light_color: false
+              - type: custom:mushroom-light-card
+                entity: light.shelly1_barn_door
+                name: Schuur
+                icon: mdi:spotlight-beam
+                layout: horizontal
+                fill_container: false
+                show_brightness_control: false
+                collapsible_controls: false
+                show_color_control: false
+                show_color_temp_control: false
+                use_light_color: false
+              - type: custom:mushroom-light-card
+                entity: light.shelly1_front_door
+                name: Voordeur
+                icon: mdi:coach-lamp
+                layout: horizontal
+                fill_container: false
+                show_brightness_control: false
+                collapsible_controls: false
+                show_color_control: false
+                show_color_temp_control: false
+                use_light_color: false
   - title: vacuum
     path: vacuum
     icon: ""
@@ -1263,5 +1189,6 @@ views:
                     - 29350
                   - - 28650
                     - 29350
+        two_finger_pan: true
         view_layout:
           grid-area: middle
