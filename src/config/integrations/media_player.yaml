@@ -1,2 +1,4 @@
 ---
-media_player: !include_dir_merge_named ../entities/media_player
+- platform: bluesound
+  hosts:
+    - host: 10.0.30.85
