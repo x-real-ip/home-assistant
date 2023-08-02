@@ -1,4 +1,5 @@
 ---
-- platform: bluesound
-  hosts:
-    - host: 10.0.30.85
+media_player:
+  - platform: bluesound
+    hosts:
+      - host: 10.0.30.85
