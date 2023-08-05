@@ -23,6 +23,7 @@ alternative automation engine.
 - Aeotec Z-Wave Gen5 Stick 868.42 MHz
 - Aeotec Z-Wave Gen5 Stick 908.42 MHz
 - Aeotec Z-Wave Recessed Doorsensor 868.42 MHz
+- Bluesound Powernode 2i
 - ESP01S
 - ESP32
 - ESP8622
@@ -32,7 +33,6 @@ alternative automation engine.
 - Google Home Mini
 - ISKRA Smart Meter
 - LG SmartTV WebOS
-- Logitech Harmony Hub
 - Nvidia Shield TV
 - Shelly Dimmer
 - Shelly Dimmer2
