@@ -1,9 +1,0 @@
----
-harmonyhub_mute_receiver:
-  sequence:
-    - service: remote.send_command
-      data:
-        entity_id: remote.harmony_hub_01
-        command:
-          - Mute
-        device: 53126254

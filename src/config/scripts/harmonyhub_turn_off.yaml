@@ -1,5 +1,0 @@
----
-harmonyhub_turn_off:
-  sequence:
-    - service: remote.turn_off
-      entity_id: remote.harmony_hub_01
