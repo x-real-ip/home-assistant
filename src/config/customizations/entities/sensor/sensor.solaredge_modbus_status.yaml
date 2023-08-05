@@ -1,3 +1,0 @@
----
-sensor.solaredge_modbus_status:
-  friendly_name: Omvormer status

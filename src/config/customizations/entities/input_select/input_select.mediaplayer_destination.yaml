@@ -1,5 +1,0 @@
----
-input_select.mediaplayer_destination:
-  friendly_name: Bestemming
-  initial: Woonkamer TV
-  icon: mdi:cast-audio

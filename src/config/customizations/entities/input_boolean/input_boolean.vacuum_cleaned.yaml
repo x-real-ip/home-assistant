@@ -1,5 +1,0 @@
----
-input_boolean.auto_cleaning:
-  friendly_name: Autonoom stofzuigen
-  initial: off
-  icon: mdi:robot-vacuum

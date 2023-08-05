@@ -1,8 +1,0 @@
----
-switch.harmony_hub_01_scherm_uit:
-  name: Tv scherm uit
-  room: Woonkamer
-  expose: true
-  aliases:
-    - televisiescherm uit
-    - tv scherm energie

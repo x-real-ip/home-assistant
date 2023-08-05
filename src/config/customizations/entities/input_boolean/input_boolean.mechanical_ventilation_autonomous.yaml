@@ -1,5 +1,0 @@
----
-input_boolean.mechanical_ventilation_autonomous:
-  friendly_name: Autonoom
-  initial: on
-  icon: mdi:arrow-decision-auto

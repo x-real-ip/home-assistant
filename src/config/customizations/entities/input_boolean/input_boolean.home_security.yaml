@@ -1,5 +1,0 @@
----
-input_boolean.home_security:
-  friendly_name: Beveliging
-  initial: off
-  icon: mdi:shield-home

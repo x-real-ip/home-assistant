@@ -1,4 +1,0 @@
----
-switch.doorbell_chime_active:
-  friendly_name: Deurbel geluid
-  icon: mdi:alarm-bell

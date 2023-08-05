@@ -1,3 +1,0 @@
----
-sensor.solaredge_modbus_temp_sink:
-  friendly_name: Omvormer temperatuur

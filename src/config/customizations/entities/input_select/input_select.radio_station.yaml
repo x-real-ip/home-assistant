@@ -1,5 +1,0 @@
----
-input_select.radio_station:
-  friendly_name: Radio Station
-  initial: Radio Uit
-  icon: mdi:radio

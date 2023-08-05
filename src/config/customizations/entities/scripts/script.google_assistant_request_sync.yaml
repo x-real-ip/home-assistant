@@ -1,4 +1,0 @@
----
-script.google_assistant_request_sync:
-  friendly_name: Sync devices
-  icon: mdi:google-assistant

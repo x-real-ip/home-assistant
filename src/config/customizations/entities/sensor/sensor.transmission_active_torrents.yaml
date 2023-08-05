@@ -1,4 +1,0 @@
----
-sensor.transmission_active_torrents:
-  friendly_name: Actief
-  icon: mdi:download

@@ -1,4 +1,0 @@
----
-sensor.shellyplug_hypervisor_b_power:
-  friendly_name: Hypervisor-b
-  icon: mdi:lightning-bolt-circle

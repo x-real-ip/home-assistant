@@ -1,5 +1,0 @@
----
-input_boolean.guest:
-  friendly_name: Gast
-  initial: off
-  icon: mdi:account

@@ -1,5 +1,0 @@
----
-input_boolean.mechanical_ventilation_position_0:
-  friendly_name: Uit
-  initial: on
-  icon: mdi:fan-off

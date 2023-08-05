@@ -1,5 +1,0 @@
----
-input_boolean.music:
-  friendly_name: Muziek
-  initial: off
-  icon: mdi:music

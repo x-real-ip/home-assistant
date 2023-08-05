@@ -1,3 +1,0 @@
----
-sensor.solaredge_modbus_ac_energy_kwh:
-  friendly_name: Zonne-energieproductie

@@ -2,6 +2,5 @@
 multimedia_devices:
   name: Multimedia devices
   entities:
-    - binary_sensor.receiver_device
     - binary_sensor.tv_device
     - binary_sensor.tvscreen_device
