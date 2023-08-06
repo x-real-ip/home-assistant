@@ -1,5 +1,5 @@
 {% macro radio_badge_icon(radio_station_selection) %}
-    {% if states("input_select.radio_station") == radio_station_selection %}
+    {% if state_attr('media_player.powernode_2i_ea48', 'source') == radio_station_selection %}
         mdi:music
     {% else %}
         Null
@@ -7,7 +7,7 @@
 {% endmacro %}
 
 {% macro radio_badge_color(radio_station_selection) %}
-    {% if states("input_select.radio_station") == radio_station_selection %}
+    {% if state_attr('media_player.powernode_2i_ea48', 'source') == radio_station_selection %}
         blue
     {% else %}
         Null
