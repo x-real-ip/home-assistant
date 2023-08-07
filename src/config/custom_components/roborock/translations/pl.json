@@ -2,67 +2,67 @@
   "config": {
     "step": {
       "user": {
-        "description": "Select an authentication method",
+        "description": "Wybierz metodę uwierzytelniania",
         "menu_options": {
-          "code": "Login with email authentication code",
-          "password": "Login with password"
+          "code": "Zaloguj się za pomocą kodu uwierzytelniającego z e-maila",
+          "password": "Zaloguj się za pomocą hasła"
         }
       },
       "email": {
-        "description": "Jouw Roborock logingegevens",
+        "description": "Dane logowania (Roborock)",
         "data": {
-          "username": "Gebruikersnaam"
+          "username": "Nazwa użytkownika"
         }
       },
       "code": {
-        "description": "Type the verification code sent to your email",
+        "description": "Wpisz kod weryfikacyjny wysłany na Twój e-mail",
         "data": {
-          "code": "Verification code"
+          "code": "Kod"
         }
       },
       "password": {
-        "description": "Type your password",
+        "description": "Podaj hasło",
         "data": {
-          "password": "Password"
+          "password": "Hasło"
         }
       }
     },
     "error": {
-      "no_device": "Geen apparaat gevonden in je Roborock account",
-      "auth": "Inloggen mislukt. Controleer je logingegevens"
+      "no_device": "Nie znaleziono urządzenia na koncie Roborock",
+      "auth": "Logowanie nieudane. Sprawdź nazwę użytkownika lub hasło"
     },
     "abort": {
-      "already_configured": "Account is already configured",
-      "already_in_progress": "Account is already being configured"
+      "already_configured": "Konto jest już skonfigurowane",
+      "already_in_progress": "Konto jest już w trakcie konfiguracji"
     }
   },
   "options": {
     "step": {
       "user": {
-        "description": "Select a platform to configure",
+        "description": "Wybierz platformę do skonfigurowania",
         "menu_options": {
-          "vacuum": "Vacuum",
-          "camera": "Camera",
+          "vacuum": "Odkurzacz",
+          "camera": "Kamera",
           "roborock": "Roborock"
         }
       },
       "camera": {
-        "description": "Camera Options",
+        "description": "Opcje kamery",
         "data": {
-          "map_transformation:scale": "Map scale",
-          "map_transformation:rotate": "Map rotation",
-          "map_transformation:trim:left": "Map left trim",
-          "map_transformation:trim:right": "Map right trim",
-          "map_transformation:trim:top": "Map top trim",
-          "map_transformation:trim:bottom": "Map bottom trim",
-          "include_ignored_obstacles": "Toon genegeerde obstakels",
-          "include_nogo": "Toon no-go-zones"
+          "map_transformation:scale": "Skala mapy",
+          "map_transformation:rotate": "Obrót mapy",
+          "map_transformation:trim:left": "Przycięcie mapy z lewej",
+          "map_transformation:trim:right": "Przycięcie mapy z prawej",
+          "map_transformation:trim:top": "Przycięcie mapy z góry",
+          "map_transformation:trim:bottom": "Przycięcie mapy od dołu",
+          "include_ignored_obstacles": "Pokaż zignorowane przeszkody",
+          "include_nogo": "Pokaż strefy zakazu ruchu"
         }
       },
       "vacuum": {
-        "description": "Vacuum options",
+        "description": "IOpcje odkurzacza",
         "data": {
-          "include_shared": "Include shared devices"
+          "include_shared": "Uwzględnij urządzenia współdzielone"
         }
       },
       "roborock": {
@@ -92,33 +92,33 @@
       "current_error": {
         "name": "Current error",
         "state": {
-          "none": "None",
-          "lidar_blocked": "LiDAR turret or laser blocked. Check for obstruction and retry.",
-          "bumper_stuck": "Bumper stuck. Clean it and lightly tap to release it.",
-          "wheels_suspended": "Wheels suspended. Move robot and restart.",
-          "cliff_sensor_error": "Cliff sensor error. Clean cliff sensors, move robot away from drops and restart.",
-          "main_brush_jammed": "Main brush jammed. Clean main brush and bearings.",
-          "side_brush_jammed": "Side brush jammed. Remove and clean side brush.",
-          "wheels_jammed": "Wheels jammed. Move the robot and restart.",
-          "robot_trapped": "Robot trapped. Clear obstacles surrounding robot.",
-          "no_dustbin": "No dustbin. Install dustbin and filter.",
-          "low_battery": "Low battery. Recharge and retry.",
-          "charging_error": "Charging error. Clean charging contacts and retry.",
-          "battery_error": "Battery error.",
-          "wall_sensor_dirty": "Wall sensor dirty. Clean wall sensor.",
-          "robot_tilted": "Robot tilted. Move to level ground and restart.",
-          "side_brush_error": "Side brush error. Reset robot.",
-          "fan_error": "Fan error. Reset robot.",
-          "vertical_bumper_pressed": "Vertical bumper pressed. Move robot and retry.",
-          "dock_locator_error": "Dock locator error. Clean and retry.",
-          "return_to_dock_fail": "Could not return to dock. Clean dock location beacon and retry.",
-          "nogo_zone_detected": "VibraRise system jammed. Check for obstructions.",
-          "vibrarise_jammed": "Robot on carpet. Move robot to floor and retry.",
-          "robot_on_carpet": "Filter blocked or wet. Clean, dry, and retry.",
-          "filter_blocked": "No-go zone or Invisible Wall detected. Move robot from this area.",
-          "invisible_wall_detected": "Cannot cross carpet. Move robot across carpet and restart.",
-          "cannot_cross_carpet": "Internal error. Reset the robot.",
-          "internal_error": "Interne fout. Stel de robot opnieuw in."
+          "none": "zadne",
+          "lidar_blocked": "LiDAR lub laser zablokowany. Sprawdź, czy nie ma przeszkód i ponów próbę.",
+          "bumper_stuck": "Zderzak utknął. Oczyść go i lekko stuknij, aby go uwolnić.",
+          "wheels_suspended": "Koła zawieszone. Przesuń robota i uruchom ponownie.",
+          "cliff_sensor_error": "Błąd czujnika klifu. Wyczyść czujniki klifu, odsuń robota od spadków i uruchom ponownie.",
+          "main_brush_jammed": "Szczotka główna zakleszczona. Oczyścić szczotkę główną i łożyska.",
+          "side_brush_jammed": "Szczotka boczna zacięła się. Wyjmij i wyczyścić szczotkę boczną.",
+          "wheels_jammed": "Koła się zacięły. Przesuń robota i uruchom ponownie.",
+          "robot_trapped": "Robot uwięziony. Usuń przeszkody otaczające robota.",
+          "no_dustbin": "Brak pojemnika na śmieci. Zainstaluj kosz na śmieci i filtr.",
+          "low_battery": "Niski poziom baterii. Naładuj i ponów próbę.",
+          "charging_error": "Błąd ładowania. Oczyść styki ładowania i spróbuj ponownie.",
+          "battery_error": "Błąd baterii.",
+          "wall_sensor_dirty": "Zabrudzony czujnik ścian. Wyczyść czujnik ścian.",
+          "robot_tilted": "Robot jest przechylony. Przenieś na równy grunt i uruchom ponownie.",
+          "side_brush_error": "Błąd szczotki bocznej. Zresetuj robota.",
+          "fan_error": "Błąd wentylatora. Zresetuj robota.",
+          "vertical_bumper_pressed": "Pionowy zderzak wciśnięty. Przesuń robota i spróbuj ponownie.",
+          "dock_locator_error": "Błąd lokalizatora bazy. Wyczyść i spróbuj ponownie.",
+          "return_to_dock_fail": "Nie można wrócić do bazy. Usuń lokalizację bazy i ponów próbę.",
+          "nogo_zone_detected": "System VibraRise zaciął się. Sprawdź czy nie ma przeszkód.",
+          "vibrarise_jammed": "Robot na dywanie. Przenieś robota na podłogę i ponów próbę.",
+          "robot_on_carpet": "Filtr zablokowany lub mokry. Wyczyść, wysusz i spróbuj ponownie.",
+          "filter_blocked": "Wykryto strefę No-go lub niewidzialną ścianę. Przenieś robota z tego obszaru.",
+          "invisible_wall_detected": "Nie można przejść przez dywan. Przenieś robota przez dywan i uruchom ponownie.",
+          "cannot_cross_carpet": "Błąd wewnętrzny. Zresetuj robota.",
+          "internal_error": "Błąd wewnętrzny. Zresetuj robota."
         }
       },
       "last_clean_start": {

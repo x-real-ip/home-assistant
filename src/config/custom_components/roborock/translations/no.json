@@ -9,9 +9,9 @@
         }
       },
       "email": {
-        "description": "Jouw Roborock logingegevens",
+        "description": "Innlogging fra app",
         "data": {
-          "username": "Gebruikersnaam"
+          "username": "Brukernavn"
         }
       },
       "code": {
@@ -28,8 +28,8 @@
       }
     },
     "error": {
-      "no_device": "Geen apparaat gevonden in je Roborock account",
-      "auth": "Inloggen mislukt. Controleer je logingegevens"
+      "no_device": "Ingen enhet funnet i din Roborock konto",
+      "auth": "Innlogging feilet, sjekk brukernavn og passord"
     },
     "abort": {
       "already_configured": "Account is already configured",
@@ -55,8 +55,8 @@
           "map_transformation:trim:right": "Map right trim",
           "map_transformation:trim:top": "Map top trim",
           "map_transformation:trim:bottom": "Map bottom trim",
-          "include_ignored_obstacles": "Toon genegeerde obstakels",
-          "include_nogo": "Toon no-go-zones"
+          "include_ignored_obstacles": "Vis ignorerte hindringer",
+          "include_nogo": "Vis forbudssoner"
         }
       },
       "vacuum": {
@@ -118,7 +118,7 @@
           "filter_blocked": "No-go zone or Invisible Wall detected. Move robot from this area.",
           "invisible_wall_detected": "Cannot cross carpet. Move robot across carpet and restart.",
           "cannot_cross_carpet": "Internal error. Reset the robot.",
-          "internal_error": "Interne fout. Stel de robot opnieuw in."
+          "internal_error": "Intern feil. Tilbakestill roboten."
         }
       },
       "last_clean_start": {
