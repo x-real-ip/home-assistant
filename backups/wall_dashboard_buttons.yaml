@@ -1,4 +1,3 @@
----
 views:
   - type: custom:grid-layout
     title: home
@@ -195,6 +194,413 @@ views:
                         disabled
                       {% endif %}
                     content: "{{ (states(entity, with_unit=True)) }}"
+          - type: custom:swipe-card
+            parameters:
+              pagination:
+                type: bullets
+                draggable: false
+                snapOnRelease: false
+            cards:
+              - type: grid
+                square: true
+                columns: 4
+                cards:
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO Radio 1")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                          if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "NPO Radio 1")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://cdn-radiotime-logos.tunein.com/s17523q.png
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: NPO Radio 1
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO Radio 2")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                          if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "NPO Radio 2")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://cdn-radiotime-logos.tunein.com/s9483q.png
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: NPO Radio 2
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO 3FM")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                          if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "NPO 3FM")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://cdn-profiles.tunein.com/s6707/images/logoq.png?t=637376157950000000
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: NPO 3FM
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                  if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO Radio 4")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                            if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "NPO Radio 4")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://static2.mytuner.mobi/media/tvos_radios/pU4F5RWC7g.png
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: NPO Radio 4
+              - type: grid
+                square: true
+                columns: 4
+                cards:
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "Radio 538")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                          if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "Radio 538")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://cdn-profiles.tunein.com/s252020/images/logoq.png?t=636867937150000000
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: Radio 538
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "Radio 10")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                          if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "Radio 10")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://cdn-profiles.tunein.com/s16793/images/logoq.png?t=637048189290000000
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: Radio 10
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "Qmusic Nonstop")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                          if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "Qmusic Nonstop")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://cdn-radiotime-logos.tunein.com/s210431q.png
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: Qmusic Nonstop
+                  - type: custom:button-card
+                    entity: media_player.powernode_2i_ea48
+                    show_entity_picture: true
+                    show_label: false
+                    show_name: false
+                    size: 70%
+                    aspect_ratio: 1/1
+                    styles:
+                      grid:
+                        - position: relative
+                      entity_picture:
+                        - border-radius: 50%
+                      custom_fields:
+                        playing:
+                          - background-color: >
+                              [[[
+                                  if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "BNR Nieuwsradio")
+                                  return "var(--switch-checked-button-color)";
+                                return "red";
+                              ]]]
+                          - border-radius: 50%
+                          - position: absolute
+                          - left: 65%
+                          - top: 10%
+                          - height: 25px
+                          - width: 25px
+                          - line-height: 20px
+                    custom_fields:
+                      playing: >
+                        [[[
+                            if
+                        (states['media_player.powernode_2i_ea48'].attributes['source']
+                        == "BNR Nieuwsradio")
+                            return `<ha-icon
+                              icon="mdi:music"
+                              style="width: 16px; height: 16px; color:
+                        var(--primary-background-color);">
+                              </ha-icon>`
+                        ]]]
+                    entity_picture: https://static2.mytuner.mobi/media/tvos_radios/pU4F5RWC7g.png
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      target:
+                        entity_id: media_player.powernode_2i_ea48
+                      data:
+                        source: BNR Nieuwsradio
         view_layout:
           grid-area: middle
       - type: vertical-stack
