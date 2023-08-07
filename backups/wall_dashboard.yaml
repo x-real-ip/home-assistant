@@ -17,29 +17,34 @@ views:
           - type: entity
             entity: input_boolean.guest
             icon: mdi:account-plus
-            icon_color: amber
+            icon_color: blue
             use_entity_picture: false
             tap_action:
               action: toggle
             content_info: name
+            name: Gast
           - type: entity
             entity: input_boolean.home_security
             icon_color: deep-orange
             content_info: name
             tap_action:
               action: toggle
+            icon: mdi:shield-lock
+            name: Beveiliging
           - type: entity
             entity: input_boolean.sleep_mode
             content_info: name
-            icon_color: amber
+            icon_color: blue
             tap_action:
               action: toggle
+            icon: mdi:sleep
+            name: Slaapstand
           - type: entity
             entity: input_boolean.vacation_mode
             name: Vakantiemodus
             content_info: name
             icon: mdi:beach
-            icon_color: amber
+            icon_color: blue
             use_entity_picture: false
             tap_action:
               action: toggle
@@ -52,15 +57,16 @@ views:
               url_path: https://www.buienradar.nl/
           - type: entity
             entity: switch.doorbell_chime_active
-            icon_color: amber
+            icon_color: blue
             tap_action:
               action: toggle
             content_info: state
+            icon: mdi:alarm-bell
           - type: entity
             entity: binary_sensor.doorbell_button
             content_info: last-updated
             icon: mdi:doorbell
-            icon_color: amber
+            icon_color: blue
           - type: template
             entity: sensor.lights_on_counter
             icon_color: |-
@@ -195,6 +201,7 @@ views:
         cards:
           - type: thermostat
             entity: climate.living_room
+            name: Woonkamer
           - type: custom:mushroom-select-card
             entity: input_select.entertainment_activity
             fill_container: false
@@ -271,14 +278,14 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: horizontal
-                          picture: /local/img/radio/radio1.png
+                          picture: https://cdn-radiotime-logos.tunein.com/s17523q.png
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: NPO Radio 1
+                              source: NPO Radio 1
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -291,14 +298,14 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/radio2.png
+                          picture: https://cdn-radiotime-logos.tunein.com/s9483q.png
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: NPO Radio 2
+                              source: NPO Radio 2
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -311,14 +318,15 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/3fm.png
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s6707/images/logoq.png?t=637376157950000000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: NPO 3FM
+                              source: NPO 3FM
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -331,14 +339,15 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/radio4.png
+                          picture: >-
+                            https://static2.mytuner.mobi/media/tvos_radios/pU4F5RWC7g.png
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: NPO Radio 4
+                              source: NPO Radio 4
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -351,14 +360,15 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/radio538.png
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s252020/images/logoq.png?t=636867937150000000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: Radio 538
+                              source: Radio 538
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -371,14 +381,15 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/radio10.png
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s16793/images/logoq.png?t=637048189290000000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: Radio 10
+                              source: Radio 10
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -395,54 +406,35 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: horizontal
-                          picture: /local/img/radio/qmusic.png
+                          picture: https://cdn-radiotime-logos.tunein.com/s210431q.png
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: Q-Music
+                              source: Qmusic Nonstop
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Q-Music") }}
+                            %}  {{ radio_badge_icon("Qmusic Nonstop") }}
                           badge_color: >-
                             {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Q-Music") }}
+                            %} {{ radio_badge_color("Qmusic Nonstop") }}
                         - type: custom:mushroom-template-card
                           primary: ""
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/qmusicchristmas.png
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s1993/images/logoq.png?t=638138415260000000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: Q-Music Christmas
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Q-Music Christmas") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Q-Music Christmas") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: /local/img/radio/bnr.png
-                          tap_action:
-                            action: call-service
-                            service: input_select.select_option
-                            target:
-                              entity_id: input_select.radio_station
-                            data:
-                              option: BNR Nieuwsradio
+                              source: BNR Nieuwsradio
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -455,21 +447,22 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/slamfm.png
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s253879/images/logoq.jpg?t=637598851070000000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: SLAM! FM
+                              source: SLAM! Non Stop
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("SLAM! FM") }}
+                            %}  {{ radio_badge_icon("SLAM! Non Stop") }}
                           badge_color: >-
                             {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("SLAM! FM") }}
+                            %} {{ radio_badge_color("SLAM! Non Stop") }}
                         - type: custom:mushroom-template-card
                           primary: ""
                           secondary: ""
@@ -478,11 +471,11 @@ views:
                           picture: /local/img/radio/100procentnl.png
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: 100% NL
+                              source: 100% NL
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
@@ -495,21 +488,43 @@ views:
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/veronica.png
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s6717/images/logoq.jpg?t=637775307950000000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: Veronica
+                              source: Radio Veronica
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Veronica") }}
+                            %}  {{ radio_badge_icon("Radio Veronica") }}
                           badge_color: >-
                             {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Veronica") }}
+                            %} {{ radio_badge_color("Radio Veronica") }}
+                        - type: custom:mushroom-template-card
+                          primary: ""
+                          secondary: ""
+                          icon: mdi:radio
+                          layout: vertical
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s9067/images/logoq.png?t=637066636630000000
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: Sky Radio
+                          icon_color: ""
+                          badge_icon: >-
+                            {% from 'formatter.jinja' import radio_badge_icon
+                            %}  {{ radio_badge_icon("Sky Radio") }}
+                          badge_color: >-
+                            {% from 'formatter.jinja' import radio_badge_color
+                            %} {{ radio_badge_color("Sky Radio") }}
                     - type: grid
                       square: false
                       columns: 6
@@ -518,139 +533,83 @@ views:
                           primary: ""
                           secondary: ""
                           icon: mdi:radio
-                          layout: horizontal
-                          picture: /local/img/radio/skyradio.png
+                          layout: vertical
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s25777/images/logoq.png?t=637957640440000000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: SkyRadio
+                              source: Sublime
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("SkyRadio") }}
+                            %}  {{ radio_badge_icon("Sublime") }}
                           badge_color: >-
                             {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("SkyRadio") }}
+                            %} {{ radio_badge_color("Sublime") }}
                         - type: custom:mushroom-template-card
                           primary: ""
                           secondary: ""
                           icon: mdi:radio
                           layout: vertical
-                          picture: /local/img/radio/sublimefm.png
+                          picture: >-
+                            https://cdn-profiles.tunein.com/s299546/images/logoq.jpg?t=636734033512730000
                           tap_action:
                             action: call-service
-                            service: input_select.select_option
+                            service: media_player.select_source
                             target:
-                              entity_id: input_select.radio_station
+                              entity_id: media_player.powernode_2i_ea48
                             data:
-                              option: SubLime FM
+                              source: Christmas Radio
                           icon_color: ""
                           badge_icon: >-
                             {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("SubLime FM") }}
+                            %}  {{ radio_badge_icon("Christmas Radio") }}
                           badge_color: >-
                             {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("SubLime FM") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: /local/img/radio/kinkfm.png
-                          tap_action:
-                            action: call-service
-                            service: input_select.select_option
-                            target:
-                              entity_id: input_select.radio_station
-                            data:
-                              option: KINK
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("KINK") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("KINK") }}
-                - type: conditional
-                  conditions:
-                    - entity: media_player.shield
-                      state_not: "off"
-                    - entity: media_player.shield
-                      state_not: unavailable
-                  card:
-                    type: vertical-stack
-                    cards:
-                      - type: custom:mini-media-player
-                        entity: media_player.shield
-                        group: false
-                        name: Nvidia Shield
-                        source: icon
-                        info: short
-                        hide:
-                          info: true
-                          power: true
+                            %} {{ radio_badge_color("Christmas Radio") }}
+                - type: vertical-stack
+                  cards:
+                    - type: custom:mini-media-player
+                      entity: media_player.powernode_2i_ea48
+                      name: Bluesound Powernode 2i
+                      toggle_power: false
+                      volume_stateless: false
+                      group: false
+                      source: icon
+                      info: short
+                      hide:
+                        name: true
+                        source: true
+                        icon: true
+                        info: false
+                        power: true
+                        progress: true
+                        prev: true
+                        next: true
           - type: conditional
             conditions:
-              - entity: binary_sensor.receiver_device
+              - entity: group.multimedia_devices
                 state: "on"
             card:
               type: custom:mushroom-chips-card
               alignment: start
               chips:
-                - type: action
-                  icon: mdi:volume-off
-                  tap_action:
-                    action: call-service
-                    service: script.turn_on
-                    service_data:
-                      entity_id: script.harmonyhub_mute_receiver
-                - type: action
-                  icon: mdi:volume-minus
-                  tap_action:
-                    action: call-service
-                    service: script.turn_on
-                    service_data:
-                      entity_id: script.harmonyhub_volume_down_receiver
-                - type: action
-                  icon: mdi:volume-plus
-                  tap_action:
-                    action: call-service
-                    service: script.turn_on
-                    service_data:
-                      entity_id: script.harmonyhub_volume_up_receiver
-                - type: action
-                  icon: mdi:speaker
-                  tap_action:
-                    action: call-service
-                    service: script.turn_on
-                    service_data:
-                      entity_id: script.harmonyhub_speaker_2_or_4_receiver
-                - type: entity
-                  entity: button.beeldscherm
-                  name: Beeldscherm
-                  content_info: none
+                - type: template
+                  entity: binary_sensor.tvscreen_device
+                  icon: mdi:television-ambient-light
+                  content: ""
                   tap_action:
                     action: call-service
                     service: button.press
                     target:
                       entity_id: button.beeldscherm
                     data: {}
-                  icon: mdi:television-ambient-light
-                - type: template
-                  entity: binary_sensor.receiver_device
-                  icon: mdi:audio-video
-                  content: ""
-                  tap_action:
-                    action: call-service
-                    service: button.press
-                    target:
-                      entity_id: button.receiver
-                    data: {}
                   icon_color: |-
-                    {% if is_state("binary_sensor.receiver_device", "on") %}
+                    {% if is_state("binary_sensor.tvscreen_device", "on") %}
                       blue
                     {% else %}
                       black
@@ -776,7 +735,7 @@ views:
             cards:
               - type: custom:mushroom-entity-card
                 entity: switch.shelly1_frontyard_powersocket
-                icon: ""
+                icon: mdi:power-socket-de
                 fill_container: false
                 secondary_info: none
                 name: Voortuin
@@ -795,7 +754,7 @@ views:
                   action: toggle
                 layout: vertical
               - type: custom:mushroom-entity-card
-                icon: ""
+                icon: mdi:file-cabinet
                 fill_container: false
                 secondary_info: none
                 name: Keukenlade's
@@ -816,6 +775,7 @@ views:
                 fill_container: false
                 secondary_info: state
                 icon_color: cyan
+                name: Wasmachine
               - type: custom:mushroom-entity-card
                 entity: binary_sensor.tumble_dryer
                 icon: mdi:tumble-dryer
@@ -823,6 +783,7 @@ views:
                 fill_container: false
                 secondary_info: state
                 icon_color: cyan
+                name: Wasdroger
               - type: custom:mushroom-entity-card
                 entity: binary_sensor.dishwasher
                 icon: mdi:dishwasher
@@ -830,6 +791,7 @@ views:
                 fill_container: false
                 secondary_info: state
                 icon_color: cyan
+                name: Vaatwasser
           - square: false
             type: grid
             columns: 3
@@ -838,18 +800,20 @@ views:
                 layout: vertical
                 fill_container: false
                 secondary_info: state
-                icon_color: cyan
+                icon_color: brown
                 entity: binary_sensor.frontdoor_window_door_is_open
+                name: Voordeur
               - type: custom:mushroom-entity-card
                 icon: ""
                 layout: vertical
                 fill_container: false
                 secondary_info: state
-                icon_color: cyan
+                icon_color: brown
                 entity: binary_sensor.backdoor_window_door_is_open
+                name: Actherdeur
               - type: custom:mushroom-entity-card
                 name: Stookalert
-                icon: ""
+                icon: mdi:fireplace
                 layout: vertical
                 fill_container: false
                 secondary_info: state
