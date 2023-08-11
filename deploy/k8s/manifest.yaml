@@ -122,7 +122,7 @@ spec:
         xiaomi_cloud_password: {{ index . "xiaomi_cloud_password" }}
         xiaomi_cloud_username: {{ index . "xiaomi_cloud_username" }}
         xiaomi_vacuum_s6_token: {{ index . "xiaomi_vacuum_s6_token" }}
-        wifi-guest-password: {{ index . "wifi-guest-password" }}
+        wifi_guest_password: {{ index . "wifi-guest-password" }}
     metadata:
       labels:
         app: home-assistant
