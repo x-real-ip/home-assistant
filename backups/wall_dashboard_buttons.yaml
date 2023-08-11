@@ -1,8 +1,9 @@
+---
 views:
   - type: custom:grid-layout
     title: home
     layout:
-      grid-template-columns: 30% auto 33%
+      grid-template-columns: 25% auto 35%
       grid-template-rows: auto
       grid-template-areas: |
         "header header header"
@@ -194,413 +195,6 @@ views:
                         disabled
                       {% endif %}
                     content: "{{ (states(entity, with_unit=True)) }}"
-          - type: custom:swipe-card
-            parameters:
-              pagination:
-                type: bullets
-                draggable: false
-                snapOnRelease: false
-            cards:
-              - type: grid
-                square: true
-                columns: 4
-                cards:
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "NPO Radio 1")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                          if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "NPO Radio 1")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://cdn-radiotime-logos.tunein.com/s17523q.png
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: NPO Radio 1
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "NPO Radio 2")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                          if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "NPO Radio 2")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://cdn-radiotime-logos.tunein.com/s9483q.png
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: NPO Radio 2
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "NPO 3FM")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                          if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "NPO 3FM")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://cdn-profiles.tunein.com/s6707/images/logoq.png?t=637376157950000000
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: NPO 3FM
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                  if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "NPO Radio 4")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                            if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "NPO Radio 4")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://static2.mytuner.mobi/media/tvos_radios/pU4F5RWC7g.png
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: NPO Radio 4
-              - type: grid
-                square: true
-                columns: 4
-                cards:
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "Radio 538")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                          if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "Radio 538")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://cdn-profiles.tunein.com/s252020/images/logoq.png?t=636867937150000000
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: Radio 538
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "Radio 10")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                          if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "Radio 10")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://cdn-profiles.tunein.com/s16793/images/logoq.png?t=637048189290000000
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: Radio 10
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "Qmusic Nonstop")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                          if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "Qmusic Nonstop")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://cdn-radiotime-logos.tunein.com/s210431q.png
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: Qmusic Nonstop
-                  - type: custom:button-card
-                    entity: media_player.powernode_2i_ea48
-                    show_entity_picture: true
-                    show_label: false
-                    show_name: false
-                    size: 70%
-                    aspect_ratio: 1/1
-                    styles:
-                      grid:
-                        - position: relative
-                      entity_picture:
-                        - border-radius: 50%
-                      custom_fields:
-                        playing:
-                          - background-color: >
-                              [[[
-                                  if
-                              (states['media_player.powernode_2i_ea48'].attributes['source']
-                              == "BNR Nieuwsradio")
-                                  return "var(--switch-checked-button-color)";
-                                return "red";
-                              ]]]
-                          - border-radius: 50%
-                          - position: absolute
-                          - left: 65%
-                          - top: 10%
-                          - height: 25px
-                          - width: 25px
-                          - line-height: 20px
-                    custom_fields:
-                      playing: >
-                        [[[
-                            if
-                        (states['media_player.powernode_2i_ea48'].attributes['source']
-                        == "BNR Nieuwsradio")
-                            return `<ha-icon
-                              icon="mdi:music"
-                              style="width: 16px; height: 16px; color:
-                        var(--primary-background-color);">
-                              </ha-icon>`
-                        ]]]
-                    entity_picture: https://static2.mytuner.mobi/media/tvos_radios/pU4F5RWC7g.png
-                    tap_action:
-                      action: call-service
-                      service: media_player.select_source
-                      target:
-                        entity_id: media_player.powernode_2i_ea48
-                      data:
-                        source: BNR Nieuwsradio
         view_layout:
           grid-area: middle
       - type: vertical-stack
@@ -612,8 +206,7 @@ views:
             entity: input_select.entertainment_activity
             fill_container: false
             icon: mdi:television-play
-            primary_info: name
-            secondary_info: none
+            secondary_info: last-changed
             layout: horizontal
             icon_color: blue
             icon_type: icon
@@ -641,26 +234,36 @@ views:
                         icon: mdi:cast
                         artwork: cover-fit
                         group: false
+                        hide:
+                          volume: true
+                          volume_level: true
                 - type: vertical-stack
                   cards:
-                    - type: conditional
-                      conditions:
-                        - entity: media_player.shield_android_tv
-                          state_not: "off"
-                        - entity: media_player.shield_android_tv
-                          state_not: unavailable
-                        - entity: media_player.shield
-                          state_not: playing
-                        - entity: media_player.shield
-                          state_not: paused
-                      card:
-                        type: vertical-stack
-                        cards:
-                          - type: custom:mini-media-player
-                            entity: media_player.shield_android_tv
-                            artwork: cover-fit
-                            group: false
-                            name: Shield Android TV
+                    - type: custom:mini-media-player
+                      entity: media_player.powernode_2i_ea48
+                      name: Powernode
+                      icon: mdi:volume-source
+                      source: icon
+                      info: short
+                      artwork: none
+                      tap_action:
+                        action: none
+                      hide:
+                        name: true
+                        source: true
+                        icon: true
+                        info: true
+                        power: true
+                        shuffle: true
+                        repeat: true
+                        runtime: true
+                        runtime_remaining: true
+                        volume: false
+                        volume_level: false
+                        jump: true
+                        prev: true
+                        next: true
+                        play_pause: true
           - type: conditional
             conditions:
               - entity: input_select.entertainment_activity
@@ -668,315 +271,6 @@ views:
             card:
               type: vertical-stack
               cards:
-                - type: custom:swipe-card
-                  parameters:
-                    pagination:
-                      type: bullets
-                      draggable: true
-                      snapOnRelease: true
-                  cards:
-                    - square: false
-                      type: grid
-                      columns: 6
-                      cards:
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: horizontal
-                          picture: https://cdn-radiotime-logos.tunein.com/s17523q.png
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: NPO Radio 1
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("NPO Radio 1") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("NPO Radio 1") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: https://cdn-radiotime-logos.tunein.com/s9483q.png
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: NPO Radio 2
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("NPO Radio 2") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("NPO Radio 2") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s6707/images/logoq.png?t=637376157950000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: NPO 3FM
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("NPO 3FM") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("NPO 3FM") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://static2.mytuner.mobi/media/tvos_radios/pU4F5RWC7g.png
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: NPO Radio 4
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("NPO Radio 4") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("NPO Radio 4") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s252020/images/logoq.png?t=636867937150000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: Radio 538
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Radio 538") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Radio 538") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s16793/images/logoq.png?t=637048189290000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: Radio 10
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Radio 10") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Radio 10") }}
-                    - type: grid
-                      square: false
-                      columns: 6
-                      cards:
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: horizontal
-                          picture: https://cdn-radiotime-logos.tunein.com/s210431q.png
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: Qmusic Nonstop
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Qmusic Nonstop") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Qmusic Nonstop") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s1993/images/logoq.png?t=638138415260000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: BNR Nieuwsradio
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("BNR Nieuwsradio") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("BNR Nieuwsradio") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s253879/images/logoq.jpg?t=637598851070000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: SLAM! Non Stop
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("SLAM! Non Stop") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("SLAM! Non Stop") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: /local/img/radio/100procentnl.png
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: 100% NL
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("100% NL") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("100% NL") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s6717/images/logoq.jpg?t=637775307950000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: Radio Veronica
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Radio Veronica") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Radio Veronica") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s9067/images/logoq.png?t=637066636630000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: Sky Radio
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Sky Radio") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Sky Radio") }}
-                    - type: grid
-                      square: false
-                      columns: 6
-                      cards:
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s25777/images/logoq.png?t=637957640440000000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: Sublime
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Sublime") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Sublime") }}
-                        - type: custom:mushroom-template-card
-                          primary: ""
-                          secondary: ""
-                          icon: mdi:radio
-                          layout: vertical
-                          picture: >-
-                            https://cdn-profiles.tunein.com/s299546/images/logoq.jpg?t=636734033512730000
-                          tap_action:
-                            action: call-service
-                            service: media_player.select_source
-                            target:
-                              entity_id: media_player.powernode_2i_ea48
-                            data:
-                              source: Christmas Radio
-                          icon_color: ""
-                          badge_icon: >-
-                            {% from 'formatter.jinja' import radio_badge_icon
-                            %}  {{ radio_badge_icon("Christmas Radio") }}
-                          badge_color: >-
-                            {% from 'formatter.jinja' import radio_badge_color
-                            %} {{ radio_badge_color("Christmas Radio") }}
                 - type: vertical-stack
                   cards:
                     - type: custom:mini-media-player
@@ -987,15 +281,716 @@ views:
                       group: false
                       source: icon
                       info: short
+                      artwork: material
+                      tap_action:
+                        action: none
                       hide:
                         name: true
                         source: true
-                        icon: true
+                        icon: false
                         info: false
                         power: true
                         progress: true
                         prev: true
                         next: true
+                - type: custom:swipe-card
+                  parameters:
+                    pagination:
+                      type: bullets
+                      draggable: false
+                      snapOnRelease: false
+                  cards:
+                    - square: false
+                      type: grid
+                      columns: 4
+                      cards:
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                      if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "NPO Radio 1")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO Radio 1")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/radio1.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: NPO Radio 1
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                      if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "NPO Radio 2")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO Radio 2")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/radio2.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: NPO Radio 2
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                      if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "NPO 3FM")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO 3FM")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/3fm.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: NPO 3FM
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                        if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "NPO Radio 4")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                  if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "NPO Radio 4")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/radio4.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: NPO Radio 4
+                    - type: grid
+                      square: false
+                      columns: 4
+                      cards:
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                      if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "Radio 538")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "Radio 538")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/radio538.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: Radio 538
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                      if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "Radio 10")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "Radio 10")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/radio10.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: Radio 10
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                      if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "Qmusic Nonstop")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "Qmusic Nonstop")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/qmusic.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: Qmusic Nonstop
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          show_label: false
+                          show_name: false
+                          size: 70%
+                          aspect_ratio: 1/1
+                          styles:
+                            grid:
+                              - position: relative
+                            entity_picture:
+                              - border-radius: 50%
+                            custom_fields:
+                              playing:
+                                - background-color: >
+                                    [[[
+                                        if
+                                    (states['media_player.powernode_2i_ea48'].attributes['source']
+                                    == "BNR Nieuwsradio")
+                                        return
+                                    "var(--switch-checked-button-color)";
+                                      return "red";
+                                    ]]]
+                                - border-radius: 50%
+                                - position: absolute
+                                - left: 65%
+                                - top: 10%
+                                - height: 25px
+                                - width: 25px
+                                - line-height: 20px
+                          custom_fields:
+                            playing: >
+                              [[[
+                                  if
+                              (states['media_player.powernode_2i_ea48'].attributes['source']
+                              == "BNR Nieuwsradio")
+                                  return `<ha-icon
+                                    icon="mdi:music"
+                                    style="width: 16px; height: 16px; color:
+                              var(--primary-background-color);">
+                                    </ha-icon>`
+                              ]]]
+                          entity_picture: /local/img/radio/bnr.png
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: BNR Nieuwsradio
+          - type: conditional
+            conditions:
+              - entity: input_select.entertainment_activity
+                state: Spotify
+            card:
+              type: vertical-stack
+              cards:
+                - type: vertical-stack
+                  cards:
+                    - type: custom:mini-media-player
+                      entity: media_player.powernode_2i_ea48
+                      name: Bluesound Powernode 2i
+                      icon: mdi:spotify
+                      toggle_power: false
+                      volume_stateless: false
+                      group: false
+                      source: icon
+                      info: short
+                      artwork: cover-fit
+                      tap_action:
+                        action: none
+                      hide:
+                        name: true
+                        source: true
+                        icon: false
+                        info: false
+                        power: true
+                        shuffle: false
+                        repeat: false
+                        runtime: false
+                        runtime_remaining: false
+                        volume_level: false
+                        jump: false
+                - type: custom:swipe-card
+                  parameters:
+                    pagination:
+                      type: bullets
+                      draggable: true
+                      snapOnRelease: true
+                  cards:
+                    - type: grid
+                      square: true
+                      columns: 4
+                      cards:
+                        - type: custom:button-card
+                          entity: media_player.powernode_2i_ea48
+                          show_entity_picture: true
+                          entity_picture: /local/img/spotify/liked_songs.png
+                          show_label: false
+                          show_name: true
+                          name: "Liked Songs"
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+
+                          tap_action:
+                            action: call-service
+                            service: media_player.select_source
+                            target:
+                              entity_id: media_player.powernode_2i_ea48
+                            data:
+                              source: "Spotify: Liked Songs"
+                        - type: custom:button-card
+                          entity: sensor.playlist_01
+                          show_entity_picture: true
+                          entity_picture: |
+                            [[[ return entity.attributes.image; ]]]
+                          show_label: true
+                          show_name: true
+                          name: |
+                            [[[ return entity.attributes.name; ]]]
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+                          tap_action:
+                            action: call-service
+                            service: media_player.play_media
+                            data:
+                              media_content_id: |
+                                [[[ return entity.attributes.url; ]]]
+                              media_content_type: |
+                                [[[ return entity.attributes.type; ]]]
+                              announce: true
+                            target:
+                              entity_id: media_player.spotify_coen_s_nl
+                        - type: custom:button-card
+                          entity: sensor.playlist_02
+                          show_entity_picture: true
+                          entity_picture: |
+                            [[[ return entity.attributes.image; ]]]
+                          show_label: true
+                          show_name: true
+                          name: |
+                            [[[ return entity.attributes.name; ]]]
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+                          tap_action:
+                            action: call-service
+                            service: media_player.play_media
+                            data:
+                              media_content_id: |
+                                [[[ return entity.attributes.url; ]]]
+                              media_content_type: |
+                                [[[ return entity.attributes.type; ]]]
+                              announce: true
+                            target:
+                              entity_id: media_player.spotify_coen_s_nl
+                        - type: custom:button-card
+                          entity: sensor.playlist_03
+                          show_entity_picture: true
+                          entity_picture: |
+                            [[[ return entity.attributes.image; ]]]
+                          show_label: true
+                          show_name: true
+                          name: |
+                            [[[ return entity.attributes.name; ]]]
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+                          tap_action:
+                            action: call-service
+                            service: media_player.play_media
+                            data:
+                              media_content_id: |
+                                [[[ return entity.attributes.url; ]]]
+                              media_content_type: |
+                                [[[ return entity.attributes.type; ]]]
+                              announce: true
+                            target:
+                              entity_id: media_player.spotify_coen_s_nl
+                    - type: grid
+                      square: true
+                      columns: 4
+                      cards:
+                        - type: custom:button-card
+                          entity: sensor.playlist_04
+                          show_entity_picture: true
+                          entity_picture: |
+                            [[[ return entity.attributes.image; ]]]
+                          show_label: true
+                          show_name: true
+                          name: |
+                            [[[ return entity.attributes.name; ]]]
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+                          tap_action:
+                            action: call-service
+                            service: media_player.play_media
+                            data:
+                              media_content_id: |
+                                [[[ return entity.attributes.url; ]]]
+                              media_content_type: |
+                                [[[ return entity.attributes.type; ]]]
+                              announce: true
+                            target:
+                              entity_id: media_player.spotify_coen_s_nl
+                        - type: custom:button-card
+                          entity: sensor.playlist_05
+                          show_entity_picture: true
+                          entity_picture: |
+                            [[[ return entity.attributes.image; ]]]
+                          show_label: true
+                          show_name: true
+                          name: |
+                            [[[ return entity.attributes.name; ]]]
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+                          tap_action:
+                            action: call-service
+                            service: media_player.play_media
+                            data:
+                              media_content_id: |
+                                [[[ return entity.attributes.url; ]]]
+                              media_content_type: |
+                                [[[ return entity.attributes.type; ]]]
+                              announce: true
+                            target:
+                              entity_id: media_player.spotify_coen_s_nl
+                        - type: custom:button-card
+                          entity: sensor.playlist_06
+                          show_entity_picture: true
+                          entity_picture: |
+                            [[[ return entity.attributes.image; ]]]
+                          show_label: true
+                          show_name: true
+                          name: |
+                            [[[ return entity.attributes.name; ]]]
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+                          tap_action:
+                            action: call-service
+                            service: media_player.play_media
+                            data:
+                              media_content_id: |
+                                [[[ return entity.attributes.url; ]]]
+                              media_content_type: |
+                                [[[ return entity.attributes.type; ]]]
+                              announce: true
+                            target:
+                              entity_id: media_player.spotify_coen_s_nl
+                        - type: custom:button-card
+                          entity: sensor.playlist_07
+                          show_entity_picture: true
+                          entity_picture: |
+                            [[[ return entity.attributes.image; ]]]
+                          show_label: true
+                          show_name: true
+                          name: |
+                            [[[ return entity.attributes.name; ]]]
+                          size: 95%
+                          styles:
+                            grid:
+                              - position: relative
+                            label:
+                              - font-size: 14px
+                            name:
+                              - font-size: 12px
+                            entity_picture:
+                              - border-radius: 0px
+                          tap_action:
+                            action: call-service
+                            service: media_player.play_media
+                            data:
+                              media_content_id: |
+                                [[[ return entity.attributes.url; ]]]
+                              media_content_type: |
+                                [[[ return entity.attributes.type; ]]]
+                              announce: true
+                            target:
+                              entity_id: media_player.spotify_coen_s_nl
           - type: conditional
             conditions:
               - entity: group.multimedia_devices
@@ -1064,8 +1059,6 @@ views:
                   blocklist: Vakantie (Coen|Anne)
                 - entity: calendar.schoonmaak
                   name: Schoonmaak
-                - entity: calendar.lise_babysitter
-                  name: babysitter
               sortByStartTime: true
               showDate: false
               hideDuplicates: false
@@ -1202,21 +1195,68 @@ views:
             type: grid
             columns: 3
             cards:
-              - type: custom:mushroom-entity-card
-                layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: brown
+              - type: custom:mushroom-template-card
+                primary: Voordeur
+                secondary: >-
+                  {% if is_state("binary_sensor.frontdoor_window_door_is_open",
+                  "on") %}Open{% else %}Dicht{% endif %} - {{
+                  as_timestamp(states.binary_sensor['frontdoor_window_door_is_open'].last_updated)
+                  | as_datetime | as_local | relative_time}}
+                icon: >-
+                  {% if is_state("binary_sensor.frontdoor_window_door_is_open",
+                  "on") %}
+
+                  mdi:door-open
+
+                  {% else %}
+
+                  mdi:door-closed
+
+                  {% endif %}
                 entity: binary_sensor.frontdoor_window_door_is_open
-                name: Voordeur
-              - type: custom:mushroom-entity-card
-                icon: ""
+                icon_color: >-
+                  {% if is_state("binary_sensor.frontdoor_window_door_is_open",
+                  "on") %}
+
+                  brown
+
+                  {% else %}
+
+                  disabled
+
+                  {% endif %}
                 layout: vertical
-                fill_container: false
-                secondary_info: state
-                icon_color: brown
+              - type: custom:mushroom-template-card
+                primary: Achterdeur
+                secondary: >-
+                  {% if is_state("binary_sensor.backdoor_window_door_is_open",
+                  "on") %}Open{% else %}Dicht{% endif %} - {{
+                  as_timestamp(states.binary_sensor['backdoor_window_door_is_open'].last_updated)
+                  | as_datetime | as_local | relative_time}}
+                icon: >-
+                  {% if is_state("binary_sensor.backdoor_window_door_is_open",
+                  "on") %}
+
+                  mdi:door-open
+
+                  {% else %}
+
+                  mdi:door-closed
+
+                  {% endif %}
                 entity: binary_sensor.backdoor_window_door_is_open
-                name: Actherdeur
+                icon_color: >-
+                  {% if is_state("binary_sensor.backdoor_window_door_is_open",
+                  "on") %}
+
+                  brown
+
+                  {% else %}
+
+                  disabled
+
+                  {% endif %}
+                layout: vertical
               - type: custom:mushroom-entity-card
                 name: Stookalert
                 icon: mdi:fireplace
