@@ -3,6 +3,9 @@ lovelace:
   mode: yaml
   resources: !include_dir_list ../lovelace/resources
   dashboards:
-    lovelace-generated:
+    mobile-dashboard:
       mode: yaml
       filename: mobile-dashboard.yaml
+      title: Generated
+      icon: mdi:tools
+      show_in_sidebar: true
