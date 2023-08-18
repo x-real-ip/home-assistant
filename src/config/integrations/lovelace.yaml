@@ -2,3 +2,7 @@
 lovelace:
   mode: yaml
   resources: !include_dir_list ../lovelace/resources
+  dashboards:
+    lovelace-generated:
+      mode: yaml
+      filename: mobile-dashboard.yaml
