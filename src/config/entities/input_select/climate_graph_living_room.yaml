@@ -1,0 +1,10 @@
+---
+climate_graph_outside:
+  options:
+    - Temperature
+    - Relative humidity
+    - Absolute humidity
+    - Dewpoint
+    - Humidex perception
+    - Dewpoint perception
+  initial: Temperature
