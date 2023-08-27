@@ -1,5 +1,5 @@
 ---
-climate_graph_living_room:
+climate_graph_basement:
   options:
     - Temperature
     - Relative humidity
@@ -8,4 +8,6 @@ climate_graph_living_room:
     - Heating
     - Humidex perception
     - Dewpoint perception
+    - Ventilation
+    - Condensation
   initial: Temperature

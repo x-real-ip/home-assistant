@@ -1,5 +1,5 @@
 ---
-climate_graph_living_room:
+climate_graph_master_bedroom:
   options:
     - Temperature
     - Relative humidity
