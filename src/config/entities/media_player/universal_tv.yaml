@@ -27,6 +27,8 @@ commands:
       entity_id: media_player.powernode_2i_ea48
   volume_mute:
     service: media_player.volume_mute
+    data:
+      is_volume_muted: "{{ is_volume_muted }}"
     target:
       entity_id: media_player.powernode_2i_ea48
   media_play:
