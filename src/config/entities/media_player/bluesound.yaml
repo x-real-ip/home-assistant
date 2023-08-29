@@ -1,0 +1,4 @@
+---
+platform: bluesound
+hosts:
+  - host: 10.0.30.85
