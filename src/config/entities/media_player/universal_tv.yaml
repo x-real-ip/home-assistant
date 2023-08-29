@@ -4,6 +4,10 @@ name: universal_tv
 children:
   - media_player.shield
   - media_player.powernode_2i_ea48
+active_child_template: >
+  {% if is_state('input_select.entertainment_activity', 'TV') %}
+      media_player.shield
+  {% endif %}
 commands:
   turn_on:
     service: media_player.turn_on
@@ -13,6 +17,14 @@ commands:
     service: media_player.turn_off
     target:
       entity_id: media_player.shield
+  volume_up:
+    service: media_player.volume_up
+    target:
+      entity_id: media_player.powernode_2i_ea48
+  volume_down:
+    service: media_player.volume_down
+    target:
+      entity_id: media_player.powernode_2i_ea48
   volume_mute:
     service: media_player.volume_mute
     target:
@@ -38,6 +50,5 @@ attributes:
   media_content_id: media_player.shield|media_content_id
   source: media_player.powernode_2i_ea48|source
   source_list: media_player.powernode_2i_ea48|source_list
-browse_media_entity: media_player.powernode_2i_ea48
 device_class: tv
 unique_id: universal_tv
