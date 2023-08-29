@@ -34,7 +34,7 @@ commands:
 attributes:
   is_volume_muted: media_player.powernode_2i_ea48|is_volume_muted
   volume_level: media_player.powernode_2i_ea48|volume_level
-  state: media_player.shield
+  state: media_player.shield|state
   media_content_id: media_player.shield|media_content_id
   source: media_player.powernode_2i_ea48|source
   source_list: media_player.powernode_2i_ea48|source_list
