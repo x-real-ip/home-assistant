@@ -1,2 +1,5 @@
 ---
-logbook: ~
+logbook:
+  exclude:
+    entities:
+      - sensor.custom_energy_usage
