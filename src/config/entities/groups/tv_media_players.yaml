@@ -5,3 +5,4 @@ tv_media_players:
     - media_player.lg_webos_smart_tv
     - media_player.shield_android_tv
     - media_player.shield
+    - media_player.universal_tv
