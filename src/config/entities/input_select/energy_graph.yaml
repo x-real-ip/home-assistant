@@ -8,4 +8,4 @@ energy_graph:
     - Sources
     - Monitor individual devices
     - Solar inverter
-  initial: Temperature
+  initial: Energy usage
