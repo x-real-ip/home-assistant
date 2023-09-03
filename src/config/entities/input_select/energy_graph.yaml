@@ -1,0 +1,11 @@
+---
+energy_graph:
+  options:
+    - Energy usage
+    - Solar production
+    - Gas consumption
+    - Water consumption
+    - Sources
+    - Monitor individual devices
+    - Solar inverter
+  initial: Temperature

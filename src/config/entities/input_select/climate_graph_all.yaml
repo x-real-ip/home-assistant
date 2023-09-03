@@ -1,0 +1,8 @@
+---
+climate_graph_all:
+  options:
+    - Temperature
+    - Relative humidity
+    - Absolute humidity
+    - Dewpoint
+  initial: Temperature
