@@ -41,6 +41,8 @@ from .const import (
     STOREDGE_CONTROL_MODE,
     STOREDGE_AC_CHARGE_POLICY,
     STOREDGE_CHARGE_DISCHARGE_MODE,
+    CONF_MAX_EXPORT_CONTROL_SITE_LIMIT,
+    DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -61,6 +63,10 @@ SOLAREDGE_MODBUS_SCHEMA = vol.Schema(
         vol.Optional(CONF_READ_BATTERY2, default=DEFAULT_READ_BATTERY2): cv.boolean,
         vol.Optional(
             CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL
+        ): cv.positive_int,
+        vol.Optional(
+            CONF_MAX_EXPORT_CONTROL_SITE_LIMIT,
+            default=DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT,
         ): cv.positive_int,
     }
 )
@@ -91,6 +97,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     read_meter3 = entry.data.get(CONF_READ_METER3, DEFAULT_READ_METER3)
     read_battery1 = entry.data.get(CONF_READ_BATTERY1, DEFAULT_READ_BATTERY1)
     read_battery2 = entry.data.get(CONF_READ_BATTERY2, DEFAULT_READ_BATTERY2)
+    max_export_control_site_limit = entry.data.get(
+        CONF_MAX_EXPORT_CONTROL_SITE_LIMIT, DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT
+    )
 
     _LOGGER.debug("Setup %s.%s", DOMAIN, name)
 
@@ -107,6 +116,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         read_meter3,
         read_battery1,
         read_battery2,
+        max_export_control_site_limit,
     )
     """Register the hub."""
     hass.data[DOMAIN][name] = {"hub": hub}
@@ -166,10 +176,11 @@ class SolaredgeModbusHub:
         read_meter3=DEFAULT_READ_METER3,
         read_battery1=DEFAULT_READ_BATTERY1,
         read_battery2=DEFAULT_READ_BATTERY2,
+        max_export_control_site_limit=DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT
     ):
         """Initialize the Modbus hub."""
         self._hass = hass
-        self._client = ModbusTcpClient(host=host, port=port)
+        self._client = ModbusTcpClient(host=host, port=port, timeout=(scan_interval - 1))
         self._lock = threading.Lock()
         self._name = name
         self._address = address
@@ -180,6 +191,7 @@ class SolaredgeModbusHub:
         self.read_battery1 = read_battery1
         self.read_battery2 = read_battery2
         self._scan_interval = timedelta(seconds=scan_interval)
+        self.max_export_control_site_limit = max_export_control_site_limit
         self._unsub_interval_method = None
         self._sensors = []
         self.data = {}
@@ -212,10 +224,14 @@ class SolaredgeModbusHub:
         if not self._sensors:
             return
 
+        if not self._check_and_reconnect():
+            #if not connected, skip
+            return
+        
         try:
             update_result = self.read_modbus_data()
         except Exception as e:
-            _LOGGER.exception("Error reading modbus data")
+            _LOGGER.exception("Error reading modbus data", exc_info=True)
             update_result = False
 
         if update_result:
@@ -232,10 +248,27 @@ class SolaredgeModbusHub:
         with self._lock:
             self._client.close()
 
+    def _check_and_reconnect(self):
+        if not self._client.connected:
+            _LOGGER.info("modbus client is not connected, trying to reconnect")
+            return self.connect()
+
+        return self._client.connected
+
     def connect(self):
         """Connect client."""
+        result = False
         with self._lock:
-            self._client.connect()
+            result = self._client.connect()
+            
+        if result:
+            _LOGGER.info("successfully connected to %s:%s", 
+                         self._client.comm_params.host, self._client.comm_params.port)
+        else:
+            _LOGGER.warning("not able to connect to %s:%s", 
+                            self._client.comm_params.host, self._client.comm_params.port)
+        return result
+
 
     @property
     def power_control_enabled(self):
@@ -305,7 +338,7 @@ class SolaredgeModbusHub:
             return False
 
         decoder = BinaryPayloadDecoder.fromRegisters(
-            meter_data.registers, byteorder=Endian.Big
+            meter_data.registers, byteorder=Endian.BIG
         )
         accurrent = decoder.decode_16bit_int()
         accurrenta = decoder.decode_16bit_int()
@@ -564,7 +597,7 @@ class SolaredgeModbusHub:
             return False
 
         decoder = BinaryPayloadDecoder.fromRegisters(
-            inverter_data.registers, byteorder=Endian.Big
+            inverter_data.registers, byteorder=Endian.BIG
         )
         accurrent = decoder.decode_16bit_uint()
         accurrenta = decoder.decode_16bit_uint()
@@ -695,7 +728,7 @@ class SolaredgeModbusHub:
             return True
 
         decoder = BinaryPayloadDecoder.fromRegisters(
-            inverter_data.registers, byteorder=Endian.Big, wordorder=Endian.Little
+            inverter_data.registers, byteorder=Endian.BIG, wordorder=Endian.LITTLE
         )
         # 0xF001 - 1 - Active Power Limit
         self.data["nominal_active_power_limit"] = decoder.decode_16bit_uint()
@@ -715,7 +748,7 @@ class SolaredgeModbusHub:
         )
         if not storage_data.isError():
             decoder = BinaryPayloadDecoder.fromRegisters(
-                storage_data.registers, byteorder=Endian.Big, wordorder=Endian.Little
+                storage_data.registers, byteorder=Endian.BIG, wordorder=Endian.LITTLE
             )
 
             # 0xE000 - 1 - Export control mode
@@ -824,8 +857,8 @@ class SolaredgeModbusHub:
             if not battery_data.isError():
                 decoder = BinaryPayloadDecoder.fromRegisters(
                     battery_data.registers,
-                    byteorder=Endian.Big,
-                    wordorder=Endian.Little,
+                    byteorder=Endian.BIG,
+                    wordorder=Endian.LITTLE,
                 )
 
                 def decode_string(decoder):
@@ -881,7 +914,7 @@ class SolaredgeModbusHub:
             return False
 
         decoder = BinaryPayloadDecoder.fromRegisters(
-            storage_data.registers, byteorder=Endian.Big, wordorder=Endian.Little
+            storage_data.registers, byteorder=Endian.BIG, wordorder=Endian.LITTLE
         )
 
         # 0x6C - 2 - avg temp C
