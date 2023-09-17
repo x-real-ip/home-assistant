@@ -1,0 +1,3 @@
+---
+sensor.shellyplug_hypervisor_a_energy:
+  friendly_name: Hypervisor-A
