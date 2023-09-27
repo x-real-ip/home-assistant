@@ -1,8 +1,9 @@
 """Constants for Node-RED."""
+from .version import __version__ as VERSION
+
 # Base component constants
 DOMAIN = "nodered"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "2.1.0"
 
 ISSUE_URL = "https://github.com/zachowj/hass-node-red/issues"
 
@@ -19,12 +20,12 @@ CONF_DEVICE_TRIGGER = "device_trigger"
 CONF_ENABLED = "enabled"
 CONF_ENTITY_PICTURE = "entity_picture"
 CONF_LAST_RESET = "last_reset"
+CONF_MESSAGE = "message"
 CONF_NAME = "name"
 CONF_NODE_ID = "node_id"
 CONF_NUMBER = "number"
 CONF_OPTIONS = "options"
 CONF_OUTPUT_PATH = "output_path"
-CONF_PAYLOAD = "payload"
 CONF_REMOVE = "remove"
 CONF_SELECT = "select"
 CONF_SENSOR = "sensor"
