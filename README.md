@@ -34,9 +34,10 @@ alternative automation engine.
 - ISKRA Smart Meter
 - LG SmartTV WebOS
 - Nvidia Shield TV
+- Shelly 1 Relay
+- Shelly Bulb RGBW
 - Shelly Dimmer
 - Shelly Dimmer2
-- Shelly 1 Relay
 - Shelly Plug-S
 - Shelly i3
 - Solar Edge Inverter
