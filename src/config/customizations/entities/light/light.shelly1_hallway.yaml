@@ -1,4 +1,4 @@
 ---
-light.shelly1-hallway:
+light.shelly1_hallway:
   friendly_name: Hal
   icon: mdi:globe-light-outline
