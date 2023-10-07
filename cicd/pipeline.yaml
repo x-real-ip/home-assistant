@@ -99,6 +99,8 @@ steps:
       token:
         from_secret: drone_server_token
       fork: true
+      wait: true
+      timeout: 20
       repositories:
         - theautomation/zwavejs2mqtt
 
@@ -197,5 +199,5 @@ get:
 kind: secret
 name: drone_server_token
 get:
-  path: drone-server-personal-token
+  path: drone-personal-token
   name: DRONE_PERSONAL_TOKEN
