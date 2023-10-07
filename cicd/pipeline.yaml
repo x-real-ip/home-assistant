@@ -92,6 +92,7 @@ steps:
     image: plugins/download
     settings:
       source: https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml
+      destination: ./deploy/k8s/zwavejs.yaml
 
   # - name: download zwavejs manifest.yaml
   #   image: curlimages/curl
@@ -106,7 +107,7 @@ steps:
         path: /.kube
     network_mode: host
     commands:
-      - kubectl apply -f ./zwavejs.yaml
+      - kubectl apply -f ./deploy/k8s/zwavejs.yaml
 
   - name: deploy home-assistant manifest
     image: bitnami/kubectl
