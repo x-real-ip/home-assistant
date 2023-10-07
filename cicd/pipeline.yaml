@@ -100,7 +100,17 @@ steps:
       ssh_key:
         from_secret: github_ssh_key
 
-  - name: deploy k8s manifest
+  - name: deploy zwavejs manifest
+    image: bitnami/kubectl
+    volumes:
+      - name: kubeconfig
+        path: /.kube
+    network_mode: host
+    commands:
+      - curl --location --remote-header-name --remote-name https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml
+      - kubectl apply -f ./manifest.yaml
+
+  - name: deploy home-assistant manifest
     image: bitnami/kubectl
     volumes:
       - name: kubeconfig
