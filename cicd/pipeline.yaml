@@ -96,7 +96,8 @@ steps:
     image: plugins/downstream
     settings:
       server: https://drone.theautomation.nl
-      token: [drone_server_token]
+      token:
+        from_secret: drone_server_token
       fork: true
       repositories:
         - theautomation/zwavejs2mqtt
