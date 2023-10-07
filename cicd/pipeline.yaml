@@ -89,10 +89,15 @@ steps:
         ./deploy/k8s/manifest.yaml
 
   - name: download zwavejs manifest.yaml
-    image: curlimages/curl
-    privileged: true
-    commands:
-      - curl https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml -o ./deploy/k8s/zwavejs.yaml
+    image: plugins/download
+    settings:
+      source: https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml
+
+  # - name: download zwavejs manifest.yaml
+  #   image: curlimages/curl
+  #   privileged: true
+  #   commands:
+  #     - curl https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml -o ./deploy/k8s/zwavejs.yaml
 
   - name: deploy zwavejs manifest
     image: bitnami/kubectl
@@ -101,7 +106,7 @@ steps:
         path: /.kube
     network_mode: host
     commands:
-      - kubectl apply -f ./deploy/k8s/zwavejs.yaml
+      - kubectl apply -f ./zwavejs.yaml
 
   - name: deploy home-assistant manifest
     image: bitnami/kubectl
