@@ -10,6 +10,20 @@ steps:
       - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
       - hass --script check_config --config ./src/config/
 
+  - name: k8s manifest
+    image: bitnami/kubectl
+    volumes:
+      - name: kubeconfig
+        path: /.kube
+    network_mode: host
+    commands:
+      - kubectl apply -f ./deploy/k8s/manifest.yaml --dry-run=client
+
+volumes:
+  - name: kubeconfig
+    host:
+      path: /var/lib/.kube
+
 trigger:
   branch:
     - main
@@ -78,6 +92,15 @@ steps:
     commands:
       - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
 
+  - name: build en deploy dependencies
+    image: plugins/downstream
+    settings:
+      server: https://drone.theautomation.nl
+      token: [drone_server_token]
+      fork: true
+      repositories:
+        - theautomation/zwavejs2mqtt
+
   - name: upgrade k8s manifest
     image: alpine:3
     network_mode: host
@@ -87,27 +110,6 @@ steps:
       - sed -i -e
         "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1"
         ./deploy/k8s/manifest.yaml
-
-  - name: download zwavejs manifest.yaml
-    image: plugins/download
-    settings:
-      source: https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml
-      destination: ./deploy/k8s/zwavejs.yaml
-
-  # - name: download zwavejs manifest.yaml
-  #   image: curlimages/curl
-  #   privileged: true
-  #   commands:
-  #     - curl https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml -o ./deploy/k8s/zwavejs.yaml
-
-  - name: deploy zwavejs manifest
-    image: bitnami/kubectl
-    volumes:
-      - name: kubeconfig
-        path: /.kube
-    network_mode: host
-    commands:
-      - kubectl apply -f ./deploy/k8s/zwavejs.yaml
 
   - name: deploy home-assistant manifest
     image: bitnami/kubectl
@@ -189,3 +191,10 @@ name: slack_webhook_url
 get:
   path: slack-webhook-url
   name: url
+
+---
+kind: secret
+name: drone_server_token
+get:
+  path: drone-server-personal-token
+  name: DRONE_PERSONAL_TOKEN
