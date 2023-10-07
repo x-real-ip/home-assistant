@@ -88,6 +88,30 @@ steps:
         "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1"
         ./deploy/k8s/manifest.yaml
 
+  - name: download zwavejs manifest.yaml
+    image: curlimages/curl
+    commands:
+      - curl -o ./deploy/k8s/zwavejs.yaml https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml
+
+  - name: deploy zwavejs manifest
+    image: bitnami/kubectl
+    volumes:
+      - name: kubeconfig
+        path: /.kube
+    network_mode: host
+    commands:
+      - kubectl apply -f ./deploy/k8s/zwavejs.yaml
+
+  - name: deploy home-assistant manifest
+    image: bitnami/kubectl
+    volumes:
+      - name: kubeconfig
+        path: /.kube
+    network_mode: host
+    commands:
+      - cat ./deploy/k8s/manifest.yaml
+      - kubectl apply -f ./deploy/k8s/manifest.yaml
+
   - name: push to github
     image: appleboy/drone-git-push:1-linux-amd64
     settings:
@@ -99,30 +123,6 @@ steps:
       author_name: ci-bot
       ssh_key:
         from_secret: github_ssh_key
-
-  - name: download zwavejs manifest.yaml
-    image: curlimages/curl
-    commands:
-      - curl -o zwavejs.yaml https://raw.githubusercontent.com/theautomation/zwavejs2mqtt/main/deploy/k8s/manifest.yaml
-
-  - name: deploy zwavejs manifest
-    image: bitnami/kubectl
-    volumes:
-      - name: kubeconfig
-        path: /.kube
-    network_mode: host
-    commands:
-      - kubectl apply -f ./zwavejs.yaml
-
-  - name: deploy home-assistant manifest
-    image: bitnami/kubectl
-    volumes:
-      - name: kubeconfig
-        path: /.kube
-    network_mode: host
-    commands:
-      - cat ./deploy/k8s/manifest.yaml
-      - kubectl apply -f ./deploy/k8s/manifest.yaml
 
 volumes:
   - name: kubeconfig
