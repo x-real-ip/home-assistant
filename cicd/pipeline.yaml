@@ -49,7 +49,7 @@ steps:
       FORMAT: "oci"
       CONTEXT: "."
       TLSVERIFY: "false"
-      USERNAME: "robot-drone-ci"
+      USERNAME: "robot-drone"
       PASSWORD:
         from_secret: harbor_registry_drone_password
     commands:
