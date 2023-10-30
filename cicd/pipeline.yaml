@@ -1,114 +1,29 @@
 ---
 kind: pipeline
-type: docker
-name: start
+name: test
+
 steps:
-
-  # - name: prettier
-  #   image: tmknom/prettier:latest
-  #   user: root
-  #   commands:
-  #     - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
-
-  - name: yamllint
-    image: sdesbure/yamllint:latest
+  - name: latest image
+    image: homeassistant/home-assistant:latest
+    pull: always
     commands:
-      - yamllint -c ./cicd/.yamllint.yaml .
+      - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+      - hass --script check_config --config ./src/config/
 
-  # - name: test k8s manifest
-  #   image: bitnami/kubectl
-  #   volumes:
-  #     - name: kubeconfig
-  #       path: /.kube
-  #   network_mode: host
-  #   commands:
-  #     - kubectl apply -f ./deploy/k8s/manifest.yaml --dry-run=client
+  - name: dev image
+    image: homeassistant/home-assistant:dev
+    pull: always
+    commands:
+      - hass --script check_config --config ./src/config/
 
-  # - name: test latest official image
-  #   image: homeassistant/home-assistant:latest
-  #   pull: always
-  #   commands:
-  #     - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-  #     - hass --script check_config --config ./src/config/
-
-  # - name: build and push image
-  #   image: quay.io/buildah/stable
-  #   privileged: true
-  #   network_mode: host
-  #   environment:
-  #     REGISTRY_HOST: "harbor.k8s.lan/k8s"
-  #     CONTAINERFILE: "./deploy/container/Containerfile"
-  #     STORAGE_DRIVER: "overlay"
-  #     FORMAT: "oci"
-  #     CONTEXT: "."
-  #     TLSVERIFY: "false"
-  #     USERNAME: "robot-drone"
-  #     PASSWORD:
-  #       from_secret: harbor_registry_drone_password
-  #   commands:
-  #     - |
-  #       echo "Build image..."
-  #       buildah --storage-driver=$${STORAGE_DRIVER} bud --format=$${FORMAT} \
-  #       --tls-verify=$${TLSVERIFY} -f $${CONTAINERFILE} \
-  #       -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
-  #       -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
-  #     - |
-  #       echo "Push image with latest tag..."
-  #       buildah push --creds=$${USERNAME}:$${PASSWORD} \
-  #       --tls-verify=$${TLSVERIFY} \
-  #       $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
-  #       docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest
-  #     - |
-  #       echo "Push image with buildnumber tag..."
-  #       buildah push --creds=$${USERNAME}:$${PASSWORD} \
-  #       --tls-verify=$${TLSVERIFY} \
-  #       --digestfile=/tmp/image-digest \
-  #       $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
-  #       docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
-
-  # - name: build en deploy dependencies
-  #   image: plugins/downstream
-  #   settings:
-  #     server: https://drone.theautomation.nl
-  #     token:
-  #       from_secret: drone_server_token
-  #     fork: true
-  #     wait: true
-  #     timeout: 20
-  #     repositories:
-  #       - theautomation/zwavejs2mqtt
-
-  # - name: upgrade k8s manifest
-  #   image: alpine:3
-  #   network_mode: host
-  #   environment:
-  #     REGISTRY_NAME: "k8s"
-  #   commands:
-  #     - sed -i -e
-  #       "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1"
-  #       ./deploy/k8s/manifest.yaml
-
-  # - name: deploy home-assistant manifest
-  #   image: bitnami/kubectl
-  #   volumes:
-  #     - name: kubeconfig
-  #       path: /.kube
-  #   network_mode: host
-  #   commands:
-  #     - cat ./deploy/k8s/manifest.yaml
-  #     - kubectl apply -f ./deploy/k8s/manifest.yaml
-
-  # - name: push to github
-  #   image: appleboy/drone-git-push:1-linux-amd64
-  #   settings:
-  #     remote_name: "git@github.com:${DRONE_REPO}"
-  #     branch: ${DRONE_BRANCH}
-  #     force: false
-  #     commit: true
-  #     commit_message: "[bot] [skip ci] bump image tag"
-  #     author_name: ci-bot
-  #     ssh_key:
-  #       from_secret: github_ssh_key
+  - name: k8s manifest
+    image: bitnami/kubectl
+    volumes:
+      - name: kubeconfig
+        path: /.kube
+    network_mode: host
+    commands:
+      - kubectl apply -f ./deploy/k8s/manifest.yaml --dry-run=client
 
 volumes:
   - name: kubeconfig
@@ -119,6 +34,122 @@ trigger:
   branch:
     - main
     - feature/*
+
+---
+kind: pipeline
+type: docker
+name: build
+
+depends_on:
+  - test
+
+steps:
+  - name: build and push image
+    image: quay.io/buildah/stable
+    privileged: true
+    network_mode: host
+    environment:
+      REGISTRY_HOST: "harbor.k8s.lan/k8s"
+      CONTAINERFILE: "./deploy/container/Containerfile"
+      STORAGE_DRIVER: "overlay"
+      FORMAT: "oci"
+      CONTEXT: "."
+      TLSVERIFY: "false"
+      USERNAME: "robot-drone"
+      PASSWORD:
+        from_secret: harbor_registry_drone_password
+    commands:
+      - |
+        echo "Build image..."
+        buildah --storage-driver=$${STORAGE_DRIVER} bud --format=$${FORMAT} \
+        --tls-verify=$${TLSVERIFY} -f $${CONTAINERFILE} \
+        -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
+        -t $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
+      - |
+        echo "Push image with latest tag..."
+        buildah push --creds=$${USERNAME}:$${PASSWORD} \
+        --tls-verify=$${TLSVERIFY} \
+        $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest \
+        docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:latest
+      - |
+        echo "Push image with buildnumber tag..."
+        buildah push --creds=$${USERNAME}:$${PASSWORD} \
+        --tls-verify=$${TLSVERIFY} \
+        --digestfile=/tmp/image-digest \
+        $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
+        docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
+
+trigger:
+  branch:
+    - main
+
+---
+kind: pipeline
+type: docker
+name: deploy
+
+depends_on:
+  - build
+
+steps:
+  - name: prettier
+    image: tmknom/prettier:latest
+    user: root
+    commands:
+      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
+
+  - name: build en deploy dependencies
+    image: plugins/downstream
+    settings:
+      server: https://drone.theautomation.nl
+      token:
+        from_secret: drone_server_token
+      fork: true
+      wait: true
+      timeout: 20
+      repositories:
+        - theautomation/zwavejs2mqtt
+
+  - name: upgrade k8s manifest
+    image: alpine:3
+    network_mode: host
+    environment:
+      REGISTRY_NAME: "k8s"
+    commands:
+      - sed -i -e
+        "s%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:.*%/$${REGISTRY_NAME}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}\"%1"
+        ./deploy/k8s/manifest.yaml
+
+  - name: deploy home-assistant manifest
+    image: bitnami/kubectl
+    volumes:
+      - name: kubeconfig
+        path: /.kube
+    network_mode: host
+    commands:
+      - cat ./deploy/k8s/manifest.yaml
+      - kubectl apply -f ./deploy/k8s/manifest.yaml
+
+  - name: push to github
+    image: appleboy/drone-git-push:1-linux-amd64
+    settings:
+      remote_name: "git@github.com:${DRONE_REPO}"
+      branch: ${DRONE_BRANCH}
+      force: false
+      commit: true
+      commit_message: "[bot] [skip ci] bump image tag"
+      author_name: ci-bot
+      ssh_key:
+        from_secret: github_ssh_key
+
+volumes:
+  - name: kubeconfig
+    host:
+      path: /var/lib/.kube
+
+trigger:
+  branch:
+    - main
 
 ---
 kind: pipeline
@@ -145,7 +176,6 @@ steps:
 trigger:
   branch:
     - main
-    - feature/*
   status:
     - success
     - failure
