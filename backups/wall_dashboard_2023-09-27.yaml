@@ -605,7 +605,7 @@ views:
                 icon: >-
                   {% if is_state(entity, "on") %} mdi:door-open {% else %}
                   mdi:door-closed {% endif %}
-                entity: binary_sensor.backdoor_window_door_is_open
+                entity: binary_sensor.backdoor
                 icon_color: >-
                   {% if is_state(entity, "on") %} brown {% else %} disabled {%
                   endif %}

@@ -1,16 +1,21 @@
 ---
 kind: pipeline
-name: test
-
+type: docker
+name: default
 steps:
-  - name: latest
-    image: homeassistant/home-assistant:latest
-    pull: always
-    commands:
-      - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-      - hass --script check_config --config ./src/config/
 
-  - name: k8s manifest
+  - name: prettier
+    image: tmknom/prettier:latest
+    user: root
+    commands:
+      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
+
+  - name: yamllint
+    image: sdesbure/yamllint:latest
+    commands:
+      - yamllint -c ./cicd/.yamllint.yaml .
+
+  - name: test k8s manifest
     image: bitnami/kubectl
     volumes:
       - name: kubeconfig
@@ -19,25 +24,13 @@ steps:
     commands:
       - kubectl apply -f ./deploy/k8s/manifest.yaml --dry-run=client
 
-volumes:
-  - name: kubeconfig
-    host:
-      path: /var/lib/.kube
+  - name: test latest official image
+    image: homeassistant/home-assistant:latest
+    pull: always
+    commands:
+      - mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+      - hass --script check_config --config ./src/config/
 
-trigger:
-  branch:
-    - main
-    - feature/*
-
----
-kind: pipeline
-type: docker
-name: build
-
-depends_on:
-  - test
-
-steps:
   - name: build and push image
     image: quay.io/buildah/stable
     privileged: true
@@ -72,25 +65,6 @@ steps:
         --digestfile=/tmp/image-digest \
         $${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER} \
         docker://$${REGISTRY_HOST}/$${DRONE_REPO_NAME}:$${DRONE_BUILD_NUMBER}
-
-trigger:
-  branch:
-    - main
-
----
-kind: pipeline
-type: docker
-name: deploy
-
-depends_on:
-  - build
-
-steps:
-  - name: prettier
-    image: tmknom/prettier:latest
-    user: root
-    commands:
-      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
 
   - name: build en deploy dependencies
     image: plugins/downstream
@@ -144,6 +118,7 @@ volumes:
 trigger:
   branch:
     - main
+    - feature/*
 
 ---
 kind: pipeline
