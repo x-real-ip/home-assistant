@@ -82,6 +82,7 @@ steps:
 trigger:
   branch:
     - main
+    - feature/*
 
 ---
 kind: pipeline
@@ -150,6 +151,7 @@ volumes:
 trigger:
   branch:
     - main
+    - feature/*
 
 ---
 kind: pipeline
@@ -176,6 +178,7 @@ steps:
 trigger:
   branch:
     - main
+    - feature/*
   status:
     - success
     - failure
