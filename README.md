@@ -20,14 +20,11 @@ alternative automation engine.
 
 ## Hardware
 
-- Aeotec Z-Wave Gen5 Stick 868.42 MHz
 - Aeotec Z-Wave Gen5 Stick 908.42 MHz
-- Aeotec Z-Wave Recessed Doorsensor 868.42 MHz
 - Bluesound Powernode 2i
 - ESP01S
 - ESP32
 - ESP8622
-- Fibaro Z-Wave Wall Plug 868.42 MHz
 - First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen 908.42 MHz
 - Google Home
 - Google Home Mini
@@ -38,14 +35,15 @@ alternative automation engine.
 - Shelly Bulb RGBW
 - Shelly Dimmer
 - Shelly Dimmer2
+- Shelly BLU Door/Window Sensor
 - Shelly Plug-S
+- Shelly Plus Plug
 - Shelly i3
 - Solar Edge Inverter
 - Tado Bridge
 - Tado Smart Thermostat
 - Tado Smart Radiator Thermostat
 - Tado Wireless Temperature Sensor
-- WLED
 - Xioami Roborock S55
 - Xioami Roborock S6 Pure
 
