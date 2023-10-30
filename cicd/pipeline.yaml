@@ -4,16 +4,16 @@ type: docker
 name: default
 steps:
 
-  - name: prettier
-    image: tmknom/prettier:latest
-    user: root
-    commands:
-      - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
-
-  # - name: yamllint
-  #   image: sdesbure/yamllint:latest
+  # - name: prettier
+  #   image: tmknom/prettier:latest
+  #   user: root
   #   commands:
-  #     - yamllint -c ./cicd/.yamllint.yaml .
+  #     - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
+
+  - name: yamllint
+    image: sdesbure/yamllint:latest
+    commands:
+      - yamllint -c ./cicd/.yamllint.yaml .
 
   # - name: test k8s manifest
   #   image: bitnami/kubectl
@@ -145,6 +145,7 @@ steps:
 trigger:
   branch:
     - main
+    - feature/*
   status:
     - success
     - failure
