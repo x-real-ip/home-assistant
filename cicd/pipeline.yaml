@@ -111,15 +111,6 @@ steps:
       repositories:
         - theautomation/zwavejs2mqtt
 
-  - name: wait for dependencies to become ready
-    image: bitnami/kubectl
-    volumes:
-      - name: kubeconfig
-        path: /.kube
-    network_mode: host
-    commands:
-      - kubectl wait --for=condition=Ready pod -l app=zwavejs2mqtt-us -A
-
   - name: upgrade k8s manifest
     image: alpine:3
     network_mode: host
