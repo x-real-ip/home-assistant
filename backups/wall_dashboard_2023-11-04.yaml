@@ -116,6 +116,23 @@ views:
               hold_action:
                 action: none
               icon: mdi:fireplace
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.knmi_home_waarschuwing
+                state: 'on'
+            chip:
+              type: template
+              tap_action:
+                action: navigate
+                navigation_path: /wall-v2/weather
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              icon: mdi:alert
+              icon_color: orange
+              entity: binary_sensor.knmi_home_waarschuwing
+              content: KNMI waarschuwing
         alignment: center
         view_layout:
           grid-area: header
@@ -175,6 +192,20 @@ views:
                 tap_action:
                   action: navigate
                   navigation_path: energy
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-template-card
+                primary: ''
+                secondary: ''
+                icon: mdi:weather-lightning-rainy
+                icon_color: blue
+                layout: vertical
+                fill_container: false
+                tap_action:
+                  action: navigate
+                  navigation_path: /wall-v2/weather
                 hold_action:
                   action: none
                 double_tap_action:
@@ -272,32 +303,9 @@ views:
                 state: '0'
             card:
               show_current: true
-              show_forecast: true
-              type: weather-forecast
-              entity: weather.buienradar
-              tap_action:
-                action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.popup
-                  data:
-                    content:
-                      type: picture-entity
-                      entity: camera.buienradar
-                      show_name: false
-                      show_state: false
-                      tap_action:
-                        action: none
-              forecast_type: legacy
-              secondary_info_attribute: humidity
-          - type: conditional
-            conditions:
-              - entity: sensor.notification_on_counter
-                state: '1'
-            card:
-              show_current: true
               show_forecast: false
               type: weather-forecast
-              entity: weather.buienradar
+              entity: weather.knmi_home
               tap_action:
                 action: fire-dom-event
                 browser_mod:
@@ -310,31 +318,9 @@ views:
                       show_state: false
                       tap_action:
                         action: none
-              forecast_type: legacy
+              forecast_type: daily
               secondary_info_attribute: humidity
-          - type: conditional
-            conditions:
-              - entity: sensor.notification_on_counter
-                state: '3'
-            card:
-              show_current: true
-              show_forecast: false
-              type: weather-forecast
-              entity: weather.buienradar
-              tap_action:
-                action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.popup
-                  data:
-                    content:
-                      type: picture-entity
-                      entity: camera.buienradar
-                      show_name: false
-                      show_state: false
-                      tap_action:
-                        action: none
-              forecast_type: legacy
-              secondary_info_attribute: humidity
+              name: ' '
           - type: custom:stack-in-card
             mode: vertical
             cards:
@@ -504,13 +490,13 @@ views:
                 entity: switch.shelly1_frontyard_powersocket
                 icon: mdi:power-socket-de
                 fill_container: false
-                secondary_info: state
                 name: Voortuin
                 icon_color: purple
                 tap_action:
                   action: toggle
                 layout: vertical
                 primary_info: name
+                secondary_info: state
               - type: custom:mushroom-template-card
                 primary: Stofzuiger
                 secondary: |-
@@ -530,7 +516,7 @@ views:
                   disabled
                   {% endif %}
               - type: custom:mushroom-template-card
-                primary: Keukenlades
+                primary: Keukenlade
                 secondary: |-
                   {% if is_state(entity, 'on') %}
                   Vergrendeld
@@ -581,13 +567,12 @@ views:
             columns: 3
             cards:
               - type: custom:mushroom-template-card
-                entity: binary_sensor.frontdoor_window_door_is_open
+                entity: binary_sensor.frontdoor
                 primary: Voordeur
                 secondary: >-
                   {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{
-                  as_timestamp(states.binary_sensor['frontdoor_window_door_is_open'].last_updated)
-                  | as_datetime | as_local | relative_time}}
+                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
+                  relative_time }}
                 icon: >-
                   {% if is_state(entity, "on") %} mdi:door-open {% else %}
                   mdi:door-closed {% endif %}
@@ -596,16 +581,15 @@ views:
                   endif %}
                 layout: vertical
               - type: custom:mushroom-template-card
+                entity: binary_sensor.backdoor
                 primary: Achterdeur
                 secondary: >-
                   {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{
-                  as_timestamp(states.binary_sensor['backdoor_window_door_is_open'].last_updated)
-                  | as_datetime | as_local | relative_time}}
+                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
+                  relative_time }}
                 icon: >-
                   {% if is_state(entity, "on") %} mdi:door-open {% else %}
                   mdi:door-closed {% endif %}
-                entity: binary_sensor.backdoor
                 icon_color: >-
                   {% if is_state(entity, "on") %} brown {% else %} disabled {%
                   endif %}
@@ -617,22 +601,16 @@ views:
           - type: thermostat
             entity: climate.living_room
             name: ' '
-          - type: custom:mushroom-select-card
+          - features:
+              - type: select-options
+            type: tile
             entity: input_select.entertainment_activity
-            fill_container: false
-            icon: mdi:television-play
-            secondary_info: last-changed
-            layout: horizontal
-            icon_color: blue
-            icon_type: icon
-            double_tap_action:
-              action: none
-            hold_action:
-              action: none
+            name: Entertainment
+            icon: mdi:youtube-tv
             tap_action:
               action: none
-            view_layout:
-              grid-area: left
+            icon_tap_action:
+              action: none
           - type: conditional
             conditions:
               - entity: input_select.entertainment_activity
@@ -1466,7 +1444,7 @@ views:
       grid-template-columns: 33% auto 33%
       grid-template-rows: auto
       grid-template-areas: |
-        "header header header"
+        "left-header mid-header ."
         "left middle right"
     icon: mdi:lightbulb
     badges: []
@@ -1536,6 +1514,16 @@ views:
                 entity: light.shelly1_front_door
                 name: Voordeur
                 icon: mdi:coach-lamp
+                layout: horizontal
+                fill_container: false
+                show_brightness_control: false
+                collapsible_controls: false
+                show_color_control: false
+                show_color_temp_control: false
+                use_light_color: false
+              - type: custom:mushroom-light-card
+                entity: light.shelly1_hallway
+                icon: mdi:globe-light-outline
                 layout: horizontal
                 fill_container: false
                 show_brightness_control: false
@@ -1700,7 +1688,58 @@ views:
             icon: mdi:arrow-left
         alignment: start
         view_layout:
-          grid-area: header
+          grid-area: left-header
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: conditional
+            conditions:
+              - entity: sensor.lights_on_counter
+                state_not: '0'
+            chip:
+              type: template
+              entity: sensor.lights_on_counter
+              icon_color: |-
+                {% if is_state("sensor.lights_on_counter", "0") %}
+                  disabled
+                {% else %}
+                  orange
+                {% endif %}
+              icon: |-
+                {% if is_state("sensor.lights_on_counter", "0") %}
+                  mdi:lightbulb-off
+                {% else %}
+                  mdi:lightbulb-on
+                {% endif %}
+              content: '{{ states("sensor.lights_on_counter") }}'
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+          - type: template
+            icon_color: ''
+            icon: mdi:lightbulb-multiple-off-outline
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              target:
+                entity_id: all
+              data: {}
+            content: Alles Uit
+          - type: template
+            icon_color: ''
+            icon: mdi:lightbulb-multiple-outline
+            tap_action:
+              action: call-service
+              service: light.turn_on
+              target:
+                entity_id: all
+              data: {}
+            content: Alles Aan
+        alignment: center
+        view_layout:
+          grid-area: mid-header
   - title: climate
     path: climate
     type: custom:grid-layout
@@ -1761,7 +1800,7 @@ views:
               - type: custom:mushroom-chips-card
                 chips:
                   - type: weather
-                    entity: weather.buienradar
+                    entity: weather.knmi_home
                     show_conditions: false
                     show_temperature: true
                     hold_action:
@@ -4431,7 +4470,7 @@ views:
               {% if is_state(entity, "Energy usage") -%}
               orange
               {%- else -%}
-              black
+              disabled
               {%- endif %}
             icon: mdi:lightning-bolt
             double_tap_action:
@@ -4463,7 +4502,7 @@ views:
               {% if is_state(entity, "Solar production") -%}
               orange
               {%- else -%}
-              black
+              disabled
               {%- endif %}
             entity: input_select.energy_graph
           - type: template
@@ -4483,7 +4522,7 @@ views:
               {% if is_state(entity, "Gas consumption") -%}
               orange
               {%- else -%}
-              black
+              disabled
               {%- endif %}
             entity: input_select.energy_graph
           - type: template
@@ -4503,7 +4542,7 @@ views:
               {% if is_state(entity, "Water consumption") -%}
               orange
               {%- else -%}
-              black
+              disabled
               {%- endif %}
             entity: input_select.energy_graph
           - type: template
@@ -4523,7 +4562,7 @@ views:
               {% if is_state(entity, "Sources") -%}
               orange
               {%- else -%}
-              black
+              disabled
               {%- endif %}
             entity: input_select.energy_graph
           - type: template
@@ -4543,7 +4582,7 @@ views:
               {% if is_state(entity, "Monitor individual devices") -%}
               orange
               {%- else -%}
-              black
+              disabled
               {%- endif %}
             entity: input_select.energy_graph
       - type: energy-date-selection
@@ -4678,6 +4717,15 @@ views:
                       columns: 3
                       cards:
                         - type: custom:horizon-card
+                          moon: true
+                          southern_flip: false
+                          fields:
+                            sunrise: false
+                            sunset: false
+                            moon: true
+                            dawn: false
+                            noon: false
+                            dusk: false
                         - type: vertical-stack
                           cards:
                             - type: custom:mushroom-template-card
@@ -4785,7 +4833,138 @@ views:
                       cards: []
         view_layout:
           grid-area: main
-  - title: SYSTEM
+  - title: weather
+    path: weather
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 33.3% 33.3% 33.3%
+      grid-template-rows: auto
+      grid-template-areas: |
+        "left-header mid-header ."
+        "left-up mid-up right-up"
+        "left-down mid-down right-down"
+    icon: mdi:weather-lightning-rainy
+    badges: []
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: action
+            double_tap_action:
+              action: none
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/0
+            hold_action:
+              action: none
+            icon: mdi:arrow-left
+        alignment: start
+        view_layout:
+          grid-area: left-header
+      - type: custom:mushroom-chips-card
+        chips: []
+        alignment: center
+        view_layout:
+          grid-area: mid-header
+      - type: vertical-stack
+        cards:
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.knmi_home
+            forecast_type: daily
+            name: KNMI
+          - show_state: false
+            show_name: false
+            camera_view: auto
+            type: picture-entity
+            entity: camera.buienradar
+            camera_image: camera.buienradar
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+        view_layout:
+          grid-area: mid-up
+      - type: vertical-stack
+        cards:
+          - type: custom:horizon-card
+            moon: true
+            refresh_period: 60
+            fields:
+              sunrise: true
+              sunset: true
+              dawn: true
+              noon: true
+              dusk: true
+              moon_phase: false
+          - type: custom:mini-graph-card
+            name: Regen
+            hours_to_show: 12
+            hour24: true
+            icon: mdi:weather-rainy
+            animate: true
+            line_width: 2
+            font_size: 90
+            font_size_header: 12
+            entities:
+              - entity: sensor.buienradar_precipitation
+                name: Download
+                show_state: true
+                color: cyan
+        view_layout:
+          grid-area: left-up
+      - type: vertical-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: binary_sensor.knmi_home_waarschuwing
+                state: 'on'
+            card:
+              type: custom:mushroom-template-card
+              primary: KNMI waarschuwing
+              secondary: '{{ state_attr(entity, ''Waarschuwing'') }}'
+              icon: mdi:alert
+              entity: binary_sensor.knmi_home_waarschuwing
+              icon_color: orange
+              multiline_secondary: true
+              layout: horizontal
+              badge_icon: ''
+              badge_color: ''
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.buienradar_barometer
+              - type: custom:mushroom-entity-card
+                entity: sensor.buienradar_feel_temperature
+                icon: mdi:sun-thermometer-outline
+                name: Gevoelstemperatuur
+            columns: 2
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.buienradar_rainchance_1d
+                name: Kans op regen
+              - type: custom:mushroom-entity-card
+                entity: sensor.buienradar_sunchance_1d
+                icon: ''
+                name: Kans op zon
+            columns: 2
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.buienradar_wind_speed
+                name: Windsnelheid
+              - type: custom:mushroom-entity-card
+                entity: sensor.buienradar_wind_force
+                icon: ''
+                name: Windkracht
+            columns: 2
+        view_layout:
+          grid-area: right-up
+  - title: system
     path: system
     layout:
       grid-template-columns: 30% auto 30%
@@ -4869,7 +5048,7 @@ views:
                 hours_to_show: 110
                 hour24: true
                 animate: true
-                line_width: 3
+                line_width: 2
                 font_size: 90
                 font_size_header: 12
                 tap_action:
@@ -4895,13 +5074,14 @@ views:
                     name: Hypervisor A
                     hours_to_show: 8
                     hour24: true
-                    points_per_hour: 120
+                    points_per_hour: 16
                     font_size: 90
                     font_size_header: 12
                     animate: true
-                    line_width: 3
+                    line_width: 4
                     show:
                       extrema: true
+                      average: true
                     entities:
                       - entity: sensor.shellyplug_hypervisor_a_power
                     color_thresholds:
@@ -4931,12 +5111,14 @@ views:
                     name: Hypervisor B
                     hours_to_show: 8
                     hour24: true
-                    points_per_hour: 120
+                    points_per_hour: 16
                     font_size: 90
                     font_size_header: 12
                     animate: true
+                    line_width: 4
                     show:
                       extrema: true
+                      average: true
                     entities:
                       - entity: sensor.shellyplug_hypervisor_b_power
                     color_thresholds:
@@ -4966,13 +5148,14 @@ views:
                     name: Storage server
                     hours_to_show: 8
                     hour24: true
-                    points_per_hour: 120
+                    points_per_hour: 16
                     font_size: 90
                     font_size_header: 12
                     animate: true
-                    line_width: 3
+                    line_width: 4
                     show:
                       extrema: true
+                      average: true
                     entities:
                       - entity: sensor.shellyplug_storage_server_power
                     color_thresholds:
