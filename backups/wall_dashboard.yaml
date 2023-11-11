@@ -61,7 +61,7 @@ views:
           - type: conditional
             conditions:
               - entity: sensor.transmission_active_torrents
-                state_not: '0'
+                state_not: "0"
             chip:
               type: entity
               entity: sensor.transmission_active_torrents
@@ -77,7 +77,7 @@ views:
           - type: conditional
             conditions:
               - entity: sensor.lights_on_counter
-                state_not: '0'
+                state_not: "0"
             chip:
               type: template
               entity: sensor.lights_on_counter
@@ -104,7 +104,7 @@ views:
           - type: conditional
             conditions:
               - entity: binary_sensor.stookalert_gelderland
-                state: 'on'
+                state: "on"
             chip:
               type: entity
               entity: binary_sensor.stookalert_gelderland
@@ -119,7 +119,7 @@ views:
           - type: conditional
             conditions:
               - entity: binary_sensor.knmi_home_waarschuwing
-                state: 'on'
+                state: "on"
             chip:
               type: template
               tap_action:
@@ -141,8 +141,8 @@ views:
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:lightbulb
                 icon_color: orange
                 layout: vertical
@@ -155,8 +155,8 @@ views:
                 double_tap_action:
                   action: none
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:home-thermometer
                 icon_color: green
                 layout: vertical
@@ -169,8 +169,8 @@ views:
                 double_tap_action:
                   action: none
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:robot-vacuum
                 icon_color: purple
                 layout: vertical
@@ -183,8 +183,8 @@ views:
                 double_tap_action:
                   action: none
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:lightning-bolt
                 icon_color: yellow
                 layout: vertical
@@ -197,8 +197,8 @@ views:
                 double_tap_action:
                   action: none
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:weather-lightning-rainy
                 icon_color: blue
                 layout: vertical
@@ -211,8 +211,8 @@ views:
                 double_tap_action:
                   action: none
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: ''
+                primary: ""
+                secondary: ""
                 icon: mdi:cog
                 icon_color: brown
                 layout: vertical
@@ -227,7 +227,7 @@ views:
           - type: conditional
             conditions:
               - entity: binary_sensor.notification_level_info
-                state: 'on'
+                state: "on"
             card:
               type: custom:mushroom-template-card
               primary: |
@@ -238,8 +238,8 @@ views:
               entity: binary_sensor.notification_level_info
               icon_color: |
                 {{ (state_attr(entity, "icon_color")) }}
-              badge_icon: ''
-              badge_color: ''
+              badge_icon: ""
+              badge_color: ""
               multiline_secondary: true
               tap_action:
                 action: call-service
@@ -247,11 +247,11 @@ views:
                 target:
                   entity_id: button.notification_level_info_turn_off
                 data: {}
-              picture: ''
+              picture: ""
           - type: conditional
             conditions:
               - entity: binary_sensor.notification_level_warning
-                state: 'on'
+                state: "on"
             card:
               type: custom:mushroom-template-card
               primary: |
@@ -262,8 +262,8 @@ views:
               entity: binary_sensor.notification_level_warning
               icon_color: |
                 {{ (state_attr(entity, "icon_color")) }}
-              badge_icon: ''
-              badge_color: ''
+              badge_icon: ""
+              badge_color: ""
               multiline_secondary: true
               tap_action:
                 action: call-service
@@ -271,11 +271,11 @@ views:
                 target:
                   entity_id: button.notification_level_warning_turn_off
                 data: {}
-              picture: ''
+              picture: ""
           - type: conditional
             conditions:
               - entity: binary_sensor.notification_level_error
-                state: 'on'
+                state: "on"
             card:
               type: custom:mushroom-template-card
               primary: |
@@ -286,8 +286,8 @@ views:
               entity: binary_sensor.notification_level_error
               icon_color: |
                 {{ (state_attr(entity, "icon_color")) }}
-              badge_icon: ''
-              badge_color: ''
+              badge_icon: ""
+              badge_color: ""
               multiline_secondary: true
               tap_action:
                 action: call-service
@@ -296,11 +296,11 @@ views:
                   entity_id:
                     - button.notification_level_error_turn_off
                 data: {}
-              picture: ''
+              picture: ""
           - type: conditional
             conditions:
               - entity: sensor.notification_on_counter
-                state: '0'
+                state: "0"
             card:
               show_current: true
               show_forecast: false
@@ -320,7 +320,7 @@ views:
                         action: none
               forecast_type: daily
               secondary_info_attribute: humidity
-              name: ' '
+              name: " "
           - type: custom:stack-in-card
             mode: vertical
             cards:
@@ -338,7 +338,7 @@ views:
                           {% else %}
                           blue
                           {% endif %}
-                        content: '{{ (states(entity))}} W'
+                        content: "{{ (states(entity))}} W"
                         card_mod:
                           style: |
                             ha-card {
@@ -357,7 +357,7 @@ views:
                           {% else %}
                           disabled
                           {% endif %}
-                        content: '{{ (states(entity, with_unit=True)) }}'
+                        content: "{{ (states(entity, with_unit=True)) }}"
                         card_mod:
                           style: |
                             ha-card {
@@ -376,7 +376,7 @@ views:
                           {% else %}
                           blue
                           {% endif %}
-                        content: '{{ (states(entity))}} W'
+                        content: "{{ (states(entity))}} W"
                         card_mod:
                           style: |
                             ha-card {
@@ -400,7 +400,7 @@ views:
                           {% else %}
                             disabled
                           {% endif %}
-                        content: '{{ (states(entity, with_unit=True)) }}'
+                        content: "{{ (states(entity, with_unit=True)) }}"
                         card_mod:
                           style: |
                             ha-card {
@@ -419,7 +419,7 @@ views:
                           {% else %}
                             red
                           {% endif %}
-                        content: '{{ (states(entity, with_unit=True)) }}'
+                        content: "{{ (states(entity, with_unit=True)) }}"
                         card_mod:
                           style: |
                             ha-card {
@@ -508,7 +508,7 @@ views:
                 icon: mdi:robot-vacuum
                 entity: input_boolean.auto_cleaning
                 layout: vertical
-                badge_color: ''
+                badge_color: ""
                 icon_color: |-
                   {% if is_state(entity, 'on') %}
                   purple
@@ -526,7 +526,7 @@ views:
                 icon: mdi:file-cabinet
                 entity: switch.childlock_kitchen_switch
                 layout: vertical
-                badge_color: ''
+                badge_color: ""
                 icon_color: |-
                   {% if is_state(entity, 'on') %}
                   purple
@@ -600,7 +600,7 @@ views:
         cards:
           - type: thermostat
             entity: climate.living_room
-            name: ' '
+            name: " "
           - features:
               - type: select-options
             type: tile
@@ -621,7 +621,7 @@ views:
                 - type: conditional
                   conditions:
                     - entity: media_player.universal_tv
-                      state_not: 'off'
+                      state_not: "off"
                     - entity: media_player.universal_tv
                       state_not: unavailable
                   card:
@@ -629,7 +629,7 @@ views:
                     entity: media_player.universal_tv
                     name: TV
                     icon: mdi:cast
-                    artwork: full-cover
+                    artwork: none
                     group: false
                     volume_stateless: false
                     hide:
@@ -650,7 +650,7 @@ views:
                       name: Bluesound Powernode 2i
                       toggle_power: false
                       volume_stateless: false
-                      max_volume: '40'
+                      max_volume: "40"
                       group: false
                       source: icon
                       info: short
@@ -687,7 +687,8 @@ views:
                                       if
                                     (states['media_player.powernode_2i_ea48'].attributes['source']
                                     == "NPO Radio 1")
-                                        return "var(--switch-checked-button-color)";
+                                        return
+                                    "var(--switch-checked-button-color)";
                                       return "red";
                                     ]]]
                                 - border-radius: 50%
@@ -736,7 +737,8 @@ views:
                                       if
                                     (states['media_player.powernode_2i_ea48'].attributes['source']
                                     == "NPO Radio 2")
-                                        return "var(--switch-checked-button-color)";
+                                        return
+                                    "var(--switch-checked-button-color)";
                                       return "red";
                                     ]]]
                                 - border-radius: 50%
@@ -785,7 +787,8 @@ views:
                                       if
                                     (states['media_player.powernode_2i_ea48'].attributes['source']
                                     == "NPO 3FM")
-                                        return "var(--switch-checked-button-color)";
+                                        return
+                                    "var(--switch-checked-button-color)";
                                       return "red";
                                     ]]]
                                 - border-radius: 50%
@@ -834,7 +837,8 @@ views:
                                         if
                                     (states['media_player.powernode_2i_ea48'].attributes['source']
                                     == "NPO Radio 4")
-                                        return "var(--switch-checked-button-color)";
+                                        return
+                                    "var(--switch-checked-button-color)";
                                       return "red";
                                     ]]]
                                 - border-radius: 50%
@@ -885,7 +889,8 @@ views:
                                       if
                                     (states['media_player.powernode_2i_ea48'].attributes['source']
                                     == "Radio 538")
-                                        return "var(--switch-checked-button-color)";
+                                        return
+                                    "var(--switch-checked-button-color)";
                                       return "red";
                                     ]]]
                                 - border-radius: 50%
@@ -934,7 +939,8 @@ views:
                                       if
                                     (states['media_player.powernode_2i_ea48'].attributes['source']
                                     == "Radio 10")
-                                        return "var(--switch-checked-button-color)";
+                                        return
+                                    "var(--switch-checked-button-color)";
                                       return "red";
                                     ]]]
                                 - border-radius: 50%
@@ -983,7 +989,8 @@ views:
                                       if
                                     (states['media_player.powernode_2i_ea48'].attributes['source']
                                     == "Qmusic Nonstop")
-                                        return "var(--switch-checked-button-color)";
+                                        return
+                                    "var(--switch-checked-button-color)";
                                       return "red";
                                     ]]]
                                 - border-radius: 50%
@@ -1050,7 +1057,7 @@ views:
                       group: false
                       source: icon
                       info: short
-                      artwork: cover
+                      artwork: none
                       tap_action:
                         action: none
                       hide:
@@ -1066,7 +1073,7 @@ views:
                         volume_level: false
                         jump: true
                       sound_mode: full
-                      max_volume: '50'
+                      max_volume: "50"
                       icon: mdi:spotify
                 - type: vertical-stack
                   cards:
@@ -1098,7 +1105,7 @@ views:
                             target:
                               entity_id: media_player.powernode_2i_ea48
                             data:
-                              source: 'Spotify: Liked Songs'
+                              source: "Spotify: Liked Songs"
                         - type: custom:button-card
                           entity: sensor.playlist_01
                           show_entity_picture: true
@@ -1332,7 +1339,7 @@ views:
           - type: conditional
             conditions:
               - entity: group.multimedia_devices
-                state: 'on'
+                state: "on"
             card:
               type: custom:mushroom-chips-card
               alignment: start
@@ -1340,7 +1347,7 @@ views:
                 - type: template
                   entity: binary_sensor.tvscreen_device
                   icon: mdi:television-ambient-light
-                  content: ''
+                  content: ""
                   tap_action:
                     action: call-service
                     service: button.press
@@ -1366,8 +1373,8 @@ views:
                     {% else %}
                       black
                     {% endif %}
-                  picture: ''
-                  content: ''
+                  picture: ""
+                  content: ""
                   double_tap_action:
                     action: none
                   tap_action:
@@ -1454,7 +1461,7 @@ views:
           - type: vertical-stack
             cards:
               - type: custom:mushroom-title-card
-                title: ''
+                title: ""
                 subtitle: Souterrain
               - type: custom:mushroom-light-card
                 entity: light.shellydimmer_basement_stairs
@@ -1494,7 +1501,7 @@ views:
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
-            title: ''
+            title: ""
             subtitle: Begane grond
           - square: false
             type: grid
@@ -1592,7 +1599,7 @@ views:
           - type: vertical-stack
             cards:
               - type: custom:mushroom-title-card
-                title: ''
+                title: ""
                 subtitle: Eerste verdieping
               - square: false
                 type: grid
@@ -1694,7 +1701,7 @@ views:
           - type: conditional
             conditions:
               - entity: sensor.lights_on_counter
-                state_not: '0'
+                state_not: "0"
             chip:
               type: template
               entity: sensor.lights_on_counter
@@ -1718,7 +1725,7 @@ views:
               double_tap_action:
                 action: none
           - type: template
-            icon_color: ''
+            icon_color: ""
             icon: mdi:lightbulb-multiple-off-outline
             tap_action:
               action: call-service
@@ -1728,7 +1735,7 @@ views:
               data: {}
             content: Alles Uit
           - type: template
-            icon_color: ''
+            icon_color: ""
             icon: mdi:lightbulb-multiple-outline
             tap_action:
               action: call-service
@@ -1770,7 +1777,7 @@ views:
       - type: custom:mushroom-chips-card
         chips:
           - type: template
-            icon_color: ''
+            icon_color: ""
             icon: mdi:thermometer
           - type: template
             icon: mdi:water-percent
@@ -1783,7 +1790,7 @@ views:
             cards:
               - type: custom:mushroom-template-card
                 primary: Buiten
-                secondary: ''
+                secondary: ""
                 icon: |-
                   {% if is_state(entity, 'light') %}
                   mdi:tree
@@ -1963,15 +1970,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
+                      color: "#beeae9"
+                    - color: "#Ffe1b4"
+                    - color: "#Ecb45f"
+                    - color: "#Ec955f"
+                    - color: "#Ec875f"
+                    - color: "#Ec735f"
+                    - color: "#F15239"
                     - value: 25
-                      color: '#Ea2e2e'
+                      color: "#Ea2e2e"
                   style: |
                     ha-card {
                       border: none;
@@ -2031,7 +2038,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - 'off'
+                  - "off"
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -2263,15 +2270,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
+                      color: "#beeae9"
+                    - color: "#Ffe1b4"
+                    - color: "#Ecb45f"
+                    - color: "#Ec955f"
+                    - color: "#Ec875f"
+                    - color: "#Ec735f"
+                    - color: "#F15239"
                     - value: 25
-                      color: '#Ea2e2e'
+                      color: "#Ea2e2e"
                   style: |
                     ha-card {
                       border: none;
@@ -2408,7 +2415,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.living_room_thermal_comfort_humidex_perception
-                      name: ' '
+                      name: " "
                   style: |
                     ha-card {
                       border: none;
@@ -2468,7 +2475,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - 'off'
+                  - "off"
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -2799,15 +2806,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
+                      color: "#beeae9"
+                    - color: "#Ffe1b4"
+                    - color: "#Ecb45f"
+                    - color: "#Ec955f"
+                    - color: "#Ec875f"
+                    - color: "#Ec735f"
+                    - color: "#F15239"
                     - value: 25
-                      color: '#Ea2e2e'
+                      color: "#Ea2e2e"
                   style: |
                     ha-card {
                       border: none;
@@ -2944,7 +2951,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.basement_thermal_comfort_dew_point_perception
-                      name: ' '
+                      name: " "
               - type: conditional
                 conditions:
                   - entity: input_select.climate_graph_basement
@@ -2999,7 +3006,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - 'off'
+                  - "off"
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -3231,15 +3238,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
+                      color: "#beeae9"
+                    - color: "#Ffe1b4"
+                    - color: "#Ecb45f"
+                    - color: "#Ec955f"
+                    - color: "#Ec875f"
+                    - color: "#Ec735f"
+                    - color: "#F15239"
                     - value: 25
-                      color: '#Ea2e2e'
+                      color: "#Ea2e2e"
                   style: |
                     ha-card {
                       border: none;
@@ -3376,7 +3383,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.lises_room_thermal_comfort_humidex_perception
-                      name: ' '
+                      name: " "
                   style: |
                     ha-card {
                       border: none;
@@ -3436,7 +3443,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - 'off'
+                  - "off"
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -3668,15 +3675,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
+                      color: "#beeae9"
+                    - color: "#Ffe1b4"
+                    - color: "#Ecb45f"
+                    - color: "#Ec955f"
+                    - color: "#Ec875f"
+                    - color: "#Ec735f"
+                    - color: "#F15239"
                     - value: 25
-                      color: '#Ea2e2e'
+                      color: "#Ea2e2e"
                   style: |
                     ha-card {
                       border: none;
@@ -3813,7 +3820,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.small_bedroom_thermal_comfort_humidex_perception
-                      name: ' '
+                      name: " "
                   style: |
                     ha-card {
                       border: none;
@@ -3873,7 +3880,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - 'off'
+                  - "off"
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -4105,15 +4112,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
+                      color: "#beeae9"
+                    - color: "#Ffe1b4"
+                    - color: "#Ecb45f"
+                    - color: "#Ec955f"
+                    - color: "#Ec875f"
+                    - color: "#Ec735f"
+                    - color: "#F15239"
                     - value: 25
-                      color: '#Ea2e2e'
+                      color: "#Ea2e2e"
                   style: |
                     ha-card {
                       border: none;
@@ -4250,7 +4257,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.master_bedroom_thermal_comfort_humidex_perception
-                      name: ' '
+                      name: " "
                   style: |
                     ha-card {
                       border: none;
@@ -4348,23 +4355,23 @@ views:
                 label:
                   text: Prullenbak
                   x: 29235
-                  'y': 26134
+                  "y": 26134
                   offset_y: 35
                 icon:
                   name: mdi:trash-can
                   x: 29235
-                  'y': 26134
+                  "y": 26134
           - template: vacuum_clean_segment
             predefined_selections:
-              - id: '16'
+              - id: "16"
                 icon:
                   name: mdi:broom
                   x: 30675
-                  'y': 33275
+                  "y": 33275
                 label:
                   text: Hal
                   x: 30675
-                  'y': 33275
+                  "y": 33275
                   offset_y: 35
                 outline:
                   - - 28000
@@ -4375,15 +4382,15 @@ views:
                     - 37150
                   - - 28000
                     - 37150
-              - id: '17'
+              - id: "17"
                 icon:
                   name: mdi:broom
                   x: 26725
-                  'y': 31400
+                  "y": 31400
                 label:
                   text: Woonkamer
                   x: 26725
-                  'y': 31400
+                  "y": 31400
                   offset_y: 35
                 outline:
                   - - 24700
@@ -4394,15 +4401,15 @@ views:
                     - 33600
                   - - 24700
                     - 33600
-              - id: '18'
+              - id: "18"
                 icon:
                   name: mdi:broom
                   x: 26775
-                  'y': 25250
+                  "y": 25250
                 label:
                   text: Eetkamer
                   x: 26775
-                  'y': 25250
+                  "y": 25250
                   offset_y: 35
                 outline:
                   - - 24750
@@ -4413,15 +4420,15 @@ views:
                     - 29350
                   - - 24750
                     - 29350
-              - id: '19'
+              - id: "19"
                 icon:
                   name: mdi:broom
                   x: 29725
-                  'y': 27500
+                  "y": 27500
                 label:
                   text: Keuken
                   x: 29725
-                  'y': 27500
+                  "y": 27500
                   offset_y: 35
                 outline:
                   - - 28650
@@ -4612,7 +4619,7 @@ views:
                   orange
                   {%- endif %}
               - type: custom:mushroom-template-card
-                primary: '{{ (states(entity)) }} W'
+                primary: "{{ (states(entity)) }} W"
                 secondary: Energieverbruik
                 icon: mdi:home
                 entity: sensor.custom_energy_usage
@@ -4628,7 +4635,7 @@ views:
             type: grid
             cards:
               - type: custom:mushroom-template-card
-                primary: '{{ (states(entity, with_unit=True))}}'
+                primary: "{{ (states(entity, with_unit=True))}}"
                 secondary: |-
                   {% if states(entity)|int > 0 %}
                     Terugleveren
@@ -4645,7 +4652,7 @@ views:
                   {% endif %}
                 multiline_secondary: true
               - type: custom:mushroom-template-card
-                primary: '{{ (states(entity, with_unit=True))}}'
+                primary: "{{ (states(entity, with_unit=True))}}"
                 secondary: Zonne-energie
                 icon: mdi:solar-power
                 entity: sensor.solaredge_modbus_ac_power
@@ -4661,8 +4668,8 @@ views:
             type: grid
             cards:
               - type: custom:mushroom-template-card
-                primary: '{{ (states(entity, with_unit=True))}}'
-                secondary: ''
+                primary: "{{ (states(entity, with_unit=True))}}"
+                secondary: ""
                 icon: mdi:lightning-bolt
                 entity: sensor.dsmr_reading_phase_voltage_l1
                 icon_color: |-
@@ -4674,7 +4681,7 @@ views:
                 multiline_secondary: true
               - type: custom:mushroom-template-card
                 primary: Water verbruik
-                secondary: '{{ states(entity, with_unit=True) }}'
+                secondary: "{{ states(entity, with_unit=True) }}"
                 icon: mdi:water
                 entity: sensor.watermeter_pulse
                 icon_color: |-
@@ -4730,7 +4737,9 @@ views:
                           cards:
                             - type: custom:mushroom-template-card
                               primary: Omvormer
-                              secondary: '{{ (state_attr(entity, ''status_description'')) }}'
+                              secondary:
+                                "{{ (state_attr(entity, 'status_description'))
+                                }}"
                               icon: |-
                                 {% if is_state(entity, "4") -%}
                                 mdi:solar-power-variant-outline
@@ -4774,7 +4783,7 @@ views:
                               icon_color: orange
                               entity: >-
                                 sensor.energy_production_today_remaining_combined
-                              secondary: '{{ states(entity)}} kWh'
+                              secondary: "{{ states(entity)}} kWh"
           - type: conditional
             conditions:
               - entity: input_select.energy_graph
@@ -4867,24 +4876,31 @@ views:
           grid-area: mid-header
       - type: vertical-stack
         cards:
-          - show_current: true
-            show_forecast: true
-            type: weather-forecast
-            entity: weather.knmi_home
-            forecast_type: daily
-            name: KNMI
-          - show_state: false
+          - entity: camera.buienradar
+            show_state: false
             show_name: false
             camera_view: auto
+            aspect_ratio: 85%
             type: picture-entity
-            entity: camera.buienradar
             camera_image: camera.buienradar
             tap_action:
               action: none
             hold_action:
               action: none
+          - type: custom:windrose-card
+            max_width: 400
+            windspeed_bar_full: true
+            wind_direction_entity:
+              entity: sensor.buienradar_wind_direction
+            windspeed_entities:
+              - entity: sensor.buienradar_wind_speed
+                name: Average
+            speed_range_beaufort: true
+            output_speed_unit: kph
+            speed_range_step: 5
+            speed_range_max: 25
         view_layout:
-          grid-area: mid-up
+          grid-area: right-up
       - type: vertical-stack
         cards:
           - type: custom:horizon-card
@@ -4898,38 +4914,45 @@ views:
               dusk: true
               moon_phase: false
           - type: custom:mini-graph-card
-            name: Regen
-            hours_to_show: 12
-            hour24: true
+            name: Regen afgelopen uur
             icon: mdi:weather-rainy
-            animate: true
-            line_width: 2
+            hours_to_show: 1
+            hour24: true
+            points_per_hour: 15
             font_size: 90
             font_size_header: 12
+            animate: true
+            line_width: 3
+            show:
+              extrema: true
+              average: false
             entities:
               - entity: sensor.buienradar_precipitation
-                name: Download
-                show_state: true
-                color: cyan
         view_layout:
           grid-area: left-up
       - type: vertical-stack
         cards:
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.knmi_home
+            forecast_type: daily
+            name: KNMI
           - type: conditional
             conditions:
               - entity: binary_sensor.knmi_home_waarschuwing
-                state: 'on'
+                state: "on"
             card:
               type: custom:mushroom-template-card
               primary: KNMI waarschuwing
-              secondary: '{{ state_attr(entity, ''Waarschuwing'') }}'
+              secondary: "{{ state_attr(entity, 'Waarschuwing') }}"
               icon: mdi:alert
               entity: binary_sensor.knmi_home_waarschuwing
               icon_color: orange
               multiline_secondary: true
               layout: horizontal
-              badge_icon: ''
-              badge_color: ''
+              badge_icon: ""
+              badge_color: ""
           - square: false
             type: grid
             cards:
@@ -4948,7 +4971,7 @@ views:
                 name: Kans op regen
               - type: custom:mushroom-entity-card
                 entity: sensor.buienradar_sunchance_1d
-                icon: ''
+                icon: ""
                 name: Kans op zon
             columns: 2
           - square: false
@@ -4959,11 +4982,11 @@ views:
                 name: Windsnelheid
               - type: custom:mushroom-entity-card
                 entity: sensor.buienradar_wind_force
-                icon: ''
+                icon: ""
                 name: Windkracht
             columns: 2
         view_layout:
-          grid-area: right-up
+          grid-area: mid-up
   - title: system
     path: system
     layout:
@@ -5003,7 +5026,7 @@ views:
                 double_tap_action:
                   action: none
                 layout: vertical
-                icon: ''
+                icon: ""
                 hold_action:
                   action: none
               - type: custom:mushroom-template-card
@@ -5011,7 +5034,7 @@ views:
                 primary: Gast WiFi QR-Code
                 secondary: WIFI-GUEST
                 icon: mdi:wifi
-                icon_color: '#12a895'
+                icon_color: "#12a895"
                 layout: vertical
                 tap_action:
                   action: call-service
@@ -5061,11 +5084,11 @@ views:
                   - entity: sensor.speedtest_download
                     name: Download
                     show_state: true
-                    color: '#86deb1'
+                    color: "#86deb1"
                   - entity: sensor.speedtest_upload
                     name: Upload
                     show_state: true
-                    color: '#065e30'
+                    color: "#065e30"
           - type: horizontal-stack
             cards:
               - type: horizontal-stack
@@ -5086,27 +5109,27 @@ views:
                       - entity: sensor.shellyplug_hypervisor_a_power
                     color_thresholds:
                       - value: 15
-                        color: '#2a5839'
-                      - color: '#33573a'
-                      - color: '#3c573b'
-                      - color: '#45563c'
-                      - color: '#4e563d'
-                      - color: '#57553e'
-                      - color: '#60553f'
-                      - color: '#695440'
-                      - color: '#725341'
-                      - color: '#7b5342'
-                      - color: '#835244'
-                      - color: '#8c5245'
-                      - color: '#955146'
-                      - color: '#9e5047'
-                      - color: '#a75048'
-                      - color: '#b04f49'
-                      - color: '#b94f4a'
-                      - color: '#c24e4b'
-                      - color: '#cb4e4c'
+                        color: "#2a5839"
+                      - color: "#33573a"
+                      - color: "#3c573b"
+                      - color: "#45563c"
+                      - color: "#4e563d"
+                      - color: "#57553e"
+                      - color: "#60553f"
+                      - color: "#695440"
+                      - color: "#725341"
+                      - color: "#7b5342"
+                      - color: "#835244"
+                      - color: "#8c5245"
+                      - color: "#955146"
+                      - color: "#9e5047"
+                      - color: "#a75048"
+                      - color: "#b04f49"
+                      - color: "#b94f4a"
+                      - color: "#c24e4b"
+                      - color: "#cb4e4c"
                       - value: 190
-                        color: '#d44d4d'
+                        color: "#d44d4d"
                   - type: custom:mini-graph-card
                     name: Hypervisor B
                     hours_to_show: 8
@@ -5123,27 +5146,27 @@ views:
                       - entity: sensor.shellyplug_hypervisor_b_power
                     color_thresholds:
                       - value: 15
-                        color: '#2a5839'
-                      - color: '#33573a'
-                      - color: '#3c573b'
-                      - color: '#45563c'
-                      - color: '#4e563d'
-                      - color: '#57553e'
-                      - color: '#60553f'
-                      - color: '#695440'
-                      - color: '#725341'
-                      - color: '#7b5342'
-                      - color: '#835244'
-                      - color: '#8c5245'
-                      - color: '#955146'
-                      - color: '#9e5047'
-                      - color: '#a75048'
-                      - color: '#b04f49'
-                      - color: '#b94f4a'
-                      - color: '#c24e4b'
-                      - color: '#cb4e4c'
+                        color: "#2a5839"
+                      - color: "#33573a"
+                      - color: "#3c573b"
+                      - color: "#45563c"
+                      - color: "#4e563d"
+                      - color: "#57553e"
+                      - color: "#60553f"
+                      - color: "#695440"
+                      - color: "#725341"
+                      - color: "#7b5342"
+                      - color: "#835244"
+                      - color: "#8c5245"
+                      - color: "#955146"
+                      - color: "#9e5047"
+                      - color: "#a75048"
+                      - color: "#b04f49"
+                      - color: "#b94f4a"
+                      - color: "#c24e4b"
+                      - color: "#cb4e4c"
                       - value: 190
-                        color: '#d44d4d'
+                        color: "#d44d4d"
                   - type: custom:mini-graph-card
                     name: Storage server
                     hours_to_show: 8
@@ -5160,27 +5183,27 @@ views:
                       - entity: sensor.shellyplug_storage_server_power
                     color_thresholds:
                       - value: 15
-                        color: '#2a5839'
-                      - color: '#33573a'
-                      - color: '#3c573b'
-                      - color: '#45563c'
-                      - color: '#4e563d'
-                      - color: '#57553e'
-                      - color: '#60553f'
-                      - color: '#695440'
-                      - color: '#725341'
-                      - color: '#7b5342'
-                      - color: '#835244'
-                      - color: '#8c5245'
-                      - color: '#955146'
-                      - color: '#9e5047'
-                      - color: '#a75048'
-                      - color: '#b04f49'
-                      - color: '#b94f4a'
-                      - color: '#c24e4b'
-                      - color: '#cb4e4c'
+                        color: "#2a5839"
+                      - color: "#33573a"
+                      - color: "#3c573b"
+                      - color: "#45563c"
+                      - color: "#4e563d"
+                      - color: "#57553e"
+                      - color: "#60553f"
+                      - color: "#695440"
+                      - color: "#725341"
+                      - color: "#7b5342"
+                      - color: "#835244"
+                      - color: "#8c5245"
+                      - color: "#955146"
+                      - color: "#9e5047"
+                      - color: "#a75048"
+                      - color: "#b04f49"
+                      - color: "#b94f4a"
+                      - color: "#c24e4b"
+                      - color: "#cb4e4c"
                       - value: 190
-                        color: '#d44d4d'
+                        color: "#d44d4d"
         view_layout:
           grid-area: middle
       - type: vertical-stack
