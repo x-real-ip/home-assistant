@@ -2,4 +2,8 @@
 logbook:
   exclude:
     entities:
+      - binary_sensor.watermeter_pulse_counter
+      - sensor.buienradar_full_condition
       - sensor.custom_energy_usage
+      - sensor.eikenhof_8_weather_condition
+      - sensor.knmi_home_omschrijving
