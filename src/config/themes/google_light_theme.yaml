@@ -111,9 +111,9 @@ google_light_theme:
   # Mushroom Card
   mush-card-primary-font-size: 13px
   mush-card-secondary-font-size: 12px
-  mush-card-primary-font-weight: normal
-  mush-card-secondary-font-weight: normal
+  # mush-card-primary-font-weight: normal
+  # mush-card-secondary-font-weight: normal
   mush-card-primary-line-height: 1.5
   mush-card-secondary-line-height: 1.5
   # Mushroom Chip
-  mush-chip-font-weight: normal
+  # mush-chip-font-weight: normal
