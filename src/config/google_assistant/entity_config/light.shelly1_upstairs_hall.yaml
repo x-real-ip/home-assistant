@@ -1,8 +1,0 @@
----
-light.shelly1_upstairs_hall:
-  name: Overloop lamp
-  room: Voortuin
-  expose: true
-  aliases:
-    - overloop verlichting
-    - hal boven

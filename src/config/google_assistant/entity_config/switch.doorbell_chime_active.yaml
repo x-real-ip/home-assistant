@@ -1,8 +1,0 @@
----
-switch.doorbell_chime_active:
-  name: Deurbel
-  room: Voortuin
-  expose: true
-  aliases:
-    - deurbel geluid
-    - belgeluid

@@ -1,7 +1,0 @@
----
-light.shellydimmer_basement:
-  name: Kelder verlichting
-  room: Kelder
-  expose: true
-  aliases:
-    - kelder spots

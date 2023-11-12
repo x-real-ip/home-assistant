@@ -1,7 +1,0 @@
----
-input_boolean.sleep_mode:
-  name: Slaapstand
-  room: Woonkamer
-  expose: true
-  aliases:
-    - Nachtstand

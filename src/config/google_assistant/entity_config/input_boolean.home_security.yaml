@@ -1,8 +1,0 @@
----
-input_boolean.home_security:
-  name: Beveiliging
-  room: Woonkamer
-  expose: true
-  aliases:
-    - Alarm
-    - Huisbeveiliging

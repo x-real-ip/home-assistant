@@ -1,7 +1,0 @@
----
-light.shellydimmer_master_bedroom:
-  name: Lamp
-  room: Slaapkamer
-  expose: true
-  aliases:
-    - Slaapkamer lamp

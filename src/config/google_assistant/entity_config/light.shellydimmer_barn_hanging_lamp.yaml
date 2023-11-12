@@ -1,7 +1,0 @@
----
-light.shellydimmer_barn_hanging_lamp:
-  name: Achtertuin hanglamp
-  room: Achtertuin
-  expose: true
-  aliases:
-    - schuur hanglamp

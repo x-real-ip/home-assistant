@@ -1,7 +1,0 @@
----
-light.shellydimmer_laundry_room:
-  name: Wasruimte verlichting
-  room: Kelder
-  expose: true
-  aliases:
-    - wasruimte spots

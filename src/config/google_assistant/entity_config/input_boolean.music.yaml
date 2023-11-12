@@ -1,7 +1,0 @@
----
-input_boolean.music:
-  name: Muziek
-  room: Woonkamer
-  expose: true
-  aliases:
-    - Spotify

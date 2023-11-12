@@ -1,8 +1,0 @@
----
-light.shellydimmer_backyard_string_l:
-  name: Achtertuin verlichting
-  room: Achtertuin
-  expose: true
-  aliases:
-    - achtertuin lamp
-    - prikkabel

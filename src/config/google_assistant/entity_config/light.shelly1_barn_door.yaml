@@ -1,7 +1,0 @@
----
-light.shelly1_barn_door:
-  name: Schuurdeur lamp
-  room: Achtertuin
-  expose: true
-  aliases:
-    - schuurdeur verlichting

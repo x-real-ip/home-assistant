@@ -1,7 +1,0 @@
----
-input_boolean.guest:
-  name: Gaststand
-  room: Woonkamer
-  expose: true
-  aliases:
-    - Gast

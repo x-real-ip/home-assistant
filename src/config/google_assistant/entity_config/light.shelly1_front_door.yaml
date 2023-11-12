@@ -1,7 +1,0 @@
----
-light.shelly1_front_door:
-  name: Voordeur lamp
-  room: Voortuin
-  expose: true
-  aliases:
-    - voordeur verlichting
