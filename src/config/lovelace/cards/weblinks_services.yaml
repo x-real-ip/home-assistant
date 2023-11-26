@@ -4,26 +4,26 @@ title: Services
 show_header_toggle: false
 entities:
   - type: weblink
-    url: https://proxmox.lan:8006/
+    url: https://proxmox.lan.theautomation.nl:8006/
     icon: mdi:desktop-tower
     name: Proxmox
   - type: weblink
-    url: https://storage-server.lan/
+    url: https://storage-server.lan.theautomation.nl/
     icon: mdi:nas
     name: Truenas
   - type: weblink
-    url: https://dsmr-reader.k8s.lan/
+    url: https://dsmr-reader.lan.theautomation.nl/
     icon: mdi:home-lightning-bolt
     name: DSMR-Reader
   - type: weblink
-    url: https://esphome.k8s.lan/
+    url: https://esphome.lan.theautomation.nl/
     icon: mdi:car-esp
     name: ESPHome
   - type: weblink
-    url: http://node-red.k8s.lan/
+    url: http://node-red.lan.theautomation.nl/
     icon: mdi:sitemap
     name: Node-RED
   - type: weblink
-    url: https://paperless.k8s.lan/
+    url: https://paperless.lan.theautomation.nl/
     icon: mdi:text-box-search-outline
     name: Paperless

@@ -49,7 +49,7 @@ steps:
     privileged: true
     network_mode: host
     environment:
-      REGISTRY_HOST: "harbor.k8s.lan/k8s"
+      REGISTRY_HOST: "harbor.lan.theautomation.nl/k8s"
       CONTAINERFILE: "./deploy/container/Containerfile"
       STORAGE_DRIVER: "overlay"
       FORMAT: "oci"

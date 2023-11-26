@@ -18,7 +18,7 @@ spec:
     fsType: xfs
     volumeHandle: pv-iscsi-home-assistant-db
     volumeAttributes:
-      portal: storage-server-lagg.lan:3260
+      portal: storage-server-lagg.lan.theautomation.nl:3260
       iqn: iqn.2005-10.org.freenas.ctl:home-assistant-db
       lun: "0"
       node_attach_driver: iscsi
@@ -46,7 +46,7 @@ spec:
     fsType: nfs
     volumeHandle: pv-nfs-home-assistant-config
     volumeAttributes:
-      server: storage-server-lagg.lan
+      server: storage-server-lagg.lan.theautomation.nl
       share: /mnt/r01_1tb/k8s/home-assistant-config/.storage/
       node_attach_driver: nfs
       provisioner_driver: node-manual
@@ -171,7 +171,7 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: "harbor.k8s.lan/proxy-cache-dockerhub/bitnami/postgresql:14.5.0"
+          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/bitnami/postgresql:14.5.0"
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1000
@@ -266,7 +266,7 @@ spec:
     spec:
       initContainers:
         - name: postgresql-isready
-          image: "harbor.k8s.lan/proxy-cache-dockerhub/bitnami/postgresql:14.5.0"
+          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/bitnami/postgresql:14.5.0"
           env:
             - name: POSTGRESQL_USERNAME
               valueFrom:
@@ -280,7 +280,7 @@ spec:
               ${POSTGRESQL_USERNAME} ; do sleep 2 ; done
       containers:
         - name: home-assistant
-          image: "harbor.k8s.lan/k8s/home-assistant:434"
+          image: "harbor.lan.theautomation.nl/k8s/home-assistant:434"
           imagePullPolicy: Always
           securityContext:
             privileged: true
@@ -390,7 +390,7 @@ metadata:
 spec:
   ingressClassName: nginx-private
   rules:
-    - host: home-assistant.k8s.lan
+    - host: home-assistant.lan.theautomation.nl
       http:
         paths:
           - path: /

@@ -8,31 +8,31 @@ cards:
     show_header_toggle: false
     entities:
       - type: weblink
-        url: https://jellyseerr.k8s.lan/
+        url: https://jellyseerr.lan.theautomation.nl/
         icon: mdi:movie-search
         name: Jellyseerr
       - type: weblink
-        url: https://jellyfin.k8s.lan/
+        url: https://jellyfin.lan.theautomation.nl/
         icon: mdi:movie-play
         name: Jellyfin
       - type: weblink
-        url: http://transmission.k8s.lan/
+        url: http://transmission.lan.theautomation.nl/
         icon: mdi:download-box-outline
         name: Transmission
       - type: weblink
-        url: http://radarr.k8s.lan/
+        url: http://radarr.lan.theautomation.nl/
         icon: mdi:filmstrip
         name: Radarr
       - type: weblink
-        url: http://sonarr.k8s.lan/
+        url: http://sonarr.lan.theautomation.nl/
         icon: mdi:filmstrip-box-multiple
         name: Sonarr
       - type: weblink
-        url: http://prowlarr.k8s.lan/
+        url: http://prowlarr.lan.theautomation.nl/
         icon: mdi:download-network
         name: Prowlarr
       - type: weblink
-        url: http://bazarr.k8s.lan/
+        url: http://bazarr.lan.theautomation.nl/
         icon: mdi:text-short
         name: Bazarr
       - entity: sensor.transmission_active_torrents
