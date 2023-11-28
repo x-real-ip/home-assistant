@@ -99,18 +99,6 @@ steps:
     commands:
       - prettier --config "./cicd/.prettierrc.yaml" --ignore-path "./cicd/.prettierignore" --write "./src/config/**/*.yaml"
 
-  - name: build en deploy dependencies
-    image: plugins/downstream
-    settings:
-      server: https://drone.theautomation.nl
-      token:
-        from_secret: drone_server_token
-      fork: true
-      wait: true
-      timeout: 20
-      repositories:
-        - theautomation/zwavejs2mqtt
-
   - name: upgrade k8s manifest
     image: alpine:3
     network_mode: host
