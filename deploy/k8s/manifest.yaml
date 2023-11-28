@@ -171,7 +171,7 @@ spec:
       hostIPC: false
       containers:
         - name: postgresql
-          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/bitnami/postgresql:14.5.0"
+          image: "bitnami/postgresql:14.5.0"
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1000
@@ -266,7 +266,7 @@ spec:
     spec:
       initContainers:
         - name: postgresql-isready
-          image: "harbor.lan.theautomation.nl/proxy-cache-dockerhub/bitnami/postgresql:14.5.0"
+          image: "bitnami/postgresql:14.5.0"
           env:
             - name: POSTGRESQL_USERNAME
               valueFrom:
