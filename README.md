@@ -26,8 +26,7 @@ alternative automation engine.
 - ESP32
 - ESP8622
 - First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen 908.42 MHz
-- Google Home
-- Google Home Mini
+- Google Home Speaker
 - ISKRA Smart Meter
 - LG SmartTV WebOS
 - Nvidia Shield TV
