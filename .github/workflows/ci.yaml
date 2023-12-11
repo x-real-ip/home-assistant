@@ -10,42 +10,42 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  # yamllint:
-  #   name: yamllint
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@main
+  yamllint:
+    name: yamllint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
 
-  #     - name: Install yamllint
-  #       run: pip install yamllint
+      - name: Install yamllint
+        run: pip install yamllint
 
-  #     - name: Lint YAML files
-  #       run: yamllint .
+      - name: Lint YAML files
+        run: yamllint .
 
-  # home_assistant_stable:
-  #   name: "Home-Assistant: Stable"
-  #   needs: [yamllint]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@main
+  home_assistant_stable:
+    name: "Home-Assistant: Stable"
+    needs: [yamllint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
 
-  #     - name: Move secret example file
-  #       run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+      - name: Move secret example file
+        run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
 
-  #     - name: Print Home Assistant Version
-  #       uses: "docker://homeassistant/home-assistant:stable"
-  #       with:
-  #         args: python -m homeassistant --version
+      - name: Print Home Assistant Version
+        uses: "docker://homeassistant/home-assistant:stable"
+        with:
+          args: python -m homeassistant --version
 
-  #     - name: Home Assistant Config Check
-  #       uses: "docker://homeassistant/home-assistant:stable"
-  #       with:
-  #         args: hass --script check_config --config ./src/config/
+      - name: Home Assistant Config Check
+        uses: "docker://homeassistant/home-assistant:stable"
+        with:
+          args: hass --script check_config --config ./src/config/
 
   build-and-push-image:
-    # needs: [home_assistant_stable]
+    needs: [home_assistant_stable]
     runs-on: ubuntu-latest
     permissions:
       contents: read
