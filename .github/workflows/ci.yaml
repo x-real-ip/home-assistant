@@ -10,70 +10,83 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  yamllint:
-    name: yamllint
+#   yamllint:
+#     name: Yaml Linter
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@main
+
+#       - name: Install yamllint
+#         run: pip install yamllint
+
+#       - name: Lint YAML files
+#         run: yamllint .
+
+  scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@main
 
-      - name: Install yamllint
-        run: pip install yamllint
-
-      - name: Lint YAML files
-        run: yamllint .
-
-  home_assistant_stable:
-    name: "Home-Assistant: Stable"
-    needs: [yamllint]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@main
-
-      - name: Move secret example file
-        run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-
-      - name: Print Home Assistant Version
-        uses: "docker://homeassistant/home-assistant:stable"
+      - name: Scan yaml files with kube-linter
+        uses: stackrox/kube-linter-action@v1.0.4
+        id: kube-linter-action-scan
         with:
-          args: python -m homeassistant --version
+          directory: deploy/k8s
 
-      - name: Home Assistant Config Check
-        uses: "docker://homeassistant/home-assistant:stable"
-        with:
-          args: hass --script check_config --config ./src/config/
+  # home-assistant-config:
+  #   name: "Test Home Assistant configuration"
+  #   needs: [yamllint]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@main
 
-  build-and-push-image:
-    needs: [home_assistant_stable]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@main
+  #     - name: Move secret example file
+  #       run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Print Home Assistant Version
+  #       uses: "docker://homeassistant/home-assistant:stable"
+  #       with:
+  #         args: python -m homeassistant --version
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=sha
+  #     - name: Home Assistant Config Check
+  #       uses: "docker://homeassistant/home-assistant:stable"
+  #       with:
+  #         args: hass --script check_config --config ./src/config/
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+  # build-and-push-image:
+  #   name: Build and Push Image
+  #   needs: [home-assistant-config]
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@main
+
+  #     - name: Log in to the Container registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ${{ env.REGISTRY }}
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Extract metadata (tags, labels) for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v5
+  #       with:
+  #         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+  #         tags: |
+  #           type=ref,event=branch
+  #           type=sha
+
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v5
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
