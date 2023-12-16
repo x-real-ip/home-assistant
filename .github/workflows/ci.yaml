@@ -79,7 +79,16 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Update deployment file
+  trigger-manifest-update:
+    name: Build and Push Image
+    needs: [build-and-push-image]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger
         run: |
-          sed -i 's%/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:.*%/${{env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}\"%1' ./deploy/k8s/manifest.yaml
-          cat ./deploy/k8s/manifest.yaml
+          curl -XPOST \
+            -H 'Authorization:token ${{ secrets.GITHUB_TOKEN }}' \
+            -H "Content-Type:application/json" \
+            -H "Accept:application/vnd.github" \
+            https://api.github.com/repos/{REPO_OWNER}/gitops/actions/workflows/update_manifest.yaml/dispatches \
+            --data '{"ref": "main", "inputs": {"repo_name":"${{ github.repository }}","registry":"${{ env.REGISTRY }}","image_tag":"${{ github.sha }}"}}'
