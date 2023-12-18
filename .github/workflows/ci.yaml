@@ -7,88 +7,78 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  OWNER_AND_REPO: ${{ github.repository }}
 
 jobs:
   yamllint:
-    name: Yaml Linter
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@main
+    uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
-      - name: Install yamllint
-        run: pip install yamllint
+#   home-assistant-config:
+#     name: "Test Home Assistant configuration"
+#     needs: [yamllint]
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@main
 
-      - name: Lint YAML files
-        run: yamllint .
+#       - name: Move secret example file
+#         run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
 
-  home-assistant-config:
-    name: "Test Home Assistant configuration"
-    needs: [yamllint]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@main
+#       - name: Print Home Assistant Version
+#         uses: "docker://homeassistant/home-assistant:stable"
+#         with:
+#           args: python -m homeassistant --version
 
-      - name: Move secret example file
-        run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
+#       - name: Home Assistant Config Check
+#         uses: "docker://homeassistant/home-assistant:stable"
+#         with:
+#           args: hass --script check_config --config ./src/config/
 
-      - name: Print Home Assistant Version
-        uses: "docker://homeassistant/home-assistant:stable"
-        with:
-          args: python -m homeassistant --version
+#   build-and-push-image:
+#     name: Build and Push Image
+#     needs: [home-assistant-config]
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+#       packages: write
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@main
 
-      - name: Home Assistant Config Check
-        uses: "docker://homeassistant/home-assistant:stable"
-        with:
-          args: hass --script check_config --config ./src/config/
+#       - name: Log in to the Container registry
+#         uses: docker/login-action@v3
+#         with:
+#           registry: ${{ env.REGISTRY }}
+#           username: ${{ github.actor }}
+#           password: ${{ secrets.GITHUB_TOKEN }}
 
-  build-and-push-image:
-    name: Build and Push Image
-    needs: [home-assistant-config]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@main
+#       - name: Extract metadata (tags, labels) for Docker
+#         id: meta
+#         uses: docker/metadata-action@v5
+#         with:
+#           images: ${{ env.REGISTRY }}/${{ env.OWNER_AND_REPO }}
+#           tags: |
+#             type=ref,event=branch
+#             type=sha
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Build and push
+#         uses: docker/build-push-action@v5
+#         with:
+#           context: .
+#           push: true
+#           tags: ${{ steps.meta.outputs.tags }}
+#           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=sha
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
-  trigger-manifest-update:
-    name: Build and Push Image
-    needs: [build-and-push-image]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger
-        run: |
-          curl -XPOST \
-            -H 'Authorization:token ${{ secrets.GITHUB_TOKEN }}' \
-            -H "Content-Type:application/json" \
-            -H "Accept:application/vnd.github" \
-            https://api.github.com/repos/{REPO_OWNER}/gitops/actions/workflows/update_manifest.yaml/dispatches \
-            --data '{"ref": "main", "inputs": {"repo_name":"${{ github.repository }}","registry":"${{ env.REGISTRY }}","image_tag":"${{ github.sha }}"}}'
+  # trigger-manifest-update:
+  #   name: Trigger Remote Action
+  #   # needs: [build-and-push-image]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Trigger
+  #       run: |
+  #         curl -XPOST \
+  #           -H 'Authorization:token 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' \
+  #           -H "Content-Type:application/json" \
+  #           -H "Accept:application/vnd.github" \
+  #           https://api.github.com/repos/theautomation/gitops/actions/workflows/update_manifest.yaml/dispatches \
+  #           --data '{"ref": "main", "inputs": {"OWNER_AND_REPO":"${{ github.repository }}","registry":"${{ env.REGISTRY }}","image_tag":"${{ github.sha }}"}}'
