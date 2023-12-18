@@ -18,8 +18,8 @@ jobs:
     #   matrix:
     #     version: ["stable", "beta", "dev"]
     uses: theautomation/github-actions/.github/workflows/hacheck.yaml@main
-    with:
-      version: "stable"
+    # with:
+    #   version: "stable"
       # secret-file-path: "./src/config/secrets.yaml.example"
       # configuration-path: "./src/config"
 
