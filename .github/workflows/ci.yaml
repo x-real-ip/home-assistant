@@ -11,28 +11,22 @@ env:
 
 jobs:
   yamllint:
-    uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
-#   home-assistant-config:
-#     name: "Test Home Assistant configuration"
-#     needs: [yamllint]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout Code
-#         uses: actions/checkout@main
-
-#       - name: Move secret example file
-#         run: mv ./src/config/secrets.yaml.example ./src/config/secrets.yaml
-
-#       - name: Print Home Assistant Version
-#         uses: "docker://homeassistant/home-assistant:stable"
-#         with:
-#           args: python -m homeassistant --version
-
-#       - name: Home Assistant Config Check
-#         uses: "docker://homeassistant/home-assistant:stable"
-#         with:
-#           args: hass --script check_config --config ./src/config/
+  home-assistant-config-check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["stable", "beta", "dev"]
+    steps:
+      - uses: theautomation/github-actions/.github/workflows/home-assistant-config-check.yaml@main
+        with:
+          home-assistant-version: "${{ matrix.version }}"
+          secret-file-path: "./src/config/secrets.yaml.example"
+          configuration-path: "./src/config/"
 
 #   build-and-push-image:
 #     name: Build and Push Image
@@ -69,16 +63,16 @@ jobs:
 #           tags: ${{ steps.meta.outputs.tags }}
 #           labels: ${{ steps.meta.outputs.labels }}
 
-  # trigger-manifest-update:
-  #   name: Trigger Remote Action
-  #   # needs: [build-and-push-image]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Trigger
-  #       run: |
-  #         curl -XPOST \
-  #           -H 'Authorization:token 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' \
-  #           -H "Content-Type:application/json" \
-  #           -H "Accept:application/vnd.github" \
-  #           https://api.github.com/repos/theautomation/gitops/actions/workflows/update_manifest.yaml/dispatches \
-  #           --data '{"ref": "main", "inputs": {"OWNER_AND_REPO":"${{ github.repository }}","registry":"${{ env.REGISTRY }}","image_tag":"${{ github.sha }}"}}'
+# trigger-manifest-update:
+#   name: Trigger Remote Action
+#   # needs: [build-and-push-image]
+#   runs-on: ubuntu-latest
+#   steps:
+#     - name: Trigger
+#       run: |
+#         curl -XPOST \
+#           -H 'Authorization:token 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' \
+#           -H "Content-Type:application/json" \
+#           -H "Accept:application/vnd.github" \
+#           https://api.github.com/repos/theautomation/gitops/actions/workflows/update_manifest.yaml/dispatches \
+#           --data '{"ref": "main", "inputs": {"OWNER_AND_REPO":"${{ github.repository }}","registry":"${{ env.REGISTRY }}","image_tag":"${{ github.sha }}"}}'
