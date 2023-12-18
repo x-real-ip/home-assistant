@@ -17,6 +17,7 @@ jobs:
     uses: theautomation/github-actions/.github/workflows/home-assistant-config-check.yaml@main
     with:
       version: "stable"
+      
       # secret-file-path: "./src/config/secrets.yaml.example"
       # configuration-path: "./src/config"
 
