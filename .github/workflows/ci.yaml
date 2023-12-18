@@ -21,7 +21,7 @@ jobs:
     with:
       home-assistant-version: "${{ matrix.version }}"
       secret-file-path: "./src/config/secrets.yaml.example"
-      configuration-path: "./src/config/"
+      configuration-path: "./src/config"
 
 #   build-and-push-image:
 #     name: Build and Push Image
