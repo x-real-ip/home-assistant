@@ -11,22 +11,17 @@ env:
 
 jobs:
   yamllint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
+    uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
   home-assistant-config-check:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         version: ["stable", "beta", "dev"]
-    steps:
-      - uses: theautomation/github-actions/.github/workflows/home-assistant-config-check.yaml@main
-        with:
-          home-assistant-version: "${{ matrix.version }}"
-          secret-file-path: "./src/config/secrets.yaml.example"
-          configuration-path: "./src/config/"
+    uses: theautomation/github-actions/.github/workflows/home-assistant-config-check.yaml@main
+    with:
+      home-assistant-version: "${{ matrix.version }}"
+      secret-file-path: "./src/config/secrets.yaml.example"
+      configuration-path: "./src/config/"
 
 #   build-and-push-image:
 #     name: Build and Push Image
