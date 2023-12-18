@@ -19,7 +19,7 @@ jobs:
         version: ["stable", "beta", "dev"]
     uses: theautomation/github-actions/.github/workflows/home-assistant-config-check.yaml@main
     with:
-      home-assistant-version: "${{ matrix.version }}"
+      home-assistant-version: ${{ matrix.version }}
       secret-file-path: "./src/config/secrets.yaml.example"
       configuration-path: "./src/config"
 
