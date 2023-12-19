@@ -5,56 +5,14 @@ on:
   push:
   pull_request:
 
-env:
-  REGISTRY: ghcr.io
-  OWNER_AND_REPO: ${{ github.repository }}
-
 jobs:
   yamllint:
     uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
-  home-assistant-config-check:
-    uses: theautomation/github-actions/.github/workflows/home-assistant-config-check.yaml@main
+  build-and-push-image:
+    uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
     with:
-      version: "stable"
-      
-      # secret-file-path: "./src/config/secrets.yaml.example"
-      # configuration-path: "./src/config"
-
-#   build-and-push-image:
-#     name: Build and Push Image
-#     needs: [home-assistant-config]
-#     runs-on: ubuntu-latest
-#     permissions:
-#       contents: read
-#       packages: write
-#     steps:
-#       - name: Checkout Code
-#         uses: actions/checkout@main
-
-#       - name: Log in to the Container registry
-#         uses: docker/login-action@v3
-#         with:
-#           registry: ${{ env.REGISTRY }}
-#           username: ${{ github.actor }}
-#           password: ${{ secrets.GITHUB_TOKEN }}
-
-#       - name: Extract metadata (tags, labels) for Docker
-#         id: meta
-#         uses: docker/metadata-action@v5
-#         with:
-#           images: ${{ env.REGISTRY }}/${{ env.OWNER_AND_REPO }}
-#           tags: |
-#             type=ref,event=branch
-#             type=sha
-
-#       - name: Build and push
-#         uses: docker/build-push-action@v5
-#         with:
-#           context: .
-#           push: true
-#           tags: ${{ steps.meta.outputs.tags }}
-#           labels: ${{ steps.meta.outputs.labels }}
+      publish: true
 
 # trigger-manifest-update:
 #   name: Trigger Remote Action
