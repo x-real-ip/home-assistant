@@ -8,11 +8,11 @@ on:
 
 jobs:
   yamllint:
+    name: Yaml lint
     uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
   home-assistant:
     name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
-    needs: [yamllint]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,21 +28,13 @@ jobs:
           version: "${{ matrix.version }}"
 
   build-and-push-image:
-    needs: [home-assistant]
+    name: Build and Push Image
+    needs: [home-assistant, yamllint]
     uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
     with:
       publish: true
 
-# trigger-manifest-update:
-#   name: Trigger Remote Action
-#   # needs: [build-and-push-image]
-#   runs-on: ubuntu-latest
-#   steps:
-#     - name: Trigger
-#       run: |
-#         curl -XPOST \
-#           -H 'Authorization:token *****' \
-#           -H "Content-Type:application/json" \
-#           -H "Accept:application/vnd.github" \
-#           https://api.github.com/repos/theautomation/gitops/actions/workflows/update_manifest.yaml/dispatches \
-#           --data '{"ref": "main", "inputs": {"OWNER_AND_REPO":"${{ github.repository }}","registry":"${{ env.REGISTRY }}","image_tag":"${{ github.sha }}"}}'
+  trigger-manifest-update:
+    name: Trigger Remote Action
+    needs: [build-and-push-image]
+    uses: theautomation/github-actions/.github/workflows/trigger-manifest-update.yaml@main
