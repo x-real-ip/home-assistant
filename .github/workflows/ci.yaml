@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Continuous integration
 
 on:
   push:
@@ -10,7 +10,25 @@ jobs:
   yamllint:
     uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
+  home-assistant:
+    name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
+    needs: [yamllint]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["stable", "beta", "dev"]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+      - name: Run Home Assistant Configuration Check
+        uses: frenck/action-home-assistant@v1
+        with:
+          path: "./src/config"
+          secrets: secrets.yaml.example
+          version: "${{ matrix.version }}"
+
   build-and-push-image:
+    needs: [home-assistant]
     uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
     with:
       publish: true
