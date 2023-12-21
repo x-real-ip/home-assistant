@@ -43,6 +43,6 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           repository: theautomation/gitops
-          event-type: my-event
+          event-type: bump-version
           client-payload:
             '{"ref": "${{ github.ref }}", "repository": "${{ github.repository}}", "registry": "ghcr.io", "sha": "${{ github.sha }}"}'
