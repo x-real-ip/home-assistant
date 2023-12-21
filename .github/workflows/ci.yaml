@@ -7,35 +7,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  # yamllint:
-  #   name: Yaml lint
-  #   uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
+  yamllint:
+    name: Yaml lint
+    uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
-  # home-assistant:
-  #   name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       version: ["stable", "beta", "dev"]
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@main
-  #     - name: Run Home Assistant Configuration Check
-  #       uses: frenck/action-home-assistant@v1
-  #       with:
-  #         path: "./src/config"
-  #         secrets: secrets.yaml.example
-  #         version: "${{ matrix.version }}"
+  home-assistant:
+    name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["stable", "beta", "dev"]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+      - name: Run Home Assistant Configuration Check
+        uses: frenck/action-home-assistant@v1
+        with:
+          path: "./src/config"
+          secrets: secrets.yaml.example
+          version: "${{ matrix.version }}"
 
-  # build-and-push-image:
-  #   name: Build and Push Image
-  #   needs: [home-assistant, yamllint]
-  #   uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
-  #   with:
-  #     publish: true
+  build-and-push-image:
+    name: Build and Push Image
+    needs: [home-assistant, yamllint]
+    uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
+    with:
+      publish: true
 
-  dispatch:
-    name: Repository Dispatch
+  dispatch-update-manifest:
+    name: Repository Dispatch to Update Manifest
     runs-on: ubuntu-latest
     steps:
       - name: Repository Dispatch
