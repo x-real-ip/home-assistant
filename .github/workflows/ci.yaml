@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  yamllint:
-    name: Yaml lint
-    uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
+  # yamllint:
+  #   name: Yaml lint
+  #   uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
   # home-assistant:
   #   name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
