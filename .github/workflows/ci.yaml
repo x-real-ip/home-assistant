@@ -7,34 +7,42 @@ on:
   workflow_dispatch:
 
 jobs:
-  yamllint:
-    name: Yaml lint
-    uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
+  # yamllint:
+  #   name: Yaml lint
+  #   uses: theautomation/github-actions/.github/workflows/yamllint.yaml@main
 
-  home-assistant:
-    name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
+  # home-assistant:
+  #   name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       version: ["stable", "beta", "dev"]
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@main
+  #     - name: Run Home Assistant Configuration Check
+  #       uses: frenck/action-home-assistant@v1
+  #       with:
+  #         path: "./src/config"
+  #         secrets: secrets.yaml.example
+  #         version: "${{ matrix.version }}"
+
+  # build-and-push-image:
+  #   name: Build and Push Image
+  #   needs: [home-assistant, yamllint]
+  #   uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
+  #   with:
+  #     publish: true
+
+  dispatch:
+    name: Repository Dispatch
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: ["stable", "beta", "dev"]
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@main
-      - name: Run Home Assistant Configuration Check
-        uses: frenck/action-home-assistant@v1
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
         with:
-          path: "./src/config"
-          secrets: secrets.yaml.example
-          version: "${{ matrix.version }}"
-
-  build-and-push-image:
-    name: Build and Push Image
-    needs: [home-assistant, yamllint]
-    uses: theautomation/github-actions/.github/workflows/build-and-push.yaml@main
-    with:
-      publish: true
-
-  trigger-manifest-update:
-    name: Trigger Remote Action
-    needs: [build-and-push-image]
-    uses: theautomation/github-actions/.github/workflows/trigger-manifest-update.yaml@main
+          token: ${{ secrets.PAT }}
+          repository: theautomation/gitops
+          event-type: my-event
+          client-payload:
+            '{"ref": "${{ github.ref }}", "repository": "${{ github.repository}}", "registry": "ghcr.io", "sha": "${{ github.sha }}"}'
