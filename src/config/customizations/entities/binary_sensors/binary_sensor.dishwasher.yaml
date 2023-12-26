@@ -1,3 +1,4 @@
 ---
 binary_sensor.dishwasher:
   friendly_name: Vaatwasser
+  icon: mdi:dishwasher

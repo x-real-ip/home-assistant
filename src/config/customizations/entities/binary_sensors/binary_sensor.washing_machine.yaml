@@ -1,3 +1,4 @@
 ---
 binary_sensor.washing_machine:
   friendly_name: Wasmachine
+  icon: mdi:washing-machine
