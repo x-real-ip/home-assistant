@@ -2033,7 +2033,7 @@ views:
                     icon: |-
                       {% set t = states('sensor.living_room_temperature') %}
                       {% if t < '18' %} mdi:thermometer-high
-                      {% elif t > '18' and t < '24' %} mdi:thermometer 
+                      {% elif t > '18' and t < '24' %} mdi:thermometer
                       {% else %}  mdi:thermometer-high
                       {% endif %}
                     icon_color: |-
@@ -2470,7 +2470,7 @@ views:
                     icon: |-
                       {% set t = states('sensor.basement_temperature') %}
                       {% if t < '18' %} mdi:thermometer-high
-                      {% elif t > '18' and t < '24' %} mdi:thermometer 
+                      {% elif t > '18' and t < '24' %} mdi:thermometer
                       {% else %}  mdi:thermometer-high
                       {% endif %}
                     icon_color: |-
@@ -3001,7 +3001,7 @@ views:
                     icon: |-
                       {% set t = states('sensor.lises_room_temperature') %}
                       {% if t < '18' %} mdi:thermometer-high
-                      {% elif t > '18' and t < '24' %} mdi:thermometer 
+                      {% elif t > '18' and t < '24' %} mdi:thermometer
                       {% else %}  mdi:thermometer-high
                       {% endif %}
                     icon_color: |-
@@ -3438,7 +3438,7 @@ views:
                     icon: |-
                       {% set t = states('sensor.small_bedroom_temperature') %}
                       {% if t < '18' %} mdi:thermometer-high
-                      {% elif t > '18' and t < '24' %} mdi:thermometer 
+                      {% elif t > '18' and t < '24' %} mdi:thermometer
                       {% else %}  mdi:thermometer-high
                       {% endif %}
                     icon_color: |-
@@ -3875,7 +3875,7 @@ views:
                     icon: |-
                       {% set t = states('sensor.master_bedroom_temperature') %}
                       {% if t < '18' %} mdi:thermometer-high
-                      {% elif t > '18' and t < '24' %} mdi:thermometer 
+                      {% elif t > '18' and t < '24' %} mdi:thermometer
                       {% else %}  mdi:thermometer-high
                       {% endif %}
                     icon_color: |-
@@ -4873,14 +4873,10 @@ views:
                 icon_color: >-
                   {% if
                   states('sensor.pfsense_interface_guest_inbytes_kilobytes_per_second')
-                  | float > 0 %} 
-
+                  | float > 0 %}
                   #12a895
-
-                  {% else %} 
-
+                  {% else %}
                   disabled
-
                   {% endif %}
                 layout: vertical
                 hold_action:
