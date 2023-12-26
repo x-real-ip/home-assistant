@@ -8,7 +8,7 @@ vacation_lights:
     - light.shelly1_hallway
     - light.shelly1_upstairs_hall
     - light.shellydimmer_backyard_string_l
-    - light.shellydimmer_barn_hanging_lamp
+    - light.shellydimmer_barn_hanging_lam
     - light.shellydimmer_basement
     - light.shellydimmer_dinner_table
     - light.shellydimmer_kitchen
