@@ -1,3 +1,0 @@
-*.html
-**/custom_components/**/*
-src/config/google_assistant/google_service_account.json
