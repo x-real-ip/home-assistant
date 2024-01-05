@@ -41,6 +41,8 @@ from .const import (
     STOREDGE_CONTROL_MODE,
     STOREDGE_AC_CHARGE_POLICY,
     STOREDGE_CHARGE_DISCHARGE_MODE,
+    CONF_MAX_EXPORT_CONTROL_SITE_LIMIT,
+    DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -61,6 +63,10 @@ SOLAREDGE_MODBUS_SCHEMA = vol.Schema(
         vol.Optional(CONF_READ_BATTERY2, default=DEFAULT_READ_BATTERY2): cv.boolean,
         vol.Optional(
             CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL
+        ): cv.positive_int,
+        vol.Optional(
+            CONF_MAX_EXPORT_CONTROL_SITE_LIMIT,
+            default=DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT,
         ): cv.positive_int,
     }
 )
@@ -91,6 +97,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     read_meter3 = entry.data.get(CONF_READ_METER3, DEFAULT_READ_METER3)
     read_battery1 = entry.data.get(CONF_READ_BATTERY1, DEFAULT_READ_BATTERY1)
     read_battery2 = entry.data.get(CONF_READ_BATTERY2, DEFAULT_READ_BATTERY2)
+    max_export_control_site_limit = entry.data.get(
+        CONF_MAX_EXPORT_CONTROL_SITE_LIMIT, DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT
+    )
 
     _LOGGER.debug("Setup %s.%s", DOMAIN, name)
 
@@ -107,6 +116,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         read_meter3,
         read_battery1,
         read_battery2,
+        max_export_control_site_limit,
     )
     """Register the hub."""
     hass.data[DOMAIN][name] = {"hub": hub}
@@ -166,10 +176,11 @@ class SolaredgeModbusHub:
         read_meter3=DEFAULT_READ_METER3,
         read_battery1=DEFAULT_READ_BATTERY1,
         read_battery2=DEFAULT_READ_BATTERY2,
+        max_export_control_site_limit=DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT
     ):
         """Initialize the Modbus hub."""
         self._hass = hass
-        self._client = ModbusTcpClient(host=host, port=port)
+        self._client = ModbusTcpClient(host=host, port=port, timeout=max(3, (scan_interval - 1)))
         self._lock = threading.Lock()
         self._name = name
         self._address = address
@@ -180,6 +191,7 @@ class SolaredgeModbusHub:
         self.read_battery1 = read_battery1
         self.read_battery2 = read_battery2
         self._scan_interval = timedelta(seconds=scan_interval)
+        self.max_export_control_site_limit = max_export_control_site_limit
         self._unsub_interval_method = None
         self._sensors = []
         self.data = {}
@@ -189,7 +201,7 @@ class SolaredgeModbusHub:
         """Listen for data updates."""
         # This is the first sensor, set up interval.
         if not self._sensors:
-            self.connect()
+           # self.connect()
             self._unsub_interval_method = async_track_time_interval(
                 self._hass, self.async_refresh_modbus_data, self._scan_interval
             )
@@ -207,24 +219,31 @@ class SolaredgeModbusHub:
             self._unsub_interval_method = None
             self.close()
 
-    async def async_refresh_modbus_data(self, _now: Optional[int] = None) -> None:
+    async def async_refresh_modbus_data(self, _now: Optional[int] = None) -> dict:
+        """Time to update."""
+        result : bool = await self._hass.async_add_executor_job(self._refresh_modbus_data)
+        if result:
+            for update_callback in self._sensors:
+                update_callback()
+
+
+    def _refresh_modbus_data(self, _now: Optional[int] = None) -> bool:
         """Time to update."""
         if not self._sensors:
-            return
+            return False
 
         if not self._check_and_reconnect():
             #if not connected, skip
-            return
-        
+            return False
+
         try:
             update_result = self.read_modbus_data()
         except Exception as e:
             _LOGGER.exception("Error reading modbus data", exc_info=True)
             update_result = False
+        return update_result
 
-        if update_result:
-            for update_callback in self._sensors:
-                update_callback()
+
 
     @property
     def name(self):
@@ -248,12 +267,12 @@ class SolaredgeModbusHub:
         result = False
         with self._lock:
             result = self._client.connect()
-            
+
         if result:
-            _LOGGER.info("successfully connected to %s:%s", 
+            _LOGGER.info("successfully connected to %s:%s",
                          self._client.comm_params.host, self._client.comm_params.port)
         else:
-            _LOGGER.warning("not able to connect to %s:%s", 
+            _LOGGER.warning("not able to connect to %s:%s",
                             self._client.comm_params.host, self._client.comm_params.port)
         return result
 
@@ -262,7 +281,7 @@ class SolaredgeModbusHub:
     def power_control_enabled(self):
         """Return true if power control has been enabled"""
         return self.power_control
-    
+
     @property
     def has_meter(self):
         """Return true if a meter is available"""
@@ -700,13 +719,13 @@ class SolaredgeModbusHub:
         return True
 
     def read_modbus_power_limit(self):
-        """ 
-        Read the active power limit value (%) 
         """
-        
+        Read the active power limit value (%)
+        """
+
         if not self.power_control_enabled:
             return True
-        
+
         inverter_data = self.read_holding_registers(
             unit=self._address, address=0xF001, count=1
         )
