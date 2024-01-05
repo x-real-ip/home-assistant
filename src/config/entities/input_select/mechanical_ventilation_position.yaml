@@ -1,0 +1,9 @@
+---
+mechanical_ventilation_position:
+  options:
+    - Uit
+    - Laag
+    - Midden
+    - Hoog
+    - Autonoom
+  initial: Autonoom
