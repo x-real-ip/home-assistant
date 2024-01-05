@@ -1,4 +1,4 @@
-FROM docker.io/homeassistant/home-assistant:2023.12
+FROM docker.io/homeassistant/home-assistant:2024.1
 
 COPY ./src/config /config
 
