@@ -5,6 +5,8 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 6'
 
 jobs:
   yamllint:
