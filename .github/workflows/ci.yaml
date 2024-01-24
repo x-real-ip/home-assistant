@@ -6,7 +6,7 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * 6'
+    - cron: "0 8 * * 6"
 
 jobs:
   yamllint:
@@ -47,4 +47,6 @@ jobs:
           repository: theautomation/gitops
           event-type: update-manifest
           client-payload:
-            '{"ref": "${{ github.ref }}", "repository": "${{ github.repository}}", "registry": "ghcr.io", "sha": "${{ github.sha }}"}'
+            '{"ref": "${{ github.ref }}", "repository": "${{
+            github.repository}}", "registry": "ghcr.io", "sha": "${{ github.sha
+            }}"}'
