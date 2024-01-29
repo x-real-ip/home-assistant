@@ -118,6 +118,8 @@ views:
                 action: none
               icon: mdi:fireplace
           - type: conditional
+            conditions: null
+          - type: conditional
             conditions:
               - entity: binary_sensor.knmi_home_waarschuwing
                 state: "on"
@@ -200,6 +202,20 @@ views:
               - type: custom:mushroom-template-card
                 primary: ""
                 secondary: ""
+                icon: mdi:vacuum
+                icon_color: purple
+                layout: vertical
+                fill_container: false
+                tap_action:
+                  action: navigate
+                  navigation_path: /wall-v2/vacuum
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
                 icon: mdi:cog
                 icon_color: brown
                 layout: vertical
@@ -211,6 +227,25 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+          - show_current: true
+            show_forecast: false
+            type: weather-forecast
+            entity: weather.knmi_home
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  content:
+                    type: picture-entity
+                    entity: camera.buienradar
+                    show_name: false
+                    show_state: false
+                    tap_action:
+                      action: none
+            forecast_type: daily
+            secondary_info_attribute: humidity
+            name: " "
           - type: conditional
             conditions:
               - entity: binary_sensor.notification_level_info
@@ -235,6 +270,14 @@ views:
                   entity_id: button.notification_level_info_turn_off
                 data: {}
               picture: ""
+              hold_action:
+                action: call-service
+                service: button.press
+                target:
+                  entity_id: button.notification_level_clear_all
+                data: {}
+              double_tap_action:
+                action: none
           - type: conditional
             conditions:
               - entity: binary_sensor.notification_level_warning
@@ -284,30 +327,6 @@ views:
                     - button.notification_level_error_turn_off
                 data: {}
               picture: ""
-          - type: conditional
-            conditions:
-              - entity: sensor.notification_on_counter
-                state: "0"
-            card:
-              show_current: true
-              show_forecast: false
-              type: weather-forecast
-              entity: weather.knmi_home
-              tap_action:
-                action: fire-dom-event
-                browser_mod:
-                  service: browser_mod.popup
-                  data:
-                    content:
-                      type: picture-entity
-                      entity: camera.buienradar
-                      show_name: false
-                      show_state: false
-                      tap_action:
-                        action: none
-              forecast_type: daily
-              secondary_info_attribute: humidity
-              name: " "
           - type: custom:stack-in-card
             mode: vertical
             cards:
@@ -428,19 +447,18 @@ views:
           grid-area: middle
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-vacuum-card
-            entity: vacuum.roborock_s6_pure
-            name: Stofzuiger
-            icon: mdi:robot-vacuum
-            commands:
-              - start_pause
-              - stop
-              - return_home
-            icon_animation: true
+          - type: custom:mushroom-select-card
+            entity: input_select.mechanical_ventilation_position
+            name: Souterrain
+            icon: mdi:fan
+            icon_color: green
+            layout: horizontal
+            secondary_info: none
             tap_action:
               action: none
             hold_action:
-              action: more-info
+              action: none
+            icon_type: icon
             double_tap_action:
               action: none
           - type: horizontal-stack
@@ -561,35 +579,35 @@ views:
                 icon_color: cyan
                 name: Wasmachine
                 tap_action:
-                  action: none
+                  action: more-info
                 hold_action:
                   action: none
                 double_tap_action:
                   action: none
               - type: custom:mushroom-entity-card
                 entity: binary_sensor.tumble_dryer
-                icon: mdi:tumble-dryer
+                icon: ""
                 layout: vertical
                 fill_container: false
                 secondary_info: state
                 icon_color: cyan
-                name: Wasdroger
                 tap_action:
-                  action: none
+                  action: more-info
                 hold_action:
                   action: none
                 double_tap_action:
                   action: none
+                name: Wasdroger
               - type: custom:mushroom-entity-card
                 entity: binary_sensor.dishwasher
-                icon: mdi:dishwasher
+                icon: ""
                 layout: vertical
                 fill_container: false
                 secondary_info: state
                 icon_color: cyan
                 name: Vaatwasser
                 tap_action:
-                  action: none
+                  action: more-info
                 hold_action:
                   action: none
                 double_tap_action:
@@ -1353,6 +1371,7 @@ views:
               sortByStartTime: true
               showDate: false
               hideDuplicates: true
+              maxEventCount: 8
               showMultiDayEventParts: false
               hoursOnSameLine: true
               compactMode: false
@@ -1374,7 +1393,7 @@ views:
               showAllDayHours: false
               showWeekNumber: false
               showLastCalendarWeek: false
-              disableCalLink: false
+              disableCalLink: true
               dimFinishedEvents: true
               refreshInterval: 300
               hoursFormat: HH:mm
@@ -4729,6 +4748,22 @@ views:
               action: none
             hold_action:
               action: none
+          - type: custom:mini-graph-card
+            name: Regen afgelopen uur
+            icon: mdi:weather-rainy
+            hours_to_show: 1
+            hour24: true
+            points_per_hour: 15
+            font_size: 90
+            font_size_header: 12
+            height: 85
+            animate: true
+            line_width: 3
+            show:
+              extrema: true
+              average: false
+            entities:
+              - entity: sensor.buienradar_precipitation
         view_layout:
           grid-area: right-up
       - type: vertical-stack
@@ -4743,21 +4778,40 @@ views:
               noon: true
               dusk: true
               moon_phase: false
-          - type: custom:mini-graph-card
-            name: Regen afgelopen uur
-            icon: mdi:weather-rainy
-            hours_to_show: 1
-            hour24: true
-            points_per_hour: 15
-            font_size: 90
-            font_size_header: 12
-            animate: true
-            line_width: 3
-            show:
-              extrema: true
-              average: false
-            entities:
-              - entity: sensor.buienradar_precipitation
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: Windsnelheid 24u
+                icon: mdi:windsock
+                hours_to_show: 24
+                hour24: true
+                points_per_hour: 5
+                font_size: 90
+                font_size_header: 12
+                height: 85
+                animate: true
+                line_width: 3
+                show:
+                  extrema: true
+                  average: false
+                entities:
+                  - entity: sensor.buienradar_wind_speed
+              - type: custom:mini-graph-card
+                name: Windkracht 24u
+                icon: mdi:weather-windy
+                hours_to_show: 24
+                hour24: true
+                points_per_hour: 5
+                font_size: 90
+                font_size_header: 12
+                height: 85
+                animate: true
+                line_width: 3
+                show:
+                  extrema: true
+                  average: false
+                entities:
+                  - entity: sensor.buienradar_wind_force
         view_layout:
           grid-area: left-up
       - type: vertical-stack
@@ -4810,19 +4864,124 @@ views:
                 icon: ""
                 name: Kans op zon
             columns: 2
-          - square: false
-            type: grid
-            cards:
-              - type: custom:mushroom-entity-card
-                entity: sensor.buienradar_wind_speed
-                name: Windsnelheid
-              - type: custom:mushroom-entity-card
-                entity: sensor.buienradar_wind_force
-                icon: ""
-                name: Windkracht
-            columns: 2
         view_layout:
           grid-area: mid-up
+  - title: vacuum
+    path: vacuum
+    icon: mdi:robot-vacuum
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 10% 40% 40% 10%
+      grid-template-rows: auto
+      grid-template-areas: |
+        "header header header header"
+        ". left right ."
+        "footer footer footer footer"
+    badges: []
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: action
+            double_tap_action:
+              action: none
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/0
+            hold_action:
+              action: none
+            icon: mdi:arrow-left
+        alignment: start
+        view_layout:
+          grid-area: header
+      - type: vertical-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: ""
+                subtitle: Woonkamer
+                title_tap_action:
+                  action: none
+                subtitle_tap_action:
+                  action: none
+              - type: custom:mushroom-vacuum-card
+                entity: vacuum.roborock_s6_pure
+                icon_animation: true
+                commands:
+                  - on_off
+                  - start_pause
+                  - stop
+                  - locate
+                  - clean_spot
+                  - return_home
+                primary_info: state
+                secondary_info: last-changed
+                icon_type: icon
+                fill_container: false
+              - square: true
+                type: grid
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: input_boolean.vacuum_living_room
+                    icon: mdi:sofa-single
+                    name: Woonkamer
+                    icon_color: purple
+                    tap_action:
+                      action: toggle
+                    secondary_info: none
+                  - type: custom:mushroom-entity-card
+                    entity: input_boolean.vacuum_dining_room
+                    icon: mdi:table-chair
+                    name: Eetkamer
+                    icon_color: purple
+                    tap_action:
+                      action: toggle
+                    secondary_info: none
+                  - type: custom:mushroom-entity-card
+                    entity: input_boolean.vacuum_kitchen
+                    icon: mdi:fridge
+                    name: Keuken
+                    icon_color: purple
+                    tap_action:
+                      action: toggle
+                    secondary_info: none
+                  - type: custom:mushroom-entity-card
+                    entity: input_boolean.vacuum_hall
+                    icon: mdi:door-open
+                    name: Hal
+                    icon_color: purple
+                    tap_action:
+                      action: toggle
+                    secondary_info: none
+                columns: 4
+        view_layout:
+          grid-area: left
+      - type: vertical-stack
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-title-card
+                title: ""
+                subtitle: Souterrain
+                title_tap_action:
+                  action: none
+                subtitle_tap_action:
+                  action: none
+              - type: custom:mushroom-vacuum-card
+                icon_animation: true
+                commands:
+                  - on_off
+                  - start_pause
+                  - stop
+                  - locate
+                  - clean_spot
+                  - return_home
+                entity: vacuum.robot_vacuum
+                name: " "
+                primary_info: state
+                secondary_info: last-changed
+        view_layout:
+          grid-area: right
   - title: system
     path: system
     layout:
@@ -4873,11 +5032,7 @@ views:
                 icon_color: >-
                   {% if
                   states('sensor.pfsense_interface_guest_inbytes_kilobytes_per_second')
-                  | float > 0 %}
-                  #12a895
-                  {% else %}
-                  disabled
-                  {% endif %}
+                  | float > 0 %} #12a895 {% else %} disabled {% endif %}
                 layout: vertical
                 hold_action:
                   action: none
@@ -5099,3 +5254,15 @@ views:
                   green: 0
                   yellow: 80
                   red: 95
+          - type: custom:auto-entities
+            filter:
+              include:
+                - domain: update
+              exclude:
+                - state: "off"
+                - state: unavailable
+                - state: unknown
+            show_empty: false
+            card:
+              type: entities
+              state_color: false
