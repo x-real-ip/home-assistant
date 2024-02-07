@@ -1,0 +1,7 @@
+---
+backyard_lights:
+  name: Achtertuin lampen
+  entities:
+    - light.shelly1_barn_door
+    - light.shellydimmer_backyard_string_l
+    - light.shellydimmer_barn_hanging_lam
