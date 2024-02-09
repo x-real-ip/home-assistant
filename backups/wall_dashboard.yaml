@@ -3,7 +3,7 @@ views:
   - type: custom:grid-layout
     title: home
     layout:
-      grid-template-columns: 397px 512px 371px
+      grid-template-columns: 387px 522px 371px
       grid-template-rows: auto 240px
       grid-template-areas: |
         "header header header"
@@ -209,6 +209,20 @@ views:
                 tap_action:
                   action: navigate
                   navigation_path: /wall-v2/vacuum
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+              - type: custom:mushroom-template-card
+                primary: ""
+                secondary: ""
+                icon: mdi:clock-edit
+                icon_color: deep-orange
+                layout: vertical
+                fill_container: false
+                tap_action:
+                  action: navigate
+                  navigation_path: /wall-v2/scheduler
                 hold_action:
                   action: none
                 double_tap_action:
@@ -464,21 +478,15 @@ views:
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-light-card
-                entity: light.shellydimmer_living_room
+                entity: light.shelly1_barn_door
                 layout: vertical
                 primary_info: name
                 secondary_info: none
                 icon_type: icon
-              - type: conditional
-                conditions:
-                  - condition: state
-                    entity: light.christmas_tree
-                    state_not: unavailable
-                card:
-                  type: custom:mushroom-light-card
-                  entity: light.christmas_tree
-                  layout: vertical
-                  secondary_info: none
+              - type: custom:mushroom-light-card
+                entity: light.shelly1_hallway
+                layout: vertical
+                secondary_info: none
               - type: conditional
                 conditions:
                   - condition: state
@@ -491,29 +499,19 @@ views:
                         state_not: "off"
                 card:
                   type: custom:mushroom-light-card
-                  entity: light.shellydimmer_kitchen
+                  entity: light.shelly1_upstairs_hall
                   layout: vertical
                   secondary_info: none
-              - type: custom:mushroom-light-card
-                entity: light.shellydimmer_dinner_table
-                layout: vertical
-                secondary_info: none
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-light-card
-                entity: light.shellydimmer_backyard_string_l
-                layout: vertical
-                primary_info: name
-                secondary_info: none
-                icon_type: icon
-              - type: custom:mushroom-light-card
-                entity: light.shelly1_front_door
-                layout: vertical
-                secondary_info: none
-              - type: custom:mushroom-light-card
-                entity: light.shelly1_upstairs_hall
-                layout: vertical
-                secondary_info: none
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: light.christmas_tree
+                    state_not: unavailable
+                card:
+                  type: custom:mushroom-light-card
+                  entity: light.christmas_tree
+                  layout: vertical
+                  secondary_info: none
           - type: custom:gap-card
             height: 10
           - type: horizontal-stack
@@ -584,6 +582,7 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                primary_info: name
               - type: custom:mushroom-entity-card
                 entity: binary_sensor.tumble_dryer
                 icon: ""
@@ -598,6 +597,7 @@ views:
                 double_tap_action:
                   action: none
                 name: Wasdroger
+                primary_info: name
               - type: custom:mushroom-entity-card
                 entity: binary_sensor.dishwasher
                 icon: ""
@@ -612,6 +612,25 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                primary_info: name
+          - square: false
+            type: grid
+            columns: 3
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.backyard_motion_sensor_01_motion
+                layout: vertical
+                fill_container: false
+                secondary_info: last-changed
+                icon_color: red
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                primary_info: name
+                name: Achtertuin
           - square: false
             type: grid
             columns: 3
@@ -633,6 +652,20 @@ views:
               - type: custom:mushroom-template-card
                 entity: binary_sensor.backdoor
                 primary: Achterdeur
+                secondary: >-
+                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
+                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
+                  relative_time }}
+                icon: >-
+                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
+                  mdi:door-closed {% endif %}
+                icon_color: >-
+                  {% if is_state(entity, "on") %} brown {% else %} disabled {%
+                  endif %}
+                layout: vertical
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.barndoor_window
+                primary: Schuurdeur
                 secondary: >-
                   {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
                   - {{ as_timestamp(states[entity].last_updated) | as_datetime |
@@ -4982,6 +5015,113 @@ views:
                 secondary_info: last-changed
         view_layout:
           grid-area: right
+  - title: scheduler
+    path: scheduler
+    layout:
+      grid-template-columns: 10% auto 10%
+      grid-template-rows: auto
+      grid-template-areas: |
+        "header header header"
+        "left middle right"
+        "footer footer footer"
+    icon: mdi:clock-time-eight-outline
+    type: custom:grid-layout
+    badges: []
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: action
+            double_tap_action:
+              action: none
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/0
+            hold_action:
+              action: none
+            icon: mdi:arrow-left
+        alignment: start
+        view_layout:
+          grid-area: header
+      - type: custom:scheduler-card
+        include:
+          - calendar
+          - calendar.lise
+          - calendar.lise_babysitter
+          - climate
+          - group.persons
+          - input_boolean
+          - light
+          - light.color_light_lise
+          - media_player
+          - person
+          - switch
+          - vacuum
+        exclude:
+          - calendar.coen_anne
+          - calendar.nederlandse_feestdagen
+          - calendar.schoonmaak
+          - calendar.verjaardagen
+          - light.cv_closet
+          - light.shelly1_barn_door
+          - light.shelly1_bathroom
+          - light.shelly1_front_door
+          - light.shelly1_hallway
+          - light.shellydimmer_backyard_string_l
+          - light.shellydimmer_barn_hanging_lam
+          - light.shellydimmer_basement
+          - light.shellydimmer_basement_stairs
+          - light.shellydimmer_dinner_table
+          - light.shellydimmer_kitchen
+          - light.shellydimmer_laundry_room
+          - light.shellydimmer_lises_room
+          - light.shellydimmer_living_room
+          - light.shellydimmer_master_bedroom
+          - light.shellydimmer_small_bedroom
+        customize:
+          light.color_light_lise:
+            actions:
+              - service: light.turn_on
+                name: Turn on with color
+                icon: mdi:lightbulb
+                variables:
+                  color_name:
+                    name: Kleur
+                    options:
+                      - value: red
+                        name: Rood
+                      - value: orange
+                        name: Orange
+                      - value: darkorange
+                        name: Donkerorange
+                      - value: orangered
+                        name: Orangerood
+                      - value: deeppink
+                        name: Roze
+                      - value: green
+                        name: Groen
+                      - value: blue
+                        name: Blauw
+                  brightness_pct:
+                    name: Helderheid
+                    min: 1
+                    max: 100
+        title: false
+        discover_existing: true
+        time_step: 5
+        sort_by:
+          - state
+          - relative-time
+        display_options:
+          primary_info: default
+          secondary_info:
+            - relative-time
+            - days
+          icon: action
+        show_header_toggle: false
+        tags:
+          - Lise
+        view_layout:
+          grid-area: middle
   - title: system
     path: system
     layout:
