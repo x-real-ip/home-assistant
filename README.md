@@ -34,7 +34,8 @@ alternative automation engine.
 - Shelly Bulb RGBW
 - Shelly Dimmer
 - Shelly Dimmer2
-- Shelly BLU Door/Window Sensor
+- Shelly BLU Door/Window
+- Shelly BLU Motion
 - Shelly Plug-S
 - Shelly Plus Plug
 - Shelly i3
