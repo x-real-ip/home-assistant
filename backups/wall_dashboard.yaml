@@ -48,14 +48,14 @@ views:
             tap_action:
               action: toggle
           - type: entity
-            entity: switch.doorbell_chime_active
+            entity: switch.smart_doorbell_active
             icon_color: blue
             tap_action:
               action: toggle
             content_info: state
             icon: mdi:alarm-bell
           - type: entity
-            entity: binary_sensor.doorbell_button
+            entity: binary_sensor.smart_doorbell_button
             content_info: last-updated
             icon: mdi:doorbell
             icon_color: blue
@@ -209,20 +209,6 @@ views:
                 tap_action:
                   action: navigate
                   navigation_path: /wall-v2/vacuum
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-              - type: custom:mushroom-template-card
-                primary: ""
-                secondary: ""
-                icon: mdi:clock-edit
-                icon_color: deep-orange
-                layout: vertical
-                fill_container: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /wall-v2/scheduler
                 hold_action:
                   action: none
                 double_tap_action:
@@ -617,6 +603,52 @@ views:
             type: grid
             columns: 3
             cards:
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.frontdoor
+                primary: Voordeur
+                secondary: >-
+                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
+                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
+                  relative_time }}
+                icon: >-
+                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
+                  mdi:door-closed {% endif %}
+                icon_color: >-
+                  {% if is_state(entity, "on") %} red {% else %} disabled {%
+                  endif %}
+                layout: vertical
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.backdoor
+                primary: Achterdeur
+                secondary: >-
+                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
+                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
+                  relative_time }}
+                icon: >-
+                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
+                  mdi:door-closed {% endif %}
+                icon_color: >-
+                  {% if is_state(entity, "on") %} red {% else %} disabled {%
+                  endif %}
+                layout: vertical
+              - type: custom:mushroom-template-card
+                entity: binary_sensor.barndoor_window
+                primary: Schuurdeur
+                secondary: >-
+                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
+                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
+                  relative_time }}
+                icon: >-
+                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
+                  mdi:door-closed {% endif %}
+                icon_color: >-
+                  {% if is_state(entity, "on") %} red {% else %} disabled {%
+                  endif %}
+                layout: vertical
+          - square: false
+            type: grid
+            columns: 3
+            cards:
               - type: custom:mushroom-entity-card
                 entity: binary_sensor.backyard_motion_sensor_01_motion
                 layout: vertical
@@ -631,52 +663,6 @@ views:
                   action: none
                 primary_info: name
                 name: Achtertuin
-          - square: false
-            type: grid
-            columns: 3
-            cards:
-              - type: custom:mushroom-template-card
-                entity: binary_sensor.frontdoor
-                primary: Voordeur
-                secondary: >-
-                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
-                  relative_time }}
-                icon: >-
-                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
-                  mdi:door-closed {% endif %}
-                icon_color: >-
-                  {% if is_state(entity, "on") %} brown {% else %} disabled {%
-                  endif %}
-                layout: vertical
-              - type: custom:mushroom-template-card
-                entity: binary_sensor.backdoor
-                primary: Achterdeur
-                secondary: >-
-                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
-                  relative_time }}
-                icon: >-
-                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
-                  mdi:door-closed {% endif %}
-                icon_color: >-
-                  {% if is_state(entity, "on") %} brown {% else %} disabled {%
-                  endif %}
-                layout: vertical
-              - type: custom:mushroom-template-card
-                entity: binary_sensor.barndoor_window
-                primary: Schuurdeur
-                secondary: >-
-                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
-                  relative_time }}
-                icon: >-
-                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
-                  mdi:door-closed {% endif %}
-                icon_color: >-
-                  {% if is_state(entity, "on") %} brown {% else %} disabled {%
-                  endif %}
-                layout: vertical
         view_layout:
           grid-area: right
       - type: vertical-stack
@@ -5015,113 +5001,6 @@ views:
                 secondary_info: last-changed
         view_layout:
           grid-area: right
-  - title: scheduler
-    path: scheduler
-    layout:
-      grid-template-columns: 10% auto 10%
-      grid-template-rows: auto
-      grid-template-areas: |
-        "header header header"
-        "left middle right"
-        "footer footer footer"
-    icon: mdi:clock-time-eight-outline
-    type: custom:grid-layout
-    badges: []
-    cards:
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: action
-            double_tap_action:
-              action: none
-            tap_action:
-              action: navigate
-              navigation_path: /wall-v2/0
-            hold_action:
-              action: none
-            icon: mdi:arrow-left
-        alignment: start
-        view_layout:
-          grid-area: header
-      - type: custom:scheduler-card
-        include:
-          - calendar
-          - calendar.lise
-          - calendar.lise_babysitter
-          - climate
-          - group.persons
-          - input_boolean
-          - light
-          - light.color_light_lise
-          - media_player
-          - person
-          - switch
-          - vacuum
-        exclude:
-          - calendar.coen_anne
-          - calendar.nederlandse_feestdagen
-          - calendar.schoonmaak
-          - calendar.verjaardagen
-          - light.cv_closet
-          - light.shelly1_barn_door
-          - light.shelly1_bathroom
-          - light.shelly1_front_door
-          - light.shelly1_hallway
-          - light.shellydimmer_backyard_string_l
-          - light.shellydimmer_barn_hanging_lam
-          - light.shellydimmer_basement
-          - light.shellydimmer_basement_stairs
-          - light.shellydimmer_dinner_table
-          - light.shellydimmer_kitchen
-          - light.shellydimmer_laundry_room
-          - light.shellydimmer_lises_room
-          - light.shellydimmer_living_room
-          - light.shellydimmer_master_bedroom
-          - light.shellydimmer_small_bedroom
-        customize:
-          light.color_light_lise:
-            actions:
-              - service: light.turn_on
-                name: Turn on with color
-                icon: mdi:lightbulb
-                variables:
-                  color_name:
-                    name: Kleur
-                    options:
-                      - value: red
-                        name: Rood
-                      - value: orange
-                        name: Orange
-                      - value: darkorange
-                        name: Donkerorange
-                      - value: orangered
-                        name: Orangerood
-                      - value: deeppink
-                        name: Roze
-                      - value: green
-                        name: Groen
-                      - value: blue
-                        name: Blauw
-                  brightness_pct:
-                    name: Helderheid
-                    min: 1
-                    max: 100
-        title: false
-        discover_existing: true
-        time_step: 5
-        sort_by:
-          - state
-          - relative-time
-        display_options:
-          primary_info: default
-          secondary_info:
-            - relative-time
-            - days
-          icon: action
-        show_header_toggle: false
-        tags:
-          - Lise
-        view_layout:
-          grid-area: middle
   - title: system
     path: system
     layout:
@@ -5151,69 +5030,100 @@ views:
           grid-area: header
       - type: vertical-stack
         cards:
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-entity-card
-                entity: switch.pfsense_filter_rule_1672839601_pass_any_allow_internet
-                name: Internet NOT VLAN
-                tap_action:
-                  action: toggle
-                double_tap_action:
-                  action: none
-                layout: vertical
-                icon: ""
-                hold_action:
-                  action: none
-              - type: custom:mushroom-template-card
-                entity: image.wifi_guest_qrcode
-                primary: Gast WiFi QR-Code
-                secondary: WIFI-GUEST
-                icon: mdi:wifi
-                icon_color: >-
-                  {% if
-                  states('sensor.pfsense_interface_guest_inbytes_kilobytes_per_second')
-                  | float > 0 %} #12a895 {% else %} disabled {% endif %}
-                layout: vertical
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                badge_icon: mdi:qrcode-scan
-                tap_action:
-                  action: more-info
-          - type: custom:transmission-card
-            header_text: Downloads
-            hide_turtle: true
+          - type: custom:auto-entities
+            filter:
+              include:
+                - domain: update
+              exclude:
+                - state: "off"
+                - state: unavailable
+                - state: unknown
+            show_empty: false
+            card:
+              type: entities
+              state_color: true
+          - type: custom:scheduler-card
+            include:
+              - calendar
+              - calendar.lise
+              - calendar.lise_babysitter
+              - climate
+              - group.persons
+              - input_boolean
+              - light
+              - light.color_light_lise
+              - media_player
+              - person
+              - switch
+              - vacuum
+            exclude:
+              - calendar.coen_anne
+              - calendar.nederlandse_feestdagen
+              - calendar.schoonmaak
+              - calendar.verjaardagen
+              - light.cv_closet
+              - light.shelly1_barn_door
+              - light.shelly1_bathroom
+              - light.shelly1_front_door
+              - light.shelly1_hallway
+              - light.shellydimmer_backyard_string_l
+              - light.shellydimmer_barn_hanging_lam
+              - light.shellydimmer_basement
+              - light.shellydimmer_basement_stairs
+              - light.shellydimmer_dinner_table
+              - light.shellydimmer_kitchen
+              - light.shellydimmer_laundry_room
+              - light.shellydimmer_lises_room
+              - light.shellydimmer_living_room
+              - light.shellydimmer_master_bedroom
+              - light.shellydimmer_small_bedroom
+            customize:
+              light.color_light_lise:
+                actions:
+                  - service: light.turn_on
+                    name: Turn on with color
+                    icon: mdi:lightbulb
+                    variables:
+                      color_name:
+                        name: Kleur
+                        options:
+                          - value: red
+                            name: Rood
+                          - value: orange
+                            name: Orange
+                          - value: darkorange
+                            name: Donkerorange
+                          - value: orangered
+                            name: Orangerood
+                          - value: deeppink
+                            name: Roze
+                          - value: green
+                            name: Groen
+                          - value: blue
+                            name: Blauw
+                      brightness_pct:
+                        name: Helderheid
+                        min: 1
+                        max: 100
+            title: false
+            discover_existing: true
+            time_step: 5
+            sort_by:
+              - state
+              - relative-time
+            display_options:
+              primary_info: default
+              secondary_info:
+                - relative-time
+                - days
+              icon: action
+            show_header_toggle: false
+            tags:
+              - Lise
         view_layout:
           grid-area: right
       - type: vertical-stack
         cards:
-          - type: horizontal-stack
-            cards:
-              - type: custom:mini-graph-card
-                name: Internet speedtest
-                hours_to_show: 110
-                hour24: true
-                animate: true
-                height: 50
-                line_width: 2
-                font_size: 90
-                font_size_header: 12
-                tap_action:
-                  action: call-service
-                  entity: sensor.speedtest_download
-                  service: homeassistant.update_entity
-                  service_data:
-                    entity_id: sensor.speedtest_download
-                entities:
-                  - entity: sensor.speedtest_download
-                    name: Download
-                    show_state: true
-                    color: "#86deb1"
-                  - entity: sensor.speedtest_upload
-                    name: Upload
-                    show_state: true
-                    color: "#065e30"
           - type: horizontal-stack
             cards:
               - type: horizontal-stack
@@ -5394,15 +5304,64 @@ views:
                   green: 0
                   yellow: 80
                   red: 95
-          - type: custom:auto-entities
-            filter:
-              include:
-                - domain: update
-              exclude:
-                - state: "off"
-                - state: unavailable
-                - state: unknown
-            show_empty: false
-            card:
-              type: entities
-              state_color: false
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: switch.pfsense_filter_rule_1672839601_pass_any_allow_internet
+                name: Internet NOT VLAN
+                tap_action:
+                  action: toggle
+                double_tap_action:
+                  action: none
+                layout: vertical
+                icon: ""
+                hold_action:
+                  action: none
+              - type: custom:mushroom-template-card
+                entity: image.wifi_guest_qrcode
+                primary: Gast WiFi QR-Code
+                secondary: WIFI-GUEST
+                icon: mdi:wifi
+                icon_color: >-
+                  {% if
+                  states('sensor.pfsense_interface_guest_inbytes_kilobytes_per_second')
+                  | float > 0 %} #12a895 {% else %} disabled {% endif %}
+                layout: vertical
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                badge_icon: mdi:qrcode-scan
+                tap_action:
+                  action: more-info
+          - type: custom:transmission-card
+            header_text: Downloads
+            hide_turtle: true
+          - type: horizontal-stack
+            cards:
+              - type: custom:mini-graph-card
+                name: Internet speedtest
+                hours_to_show: 110
+                hour24: true
+                animate: true
+                height: 50
+                line_width: 2
+                font_size: 90
+                font_size_header: 12
+                tap_action:
+                  action: call-service
+                  entity: sensor.speedtest_download
+                  service: homeassistant.update_entity
+                  service_data:
+                    entity_id: sensor.speedtest_download
+                entities:
+                  - entity: sensor.speedtest_download
+                    name: Download
+                    show_state: true
+                    color: "#86deb1"
+                  - entity: sensor.speedtest_upload
+                    name: Upload
+                    show_state: true
+                    color: "#065e30"
+        view_layout:
+          grid-area: left
