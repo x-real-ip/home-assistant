@@ -1,4 +1,5 @@
 """pfSense integration."""
+
 import logging
 
 from homeassistant.components.switch import (
@@ -39,6 +40,8 @@ async def async_setup_entry(
             rules = dict_get(state, "config.filter.rule")
             if isinstance(rules, list):
                 for rule in rules:
+                    if not isinstance(rule, dict):
+                        continue
                     icon = "mdi:security-network"
                     # likely only want very specific rules to manipulate from actions
                     enabled_default = False
@@ -83,6 +86,8 @@ async def async_setup_entry(
             rules = dict_get(state, "config.nat.rule")
             if isinstance(rules, list):
                 for rule in rules:
+                    if not isinstance(rule, dict):
+                        continue
                     icon = "mdi:network"
                     # likely only want very specific rules to manipulate from actions
                     enabled_default = False
@@ -118,6 +123,8 @@ async def async_setup_entry(
             rules = dict_get(state, "config.nat.outbound.rule")
             if isinstance(rules, list):
                 for rule in rules:
+                    if not isinstance(rule, dict):
+                        continue
                     icon = "mdi:network"
                     # likely only want very specific rules to manipulate from actions
                     enabled_default = False

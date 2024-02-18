@@ -8,6 +8,7 @@ close_notice:
   # Different fields that your service accepts
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -31,6 +32,7 @@ file_notice:
   description: Files a notice(s).
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -87,6 +89,7 @@ start_service:
   description: Starts a service.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
     service_name:
@@ -109,6 +112,7 @@ stop_service:
   description: Stops a service.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
     service_name:
@@ -131,6 +135,7 @@ restart_service:
   description: Restarts a service.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
     service_name:
@@ -160,6 +165,7 @@ reset_state_table:
   description: Force all existing connections to close and reestablish 
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -168,6 +174,7 @@ kill_states:
   description: Remove all state table entries for source, or from source to destination
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -192,6 +199,7 @@ system_halt:
   description: Halts the system.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -200,6 +208,7 @@ system_reboot:
   description: Reboots the system.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -208,6 +217,7 @@ send_wol:
   description: Sends wake-on-lan magic packet.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -232,6 +242,7 @@ set_default_gateway:
   description: Set the default gateway for ipv4 and ipv6.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -256,6 +267,7 @@ exec_php:
   description: Execute a fully php script.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 
@@ -272,6 +284,7 @@ exec_command:
   description: Execute a command.
   fields:
     entity_id:
+      name: Entity ID
       description: pfSense entity id
       example: "binary_sensor.pfsense_localdomain_pending_notices_present"
 

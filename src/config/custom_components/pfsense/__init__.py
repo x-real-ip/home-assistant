@@ -1,4 +1,5 @@
 """Support for pfSense."""
+
 from __future__ import annotations
 
 import copy
@@ -354,7 +355,7 @@ class PfSenseData:
 
                     lease_stats["total"] += 1
                     if "online" in lease.keys():
-                        if lease["online"] in ["active", "online"]:
+                        if lease["online"] in ["active", "active/online", "online"]:
                             lease_stats["online"] += 1
                         if lease["online"] in ["offline", "idle/offline", "idle"]:
                             lease_stats["idle_offline"] += 1
@@ -398,10 +399,10 @@ class PfSenseData:
                                     "used_percent"
                                 ] = cpu_used_percent
                             else:
-                                new_state["telemetry"]["cpu"][
-                                    "used_percent"
-                                ] = dict_get(
-                                    previous_state, "telemetry.cpu.used_percent"
+                                new_state["telemetry"]["cpu"]["used_percent"] = (
+                                    dict_get(
+                                        previous_state, "telemetry.cpu.used_percent"
+                                    )
                                 )
 
                     for interface_name in dict_get(
