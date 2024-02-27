@@ -4,4 +4,4 @@ sensors:
   basement_wall_temperature_offset:
     value_template:
       "{{states.sensor.basement_wall_temperature.state | float - 1 | round(1) }}"
-  unit_of_measurement: °C
+    unit_of_measurement: °C
