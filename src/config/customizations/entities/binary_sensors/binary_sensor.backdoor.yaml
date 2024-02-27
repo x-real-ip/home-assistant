@@ -1,0 +1,4 @@
+---
+binary_sensor.backdoor:
+  friendly_name: Achterdeur
+

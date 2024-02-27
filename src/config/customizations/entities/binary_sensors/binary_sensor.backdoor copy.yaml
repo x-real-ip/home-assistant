@@ -1,0 +1,3 @@
+---
+binary_sensor.barndoor_window:
+  friendly_name: Schuurdeur
