@@ -1,0 +1,6 @@
+---
+platform: template
+sensors:
+  update_on_counter:
+    value_template:
+      "{{ states.update | selectattr( 'state', 'eq', 'on') | list | count }}"
