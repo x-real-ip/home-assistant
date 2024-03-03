@@ -2,4 +2,5 @@
 platform: template
 sensors:
   lights_on_counter:
-    value_template: "{{ states.light | selectattr( 'state', 'eq', 'on') | list | count }}"
+    value_template:
+      "{{ states.light | selectattr( 'state', 'eq', 'on') | list | count }}"
