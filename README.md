@@ -22,7 +22,6 @@ alternative automation engine.
 
 - Aeotec Z-Wave Gen5 Stick 908.42 MHz
 - Bluesound Powernode 2i
-- ESP01S
 - ESP32
 - ESP8622
 - First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen 908.42 MHz
@@ -31,6 +30,7 @@ alternative automation engine.
 - LG SmartTV WebOS
 - Nvidia Shield TV
 - Shelly 1 Relay
+- Shelly 1PM Mini Gen3
 - Shelly Bulb RGBW
 - Shelly Dimmer
 - Shelly Dimmer2
