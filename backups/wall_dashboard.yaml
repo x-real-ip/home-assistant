@@ -1687,7 +1687,7 @@ views:
                 name: Lise's kleurlamp
               - type: custom:mushroom-light-card
                 entity: light.shellydimmer_small_bedroom
-                name: Kleine slaapkamer
+                name: Beau's kamer
                 icon: mdi:ceiling-light
                 layout: horizontal
                 fill_container: false
@@ -3454,7 +3454,7 @@ views:
             cards:
               - type: custom:mushroom-climate-card
                 entity: climate.small_bedroom
-                name: Kleine slaapkamer
+                name: Beau's kamer
                 icon: mdi:thermometer
                 layout: horizontal
                 hvac_modes:
