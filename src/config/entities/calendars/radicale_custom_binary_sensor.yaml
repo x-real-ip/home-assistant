@@ -4,6 +4,9 @@ username: !secret radicale_gezamelijk_username
 password: !secret radicale_gezamelijk_password
 url: https://radicale.theautomation.nl/
 custom_calendars:
-  - name: "babysitter"
+  - name: "Babysitter"
     calendar: "Lise"
+    search: ".*past op.*"
+  - name: "Babysitter"
+    calendar: "Beau"
     search: ".*past op.*"
