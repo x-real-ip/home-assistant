@@ -1,0 +1,11 @@
+{
+  "domain": "acv",
+  "name": "ACV garbage collection sensor",
+  "version": "v0.24.2",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/cadsters/acv-hass-component/issues",
+  "documentation": "https://github.com/cadsters/acv-hass-component/blob/master/README.md",
+  "dependencies": [],
+  "codeowners": ["@floriskruisselbrink", "@Cadsters", "@aritmeester"],
+  "requirements": []
+}
