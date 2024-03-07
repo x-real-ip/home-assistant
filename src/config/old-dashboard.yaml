@@ -1,3 +1,0 @@
----
-title: "Home"
-views: !include_dir_list lovelace/views
