@@ -14,6 +14,7 @@ from homeassistant.components.weather import (
     ATTR_CONDITION_SNOWY,
     ATTR_CONDITION_SUNNY,
     ATTR_FORECAST_CONDITION,
+    ATTR_FORECAST_PRECIPITATION,
     ATTR_FORECAST_PRECIPITATION_PROBABILITY,
     ATTR_FORECAST_TEMP,
     ATTR_FORECAST_TEMP_LOW,
@@ -126,6 +127,11 @@ class KnmiWeather(WeatherEntity):
         return self.coordinator.get_value(["liveweer", 0, "temp"])
 
     @property
+    def native_apparent_temperature(self) -> float | None:
+        """Return the apparent temperature in native units."""
+        return self.coordinator.get_value(["liveweer", 0, "gtemp"])
+
+    @property
     def native_dew_point(self) -> float | None:
         """Return the dew point temperature in native units."""
         return self.coordinator.get_value(["liveweer", 0, "dauwp"])
@@ -160,10 +166,10 @@ class KnmiWeather(WeatherEntity):
         forecasts = []
 
         for i in range(len(self.coordinator.get_value(["wk_verw"]))):
+            time = self.coordinator.get_value_datetime(["wk_verw", i, "dag"])
+
             forecast = {
-                ATTR_FORECAST_TIME: self.coordinator.get_value_datetime(
-                    ["wk_verw", i, "dag"]
-                ),
+                ATTR_FORECAST_TIME: time.isoformat() if time else None,
                 ATTR_FORECAST_CONDITION: self.map_condition(
                     self.coordinator.get_value(["wk_verw", i, "image"])
                 ),
@@ -197,15 +203,15 @@ class KnmiWeather(WeatherEntity):
         forecasts = []
 
         for i in range(len(self.coordinator.get_value(["uur_verw"]))):
+            time = self.coordinator.get_value_datetime(["uur_verw", i, "uur"])
+
             forecast = {
-                ATTR_FORECAST_TIME: self.coordinator.get_value_datetime(
-                    ["uur_verw", i, "uur"]
-                ),
+                ATTR_FORECAST_TIME: time.isoformat() if time else None,
                 ATTR_FORECAST_CONDITION: self.map_condition(
                     self.coordinator.get_value(["uur_verw", i, "image"])
                 ),
                 ATTR_FORECAST_TEMP: self.coordinator.get_value(["uur_verw", i, "temp"]),
-                ATTR_FORECAST_PRECIPITATION_PROBABILITY: self.coordinator.get_value(
+                ATTR_FORECAST_PRECIPITATION: self.coordinator.get_value(
                     ["uur_verw", i, "neersl"]  # Millimeter.
                 ),
                 ATTR_FORECAST_WIND_BEARING: self.coordinator.get_value(
