@@ -2,6 +2,7 @@
 energy_graph:
   options:
     - Energy usage
+    - Device details
     - Solar production
     - Gas consumption
     - Water consumption
