@@ -499,9 +499,9 @@ views:
                 secondary: >-
                   {% if
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%} 
+                  "on") -%}
 
-                  Uit 
+                  Uit
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_1",
@@ -513,13 +513,13 @@ views:
                   is_state("input_boolean.mechanical_ventilation_position_2",
                   "on") -%}
 
-                  Midden 
+                  Midden
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_3",
                   "on") -%}
 
-                  Hoog 
+                  Hoog
 
                   {%- endif %}
 
@@ -542,7 +542,7 @@ views:
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%} 
+                  "on") -%}
 
                   mdi:fan-off
 
@@ -577,9 +577,9 @@ views:
                 icon_color: >-
                   {% if
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%} 
+                  "on") -%}
 
-                  disabled 
+                  disabled
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_1",
@@ -5256,7 +5256,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5303,7 +5303,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5350,7 +5350,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5397,7 +5397,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5444,7 +5444,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5491,7 +5491,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5538,7 +5538,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5585,7 +5585,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5632,7 +5632,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
@@ -5678,7 +5678,7 @@ views:
 
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %} 
+                  {% if battery_level > 90 %}
                     green
                   {% elif battery_level > 60 %}
                     light-green
