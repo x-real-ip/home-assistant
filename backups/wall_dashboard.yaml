@@ -3,11 +3,11 @@ views:
   - type: custom:grid-layout
     title: home
     layout:
-      grid-template-columns: 387px 522px 371px
-      grid-template-rows: auto 240px
+      grid-template-columns: 60px 367px 502px 351px
+      grid-template-rows: 45px 240px
       grid-template-areas: |
-        "header header header"
-        "left middle right"
+        "header header header header"
+        "menu left middle right"
     icon: mdi:home
     badges: []
     cards:
@@ -141,128 +141,170 @@ views:
           grid-area: header
       - type: vertical-stack
         cards:
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-template-card
-                primary: ""
-                secondary: ""
-                icon: mdi:lightbulb
-                icon_color: orange
-                layout: vertical
-                fill_container: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /wall-v2/lights
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      box-shadow: none;
-                      background: rgba(0,0,0,0);
-                    }
-              - type: custom:mushroom-template-card
-                primary: ""
-                secondary: ""
-                icon: mdi:home-thermometer
-                icon_color: green
-                layout: vertical
-                fill_container: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /wall-v2/climate
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      box-shadow: none;
-                      background: rgba(0,0,0,0);
-                    }
-              - type: custom:mushroom-template-card
-                primary: ""
-                secondary: ""
-                icon: mdi:lightning-bolt
-                icon_color: yellow
-                layout: vertical
-                fill_container: false
-                tap_action:
-                  action: navigate
-                  navigation_path: energy
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      box-shadow: none;
-                      background: rgba(0,0,0,0);
-                    }
-              - type: custom:mushroom-template-card
-                primary: ""
-                secondary: ""
-                icon: mdi:weather-lightning-rainy
-                icon_color: blue
-                layout: vertical
-                fill_container: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /wall-v2/weather
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      box-shadow: none;
-                      background: rgba(0,0,0,0);
-                    }
-              - type: custom:mushroom-template-card
-                primary: ""
-                secondary: ""
-                icon: mdi:vacuum
-                icon_color: purple
-                layout: vertical
-                fill_container: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /wall-v2/vacuum
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      box-shadow: none;
-                      background: rgba(0,0,0,0);
-                    }
-              - type: custom:mushroom-template-card
-                primary: ""
-                secondary: ""
-                icon: mdi:cog
-                icon_color: brown
-                layout: vertical
-                fill_container: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /wall-v2/system
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      box-shadow: none;
-                      background: rgba(0,0,0,0);
-                    }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: blue
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/0
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+        view_layout:
+          grid-area: menu
+      - type: vertical-stack
+        cards:
           - show_current: true
             show_forecast: false
             type: weather-forecast
@@ -1531,13 +1573,12 @@ views:
     path: lights
     type: custom:grid-layout
     layout:
-      grid-template-columns: 427px 426px 427px
-      grid-template-rows: auto
+      grid-template-columns: 60px 406px 406px 406px
+      grid-template-rows: 45px auto
       grid-template-areas: |
-        "left-header mid-header ."
-        "left middle right"
+        "header header header header"
+        "menu left middle right"
     icon: mdi:lightbulb
-    badges: []
     cards:
       - type: vertical-stack
         cards:
@@ -1811,20 +1852,6 @@ views:
           grid-area: right
       - type: custom:mushroom-chips-card
         chips:
-          - type: action
-            double_tap_action:
-              action: none
-            tap_action:
-              action: navigate
-              navigation_path: /wall-v2/0
-            hold_action:
-              action: none
-            icon: mdi:arrow-left
-        alignment: start
-        view_layout:
-          grid-area: left-header
-      - type: custom:mushroom-chips-card
-        chips:
           - type: conditional
             conditions:
               - entity: sensor.lights_on_counter
@@ -1873,34 +1900,183 @@ views:
             content: Alles Aan
         alignment: center
         view_layout:
-          grid-area: mid-header
-  - title: climate
-    path: climate
-    type: custom:grid-layout
-    layout:
-      grid-template-columns: 427px 426px 427px
-      grid-template-rows: auto
-      grid-template-areas: |
-        "left-header mid-header ."
-        "left-up mid-up right-up"
-        "left-down mid-down right-down"
-    icon: mdi:home-thermometer
-    badges: []
-    cards:
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: action
-            double_tap_action:
-              action: none
+          grid-area: header
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: grey
+            layout: vertical
+            fill_container: false
             tap_action:
               action: navigate
               navigation_path: /wall-v2/0
             hold_action:
               action: none
-            icon: mdi:arrow-left
-        alignment: start
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: orange
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
         view_layout:
-          grid-area: left-header
+          grid-area: menu
+  - title: climate
+    path: climate
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 60px 406px 406px 406px
+      grid-template-rows: 45px auto
+      grid-template-areas: |
+        "header header header header"
+        "menu left-up mid-up right-up"
+        "menu left-down mid-down right-down"
+    icon: mdi:home-thermometer
+    cards:
       - type: custom:mushroom-chips-card
         chips:
           - type: template
@@ -1960,7 +2136,7 @@ views:
             entity: input_button.climate_graph_heating_all
         alignment: center
         view_layout:
-          grid-area: mid-header
+          grid-area: header
       - type: custom:stack-in-card
         cards:
           - type: vertical-stack
@@ -4483,40 +4659,189 @@ views:
                     }
         view_layout:
           grid-area: right-down
-  - title: energy
-    path: energy
-    type: custom:grid-layout
-    layout:
-      grid-template-columns: 435px 435px 410px
-      grid-template-rows: auto auto auto auto
-      grid-template-areas: |
-        "left-header mid-header mid-header"
-        "menu menu menu"
-        "main main right"
-        "bottom-left bottom-right bottom-right"
-    icon: mdi:lightning-bolt
-    badges: []
-    cards:
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: action
-            double_tap_action:
-              action: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: grey
+            layout: vertical
+            fill_container: false
             tap_action:
               action: navigate
               navigation_path: /wall-v2/0
             hold_action:
               action: none
-            icon: mdi:arrow-left
-        alignment: start
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: green
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
         view_layout:
-          grid-area: left-header
+          grid-area: menu
+  - title: energy
+    path: energy
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 60px 406px 406px 406px
+      grid-template-rows: 45px auto auto auto
+      grid-template-areas: |
+        "header header header header"
+        "menu datepicker datepicker datepicker"
+        "menu main main right"
+        "menu bottom-left bottom-right bottom-right"
+    icon: mdi:lightning-bolt
+    cards:
       - type: custom:mushroom-chips-card
         chips:
           - type: template
             icon_color: |-
               {% if is_state(entity, "Energy usage") -%}
-              orange
+              yellow
               {%- else -%}
               disabled
               {%- endif %}
@@ -4530,6 +4855,26 @@ views:
                 entity_id: input_select.energy_graph
               data:
                 option: Energy usage
+            hold_action:
+              action: none
+            entity: input_select.energy_graph
+          - type: template
+            icon_color: |-
+              {% if is_state(entity, "Device details") -%}
+              yellow
+              {%- else -%}
+              disabled
+              {%- endif %}
+            icon: mdi:devices
+            double_tap_action:
+              action: none
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.energy_graph
+              data:
+                option: Device details
             hold_action:
               action: none
             entity: input_select.energy_graph
@@ -4548,7 +4893,7 @@ views:
               action: none
             icon_color: |-
               {% if is_state(entity, "Solar production") -%}
-              orange
+              yellow
               {%- else -%}
               disabled
               {%- endif %}
@@ -4568,7 +4913,7 @@ views:
               action: none
             icon_color: |-
               {% if is_state(entity, "Gas consumption") -%}
-              orange
+              yellow
               {%- else -%}
               disabled
               {%- endif %}
@@ -4588,7 +4933,7 @@ views:
               action: none
             icon_color: |-
               {% if is_state(entity, "Water consumption") -%}
-              orange
+              yellow
               {%- else -%}
               disabled
               {%- endif %}
@@ -4608,7 +4953,7 @@ views:
               action: none
             icon_color: |-
               {% if is_state(entity, "Sources") -%}
-              orange
+              yellow
               {%- else -%}
               disabled
               {%- endif %}
@@ -4628,14 +4973,17 @@ views:
               action: none
             icon_color: |-
               {% if is_state(entity, "Monitor individual devices") -%}
-              orange
+              yellow
               {%- else -%}
               disabled
               {%- endif %}
             entity: input_select.energy_graph
+        alignment: center
+        view_layout:
+          grid-area: header
       - type: energy-date-selection
         view_layout:
-          grid-area: menu
+          grid-area: datepicker
       - type: vertical-stack
         cards:
           - type: energy-distribution
@@ -4736,6 +5084,170 @@ views:
           grid-area: right
       - type: vertical-stack
         cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/0
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: yellow
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+        view_layout:
+          grid-area: menu
+      - type: vertical-stack
+        cards:
           - type: conditional
             conditions:
               - entity: input_select.energy_graph
@@ -4750,6 +5262,16 @@ views:
                     - type: energy-solar-consumed-gauge
                     - type: energy-carbon-consumed-gauge
                     - type: energy-self-sufficiency-gauge
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.energy_graph
+                state: Device details
+            card:
+              type: vertical-stack
+              cards:
+                - type: energy-devices-detail-graph
+                  max_devices: 12
           - type: conditional
             conditions:
               - entity: input_select.energy_graph
@@ -4875,6 +5397,7 @@ views:
               type: vertical-stack
               cards:
                 - type: energy-devices-graph
+                  max_devices: 18
                 - type: horizontal-stack
                   cards:
                     - type: grid
@@ -4887,34 +5410,14 @@ views:
     path: weather
     type: custom:grid-layout
     layout:
-      grid-template-columns: 427px 426px 427px
-      grid-template-rows: auto
+      grid-template-columns: 60px 406px 406px 406px
+      grid-template-rows: 45px auto
       grid-template-areas: |
-        "left-header mid-header ."
-        "left-up mid-up right-up"
-        "left-down mid-down right-down"
+        "header header header header"
+        "menu left-up mid-up right-up"
+        "menu left-down mid-down right-down"
     icon: mdi:weather-lightning-rainy
-    badges: []
     cards:
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: action
-            double_tap_action:
-              action: none
-            tap_action:
-              action: navigate
-              navigation_path: /wall-v2/0
-            hold_action:
-              action: none
-            icon: mdi:arrow-left
-        alignment: start
-        view_layout:
-          grid-area: left-header
-      - type: custom:mushroom-chips-card
-        chips: []
-        alignment: center
-        view_layout:
-          grid-area: mid-header
       - type: vertical-stack
         cards:
           - entity: camera.buienradar
@@ -5046,33 +5549,182 @@ views:
             columns: 2
         view_layout:
           grid-area: mid-up
-  - title: vacuum
-    path: vacuum
-    icon: mdi:robot-vacuum
-    type: custom:grid-layout
-    layout:
-      grid-template-columns: 10px 640px 640px 10px
-      grid-template-rows: auto
-      grid-template-areas: |
-        "header header header header"
-        ". left right ."
-        "footer footer footer footer"
-    badges: []
-    cards:
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: action
-            double_tap_action:
-              action: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: grey
+            layout: vertical
+            fill_container: false
             tap_action:
               action: navigate
               navigation_path: /wall-v2/0
             hold_action:
               action: none
-            icon: mdi:arrow-left
-        alignment: start
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: blue
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
         view_layout:
-          grid-area: header
+          grid-area: menu
+  - title: vacuum
+    path: vacuum
+    icon: mdi:robot-vacuum
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 60px 10px 600px 600px 10px
+      grid-template-rows: 45px auto
+      grid-template-areas: |
+        "header header header header header"
+        "menu . left right ."
+        "menu footer footer footer footer"
+    cards:
       - type: vertical-stack
         cards:
           - type: vertical-stack
@@ -5187,33 +5839,368 @@ views:
                 layout: vertical
         view_layout:
           grid-area: right
-  - title: system
-    path: system
-    layout:
-      grid-template-columns: 427px 426px 427px
-      grid-template-rows: auto
-      grid-template-areas: |
-        "header header header"
-        "left middle right"
-        "footer footer footer"
-    type: custom:grid-layout
-    icon: mdi:cog
-    badges: []
-    cards:
-      - type: custom:mushroom-chips-card
-        chips:
-          - type: action
-            double_tap_action:
-              action: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: grey
+            layout: vertical
+            fill_container: false
             tap_action:
               action: navigate
               navigation_path: /wall-v2/0
             hold_action:
               action: none
-            icon: mdi:arrow-left
-        alignment: start
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: purple
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
         view_layout:
-          grid-area: header
+          grid-area: menu
+  - title: camera
+    path: camera
+    icon: mdi:video
+    type: custom:grid-layout
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/0
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: green
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+        view_layout:
+          grid-area: menu
+      - type: vertical-stack
+        cards:
+          - show_state: false
+            show_name: false
+            camera_view: auto
+            type: picture-entity
+            entity: camera.mediamtx_service_tcp_tools_svc_cluster_local_2
+            name: " "
+            camera_image: camera.mediamtx_service_tcp_tools_svc_cluster_local_2
+        view_layout:
+          grid-area: middle
+    layout:
+      grid-template-columns: 60px 100px 1020px 100px
+      grid-template-rows: 45px 240px
+      grid-template-areas: |
+        "header header header header"
+        "menu left middle right"
+  - title: system
+    path: system
+    layout:
+      grid-template-columns: 60px 406px 406px 406px
+      grid-template-rows: 45px auto
+      grid-template-areas: |
+        "header header header header"
+        "menu left middle right"
+        "menu footer footer footer"
+    type: custom:grid-layout
+    icon: mdi:cog
+    cards:
       - type: vertical-stack
         cards:
           - type: custom:auto-entities
@@ -5235,10 +6222,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5253,7 +6238,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5329,10 +6313,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5347,7 +6329,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5376,10 +6357,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5394,7 +6373,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5423,10 +6401,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5441,7 +6417,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5470,10 +6445,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5488,7 +6461,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5517,10 +6489,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5535,7 +6505,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5564,10 +6533,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5582,7 +6549,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5611,10 +6577,8 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | round(1)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
+                  | int * 10 %} {% if
+                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5629,7 +6593,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -5658,9 +6621,7 @@ views:
                 secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
                 icon: >+
                   {% set battery_level = (states(entity) | int / 10) | int * 10
-                  | round(0) %}
-
-                  {% if is_state(entity, 'on' ) %}
+                  | round(0) %} {% if is_state(entity, 'on' ) %}
                     {% if battery_level > 0 %}
                       mdi:battery-charging-{{ battery_level }}
                     {% else %}
@@ -5675,7 +6636,6 @@ views:
                       mdi:battery-alert-variant-outline
                     {% endif %}
                   {% endif %}
-
                 icon_color: |-
                   {% set battery_level = states(entity) | int %}
                   {% if battery_level > 90 %}
@@ -6022,3 +6982,167 @@ views:
                     color: "#065e30"
         view_layout:
           grid-area: left
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/0
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightbulb
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/lights
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:home-thermometer
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/climate
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:lightning-bolt
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: energy
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:weather-lightning-rainy
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/weather
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:vacuum
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/vacuum
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:video
+            icon_color: grey
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/camera
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+          - type: custom:mushroom-template-card
+            primary: ""
+            secondary: ""
+            icon: mdi:cog
+            icon_color: brown
+            layout: vertical
+            fill_container: false
+            tap_action:
+              action: navigate
+              navigation_path: /wall-v2/system
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: rgba(0,0,0,0);
+                }
+        view_layout:
+          grid-area: menu
