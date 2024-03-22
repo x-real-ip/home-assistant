@@ -8,5 +8,5 @@ lovelace:
       filename: old-dashboard.yaml
       title: Old
       icon: mdi:cellphone
-      show_in_sidebar: false
+      show_in_sidebar: true
       require_admin: true

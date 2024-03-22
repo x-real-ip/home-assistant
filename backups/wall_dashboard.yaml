@@ -157,6 +157,12 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      box-shadow: none;
+                      background: rgba(0,0,0,0);
+                    }
               - type: custom:mushroom-template-card
                 primary: ""
                 secondary: ""
@@ -171,6 +177,12 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      box-shadow: none;
+                      background: rgba(0,0,0,0);
+                    }
               - type: custom:mushroom-template-card
                 primary: ""
                 secondary: ""
@@ -185,6 +197,12 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      box-shadow: none;
+                      background: rgba(0,0,0,0);
+                    }
               - type: custom:mushroom-template-card
                 primary: ""
                 secondary: ""
@@ -199,6 +217,12 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      box-shadow: none;
+                      background: rgba(0,0,0,0);
+                    }
               - type: custom:mushroom-template-card
                 primary: ""
                 secondary: ""
@@ -213,6 +237,12 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      box-shadow: none;
+                      background: rgba(0,0,0,0);
+                    }
               - type: custom:mushroom-template-card
                 primary: ""
                 secondary: ""
@@ -227,6 +257,12 @@ views:
                   action: none
                 double_tap_action:
                   action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      box-shadow: none;
+                      background: rgba(0,0,0,0);
+                    }
           - show_current: true
             show_forecast: false
             type: weather-forecast
@@ -447,59 +483,123 @@ views:
           grid-area: middle
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-select-card
-            entity: input_select.mechanical_ventilation_position
-            name: Souterrain
-            icon: mdi:fan
-            icon_color: green
-            layout: horizontal
-            secondary_info: none
-            tap_action:
-              action: none
-            hold_action:
-              action: none
-            icon_type: icon
-            double_tap_action:
-              action: none
           - type: horizontal-stack
             cards:
-              - type: custom:mushroom-light-card
-                entity: light.shelly1_barn_door
+              - type: custom:mushroom-entity-card
+                icon: ""
+                fill_container: false
+                secondary_info: state
+                icon_color: green
+                tap_action:
+                  action: toggle
                 layout: vertical
-                primary_info: name
-                secondary_info: none
-                icon_type: icon
-              - type: custom:mushroom-light-card
-                entity: light.shelly1_hallway
+                entity: fan.shelly1pm_toilet_fan_switch_0
+              - type: custom:mushroom-template-card
+                primary: Souterrain
+                secondary: >-
+                  {% if
+                  is_state("input_boolean.mechanical_ventilation_position_0",
+                  "on") -%} 
+
+                  Uit 
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_1",
+                  "on") -%}
+
+                  Laag 
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_2",
+                  "on") -%}
+
+                  Midden 
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_3",
+                  "on") -%}
+
+                  Hoog 
+
+                  {%- endif %}
+
+                  {% if is_state("input_select.mechanical_ventilation_position",
+                  "Autonoom") -%}
+
+                  (Auto)
+
+                  {%- else %}
+
+                  (Handmatig)
+
+                  {%- endif %}
+                icon: >-
+                  {% if
+                  is_state("input_boolean.mechanical_ventilation_autonomous",
+                  "on") -%}
+
+                  mdi:fan-auto
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_0",
+                  "on") -%} 
+
+                  mdi:fan-off
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_1",
+                  "on") -%}
+
+                  mdi:fan-speed-1
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_2",
+                  "on") -%}
+
+                  mdi:fan-speed-2
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_3",
+                  "on") -%}
+
+                  mdi:fan-speed-3
+
+                  {%- endif %}
+                entity: input_select.mechanical_ventilation_position
+                tap_action:
+                  action: call-service
+                  service: input_select.select_next
+                  target:
+                    entity_id: input_select.mechanical_ventilation_position
+                  data:
+                    cycle: true
                 layout: vertical
-                secondary_info: none
-              - type: conditional
-                conditions:
-                  - condition: state
-                    entity: light.christmas_tree
-                    state_not: "on"
-                  - condition: or
-                    conditions:
-                      - condition: state
-                        entity: light.christmas_tree
-                        state_not: "off"
-                card:
-                  type: custom:mushroom-light-card
-                  entity: light.shelly1_upstairs_hall
-                  layout: vertical
-                  secondary_info: none
-              - type: conditional
-                conditions:
-                  - condition: state
-                    entity: light.christmas_tree
-                    state_not: unavailable
-                card:
-                  type: custom:mushroom-light-card
-                  entity: light.christmas_tree
-                  layout: vertical
-                  secondary_info: none
-          - type: custom:gap-card
-            height: 10
+                icon_color: >-
+                  {% if
+                  is_state("input_boolean.mechanical_ventilation_position_0",
+                  "on") -%} 
+
+                  disabled 
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_1",
+                  "on") -%}
+
+                  green
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_2",
+                  "on") -%}
+
+                  green
+
+                  {% elif
+                  is_state("input_boolean.mechanical_ventilation_position_3",
+                  "on") -%}
+
+                  green
+
+                  {%- endif %}
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-entity-card
@@ -603,48 +703,45 @@ views:
             type: grid
             columns: 3
             cards:
-              - type: custom:mushroom-template-card
+              - type: custom:mushroom-entity-card
                 entity: binary_sensor.frontdoor
-                primary: Voordeur
-                secondary: >-
-                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
-                  relative_time }}
-                icon: >-
-                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
-                  mdi:door-closed {% endif %}
-                icon_color: >-
-                  {% if is_state(entity, "on") %} red {% else %} disabled {%
-                  endif %}
                 layout: vertical
-              - type: custom:mushroom-template-card
+                fill_container: false
+                secondary_info: last-changed
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                primary_info: name
+                icon_color: red
+              - type: custom:mushroom-entity-card
                 entity: binary_sensor.backdoor
-                primary: Achterdeur
-                secondary: >-
-                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
-                  relative_time }}
-                icon: >-
-                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
-                  mdi:door-closed {% endif %}
-                icon_color: >-
-                  {% if is_state(entity, "on") %} red {% else %} disabled {%
-                  endif %}
                 layout: vertical
-              - type: custom:mushroom-template-card
+                fill_container: false
+                secondary_info: last-changed
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                primary_info: name
+                icon_color: red
+              - type: custom:mushroom-entity-card
                 entity: binary_sensor.barndoor_window
-                primary: Schuurdeur
-                secondary: >-
-                  {% if is_state(entity, "on") %}Open{% else %}Dicht{% endif %}
-                  - {{ as_timestamp(states[entity].last_updated) | as_datetime |
-                  relative_time }}
-                icon: >-
-                  {% if is_state(entity, "on") %} mdi:door-open {% else %}
-                  mdi:door-closed {% endif %}
-                icon_color: >-
-                  {% if is_state(entity, "on") %} red {% else %} disabled {%
-                  endif %}
                 layout: vertical
+                fill_container: false
+                secondary_info: last-changed
+                tap_action:
+                  action: more-info
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                primary_info: name
+                icon_color: red
           - square: false
             type: grid
             columns: 3
@@ -756,10 +853,11 @@ views:
                         effect: slide
                         spaceBetween: 10
                         slidesPerView: 1
-                        scrollbar:
-                          hide: true
+                        pagination:
+                          hide: false
                           draggable: true
                           snapOnRelease: true
+                        autoplay: false
                       cards:
                         - type: grid
                           square: true
@@ -1077,10 +1175,11 @@ views:
                         sticky: true
                         effect: slide
                         slidesPerView: 1
-                        scrollbar:
-                          hide: true
+                        pagination:
+                          hide: false
                           draggable: true
                           snapOnRelease: true
+                        autoplay: false
                       cards:
                         - type: grid
                           square: true
@@ -1432,7 +1531,7 @@ views:
     path: lights
     type: custom:grid-layout
     layout:
-      grid-template-columns: 33% auto 33%
+      grid-template-columns: 427px 426px 427px
       grid-template-rows: auto
       grid-template-areas: |
         "left-header mid-header ."
@@ -1502,8 +1601,7 @@ views:
             cards:
               - type: custom:mushroom-light-card
                 entity: light.shelly1_barn_door
-                name: Schuur
-                icon: mdi:spotlight-beam
+                icon: ""
                 layout: horizontal
                 fill_container: false
                 show_brightness_control: false
@@ -1512,8 +1610,6 @@ views:
                 show_color_temp_control: false
                 use_light_color: false
               - type: custom:mushroom-light-card
-                entity: light.shelly1_front_door
-                name: Voordeur
                 icon: mdi:coach-lamp
                 layout: horizontal
                 fill_container: false
@@ -1522,6 +1618,7 @@ views:
                 show_color_control: false
                 show_color_temp_control: false
                 use_light_color: false
+                entity: light.shelly1_front_door
               - type: custom:mushroom-light-card
                 entity: light.shelly1_hallway
                 icon: mdi:globe-light-outline
@@ -1533,22 +1630,36 @@ views:
                 show_color_temp_control: false
                 use_light_color: false
             columns: 3
-          - type: conditional
-            conditions:
-              - condition: state
-                entity: light.christmas_tree
-                state_not: unavailable
-            card:
-              type: custom:mushroom-light-card
-              entity: light.christmas_tree
-              icon: ""
-              layout: horizontal
-              fill_container: false
-              show_brightness_control: false
-              collapsible_controls: false
-              show_color_control: false
-              show_color_temp_control: false
-              use_light_color: false
+          - square: false
+            type: grid
+            cards:
+              - type: conditional
+                conditions:
+                  - condition: state
+                    entity: light.christmas_tree
+                    state_not: unavailable
+                card:
+                  type: custom:mushroom-light-card
+                  entity: light.christmas_tree
+                  icon: ""
+                  layout: horizontal
+                  fill_container: false
+                  show_brightness_control: false
+                  collapsible_controls: false
+                  show_color_control: false
+                  show_color_temp_control: false
+                  use_light_color: false
+              - type: custom:mushroom-light-card
+                entity: light.shelly1pm_toilet_light_switch_0
+                icon: ""
+                layout: horizontal
+                fill_container: false
+                show_brightness_control: false
+                collapsible_controls: false
+                show_color_control: false
+                show_color_temp_control: false
+                use_light_color: false
+            columns: 3
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_living_room
             name: Woonkamer
@@ -1687,7 +1798,7 @@ views:
                 name: Lise's kleurlamp
               - type: custom:mushroom-light-card
                 entity: light.shellydimmer_small_bedroom
-                name: Beau's kamer
+                name: Kleine slaapkamer
                 icon: mdi:ceiling-light
                 layout: horizontal
                 fill_container: false
@@ -1767,7 +1878,7 @@ views:
     path: climate
     type: custom:grid-layout
     layout:
-      grid-template-columns: 33.3% 33.3% 33.3%
+      grid-template-columns: 427px 426px 427px
       grid-template-rows: auto
       grid-template-areas: |
         "left-header mid-header ."
@@ -1795,8 +1906,58 @@ views:
           - type: template
             icon_color: ""
             icon: mdi:thermometer
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: input_button.climate_graph_temperature_all
+            tap_action:
+              action: toggle
           - type: template
             icon: mdi:water-percent
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: input_button.climate_graph_relative_humidity_all
+          - type: template
+            icon: mdi:water
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: input_button.climate_graph_absolute_humidity_all
+          - type: template
+            icon: mdi:thermometer-water
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: input_button.climate_graph_dewpoint_all
+          - type: template
+            icon: mdi:sun-thermometer
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: input_button.climate_graph_dewpoint_perception_all
+          - type: template
+            icon: mdi:heating-coil
+            tap_action:
+              action: toggle
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            entity: input_button.climate_graph_heating_all
         alignment: center
         view_layout:
           grid-area: mid-header
@@ -4327,7 +4488,7 @@ views:
     type: custom:grid-layout
     layout:
       grid-template-columns: 435px 435px 410px
-      grid-template-rows: 45px 80px 570px 170px
+      grid-template-rows: auto auto auto auto
       grid-template-areas: |
         "left-header mid-header mid-header"
         "menu menu menu"
@@ -4496,7 +4657,7 @@ views:
                   {% if is_state(entity, "low") -%}
                   green
                   {%- else -%}
-                  orange
+                  red
                   {%- endif %}
               - type: custom:mushroom-template-card
                 primary: "{{ (states(entity)) }} W"
@@ -4726,7 +4887,7 @@ views:
     path: weather
     type: custom:grid-layout
     layout:
-      grid-template-columns: 33.3% 33.3% 33.3%
+      grid-template-columns: 427px 426px 427px
       grid-template-rows: auto
       grid-template-areas: |
         "left-header mid-header ."
@@ -4814,7 +4975,7 @@ views:
                   extrema: true
                   average: false
                 entities:
-                  - entity: sensor.buienradar_wind_speed
+                  - entity: sensor.knmi_wind_speed
               - type: custom:mini-graph-card
                 name: Windkracht 24u
                 icon: mdi:weather-windy
@@ -4890,7 +5051,7 @@ views:
     icon: mdi:robot-vacuum
     type: custom:grid-layout
     layout:
-      grid-template-columns: 10% 40% 40% 10%
+      grid-template-columns: 10px 640px 640px 10px
       grid-template-rows: auto
       grid-template-areas: |
         "header header header header"
@@ -4918,7 +5079,7 @@ views:
             cards:
               - type: custom:mushroom-title-card
                 title: ""
-                subtitle: Woonkamer
+                subtitle: Begane grond
                 title_tap_action:
                   action: none
                 subtitle_tap_action:
@@ -4937,7 +5098,11 @@ views:
                 secondary_info: last-changed
                 icon_type: icon
                 fill_container: false
-              - square: true
+                layout: vertical
+              - type: custom:mushroom-title-card
+                title: ""
+                subtitle: Ruimte
+              - square: false
                 type: grid
                 cards:
                   - type: custom:mushroom-entity-card
@@ -4948,6 +5113,7 @@ views:
                     tap_action:
                       action: toggle
                     secondary_info: none
+                    layout: vertical
                   - type: custom:mushroom-entity-card
                     entity: input_boolean.vacuum_dining_room
                     icon: mdi:table-chair
@@ -4956,6 +5122,7 @@ views:
                     tap_action:
                       action: toggle
                     secondary_info: none
+                    layout: vertical
                   - type: custom:mushroom-entity-card
                     entity: input_boolean.vacuum_kitchen
                     icon: mdi:fridge
@@ -4964,6 +5131,7 @@ views:
                     tap_action:
                       action: toggle
                     secondary_info: none
+                    layout: vertical
                   - type: custom:mushroom-entity-card
                     entity: input_boolean.vacuum_hall
                     icon: mdi:door-open
@@ -4972,6 +5140,23 @@ views:
                     tap_action:
                       action: toggle
                     secondary_info: none
+                    layout: vertical
+                columns: 4
+              - type: custom:mushroom-title-card
+                title: ""
+                subtitle: Actie
+              - square: false
+                type: grid
+                cards:
+                  - type: custom:mushroom-entity-card
+                    icon: mdi:trash-can-outline
+                    name: Naar prullenbak
+                    icon_color: grey
+                    tap_action:
+                      action: toggle
+                    secondary_info: none
+                    entity: button.vacuum_goto_trash_can
+                    layout: vertical
                 columns: 4
         view_layout:
           grid-area: left
@@ -4999,12 +5184,13 @@ views:
                 name: " "
                 primary_info: state
                 secondary_info: last-changed
+                layout: vertical
         view_layout:
           grid-area: right
   - title: system
     path: system
     layout:
-      grid-template-columns: 30% auto 30%
+      grid-template-columns: 427px 426px 427px
       grid-template-rows: auto
       grid-template-areas: |
         "header header header"
@@ -5042,84 +5228,477 @@ views:
             card:
               type: entities
               state_color: true
-          - type: custom:scheduler-card
-            include:
-              - calendar
-              - calendar.lise
-              - calendar.lise_babysitter
-              - climate
-              - group.persons
-              - input_boolean
-              - light
-              - light.color_light_lise
-              - media_player
-              - person
-              - switch
-              - vacuum
-            exclude:
-              - calendar.coen_anne
-              - calendar.nederlandse_feestdagen
-              - calendar.schoonmaak
-              - calendar.verjaardagen
-              - light.cv_closet
-              - light.shelly1_barn_door
-              - light.shelly1_bathroom
-              - light.shelly1_front_door
-              - light.shelly1_hallway
-              - light.shellydimmer_backyard_string_l
-              - light.shellydimmer_barn_hanging_lam
-              - light.shellydimmer_basement
-              - light.shellydimmer_basement_stairs
-              - light.shellydimmer_dinner_table
-              - light.shellydimmer_kitchen
-              - light.shellydimmer_laundry_room
-              - light.shellydimmer_lises_room
-              - light.shellydimmer_living_room
-              - light.shellydimmer_master_bedroom
-              - light.shellydimmer_small_bedroom
-            customize:
-              light.color_light_lise:
-                actions:
-                  - service: light.turn_on
-                    name: Turn on with color
-                    icon: mdi:lightbulb
-                    variables:
-                      color_name:
-                        name: Kleur
-                        options:
-                          - value: red
-                            name: Rood
-                          - value: orange
-                            name: Orange
-                          - value: darkorange
-                            name: Donkerorange
-                          - value: orangered
-                            name: Orangerood
-                          - value: deeppink
-                            name: Roze
-                          - value: green
-                            name: Groen
-                          - value: blue
-                            name: Blauw
-                      brightness_pct:
-                        name: Helderheid
-                        min: 1
-                        max: 100
-            title: false
-            discover_existing: true
-            time_step: 5
-            sort_by:
-              - state
-              - relative-time
-            display_options:
-              primary_info: default
-              secondary_info:
-                - relative-time
-                - days
-              icon: action
-            show_header_toggle: false
-            tags:
-              - Lise
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.backdoor_battery
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.basementdoor_battery
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.barndoor_battery
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.frontdoor_battery
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.galaxy_tab_a8_battery
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.phone_coen_pixel7_battery_level
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.smartalert_basement_battery_level
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(0)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.backyard_motion_sensor_01_battery
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | round(1)
+                  | int * 10 %}
+
+                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                  %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.firtsalert_living_room_battery_level
+              - type: custom:mushroom-template-card
+                primary: "{{ states(entity) | round(0) }}%"
+                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+                icon: >+
+                  {% set battery_level = (states(entity) | int / 10) | int * 10
+                  | round(0) %}
+
+                  {% if is_state(entity, 'on' ) %}
+                    {% if battery_level > 0 %}
+                      mdi:battery-charging-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-charging-outline
+                    {% endif %}
+                  {% else %}
+                    {% if battery_level == 100 %}
+                      mdi:battery
+                    {% elif battery_level > 0 %}
+                      mdi:battery-{{ battery_level }}
+                    {% else %}
+                      mdi:battery-alert-variant-outline
+                    {% endif %}
+                  {% endif %}
+
+                icon_color: |-
+                  {% set battery_level = states(entity) | int %}
+                  {% if battery_level > 90 %} 
+                    green
+                  {% elif battery_level > 60 %}
+                    light-green
+                  {% elif battery_level > 50 %}
+                    lime
+                  {% elif battery_level > 40 %}
+                    yellow
+                  {% elif battery_level > 30 %}
+                    amber
+                  {% elif battery_level > 20 %}
+                    orange
+                  {% elif battery_level > 10 %}
+                    deep-orange
+                  {% else %}
+                    red
+                  {% endif %}
+                layout: horizontal
+                tap_action:
+                  action: none
+                entity: sensor.firstalert_hallway_upstairs_battery_level
         view_layout:
           grid-area: right
       - type: vertical-stack
@@ -5282,6 +5861,84 @@ views:
                       - color: "#cb4e4c"
                       - value: 190
                         color: "#d44d4d"
+          - type: custom:scheduler-card
+            include:
+              - calendar
+              - calendar.lise
+              - calendar.lise_babysitter
+              - climate
+              - group.persons
+              - input_boolean
+              - light
+              - light.color_light_lise
+              - media_player
+              - person
+              - switch
+              - vacuum
+            exclude:
+              - calendar.coen_anne
+              - calendar.nederlandse_feestdagen
+              - calendar.schoonmaak
+              - calendar.verjaardagen
+              - light.cv_closet
+              - light.shelly1_barn_door
+              - light.shelly1_bathroom
+              - light.shelly1_front_door
+              - light.shelly1_hallway
+              - light.shellydimmer_backyard_string_l
+              - light.shellydimmer_barn_hanging_lam
+              - light.shellydimmer_basement
+              - light.shellydimmer_basement_stairs
+              - light.shellydimmer_dinner_table
+              - light.shellydimmer_kitchen
+              - light.shellydimmer_laundry_room
+              - light.shellydimmer_lises_room
+              - light.shellydimmer_living_room
+              - light.shellydimmer_master_bedroom
+              - light.shellydimmer_small_bedroom
+            customize:
+              light.color_light_lise:
+                actions:
+                  - service: light.turn_on
+                    name: Turn on with color
+                    icon: mdi:lightbulb
+                    variables:
+                      color_name:
+                        name: Kleur
+                        options:
+                          - value: red
+                            name: Rood
+                          - value: orange
+                            name: Orange
+                          - value: darkorange
+                            name: Donkerorange
+                          - value: orangered
+                            name: Orangerood
+                          - value: deeppink
+                            name: Roze
+                          - value: green
+                            name: Groen
+                          - value: blue
+                            name: Blauw
+                      brightness_pct:
+                        name: Helderheid
+                        min: 1
+                        max: 100
+            title: false
+            discover_existing: true
+            time_step: 5
+            sort_by:
+              - state
+              - relative-time
+            display_options:
+              primary_info: default
+              secondary_info:
+                - relative-time
+                - days
+              icon: action
+            show_header_toggle: false
+            tags:
+              - Lise
         view_layout:
           grid-area: middle
       - type: vertical-stack
@@ -5335,7 +5992,7 @@ views:
                 tap_action:
                   action: more-info
           - type: custom:transmission-card
-            header_text: Downloads
+            header_text: null
             hide_turtle: true
           - type: horizontal-stack
             cards:
