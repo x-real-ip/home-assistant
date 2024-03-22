@@ -507,7 +507,7 @@ views:
                   is_state("input_boolean.mechanical_ventilation_position_1",
                   "on") -%}
 
-                  Laag 
+                  Laag
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_2",
