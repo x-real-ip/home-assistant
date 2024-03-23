@@ -1,0 +1,9 @@
+---
+settings_page:
+  options:
+    - Server
+    - Network
+    - Planned
+    - Battery
+    - Uptime
+  initial: Server
