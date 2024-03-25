@@ -2,8 +2,9 @@
 settings_page:
   options:
     - Server
+    - Battery
     - Network
     - Planned
-    - Battery
     - Uptime
+    - Updates
   initial: Server
