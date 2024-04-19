@@ -48,13 +48,6 @@ views:
             tap_action:
               action: toggle
           - type: entity
-            entity: switch.smart_doorbell_active
-            icon_color: blue
-            tap_action:
-              action: toggle
-            content_info: state
-            icon: mdi:alarm-bell
-          - type: entity
             entity: binary_sensor.smart_doorbell_button
             content_info: last-updated
             icon: mdi:doorbell
@@ -309,21 +302,31 @@ views:
             show_forecast: false
             type: weather-forecast
             entity: weather.knmi_home
-            tap_action:
-              action: fire-dom-event
-              browser_mod:
-                service: browser_mod.popup
-                data:
-                  content:
-                    type: picture-entity
-                    entity: camera.buienradar
-                    show_name: false
-                    show_state: false
-                    tap_action:
-                      action: none
             forecast_type: daily
-            secondary_info_attribute: humidity
-            name: " "
+            name: KNMI
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: binary_sensor.notification_level_info
+                state: "off"
+            card:
+              type: custom:mushroom-template-card
+              primary: |
+                Weerbericht
+              secondary: "{{ (states(entity)) }}"
+              icon: mdi:weather-cloudy
+              icon_color: blue
+              badge_icon: ""
+              badge_color: ""
+              multiline_secondary: true
+              tap_action:
+                action: none
+              picture: ""
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              entity: sensor.knmi_weather_forecast
           - type: conditional
             conditions:
               - entity: binary_sensor.notification_level_info
@@ -642,6 +645,24 @@ views:
                   green
 
                   {%- endif %}
+              - type: custom:mushroom-template-card
+                primary: Deurbel
+                secondary: |-
+                  {% if is_state(entity, 'on') %}
+                  Aan
+                  {% else %}
+                  Uit
+                  {% endif %}
+                icon: mdi:alarm-bell
+                layout: vertical
+                badge_color: ""
+                icon_color: |-
+                  {% if is_state(entity, 'on') %}
+                  blue
+                  {% else %}
+                  disabled
+                  {% endif %}
+                entity: switch.smart_doorbell_active
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-entity-card
@@ -1420,7 +1441,7 @@ views:
                                 service: media_player.play_media
                                 data:
                                   media_content_id: >-
-                                    https://open.spotify.com/playlist/7E6QXGrtUyYl1kTyvnluTr
+                                    https://open.spotify.com/playlist/37i9dQZEVXcDO6enaQNKLz
                                   media_content_type: playlist
                                   announce: true
                                 target:
@@ -1446,7 +1467,51 @@ views:
                                 service: media_player.play_media
                                 data:
                                   media_content_id: >-
-                                    https://open.spotify.com/playlist/77FZT9MGc3p7RMBUr5m50r
+                                    https://open.spotify.com/playlist/37i9dQZEVXbqqpGQ1yV2nx
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_10
+                              primary: ""
+                              secondary: "{{ state_attr(entity,'name') }}"
+                              icon: ""
+                              layout: vertical
+                              picture: "{{ state_attr(entity,'image') }}"
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/37i9dQZF1E4x6tDrzQfNsN
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_11
+                              primary: ""
+                              secondary: "{{ state_attr(entity,'name') }}"
+                              icon: ""
+                              layout: vertical
+                              picture: "{{ state_attr(entity,'image') }}"
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/1FmlUPRCZaU7QkusYhibAB
                                   media_content_type: playlist
                                   announce: true
                                 target:
@@ -5431,22 +5496,6 @@ views:
               action: none
             hold_action:
               action: none
-          - type: custom:mini-graph-card
-            name: Regen afgelopen uur
-            icon: mdi:weather-rainy
-            hours_to_show: 1
-            hour24: true
-            points_per_hour: 15
-            font_size: 90
-            font_size_header: 12
-            height: 85
-            animate: true
-            line_width: 3
-            show:
-              extrema: true
-              average: false
-            entities:
-              - entity: sensor.buienradar_precipitation
         view_layout:
           grid-area: right-up
       - type: vertical-stack
@@ -5478,7 +5527,7 @@ views:
                   extrema: true
                   average: false
                 entities:
-                  - entity: sensor.knmi_wind_speed
+                  - entity: sensor.buienradar_wind_speed
               - type: custom:mini-graph-card
                 name: Windkracht 24u
                 icon: mdi:weather-windy
@@ -5499,12 +5548,6 @@ views:
           grid-area: left-up
       - type: vertical-stack
         cards:
-          - show_current: true
-            show_forecast: true
-            name: KNMI
-            type: weather-forecast
-            entity: weather.knmi_home
-            forecast_type: daily
           - type: conditional
             conditions:
               - entity: binary_sensor.knmi_home_waarschuwing
@@ -5526,6 +5569,48 @@ views:
                 action: none
               double_tap_action:
                 action: none
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.knmi_home
+            forecast_type: hourly
+          - type: custom:weather-chart-card
+            entity: weather.buienradar
+            show_main: false
+            show_temperature: true
+            show_current_condition: true
+            show_attributes: false
+            show_time: false
+            show_time_seconds: false
+            show_day: false
+            show_date: false
+            show_humidity: false
+            show_pressure: false
+            show_wind_direction: false
+            show_wind_speed: false
+            show_sun: false
+            show_feels_like: false
+            use_12hour_format: false
+            icons_size: "50"
+            animated_icons: true
+            icon_style: style2
+            forecast:
+              precipitation_type: rainfall
+              show_probability: false
+              labels_font_size: "11"
+              precip_bar_size: "100"
+              style: style2
+              show_wind_forecast: true
+              condition_icons: true
+              round_temp: false
+              type: daily
+              number_of_forecasts: "0"
+            units:
+              pressure: ""
+              speed: ""
+            current_temp_size: "40"
+            view_layout:
+              grid-area: mid-down
           - square: false
             type: grid
             cards:
@@ -6178,9 +6263,9 @@ views:
             show_name: false
             camera_view: auto
             type: picture-entity
-            entity: camera.mediamtx_service_tcp_tools_svc_cluster_local_2
+            entity: camera.mediamtx_service_tcp_tools_svc_cluster_local
             name: " "
-            camera_image: camera.mediamtx_service_tcp_tools_svc_cluster_local_2
+            camera_image: camera.mediamtx_service_tcp_tools_svc_cluster_local
         view_layout:
           grid-area: middle
     layout:
@@ -6192,796 +6277,15 @@ views:
   - title: system
     path: system
     layout:
-      grid-template-columns: 60px 406px 406px 406px
+      grid-template-columns: 60px 1220px
       grid-template-rows: 45px auto
       grid-template-areas: |
-        "header header header header"
-        "menu left middle right"
-        "menu footer footer footer"
+        "header header"
+        "menu middle"
+        "menu footer"
     type: custom:grid-layout
     icon: mdi:cog
     cards:
-      - type: vertical-stack
-        cards:
-          - type: custom:auto-entities
-            filter:
-              include:
-                - domain: update
-              exclude:
-                - state: "off"
-                - state: unavailable
-                - state: unknown
-            show_empty: false
-            card:
-              type: entities
-              state_color: true
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.backdoor_battery
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %}
-
-                  {% if is_state('binary_sensor.rhys_phone_is_charging', 'on' )
-                  %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.basementdoor_battery
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.barndoor_battery
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.frontdoor_battery
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.galaxy_tab_a8_battery
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.phone_coen_pixel7_battery_level
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.smartalert_basement_battery_level
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(0)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.backyard_motion_sensor_01_battery
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | round(1)
-                  | int * 10 %} {% if
-                  is_state('binary_sensor.rhys_phone_is_charging', 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.firtsalert_living_room_battery_level
-              - type: custom:mushroom-template-card
-                primary: "{{ states(entity) | round(0) }}%"
-                secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
-                icon: >+
-                  {% set battery_level = (states(entity) | int / 10) | int * 10
-                  | round(0) %} {% if is_state(entity, 'on' ) %}
-                    {% if battery_level > 0 %}
-                      mdi:battery-charging-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-charging-outline
-                    {% endif %}
-                  {% else %}
-                    {% if battery_level == 100 %}
-                      mdi:battery
-                    {% elif battery_level > 0 %}
-                      mdi:battery-{{ battery_level }}
-                    {% else %}
-                      mdi:battery-alert-variant-outline
-                    {% endif %}
-                  {% endif %}
-                icon_color: |-
-                  {% set battery_level = states(entity) | int %}
-                  {% if battery_level > 90 %}
-                    green
-                  {% elif battery_level > 60 %}
-                    light-green
-                  {% elif battery_level > 50 %}
-                    lime
-                  {% elif battery_level > 40 %}
-                    yellow
-                  {% elif battery_level > 30 %}
-                    amber
-                  {% elif battery_level > 20 %}
-                    orange
-                  {% elif battery_level > 10 %}
-                    deep-orange
-                  {% else %}
-                    red
-                  {% endif %}
-                layout: horizontal
-                tap_action:
-                  action: none
-                entity: sensor.firstalert_hallway_upstairs_battery_level
-        view_layout:
-          grid-area: right
-      - type: vertical-stack
-        cards:
-          - type: horizontal-stack
-            cards:
-              - type: horizontal-stack
-                cards:
-                  - type: custom:mini-graph-card
-                    name: Server Rack
-                    hours_to_show: 8
-                    hour24: true
-                    points_per_hour: 16
-                    font_size: 90
-                    font_size_header: 12
-                    animate: true
-                    height: 50
-                    line_width: 2
-                    show:
-                      extrema: true
-                      average: true
-                    entities:
-                      - entity: sensor.shellyplug_server_rack_power
-                    color_thresholds:
-                      - value: 15
-                        color: "#2a5839"
-                      - color: "#33573a"
-                      - color: "#3c573b"
-                      - color: "#45563c"
-                      - color: "#4e563d"
-                      - color: "#57553e"
-                      - color: "#60553f"
-                      - color: "#695440"
-                      - color: "#725341"
-                      - color: "#7b5342"
-                      - color: "#835244"
-                      - color: "#8c5245"
-                      - color: "#955146"
-                      - color: "#9e5047"
-                      - color: "#a75048"
-                      - color: "#b04f49"
-                      - color: "#b94f4a"
-                      - color: "#c24e4b"
-                      - color: "#cb4e4c"
-                      - value: 190
-                        color: "#d44d4d"
-          - type: horizontal-stack
-            cards:
-              - type: horizontal-stack
-                cards:
-                  - type: custom:mini-graph-card
-                    name: Hypervisor A
-                    hours_to_show: 8
-                    hour24: true
-                    points_per_hour: 8
-                    font_size: 90
-                    font_size_header: 12
-                    animate: true
-                    height: 50
-                    line_width: 2
-                    show:
-                      extrema: true
-                      average: true
-                    entities:
-                      - entity: sensor.shellyplug_hypervisor_a_power
-                    color_thresholds:
-                      - value: 15
-                        color: "#2a5839"
-                      - color: "#33573a"
-                      - color: "#3c573b"
-                      - color: "#45563c"
-                      - color: "#4e563d"
-                      - color: "#57553e"
-                      - color: "#60553f"
-                      - color: "#695440"
-                      - color: "#725341"
-                      - color: "#7b5342"
-                      - color: "#835244"
-                      - color: "#8c5245"
-                      - color: "#955146"
-                      - color: "#9e5047"
-                      - color: "#a75048"
-                      - color: "#b04f49"
-                      - color: "#b94f4a"
-                      - color: "#c24e4b"
-                      - color: "#cb4e4c"
-                      - value: 190
-                        color: "#d44d4d"
-                  - type: custom:mini-graph-card
-                    name: Hypervisor B
-                    hours_to_show: 8
-                    hour24: true
-                    points_per_hour: 8
-                    font_size: 90
-                    font_size_header: 12
-                    animate: true
-                    line_width: 2
-                    show:
-                      extrema: true
-                      average: true
-                    entities:
-                      - entity: sensor.shellyplug_hypervisor_b_power
-                    color_thresholds:
-                      - value: 15
-                        color: "#2a5839"
-                      - color: "#33573a"
-                      - color: "#3c573b"
-                      - color: "#45563c"
-                      - color: "#4e563d"
-                      - color: "#57553e"
-                      - color: "#60553f"
-                      - color: "#695440"
-                      - color: "#725341"
-                      - color: "#7b5342"
-                      - color: "#835244"
-                      - color: "#8c5245"
-                      - color: "#955146"
-                      - color: "#9e5047"
-                      - color: "#a75048"
-                      - color: "#b04f49"
-                      - color: "#b94f4a"
-                      - color: "#c24e4b"
-                      - color: "#cb4e4c"
-                      - value: 190
-                        color: "#d44d4d"
-                  - type: custom:mini-graph-card
-                    name: Storage Server
-                    hours_to_show: 8
-                    hour24: true
-                    points_per_hour: 9
-                    font_size: 90
-                    font_size_header: 12
-                    animate: true
-                    line_width: 2
-                    show:
-                      extrema: true
-                      average: true
-                    entities:
-                      - entity: sensor.shellyplug_storage_server_power
-                    color_thresholds:
-                      - value: 15
-                        color: "#2a5839"
-                      - color: "#33573a"
-                      - color: "#3c573b"
-                      - color: "#45563c"
-                      - color: "#4e563d"
-                      - color: "#57553e"
-                      - color: "#60553f"
-                      - color: "#695440"
-                      - color: "#725341"
-                      - color: "#7b5342"
-                      - color: "#835244"
-                      - color: "#8c5245"
-                      - color: "#955146"
-                      - color: "#9e5047"
-                      - color: "#a75048"
-                      - color: "#b04f49"
-                      - color: "#b94f4a"
-                      - color: "#c24e4b"
-                      - color: "#cb4e4c"
-                      - value: 190
-                        color: "#d44d4d"
-          - type: custom:scheduler-card
-            include:
-              - calendar
-              - calendar.lise
-              - calendar.lise_babysitter
-              - climate
-              - group.persons
-              - input_boolean
-              - light
-              - light.color_light_lise
-              - media_player
-              - person
-              - switch
-              - vacuum
-            exclude:
-              - calendar.coen_anne
-              - calendar.nederlandse_feestdagen
-              - calendar.schoonmaak
-              - calendar.verjaardagen
-              - light.cv_closet
-              - light.shelly1_barn_door
-              - light.shelly1_bathroom
-              - light.shelly1_front_door
-              - light.shelly1_hallway
-              - light.shellydimmer_backyard_string_l
-              - light.shellydimmer_barn_hanging_lam
-              - light.shellydimmer_basement
-              - light.shellydimmer_basement_stairs
-              - light.shellydimmer_dinner_table
-              - light.shellydimmer_kitchen
-              - light.shellydimmer_laundry_room
-              - light.shellydimmer_lises_room
-              - light.shellydimmer_living_room
-              - light.shellydimmer_master_bedroom
-              - light.shellydimmer_small_bedroom
-            customize:
-              light.color_light_lise:
-                actions:
-                  - service: light.turn_on
-                    name: Turn on with color
-                    icon: mdi:lightbulb
-                    variables:
-                      color_name:
-                        name: Kleur
-                        options:
-                          - value: red
-                            name: Rood
-                          - value: orange
-                            name: Orange
-                          - value: darkorange
-                            name: Donkerorange
-                          - value: orangered
-                            name: Orangerood
-                          - value: deeppink
-                            name: Roze
-                          - value: green
-                            name: Groen
-                          - value: blue
-                            name: Blauw
-                      brightness_pct:
-                        name: Helderheid
-                        min: 1
-                        max: 100
-            title: false
-            discover_existing: true
-            time_step: 5
-            sort_by:
-              - state
-              - relative-time
-            display_options:
-              primary_info: default
-              secondary_info:
-                - relative-time
-                - days
-              icon: action
-            show_header_toggle: false
-            tags:
-              - Lise
-        view_layout:
-          grid-area: middle
-      - type: vertical-stack
-        cards:
-          - type: horizontal-stack
-            cards:
-              - type: gauge
-                entity: sensor.pfsense_cpu_usage
-                name: Firewall CPU
-                needle: true
-                severity:
-                  green: 0
-                  yellow: 80
-                  red: 95
-              - type: gauge
-                entity: sensor.pfsense_memory_used_percentage
-                name: Firewall RAM
-                needle: true
-                severity:
-                  green: 0
-                  yellow: 80
-                  red: 95
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-entity-card
-                entity: switch.pfsense_filter_rule_1672839601_pass_any_allow_internet
-                name: Internet NOT VLAN
-                tap_action:
-                  action: toggle
-                double_tap_action:
-                  action: none
-                layout: vertical
-                icon: ""
-                hold_action:
-                  action: none
-              - type: custom:mushroom-template-card
-                entity: image.wifi_guest_qrcode
-                primary: Gast WiFi QR-Code
-                secondary: WIFI-GUEST
-                icon: mdi:wifi
-                icon_color: >-
-                  {% if
-                  states('sensor.pfsense_interface_guest_inbytes_kilobytes_per_second')
-                  | float > 0 %} #12a895 {% else %} disabled {% endif %}
-                layout: vertical
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: none
-                badge_icon: mdi:qrcode-scan
-                tap_action:
-                  action: more-info
-          - type: custom:transmission-card
-            header_text: null
-            hide_turtle: true
-          - type: horizontal-stack
-            cards:
-              - type: custom:mini-graph-card
-                name: Internet speedtest
-                hours_to_show: 110
-                hour24: true
-                animate: true
-                height: 50
-                line_width: 2
-                font_size: 90
-                font_size_header: 12
-                tap_action:
-                  action: call-service
-                  entity: sensor.speedtest_download
-                  service: homeassistant.update_entity
-                  service_data:
-                    entity_id: sensor.speedtest_download
-                entities:
-                  - entity: sensor.speedtest_download
-                    name: Download
-                    show_state: true
-                    color: "#86deb1"
-                  - entity: sensor.speedtest_upload
-                    name: Upload
-                    show_state: true
-                    color: "#065e30"
-        view_layout:
-          grid-area: left
       - type: vertical-stack
         cards:
           - type: custom:mushroom-template-card
@@ -7146,3 +6450,1053 @@ views:
                 }
         view_layout:
           grid-area: menu
+      - type: vertical-stack
+        cards:
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.settings_page
+                state: Server
+            card:
+              type: vertical-stack
+              cards:
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mini-graph-card
+                      name: Server Rack
+                      hours_to_show: 8
+                      hour24: true
+                      points_per_hour: 60
+                      font_size: 90
+                      font_size_header: 12
+                      animate: true
+                      height: 50
+                      line_width: 1
+                      show:
+                        extrema: true
+                        average: true
+                      entities:
+                        - entity: sensor.shellyplug_server_rack_power
+                      color_thresholds:
+                        - value: 15
+                          color: "#2a5839"
+                        - color: "#33573a"
+                        - color: "#3c573b"
+                        - color: "#45563c"
+                        - color: "#4e563d"
+                        - color: "#57553e"
+                        - color: "#60553f"
+                        - color: "#695440"
+                        - color: "#725341"
+                        - color: "#7b5342"
+                        - color: "#835244"
+                        - color: "#8c5245"
+                        - color: "#955146"
+                        - color: "#9e5047"
+                        - color: "#a75048"
+                        - color: "#b04f49"
+                        - color: "#b94f4a"
+                        - color: "#c24e4b"
+                        - color: "#cb4e4c"
+                        - value: 190
+                          color: "#d44d4d"
+                - type: horizontal-stack
+                  cards:
+                    - type: custom:mini-graph-card
+                      name: Hypervisor A
+                      hours_to_show: 8
+                      hour24: true
+                      points_per_hour: 8
+                      font_size: 90
+                      font_size_header: 12
+                      animate: true
+                      height: 50
+                      line_width: 2
+                      show:
+                        extrema: true
+                        average: true
+                      entities:
+                        - entity: sensor.shellyplug_hypervisor_a_power
+                      color_thresholds:
+                        - value: 15
+                          color: "#2a5839"
+                        - color: "#33573a"
+                        - color: "#3c573b"
+                        - color: "#45563c"
+                        - color: "#4e563d"
+                        - color: "#57553e"
+                        - color: "#60553f"
+                        - color: "#695440"
+                        - color: "#725341"
+                        - color: "#7b5342"
+                        - color: "#835244"
+                        - color: "#8c5245"
+                        - color: "#955146"
+                        - color: "#9e5047"
+                        - color: "#a75048"
+                        - color: "#b04f49"
+                        - color: "#b94f4a"
+                        - color: "#c24e4b"
+                        - color: "#cb4e4c"
+                        - value: 190
+                          color: "#d44d4d"
+                    - type: custom:mini-graph-card
+                      name: Hypervisor B
+                      hours_to_show: 8
+                      hour24: true
+                      points_per_hour: 8
+                      font_size: 90
+                      font_size_header: 12
+                      animate: true
+                      line_width: 2
+                      show:
+                        extrema: true
+                        average: true
+                      entities:
+                        - entity: sensor.shellyplug_hypervisor_b_power
+                      color_thresholds:
+                        - value: 15
+                          color: "#2a5839"
+                        - color: "#33573a"
+                        - color: "#3c573b"
+                        - color: "#45563c"
+                        - color: "#4e563d"
+                        - color: "#57553e"
+                        - color: "#60553f"
+                        - color: "#695440"
+                        - color: "#725341"
+                        - color: "#7b5342"
+                        - color: "#835244"
+                        - color: "#8c5245"
+                        - color: "#955146"
+                        - color: "#9e5047"
+                        - color: "#a75048"
+                        - color: "#b04f49"
+                        - color: "#b94f4a"
+                        - color: "#c24e4b"
+                        - color: "#cb4e4c"
+                        - value: 190
+                          color: "#d44d4d"
+                    - type: custom:mini-graph-card
+                      name: Storage Server
+                      hours_to_show: 8
+                      hour24: true
+                      points_per_hour: 9
+                      font_size: 90
+                      font_size_header: 12
+                      animate: true
+                      line_width: 2
+                      show:
+                        extrema: true
+                        average: true
+                      entities:
+                        - entity: sensor.shellyplug_storage_server_power
+                      color_thresholds:
+                        - value: 15
+                          color: "#2a5839"
+                        - color: "#33573a"
+                        - color: "#3c573b"
+                        - color: "#45563c"
+                        - color: "#4e563d"
+                        - color: "#57553e"
+                        - color: "#60553f"
+                        - color: "#695440"
+                        - color: "#725341"
+                        - color: "#7b5342"
+                        - color: "#835244"
+                        - color: "#8c5245"
+                        - color: "#955146"
+                        - color: "#9e5047"
+                        - color: "#a75048"
+                        - color: "#b04f49"
+                        - color: "#b94f4a"
+                        - color: "#c24e4b"
+                        - color: "#cb4e4c"
+                        - value: 190
+                          color: "#d44d4d"
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.settings_page
+                state: Battery
+            card:
+              type: vertical-stack
+              cards:
+                - type: vertical-stack
+                  cards:
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.backdoor_battery
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >+
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %}
+
+                        {% if is_state('binary_sensor.rhys_phone_is_charging',
+                        'on' ) %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.basementdoor_battery
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.barndoor_battery
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.frontdoor_battery
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.galaxy_tab_a8_battery
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.phone_coen_pixel7_battery_level
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.smartalert_basement_battery_level
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(0) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.backyard_motion_sensor_01_battery
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) |
+                        round(1) | int * 10 %} {% if
+                        is_state('binary_sensor.rhys_phone_is_charging', 'on' )
+                        %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.firtsalert_living_room_battery_level
+                    - type: custom:mushroom-template-card
+                      primary: "{{ states(entity) | round(0) }}%"
+                      secondary:
+                        "{{ state_attr(entity, 'friendly_name') | title }}"
+                      icon: >
+                        {% set battery_level = (states(entity) | int / 10) | int
+                        * 10 | round(0) %} {% if is_state(entity, 'on' ) %}
+                          {% if battery_level > 0 %}
+                            mdi:battery-charging-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-charging-outline
+                          {% endif %}
+                        {% else %}
+                          {% if battery_level == 100 %}
+                            mdi:battery
+                          {% elif battery_level > 0 %}
+                            mdi:battery-{{ battery_level }}
+                          {% else %}
+                            mdi:battery-alert-variant-outline
+                          {% endif %}
+                        {% endif %}
+                      icon_color: |-
+                        {% set battery_level = states(entity) | int %}
+                        {% if battery_level > 90 %}
+                          green
+                        {% elif battery_level > 60 %}
+                          light-green
+                        {% elif battery_level > 50 %}
+                          lime
+                        {% elif battery_level > 40 %}
+                          yellow
+                        {% elif battery_level > 30 %}
+                          amber
+                        {% elif battery_level > 20 %}
+                          orange
+                        {% elif battery_level > 10 %}
+                          deep-orange
+                        {% else %}
+                          red
+                        {% endif %}
+                      layout: horizontal
+                      tap_action:
+                        action: none
+                      entity: sensor.firstalert_hallway_upstairs_battery_level
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.settings_page
+                state: Network
+            card:
+              type: vertical-stack
+              cards:
+                - type: vertical-stack
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: horizontal-stack
+                          cards:
+                            - type: gauge
+                              entity: sensor.pfsense_cpu_usage
+                              name: Firewall CPU
+                              needle: true
+                              severity:
+                                green: 0
+                                yellow: 80
+                                red: 95
+                            - type: gauge
+                              entity: sensor.pfsense_memory_used_percentage
+                              name: Firewall RAM
+                              needle: true
+                              severity:
+                                green: 0
+                                yellow: 80
+                                red: 95
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-entity-card
+                              entity: >-
+                                switch.pfsense_filter_rule_1672839601_pass_any_allow_internet
+                              name: Internet NOT VLAN
+                              tap_action:
+                                action: toggle
+                              double_tap_action:
+                                action: none
+                              layout: vertical
+                              icon: ""
+                              hold_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: image.wifi_guest_qrcode
+                              primary: Gast WiFi QR-Code
+                              secondary: WIFI-GUEST
+                              icon: mdi:wifi
+                              icon_color: >-
+                                {% if
+                                states('sensor.pfsense_interface_guest_inbytes_kilobytes_per_second')
+                                | float > 0 %} #12a895 {% else %} disabled {%
+                                endif %}
+                              layout: vertical
+                              hold_action:
+                                action: none
+                              double_tap_action:
+                                action: none
+                              badge_icon: mdi:qrcode-scan
+                              tap_action:
+                                action: more-info
+                        - type: custom:transmission-card
+                          header_text: null
+                          hide_turtle: true
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mini-graph-card
+                              name: Internet speedtest
+                              hours_to_show: 110
+                              hour24: true
+                              animate: true
+                              height: 50
+                              line_width: 2
+                              font_size: 90
+                              font_size_header: 12
+                              tap_action:
+                                action: call-service
+                                entity: sensor.speedtest_download
+                                service: homeassistant.update_entity
+                                service_data:
+                                  entity_id: sensor.speedtest_download
+                              entities:
+                                - entity: sensor.speedtest_download
+                                  name: Download
+                                  show_state: true
+                                  color: "#86deb1"
+                                - entity: sensor.speedtest_upload
+                                  name: Upload
+                                  show_state: true
+                                  color: "#065e30"
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.settings_page
+                state: Uptime
+            card:
+              type: vertical-stack
+              cards: []
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.settings_page
+                state: Planned
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:scheduler-card
+                  include:
+                    - calendar
+                    - calendar.lise
+                    - calendar.lise_babysitter
+                    - climate
+                    - group.persons
+                    - input_boolean
+                    - light
+                    - light.color_light_lise
+                    - media_player
+                    - person
+                    - switch
+                    - vacuum
+                  exclude:
+                    - calendar.coen_anne
+                    - calendar.nederlandse_feestdagen
+                    - calendar.schoonmaak
+                    - calendar.verjaardagen
+                    - light.cv_closet
+                    - light.shelly1_barn_door
+                    - light.shelly1_bathroom
+                    - light.shelly1_front_door
+                    - light.shelly1_hallway
+                    - light.shellydimmer_backyard_string_l
+                    - light.shellydimmer_barn_hanging_lam
+                    - light.shellydimmer_basement
+                    - light.shellydimmer_basement_stairs
+                    - light.shellydimmer_dinner_table
+                    - light.shellydimmer_kitchen
+                    - light.shellydimmer_laundry_room
+                    - light.shellydimmer_lises_room
+                    - light.shellydimmer_living_room
+                    - light.shellydimmer_master_bedroom
+                    - light.shellydimmer_small_bedroom
+                  customize:
+                    light.color_light_lise:
+                      actions:
+                        - service: light.turn_on
+                          name: Turn on with color
+                          icon: mdi:lightbulb
+                          variables:
+                            color_name:
+                              name: Kleur
+                              options:
+                                - value: red
+                                  name: Rood
+                                - value: orange
+                                  name: Orange
+                                - value: darkorange
+                                  name: Donkerorange
+                                - value: orangered
+                                  name: Orangerood
+                                - value: deeppink
+                                  name: Roze
+                                - value: green
+                                  name: Groen
+                                - value: blue
+                                  name: Blauw
+                            brightness_pct:
+                              name: Helderheid
+                              min: 1
+                              max: 100
+                  title: false
+                  discover_existing: true
+                  time_step: 5
+                  sort_by:
+                    - state
+                    - relative-time
+                  display_options:
+                    primary_info: default
+                    secondary_info:
+                      - relative-time
+                      - days
+                    icon: action
+                  show_header_toggle: false
+                  tags:
+                    - Lise
+                    - type: vertical-stack
+                      cards:
+                        - type: horizontal-stack
+                          cards:
+                            - type: gauge
+                              entity: sensor.pfsense_cpu_usage
+                              name: Firewall CPU
+                              needle: true
+                              severity:
+                                green: 0
+                                yellow: 80
+                                red: 95
+                            - type: gauge
+                              entity: sensor.pfsense_memory_used_percentage
+                              name: Firewall RAM
+                              needle: true
+                              severity:
+                                green: 0
+                                yellow: 80
+                                red: 95
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mushroom-entity-card
+                              entity: >-
+                                switch.pfsense_filter_rule_1672839601_pass_any_allow_internet
+                              name: Internet NOT VLAN
+                              tap_action:
+                                action: toggle
+                              double_tap_action:
+                                action: none
+                              layout: vertical
+                              icon: ""
+                              hold_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: image.wifi_guest_qrcode
+                              primary: Gast WiFi QR-Code
+                              secondary: WIFI-GUEST
+                              icon: mdi:wifi
+                              icon_color: >-
+                                {% if
+                                states('sensor.pfsense_interface_guest_inbytes_kilobytes_per_second')
+                                | float > 0 %} #12a895 {% else %} disabled {%
+                                endif %}
+                              layout: vertical
+                              hold_action:
+                                action: none
+                              double_tap_action:
+                                action: none
+                              badge_icon: mdi:qrcode-scan
+                              tap_action:
+                                action: more-info
+                        - type: custom:transmission-card
+                          header_text: null
+                          hide_turtle: true
+                        - type: horizontal-stack
+                          cards:
+                            - type: custom:mini-graph-card
+                              name: Internet speedtest
+                              hours_to_show: 110
+                              hour24: true
+                              animate: true
+                              height: 50
+                              line_width: 2
+                              font_size: 90
+                              font_size_header: 12
+                              tap_action:
+                                action: call-service
+                                entity: sensor.speedtest_download
+                                service: homeassistant.update_entity
+                                service_data:
+                                  entity_id: sensor.speedtest_download
+                              entities:
+                                - entity: sensor.speedtest_download
+                                  name: Download
+                                  show_state: true
+                                  color: "#86deb1"
+                                - entity: sensor.speedtest_upload
+                                  name: Upload
+                                  show_state: true
+                                  color: "#065e30"
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.settings_page
+                state: Updates
+            card:
+              type: vertical-stack
+              cards:
+                - type: horizontal-stack
+                  cards:
+                    - type: vertical-stack
+                      cards:
+                        - type: custom:auto-entities
+                          filter:
+                            include:
+                              - domain: update
+                            exclude:
+                              - state: "off"
+                              - state: unavailable
+                              - state: unknown
+                          show_empty: false
+                          card:
+                            type: entities
+        view_layout:
+          grid-area: middle
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon_color: |-
+              {% if is_state(entity, "Server") -%}
+              brown
+              {%- else -%}
+              disabled
+              {%- endif %}
+            icon: mdi:server
+            double_tap_action:
+              action: none
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.settings_page
+              data:
+                option: Server
+            hold_action:
+              action: none
+            entity: input_select.settings_page
+          - type: template
+            icon_color: |-
+              {% if is_state(entity, "Battery") -%}
+              brown
+              {%- else -%}
+              disabled
+              {%- endif %}
+            icon: mdi:battery
+            double_tap_action:
+              action: none
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.settings_page
+              data:
+                option: Battery
+            hold_action:
+              action: none
+            entity: input_select.settings_page
+          - type: template
+            icon_color: |-
+              {% if is_state(entity, "Network") -%}
+              brown
+              {%- else -%}
+              disabled
+              {%- endif %}
+            icon: mdi:network
+            double_tap_action:
+              action: none
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.settings_page
+              data:
+                option: Network
+            hold_action:
+              action: none
+            entity: input_select.settings_page
+          - type: template
+            icon_color: |-
+              {% if is_state(entity, "Uptime") -%}
+              brown
+              {%- else -%}
+              disabled
+              {%- endif %}
+            icon: mdi:lan-connect
+            double_tap_action:
+              action: none
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.settings_page
+              data:
+                option: Uptime
+            hold_action:
+              action: none
+            entity: input_select.settings_page
+          - type: template
+            icon_color: |-
+              {% if is_state(entity, "Updates") -%}
+              brown
+              {%- else -%}
+              disabled
+              {%- endif %}
+            icon: mdi:update
+            double_tap_action:
+              action: none
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.settings_page
+              data:
+                option: Updates
+            hold_action:
+              action: none
+            entity: input_select.settings_page
+          - type: template
+            icon_color: |-
+              {% if is_state(entity, "Planned") -%}
+              brown
+              {%- else -%}
+              disabled
+              {%- endif %}
+            icon: mdi:clock
+            double_tap_action:
+              action: none
+            tap_action:
+              action: call-service
+              service: input_select.select_option
+              target:
+                entity_id: input_select.settings_page
+              data:
+                option: Planned
+            hold_action:
+              action: none
+            entity: input_select.settings_page
+        alignment: center
+        view_layout:
+          grid-area: header
