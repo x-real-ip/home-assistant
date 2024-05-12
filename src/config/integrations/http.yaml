@@ -1,7 +1,7 @@
 ---
 http:
   ip_ban_enabled: true
-  login_attempts_threshold: 4
+  login_attempts_threshold: 8
   use_x_forwarded_for: true
   trusted_proxies:
     - 10.0.100.0/24
