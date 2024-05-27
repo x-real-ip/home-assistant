@@ -31,11 +31,12 @@ alternative automation engine.
 - Nvidia Shield TV
 - Shelly 1 Relay
 - Shelly 1PM Mini Gen3
+- Shelly BLU Door/Window
+- Shelly BLU H&T
+- Shelly BLU Motion
 - Shelly Bulb RGBW
 - Shelly Dimmer
 - Shelly Dimmer2
-- Shelly BLU Door/Window
-- Shelly BLU Motion
 - Shelly Plug-S
 - Shelly Plus Plug
 - Shelly i3
