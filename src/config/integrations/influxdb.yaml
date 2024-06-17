@@ -1,0 +1,26 @@
+influxdb:
+  api_version: 2
+  ssl: false
+  host: influxdb
+  port: 8086
+  token: !secret influxdb_token
+  organization: 916b571355eb16b7
+  bucket: home-assistant
+  tags:
+    source: HA
+  tags_attributes:
+    - friendly_name
+  default_measurement: units
+  exclude:
+    entities:
+      - zone.home
+    domains:
+      - persistent_notification
+      - person
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - sun
+    entities:
+      - weather.home
