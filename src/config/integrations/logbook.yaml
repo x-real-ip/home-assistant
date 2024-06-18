@@ -3,7 +3,16 @@ logbook:
   exclude:
     entities:
       - binary_sensor.watermeter_pulse_counter
-      - sensor.buienradar_full_condition
       - sensor.custom_energy_usage
-      - sensor.eikenhof_8_weather_condition
-      - sensor.knmi_home_omschrijving
+      - sensor.lights_on_counter
+      - group.vacation_lights
+    entity_globs:
+      - sensor.buienradar_*
+      - sensor.eikenhof_8_*
+      - sensor.knmi_*
+      - sensor.smartalert_*
+      - sensor.wall_tablet_*
+    domains:
+      - automation
+      - updater
+      - script
