@@ -15,7 +15,7 @@ rules:
     level: warning
   document-end: disable
   document-start:
-    level: warning
+    level: error
   empty-lines: enable
   empty-values: disable
   hyphens: enable
