@@ -1,0 +1,7 @@
+---
+mechanical_ventilation_bathroom_position:
+  options:
+    - Uit
+    - Aan
+    - Autonoom
+  initial: Autonoom
