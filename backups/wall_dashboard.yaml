@@ -580,7 +580,7 @@ views:
                   {%- endif %}
                 icon: >-
                   {% if
-                  is_state("input_boolean.mechanical_ventilation_autonomous",
+                  is_state("input_boolean.mechanical_ventilation_basement_autonomous",
                   "on") -%}
 
                   mdi:fan-auto
@@ -3120,7 +3120,7 @@ views:
                       {% endif %}
                     icon: >-
                       {% if
-                      is_state('input_boolean.mechanical_ventilation_autonomous',
+                      is_state('input_boolean.mechanical_ventilation_basement_autonomous',
                       'on') %}
 
                       mdi:fan-auto
