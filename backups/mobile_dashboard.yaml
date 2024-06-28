@@ -1351,7 +1351,7 @@ views:
                   action: toggle
                 layout: vertical
               - type: custom:mushroom-entity-card
-                entity: switch.shellyplug_quooker
+                entity: switch.shellyplugplus_quooker_switch_0
                 icon: mdi:faucet
                 fill_container: false
                 icon_color: primary
