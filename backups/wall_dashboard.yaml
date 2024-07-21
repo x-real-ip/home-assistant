@@ -313,24 +313,22 @@ views:
                       border: none;
                     }
               - type: custom:mushroom-template-card
-                primary: ''
-                secondary: >-
-                  {{ (states(entity)) }}. Laatst bijgewerkt: {{
-                  states.sensor.knmi_weather_forecast.last_updated.astimezone().strftime('%H:%M')
-                  }}
+                primary: '{{ (state_attr(entity, "header_01")) }}'
+                secondary: '{{ (state_attr(entity, "msg_01_short")) }}'
                 icon: ''
-                icon_color: ''
+                icon_color: blue
                 badge_icon: ''
                 badge_color: ''
                 multiline_secondary: true
                 tap_action:
-                  action: none
+                  action: url
+                  url_path: https://www.weeronline.nl/weerbericht-nederland
                 picture: ''
                 hold_action:
                   action: none
                 double_tap_action:
                   action: none
-                entity: sensor.knmi_weather_forecast
+                entity: sensor.custom_weather_description_01
                 card_mod:
                   style: |
                     ha-card {
@@ -2387,20 +2385,6 @@ views:
                       }
               - type: custom:mushroom-chips-card
                 chips:
-                  - type: entity
-                    entity: sensor.basement_thermal_comfort_humidex_perception
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_living_room
-                      data:
-                        option: Humidex perception
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
                   - type: template
                     entity: sensor.living_room_heating
                     icon: mdi:heating-coil
@@ -2479,9 +2463,9 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -2530,9 +2514,9 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -2571,9 +2555,9 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -2612,9 +2596,9 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -2667,9 +2651,9 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -2882,20 +2866,6 @@ views:
                     }
               - type: custom:mushroom-chips-card
                 chips:
-                  - type: entity
-                    entity: sensor.basement_thermal_comfort_dew_point_perception
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_basement
-                      data:
-                        option: Dewpoint perception
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
                   - type: template
                     entity: sensor.basement_heating
                     icon: mdi:heating-coil
@@ -3075,9 +3045,9 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3126,9 +3096,9 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3167,9 +3137,9 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3208,9 +3178,9 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3258,9 +3228,9 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3415,20 +3385,6 @@ views:
                       }
               - type: custom:mushroom-chips-card
                 chips:
-                  - type: entity
-                    entity: sensor.basement_thermal_comfort_humidex_perception
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_lises_room
-                      data:
-                        option: Humidex perception
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
                   - type: template
                     entity: sensor.lises_room_heating
                     icon: mdi:heating-coil
@@ -3507,9 +3463,9 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3558,9 +3514,9 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3599,9 +3555,9 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3640,9 +3596,9 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3695,9 +3651,9 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -3732,880 +3688,6 @@ views:
                     }
         view_layout:
           grid-area: left-down
-      - type: custom:stack-in-card
-        cards:
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-climate-card
-                entity: climate.small_bedroom
-                name: Beau's kamer
-                icon: mdi:thermometer
-                layout: horizontal
-                hvac_modes:
-                  - auto
-                  - 'off'
-                show_temperature_control: true
-                collapsible_controls: true
-                primary_info: name
-                secondary_info: none
-                icon_type: icon
-                card_mod:
-                  style: |
-                    ha-card {
-                      border: none;
-                    }
-              - type: custom:mushroom-chips-card
-                chips:
-                  - type: template
-                    icon: |-
-                      {% set t = states('sensor.small_bedroom_temperature') %}
-                      {% if t < '18' %} mdi:thermometer-high
-                      {% elif t > '18' and t < '24' %} mdi:thermometer
-                      {% else %}  mdi:thermometer-high
-                      {% endif %}
-                    icon_color: |-
-                      {% set t = states(entity) %}
-                      {% if t < '17' %} #beeae9
-                      {% elif t > '17' and t < '18' %} #Ffe1b4
-                      {% elif t > '18' and t < '20' %} #Ecb45f
-                      {% elif t > '20' and t < '22' %} #Ec955f
-                      {% elif t > '22' and t < '23' %} #Ec875f
-                      {% elif t > '23' and t < '24' %} #Ec735f
-                      {% elif t > '24' and t < '25' %} #F15239
-                      {% else %}  #Ea2e2e
-                      {% endif %}
-                    double_tap_action:
-                      action: none
-                    entity: sensor.small_bedroom_temperature
-                    content: >-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_small_bedroom
-                      data:
-                        option: Temperature
-                    hold_action:
-                      action: none
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: entity
-                    entity: sensor.small_bedroom_humidity
-                    icon_color: cyan
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_small_bedroom
-                      data:
-                        option: Relative humidity
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: entity
-                    entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
-                    icon_color: cyan
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_small_bedroom
-                      data:
-                        option: Absolute humidity
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: entity
-                    entity: sensor.small_bedroom_thermal_comfort_dew_point
-                    icon_color: teal
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_small_bedroom
-                      data:
-                        option: Dewpoint
-                    data:
-                      option: Relative humidity
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                card_mod:
-                  style: |
-                    ha-card {
-                      --chip-box-shadow: none;
-                      --chip-background: none;
-                      --chip-border-width: 0px;
-                      --chip-spacing: 0;
-                      padding: 0px;
-                      }
-              - type: custom:mushroom-chips-card
-                chips:
-                  - type: entity
-                    entity: sensor.basement_thermal_comfort_humidex_perception
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_small_bedroom
-                      data:
-                        option: Humidex perception
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: template
-                    entity: sensor.small_bedroom_heating
-                    icon: mdi:heating-coil
-                    icon_color: |-
-                      {% if states(entity) != '0.0' %}
-                      deep-orange
-                      {% else %}
-                      disabled
-                      {% endif %}
-                    content: >-
-                      {% if states(entity) != '0.0' %}
-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-
-                      {% endif %}
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_small_bedroom
-                      data:
-                        option: Heating
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: template
-                    entity: binary_sensor.small_bedroom_open_window
-                    icon_color: >-
-                      {% if states('binary_sensor.small_bedroom_open_window') ==
-                      'on' %}
-
-                      red
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
-                    icon: >-
-                      {% if states('binary_sensor.small_bedroom_open_window') ==
-                      'on' %}
-
-                      mdi:window-open
-
-                      {% else %}
-
-                      mdi:window-closed
-
-                      {% endif %}
-                    double_tap_action:
-                      action: none
-                    tap_action:
-                      action: none
-                    hold_action:
-                      action: none
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                card_mod:
-                  style: |
-                    ha-card {
-                      --chip-box-shadow: none;
-                      --chip-background: none;
-                      --chip-border-width: 0px;
-                      --chip-spacing: 0;
-                      padding: 0px;
-                      }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_small_bedroom
-                    state: Temperature
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 5
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.small_bedroom_temperature
-                    - entity: sun.sun
-                      color: gray
-                      name: Zon
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  color_thresholds:
-                    - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
-                    - value: 25
-                      color: '#Ea2e2e'
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_small_bedroom
-                    state: Relative humidity
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 15
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.small_bedroom_humidity
-                      color: cyan
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_small_bedroom
-                    state: Absolute humidity
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
-                      color: cyan
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_small_bedroom
-                    state: Dewpoint
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_dew_point
-                      color: teal
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_small_bedroom
-                    state: Humidex perception
-                card:
-                  type: history-graph
-                  entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_humidex_perception
-                      name: ' '
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_small_bedroom
-                    state: Heating
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  icon: mdi:heating-coil
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.small_bedroom_heating
-                      color: red
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-        view_layout:
-          grid-area: mid-down
-      - type: custom:stack-in-card
-        cards:
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-climate-card
-                entity: climate.master_bedroom
-                name: Slaapkamer
-                icon: mdi:thermometer
-                layout: horizontal
-                hvac_modes:
-                  - auto
-                  - 'off'
-                show_temperature_control: true
-                collapsible_controls: true
-                primary_info: name
-                secondary_info: none
-                icon_type: icon
-                card_mod:
-                  style: |
-                    ha-card {
-                      border: none;
-                    }
-              - type: custom:mushroom-chips-card
-                chips:
-                  - type: template
-                    icon: |-
-                      {% set t = states('sensor.master_bedroom_temperature') %}
-                      {% if t < '18' %} mdi:thermometer-high
-                      {% elif t > '18' and t < '24' %} mdi:thermometer
-                      {% else %}  mdi:thermometer-high
-                      {% endif %}
-                    icon_color: |-
-                      {% set t = states(entity) %}
-                      {% if t < '17' %} #beeae9
-                      {% elif t > '17' and t < '18' %} #Ffe1b4
-                      {% elif t > '18' and t < '20' %} #Ecb45f
-                      {% elif t > '20' and t < '22' %} #Ec955f
-                      {% elif t > '22' and t < '23' %} #Ec875f
-                      {% elif t > '23' and t < '24' %} #Ec735f
-                      {% elif t > '24' and t < '25' %} #F15239
-                      {% else %}  #Ea2e2e
-                      {% endif %}
-                    double_tap_action:
-                      action: none
-                    entity: sensor.master_bedroom_temperature
-                    content: >-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_master_bedroom
-                      data:
-                        option: Temperature
-                    hold_action:
-                      action: none
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: entity
-                    entity: sensor.master_bedroom_humidity
-                    icon_color: cyan
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_master_bedroom
-                      data:
-                        option: Relative humidity
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: entity
-                    entity: sensor.master_bedroom_thermal_comfort_absolute_humidity
-                    icon_color: cyan
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_master_bedroom
-                      data:
-                        option: Absolute humidity
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: entity
-                    entity: sensor.master_bedroom_thermal_comfort_dew_point
-                    icon_color: teal
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_master_bedroom
-                      data:
-                        option: Dewpoint
-                    data:
-                      option: Relative humidity
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                card_mod:
-                  style: |
-                    ha-card {
-                      --chip-box-shadow: none;
-                      --chip-background: none;
-                      --chip-border-width: 0px;
-                      --chip-spacing: 0;
-                      padding: 0px;
-                      }
-              - type: custom:mushroom-chips-card
-                chips:
-                  - type: entity
-                    entity: sensor.basement_thermal_comfort_humidex_perception
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_master_bedroom
-                      data:
-                        option: Humidex perception
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: template
-                    entity: sensor.master_bedroom_heating
-                    icon: mdi:heating-coil
-                    icon_color: |-
-                      {% if states(entity) != '0.0' %}
-                      deep-orange
-                      {% else %}
-                      disabled
-                      {% endif %}
-                    content: >-
-                      {% if states(entity) != '0.0' %}
-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-
-                      {% endif %}
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_master_bedroom
-                      data:
-                        option: Heating
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: template
-                    entity: binary_sensor.master_bedroom_open_window
-                    icon_color: >-
-                      {% if states('binary_sensor.master_bedroom_open_window')
-                      == 'on' %}
-
-                      red
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
-                    icon: >-
-                      {% if states('binary_sensor.master_bedroom_open_window')
-                      == 'on' %}
-
-                      mdi:window-open
-
-                      {% else %}
-
-                      mdi:window-closed
-
-                      {% endif %}
-                    double_tap_action:
-                      action: none
-                    tap_action:
-                      action: none
-                    hold_action:
-                      action: none
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                card_mod:
-                  style: |
-                    ha-card {
-                      --chip-box-shadow: none;
-                      --chip-background: none;
-                      --chip-border-width: 0px;
-                      --chip-spacing: 0;
-                      padding: 0px;
-                      }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_master_bedroom
-                    state: Temperature
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 5
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.master_bedroom_temperature
-                    - entity: sun.sun
-                      color: gray
-                      name: Zon
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  color_thresholds:
-                    - value: 17
-                      color: '#beeae9'
-                    - color: '#Ffe1b4'
-                    - color: '#Ecb45f'
-                    - color: '#Ec955f'
-                    - color: '#Ec875f'
-                    - color: '#Ec735f'
-                    - color: '#F15239'
-                    - value: 25
-                      color: '#Ea2e2e'
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_master_bedroom
-                    state: Relative humidity
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 15
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.master_bedroom_humidity
-                      color: cyan
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_master_bedroom
-                    state: Absolute humidity
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.master_bedroom_thermal_comfort_absolute_humidity
-                      color: cyan
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_master_bedroom
-                    state: Dewpoint
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.master_bedroom_thermal_comfort_dew_point
-                      color: teal
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_master_bedroom
-                    state: Humidex perception
-                card:
-                  type: history-graph
-                  entities:
-                    - entity: sensor.master_bedroom_thermal_comfort_humidex_perception
-                      name: ' '
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_master_bedroom
-                    state: Heating
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  icon: mdi:heating-coil
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.master_bedroom_heating
-                      color: red
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-        view_layout:
-          grid-area: right-down
       - type: vertical-stack
         cards:
           - type: custom:mushroom-template-card
@@ -4774,12 +3856,858 @@ views:
         cards:
           - type: vertical-stack
             cards:
+              - type: custom:mushroom-climate-card
+                entity: climate.small_bedroom
+                name: Beau's kamer
+                icon: mdi:thermometer
+                layout: horizontal
+                hvac_modes:
+                  - auto
+                  - 'off'
+                show_temperature_control: true
+                collapsible_controls: true
+                primary_info: name
+                secondary_info: none
+                icon_type: icon
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                    }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: template
+                    icon: |-
+                      {% set t = states('sensor.small_bedroom_temperature') %}
+                      {% if t < '18' %} mdi:thermometer-high
+                      {% elif t > '18' and t < '24' %} mdi:thermometer
+                      {% else %}  mdi:thermometer-high
+                      {% endif %}
+                    icon_color: |-
+                      {% set t = states(entity) %}
+                      {% if t < '17' %} #beeae9
+                      {% elif t > '17' and t < '18' %} #Ffe1b4
+                      {% elif t > '18' and t < '20' %} #Ecb45f
+                      {% elif t > '20' and t < '22' %} #Ec955f
+                      {% elif t > '22' and t < '23' %} #Ec875f
+                      {% elif t > '23' and t < '24' %} #Ec735f
+                      {% elif t > '24' and t < '25' %} #F15239
+                      {% else %}  #Ea2e2e
+                      {% endif %}
+                    double_tap_action:
+                      action: none
+                    entity: sensor.small_bedroom_temperature
+                    content: >-
+                      {{ states(entity) }} {{ state_attr(entity,
+                      'unit_of_measurement') }}
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_small_bedroom
+                      data:
+                        option: Temperature
+                    hold_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: entity
+                    entity: sensor.small_bedroom_humidity
+                    icon_color: cyan
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_small_bedroom
+                      data:
+                        option: Relative humidity
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: entity
+                    entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
+                    icon_color: cyan
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_small_bedroom
+                      data:
+                        option: Absolute humidity
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: entity
+                    entity: sensor.small_bedroom_thermal_comfort_dew_point
+                    icon_color: teal
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_small_bedroom
+                      data:
+                        option: Dewpoint
+                    data:
+                      option: Relative humidity
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-box-shadow: none;
+                      --chip-background: none;
+                      --chip-border-width: 0px;
+                      --chip-spacing: 0;
+                      padding: 0px;
+                      }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: template
+                    entity: sensor.small_bedroom_heating
+                    icon: mdi:heating-coil
+                    icon_color: |-
+                      {% if states(entity) != '0.0' %}
+                      deep-orange
+                      {% else %}
+                      disabled
+                      {% endif %}
+                    content: >-
+                      {% if states(entity) != '0.0' %}
+
+                      {{ states(entity) }} {{ state_attr(entity,
+                      'unit_of_measurement') }}
+
+                      {% endif %}
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_small_bedroom
+                      data:
+                        option: Heating
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: template
+                    entity: binary_sensor.small_bedroom_open_window
+                    icon_color: >-
+                      {% if states('binary_sensor.small_bedroom_open_window') ==
+                      'on' %}
+
+                      red
+
+                      {% else %}
+
+                      disabled
+
+                      {% endif %}
+                    icon: >-
+                      {% if states('binary_sensor.small_bedroom_open_window') ==
+                      'on' %}
+
+                      mdi:window-open
+
+                      {% else %}
+
+                      mdi:window-closed
+
+                      {% endif %}
+                    double_tap_action:
+                      action: none
+                    tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-box-shadow: none;
+                      --chip-background: none;
+                      --chip-border-width: 0px;
+                      --chip-spacing: 0;
+                      padding: 0px;
+                      }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_small_bedroom
+                    state: Temperature
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 5
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.small_bedroom_temperature
+                    - entity: sun.sun
+                      color: gray
+                      name: Zon
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  color_thresholds:
+                    - value: 17
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
+                    - value: 25
+                      color: '#Ea2e2e'
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_small_bedroom
+                    state: Relative humidity
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 15
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.small_bedroom_humidity
+                      color: cyan
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_small_bedroom
+                    state: Absolute humidity
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 4
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
+                      color: cyan
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_small_bedroom
+                    state: Dewpoint
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 4
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.small_bedroom_thermal_comfort_dew_point
+                      color: teal
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_small_bedroom
+                    state: Humidex perception
+                card:
+                  type: history-graph
+                  entities:
+                    - entity: sensor.small_bedroom_thermal_comfort_humidex_perception
+                      name: ' '
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_small_bedroom
+                    state: Heating
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  icon: mdi:heating-coil
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.small_bedroom_heating
+                      color: red
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+        view_layout:
+          grid-area: mid-down
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:mushroom-climate-card
+                entity: climate.master_bedroom
+                name: Slaapkamer
+                icon: mdi:thermometer
+                layout: horizontal
+                hvac_modes:
+                  - auto
+                  - 'off'
+                show_temperature_control: true
+                collapsible_controls: true
+                primary_info: name
+                secondary_info: none
+                icon_type: icon
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                    }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: template
+                    icon: |-
+                      {% set t = states('sensor.master_bedroom_temperature') %}
+                      {% if t < '18' %} mdi:thermometer-high
+                      {% elif t > '18' and t < '24' %} mdi:thermometer
+                      {% else %}  mdi:thermometer-high
+                      {% endif %}
+                    icon_color: |-
+                      {% set t = states(entity) %}
+                      {% if t < '17' %} #beeae9
+                      {% elif t > '17' and t < '18' %} #Ffe1b4
+                      {% elif t > '18' and t < '20' %} #Ecb45f
+                      {% elif t > '20' and t < '22' %} #Ec955f
+                      {% elif t > '22' and t < '23' %} #Ec875f
+                      {% elif t > '23' and t < '24' %} #Ec735f
+                      {% elif t > '24' and t < '25' %} #F15239
+                      {% else %}  #Ea2e2e
+                      {% endif %}
+                    double_tap_action:
+                      action: none
+                    entity: sensor.master_bedroom_temperature
+                    content: >-
+                      {{ states(entity) }} {{ state_attr(entity,
+                      'unit_of_measurement') }}
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_master_bedroom
+                      data:
+                        option: Temperature
+                    hold_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: entity
+                    entity: sensor.master_bedroom_humidity
+                    icon_color: cyan
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_master_bedroom
+                      data:
+                        option: Relative humidity
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: entity
+                    entity: sensor.master_bedroom_thermal_comfort_absolute_humidity
+                    icon_color: cyan
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_master_bedroom
+                      data:
+                        option: Absolute humidity
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: entity
+                    entity: sensor.master_bedroom_thermal_comfort_dew_point
+                    icon_color: teal
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_master_bedroom
+                      data:
+                        option: Dewpoint
+                    data:
+                      option: Relative humidity
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-box-shadow: none;
+                      --chip-background: none;
+                      --chip-border-width: 0px;
+                      --chip-spacing: 0;
+                      padding: 0px;
+                      }
+              - type: custom:mushroom-chips-card
+                chips:
+                  - type: template
+                    entity: sensor.master_bedroom_heating
+                    icon: mdi:heating-coil
+                    icon_color: |-
+                      {% if states(entity) != '0.0' %}
+                      deep-orange
+                      {% else %}
+                      disabled
+                      {% endif %}
+                    content: >-
+                      {% if states(entity) != '0.0' %}
+
+                      {{ states(entity) }} {{ state_attr(entity,
+                      'unit_of_measurement') }}
+
+                      {% endif %}
+                    tap_action:
+                      action: call-service
+                      service: input_select.select_option
+                      target:
+                        entity_id: input_select.climate_graph_master_bedroom
+                      data:
+                        option: Heating
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                  - type: template
+                    entity: binary_sensor.master_bedroom_open_window
+                    icon_color: >-
+                      {% if states('binary_sensor.master_bedroom_open_window')
+                      == 'on' %}
+
+                      red
+
+                      {% else %}
+
+                      disabled
+
+                      {% endif %}
+                    icon: >-
+                      {% if states('binary_sensor.master_bedroom_open_window')
+                      == 'on' %}
+
+                      mdi:window-open
+
+                      {% else %}
+
+                      mdi:window-closed
+
+                      {% endif %}
+                    double_tap_action:
+                      action: none
+                    tap_action:
+                      action: none
+                    hold_action:
+                      action: none
+                    card_mod:
+                      style: |
+                        ::slotted(span) {
+                            font-size:12px !important;
+                          }
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-box-shadow: none;
+                      --chip-background: none;
+                      --chip-border-width: 0px;
+                      --chip-spacing: 0;
+                      padding: 0px;
+                      }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_master_bedroom
+                    state: Temperature
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 5
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.master_bedroom_temperature
+                    - entity: sun.sun
+                      color: gray
+                      name: Zon
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  color_thresholds:
+                    - value: 17
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
+                    - value: 25
+                      color: '#Ea2e2e'
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_master_bedroom
+                    state: Relative humidity
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 15
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.master_bedroom_humidity
+                      color: cyan
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_master_bedroom
+                    state: Absolute humidity
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 4
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.master_bedroom_thermal_comfort_absolute_humidity
+                      color: cyan
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_master_bedroom
+                    state: Dewpoint
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  min_bound_range: 4
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.master_bedroom_thermal_comfort_dew_point
+                      color: teal
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_master_bedroom
+                    state: Humidex perception
+                card:
+                  type: history-graph
+                  entities:
+                    - entity: sensor.master_bedroom_thermal_comfort_humidex_perception
+                      name: ' '
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: input_select.climate_graph_master_bedroom
+                    state: Heating
+                card:
+                  type: custom:mini-graph-card
+                  hours_to_show: 8
+                  hour24: true
+                  points_per_hour: 30
+                  font_size: 80
+                  font_size_header: 5
+                  height: 85
+                  animate: true
+                  align_icon: state
+                  line_width: 3
+                  icon: mdi:heating-coil
+                  show:
+                    name: false
+                    extrema: true
+                    state: true
+                    icon: true
+                  entities:
+                    - entity: sensor.master_bedroom_heating
+                      color: red
+                    - entity: sun.sun
+                      color: gray
+                      name: Sun
+                      show_line: false
+                      show_points: false
+                      show_legend: false
+                      y_axis: secondary
+                  state_map:
+                    - value: above_horizon
+                      label: Dag
+                    - value: below_horizon
+                      label: Avond
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+        view_layout:
+          grid-area: right-down
+      - type: custom:stack-in-card
+        cards:
+          - type: vertical-stack
+            cards:
               - type: custom:mushroom-template-card
                 primary: Badkamer
                 secondary: ''
                 icon: mdi:shower-head
-                entity: sensor.outdoor_light_dark
-                icon_color: green
+                entity: sensor.bathroom_sensors_temperature
+                icon_color: blue
                 card_mod:
                   style: |
                     ha-card {
@@ -4792,7 +4720,7 @@ views:
                       {% set t = states('sensor.bathroom_sensors_temperature')
                       %}
 
-                      {% if t < '18' %} mdi:thermometer-high
+                      {% if t < '18' %} mdi:thermometer-low
 
                       {% elif t > '18' and t < '24' %} mdi:thermometer
 
@@ -4846,7 +4774,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.basement_thermal_comfort_absolute_humidity
+                    entity: sensor.bathroom_thermal_comfort_absolute_humidity
                     icon_color: cyan
                     tap_action:
                       action: call-service
@@ -4861,13 +4789,13 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.basement_thermal_comfort_dew_point
+                    entity: sensor.bathroom_thermal_comfort_dew_point
                     icon_color: teal
                     tap_action:
                       action: call-service
                       service: input_select.select_option
                       target:
-                        entity_id: input_select.climate_graph_basement
+                        entity_id: input_select.climate_graph_bathroom
                       data:
                         option: Dewpoint
                     card_mod:
@@ -4886,83 +4814,6 @@ views:
                     }
               - type: custom:mushroom-chips-card
                 chips:
-                  - type: entity
-                    entity: sensor.basement_thermal_comfort_dew_point_perception
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_basement
-                      data:
-                        option: Dewpoint perception
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: template
-                    entity: sensor.basement_heating
-                    icon: mdi:heating-coil
-                    icon_color: |-
-                      {% if states(entity) != '0.0' %}
-                      deep-orange
-                      {% else %}
-                      disabled
-                      {% endif %}
-                    content: >-
-                      {% if states(entity) != '0.0' %}
-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-
-                      {% endif %}
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_basement
-                      data:
-                        option: Heating
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                  - type: template
-                    entity: binary_sensor.basement_open_window
-                    icon_color: >-
-                      {% if states('binary_sensor.basement_open_window') == 'on'
-                      %}
-
-                      red
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
-                    icon: >-
-                      {% if states('binary_sensor.basement_open_window') == 'on'
-                      %}
-
-                      mdi:window-open
-
-                      {% else %}
-
-                      mdi:window-closed
-
-                      {% endif %}
-                    double_tap_action:
-                      action: none
-                    tap_action:
-                      action: none
-                    hold_action:
-                      action: none
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
                   - type: template
                     content: >-
                       {% if
@@ -5006,7 +4857,7 @@ views:
                       {% endif %}
                     icon: >-
                       {% if
-                      is_state('input_boolean.mechanical_ventilation_basement_autonomous',
+                      is_state('input_boolean.mechanical_ventilation_bathroom_autonomous',
                       'on') %}
 
                       mdi:fan-auto
@@ -5020,7 +4871,7 @@ views:
                       action: call-service
                       service: input_select.select_option
                       target:
-                        entity_id: input_select.climate_graph_basement
+                        entity_id: input_select.climate_graph_bathroom
                       data:
                         option: Ventilation
                     card_mod:
@@ -5028,60 +4879,15 @@ views:
                         ::slotted(span) {
                             font-size:12px !important;
                           }
-                  - type: template
-                    content: Condensatie
-                    icon_color: >-
-                      {% set w = states('basement_wall_temperature_offset') %}
-
-                      {% set d =
-                      states('sensor.basement_thermal_comfort_dew_point') %}
-
-                      {% if w < d %}red
-
-                      {% else %}green
-
-                      {% endif %}
-                    icon: >-
-                      {% set w = states('basement_wall_temperature_offset') %}
-
-                      {% set d =
-                      states('sensor.basement_thermal_comfort_dew_point') %}
-
-                      {% if w < d %}mdi:alert
-
-                      {% else %}mdi:check-circle
-
-                      {% endif %}
-                    tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_basement
-                      data:
-                        option: Condensation
-                    card_mod:
-                      style: |
-                        ::slotted(span) {
-                            font-size:12px !important;
-                          }
-                card_mod:
-                  style: |
-                    ha-card {
-                      --chip-box-shadow: none;
-                      --chip-background: none;
-                      --chip-border-width: 0px;
-                      --chip-spacing: 0;
-                      padding: 0px;
-                    }
               - type: conditional
                 conditions:
-                  - entity: input_select.climate_graph_basement
+                  - entity: input_select.climate_graph_bathroom
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -5095,7 +4901,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.basement_temperature
+                    - entity: sensor.bathroom_sensors_temperature
                     - entity: sun.sun
                       color: gray
                       name: Zon
@@ -5126,13 +4932,13 @@ views:
                     }
               - type: conditional
                 conditions:
-                  - entity: input_select.climate_graph_basement
+                  - entity: input_select.climate_graph_bathroom
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -5146,7 +4952,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.basement_humidity
+                    - entity: sensor.bathroom_sensors_humidity
                       color: cyan
                     - entity: sun.sun
                       color: gray
@@ -5167,13 +4973,13 @@ views:
                     }
               - type: conditional
                 conditions:
-                  - entity: input_select.climate_graph_basement
+                  - entity: input_select.climate_graph_bathroom
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 24
+                  hours_to_show: 8
                   hour24: true
-                  points_per_hour: 4
+                  points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 85
@@ -5187,99 +4993,8 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.basement_thermal_comfort_absolute_humidity
+                    - entity: sensor.bathroom_thermal_comfort_absolute_humidity
                       color: cyan
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_basement
-                    state: Dewpoint
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.basement_thermal_comfort_dew_point
-                      color: teal
-                    - entity: sun.sun
-                      color: gray
-                      name: Sun
-                      show_line: false
-                      show_points: false
-                      show_legend: false
-                      y_axis: secondary
-                  state_map:
-                    - value: above_horizon
-                      label: Dag
-                    - value: below_horizon
-                      label: Avond
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_basement
-                    state: Dewpoint perception
-                card:
-                  type: history-graph
-                  entities:
-                    - entity: sensor.basement_thermal_comfort_dew_point_perception
-                      name: ' '
-              - type: conditional
-                conditions:
-                  - entity: input_select.climate_graph_basement
-                    state: Heating
-                card:
-                  type: custom:mini-graph-card
-                  hours_to_show: 24
-                  hour24: true
-                  points_per_hour: 4
-                  font_size: 80
-                  font_size_header: 5
-                  height: 85
-                  animate: true
-                  align_icon: state
-                  line_width: 3
-                  icon: mdi:heating-coil
-                  show:
-                    name: false
-                    extrema: true
-                    state: true
-                    icon: true
-                  entities:
-                    - entity: sensor.basement_heating
-                      color: red
                     - entity: sun.sun
                       color: gray
                       name: Sun
@@ -5778,12 +5493,10 @@ views:
                               primary: Omvormer
                               secondary: '{{ (state_attr(entity, ''status_description'')) }}'
                               icon: |-
-                                {% if is_state(entity, "4") -%}
-                                mdi:solar-power-variant-outline
-                                {%- elif is_state(entity, "2")-%}
+                                {% if is_state(entity, "2") -%}
                                 mdi:power-sleep
                                 {% else %}
-                                red
+                                mdi:solar-power-variant-outline
                                 {%- endif %}
                               icon_color: |-
                                 {% if is_state(entity, "4") -%}
@@ -5894,244 +5607,22 @@ views:
     cards:
       - type: vertical-stack
         cards:
-          - entity: camera.buienradar
-            show_state: false
+          - show_state: false
             show_name: false
             camera_view: auto
-            aspect_ratio: 85%
+            entity: camera.buienradar
+            aspect_ratio: 90%
             type: picture-entity
             camera_image: camera.buienradar
             tap_action:
               action: none
             hold_action:
               action: none
-          - type: custom:stack-in-card
-            cards:
-              - type: vertical-stack
-                cards:
-                  - type: custom:mushroom-chips-card
-                    chips:
-                      - type: weather
-                        entity: weather.knmi_home
-                        show_conditions: false
-                        show_temperature: true
-                        hold_action:
-                          action: none
-                        tap_action:
-                          action: call-service
-                          service: input_select.select_option
-                          target:
-                            entity_id: input_select.climate_graph_outside
-                          data:
-                            option: Temperature
-                        card_mod:
-                          style: |
-                            ::slotted(span) {
-                                font-size:12px !important;
-                              }
-                      - type: entity
-                        entity: sensor.buienradar_humidity
-                        icon_color: cyan
-                        tap_action:
-                          action: call-service
-                          service: input_select.select_option
-                          target:
-                            entity_id: input_select.climate_graph_outside
-                          data:
-                            option: Relative humidity
-                        card_mod:
-                          style: |
-                            ::slotted(span) {
-                                font-size:12px !important;
-                              }
-                      - type: entity
-                        entity: sensor.outdoor_thermal_comfort_absolute_humidity
-                        icon_color: cyan
-                        tap_action:
-                          action: call-service
-                          service: input_select.select_option
-                          target:
-                            entity_id: input_select.climate_graph_outside
-                          data:
-                            option: Absolute humidity
-                        card_mod:
-                          style: |
-                            ::slotted(span) {
-                                font-size:12px !important;
-                              }
-                      - type: entity
-                        entity: sensor.outdoor_thermal_comfort_dew_point
-                        icon_color: teal
-                        tap_action:
-                          action: call-service
-                          service: input_select.select_option
-                          target:
-                            entity_id: input_select.climate_graph_outside
-                          data:
-                            option: Dewpoint
-                        card_mod:
-                          style: |
-                            ::slotted(span) {
-                                font-size:12px !important;
-                              }
-                    card_mod:
-                      style: |
-                        ha-card {
-                          --chip-box-shadow: none;
-                          --chip-background: none;
-                          --chip-border-width: 0px;
-                          --chip-spacing: 0;
-                          padding: 0px;
-                          }
-                  - type: custom:mushroom-chips-card
-                    chips:
-                      - type: entity
-                        entity: sensor.outdoor_thermal_comfort_dew_point_perception
-                        tap_action:
-                          action: call-service
-                          service: input_select.select_option
-                          target:
-                            entity_id: input_select.climate_graph_outside
-                          data:
-                            option: Dewpoint perception
-                        card_mod:
-                          style: |
-                            ::slotted(span) {
-                                font-size:12px !important;
-                              }
-                      - type: entity
-                        entity: sensor.buienradar_precipitation
-                        tap_action:
-                          action: call-service
-                          service: input_select.select_option
-                          target:
-                            entity_id: input_select.climate_graph_outside
-                          data:
-                            option: Precipitation
-                        card_mod:
-                          style: |
-                            ::slotted(span) {
-                                font-size:12px !important;
-                              }
-                      - type: entity
-                        entity: sensor.buienradar_wind_force
-                        use_entity_picture: false
-                        icon_color: blue
-                        tap_action:
-                          action: call-service
-                          service: input_select.select_option
-                          target:
-                            entity_id: input_select.climate_graph_outside
-                          data:
-                            option: Wind force
-                        card_mod:
-                          style: |
-                            ::slotted(span) {
-                                font-size:12px !important;
-                              }
-                    card_mod:
-                      style: |
-                        ha-card {
-                          --chip-box-shadow: none;
-                          --chip-background: none;
-                          --chip-border-width: 0px;
-                          --chip-spacing: 0;
-                          padding: 0px;
-                        }
-                  - type: conditional
-                    conditions:
-                      - entity: input_select.climate_graph_outside
-                        state: Temperature
-                    card:
-                      type: custom:mini-graph-card
-                      hours_to_show: 24
-                      hour24: true
-                      points_per_hour: 4
-                      font_size: 80
-                      font_size_header: 5
-                      height: 85
-                      animate: true
-                      align_icon: state
-                      line_width: 3
-                      upper_bound: ~25
-                      show:
-                        name: false
-                        extrema: true
-                        state: true
-                        icon: true
-                      entities:
-                        - entity: sensor.buienradar_temperature
-                        - entity: sun.sun
-                          color: gray
-                          name: Sun
-                          show_line: false
-                          show_points: false
-                          show_legend: false
-                          y_axis: secondary
-                      state_map:
-                        - value: above_horizon
-                          label: Dag
-                        - value: below_horizon
-                          label: Avond
-                      color_thresholds:
-                        - value: 17
-                          color: '#beeae9'
-                        - color: '#Ffe1b4'
-                        - color: '#Ecb45f'
-                        - color: '#Ec955f'
-                        - color: '#Ec875f'
-                        - color: '#Ec735f'
-                        - color: '#F15239'
-                        - value: 25
-                          color: '#Ea2e2e'
-                      style: |
-                        ha-card {
-                          border: none;
-                          box-shadow: 0px 0px;
-                        }
-                  - type: conditional
-                    conditions:
-                      - entity: input_select.climate_graph_outside
-                        state: Relative humidity
-                    card:
-                      type: custom:mini-graph-card
-                      hours_to_show: 24
-                      hour24: true
-                      points_per_hour: 4
-                      font_size: 80
-                      font_size_header: 5
-                      height: 85
-                      animate: true
-                      align_icon: state
-                      line_width: 3
-                      min_bound_range: 4
-                      show:
-                        name: false
-                        extrema: true
-                        state: true
-                        icon: true
-                      entities:
-                        - entity: sensor.master_bedroom_humidity
-                          color: cyan
-                        - entity: sun.sun
-                          color: gray
-                          name: Sun
-                          show_line: false
-                          show_points: false
-                          show_legend: false
-                          y_axis: secondary
-                      state_map:
-                        - value: above_horizon
-                          label: Dag
-                        - value: below_horizon
-                          label: Avond
-                      style: |
-                        ha-card {
-                          border: none;
-                          box-shadow: 0px 0px;
-                        }
-            view_layout:
-              grid-area: left-up
+          - type: custom:neerslag-card
+            entities:
+              - sensor.neerslag_buienalarm_regen_data
+              - sensor.neerslag_buienradar_regen_data
+            title: null
         view_layout:
           grid-area: right-up
       - type: vertical-stack
@@ -6395,23 +5886,55 @@ views:
             type: weather-forecast
             entity: weather.knmi_home
             forecast_type: hourly
-          - type: custom:mushroom-template-card
-            primary: |
-              Weerbericht
-            secondary: '{{ (states(''sensor.knmi_description'')) }}. {{ (states(entity)) }}'
-            icon: mdi:weather-cloudy
-            icon_color: blue
-            badge_icon: ''
-            badge_color: ''
-            multiline_secondary: true
-            tap_action:
-              action: none
-            picture: ''
-            hold_action:
-              action: none
-            double_tap_action:
-              action: none
-            entity: sensor.knmi_weather_forecast
+            secondary_info_attribute: humidity
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                entity: sensor.custom_weather_description_01
+                primary: '{{ (state_attr(entity, "header_01")) }}'
+                secondary: '{{ (state_attr(entity, "msg_01")) }}'
+                icon: ''
+                icon_color: blue
+                badge_icon: ''
+                badge_color: ''
+                multiline_secondary: true
+                tap_action:
+                  action: none
+                picture: ''
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: url
+                  url_path: https://www.weeronline.nl/weerbericht-nederland
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: custom:mushroom-template-card
+                entity: sensor.custom_weather_description_01
+                primary: '{{ (state_attr(entity, "header_02")) }}'
+                secondary: '{{ (state_attr(entity, "msg_02")) }}'
+                icon: ''
+                icon_color: blue
+                badge_icon: ''
+                badge_color: ''
+                multiline_secondary: true
+                tap_action:
+                  action: none
+                picture: ''
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: url
+                  url_path: https://www.weeronline.nl/weerbericht-nederland
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
         view_layout:
           grid-area: mid-up
   - title: vacuum
