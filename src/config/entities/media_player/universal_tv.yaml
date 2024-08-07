@@ -2,10 +2,13 @@
 platform: universal
 name: universal_tv
 children:
-  - media_player.shield
   - media_player.powernode_2i_ea48
-  - media_player.plex_plex_cast_chromecast
+  - media_player.android_tv_shield_lan_theautomation_nl
   - media_player.plex_plex_for_android_tv_shield_android_tv
+  - media_player.plex_plex_cast_chromecast
+  - media_player.shield
+  - media_player.shield_android_tv
+  - media_player.lg_webos_smart_tv
 active_child_template: >
   {% if is_state('input_select.entertainment_activity', 'TV') %}
       media_player.shield
