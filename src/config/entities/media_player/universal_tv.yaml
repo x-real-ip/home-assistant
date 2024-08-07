@@ -12,6 +12,11 @@ children:
 active_child_template: >
   {% if is_state('input_select.entertainment_activity', 'TV') %}
       media_player.shield
+  {% elif is_state('input_select.entertainment_activity', 'Plex') and
+  is_state('media_player.plex_plex_cast_chromecast', 'unavailable') %}
+      media_player.plex_plex_for_android_tv_shield_android_tv
+  {% elif is_state('input_select.entertainment_activity', 'Plex') %}
+      media_player.plex_plex_cast_chromecast
   {% endif %}
 commands:
   turn_on:
