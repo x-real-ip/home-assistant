@@ -13,11 +13,11 @@ commands:
   turn_on:
     service: media_player.turn_on
     target:
-      entity_id: media_player.shield
+      entity_id: media_player.android_tv_shield_lan_theautomation_nl
   turn_off:
     service: media_player.turn_off
     target:
-      entity_id: media_player.shield
+      entity_id: media_player.android_tv_shield_lan_theautomation_nl
   volume_up:
     service: media_player.volume_up
     target:
@@ -35,11 +35,11 @@ commands:
   media_play:
     service: media_player.media_play
     target:
-      entity_id: media_player.shield
+      entity_id: media_player.android_tv_shield_lan_theautomation_nl
   media_pause:
     service: media_player.media_pause
     target:
-      entity_id: media_player.shield
+      entity_id: media_player.android_tv_shield_lan_theautomation_nl
   volume_set:
     service: media_player.volume_set
     target:
@@ -50,7 +50,7 @@ attributes:
   is_volume_muted: media_player.powernode_2i_ea48|is_volume_muted
   volume_level: media_player.powernode_2i_ea48|volume_level
   state: remote.shield_android_tv
-  media_content_id: media_player.shield|media_content_id
+  media_content_id: media_player.android_tv_shield_lan_theautomation_nl|media_content_id
   source: media_player.powernode_2i_ea48|source
   source_list: media_player.powernode_2i_ea48|source_list
 device_class: tv
