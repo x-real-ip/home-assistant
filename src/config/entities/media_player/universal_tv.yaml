@@ -3,8 +3,8 @@ platform: universal
 name: universal_tv
 children:
   - media_player.plex_plex_for_android_tv_shield_android_tv
-  - media_player.android_tv_shield_lan_theautomation_nl
   - media_player.shield
+  - media_player.android_tv_shield_lan_theautomation_nl
   - media_player.shield_android_tv
   - media_player.lg_webos_smart_tv
 commands:
