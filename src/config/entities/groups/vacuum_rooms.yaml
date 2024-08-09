@@ -1,0 +1,10 @@
+---
+vacuum_rooms:
+  name: Stofzuiger ruimtes
+  entities:
+    - input_boolean.vacuum_dining_room
+    - input_boolean.vacuum_hall
+    - input_boolean.vacuum_kitchen
+    - input_boolean.vacuum_laundry_room
+    - input_boolean.vacuum_living_room
+    - input_boolean.vacuum_souterrain
