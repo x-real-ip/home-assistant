@@ -90,7 +90,8 @@ views:
                 {% endif %}
               content: '{{ states("sensor.lights_on_counter") }}'
               tap_action:
-                action: none
+                action: navigate
+                navigation_path: /dashboard-mobile/lights
               hold_action:
                 action: none
               double_tap_action:
@@ -111,16 +112,15 @@ views:
                 action: none
               icon: mdi:fireplace
           - type: conditional
-            conditions: null
-          - type: conditional
             conditions:
-              - entity: binary_sensor.knmi_home_waarschuwing
+              - condition: state
+                entity: binary_sensor.knmi_warning
                 state: "on"
             chip:
               type: template
               tap_action:
                 action: navigate
-                navigation_path: /mobile/weather
+                navigation_path: /dashboard-mobile/weather
               hold_action:
                 action: none
               double_tap_action:
@@ -197,6 +197,8 @@ views:
                         - volume_set
                       media_controls:
                         - play_pause_stop
+                        - previous
+                        - next
                       collapsible_controls: true
                       tap_action:
                         action: none
@@ -1013,7 +1015,7 @@ views:
                 segments:
                   - from: -3680
                     color: "#488fc2"
-                  - from: 0
+                  - from: 1
                     color: "#8353d1"
                 entity: sensor.custom_energy
                 name: Net
@@ -1031,11 +1033,11 @@ views:
                           }
               - type: gauge
                 entity: sensor.solaredge_modbus_ac_voltage_ab
-                name: Voltage omvormer
+                name: Omvormer
                 max: 253
                 needle: false
                 segments:
-                  - from: 0
+                  - from: 1
                     color: "#64b329"
                   - from: 245
                     color: "#ff6700"
@@ -1055,11 +1057,11 @@ views:
                             font-size: 20px !important;
                           }
               - type: gauge
-                name: Voltage DSMR
+                name: Slimme meter
                 max: 253
                 needle: false
                 segments:
-                  - from: 0
+                  - from: 1
                     color: "#64b329"
                   - from: 245
                     color: "#ff6700"
@@ -1085,7 +1087,7 @@ views:
                 needle: false
                 entity: sensor.watermeter_pulse
                 segments:
-                  - from: "1"
+                  - from: 1
                     color: "#00bcd4"
                 card_mod:
                   style:
@@ -1106,7 +1108,7 @@ views:
                 max: 3680
                 name: Zonne-energie
                 segments:
-                  - from: 0
+                  - from: 1
                     color: "#FFD580"
                   - from: 736
                     color: "#FFB04C"
@@ -1347,18 +1349,42 @@ views:
                 tap_action:
                   action: toggle
                 layout: vertical
-              - type: custom:mushroom-entity-card
-                entity: switch.shellyplugplus_quooker_switch_0
+              - type: custom:mushroom-template-card
+                primary: Quooker
+                secondary: >-
+                  {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
+                  float > 2 %}
+                   Opwarmen
+                  {% elif is_state(entity, "on") %}
+                   Aan
+                  {%- else %}
+                   Uit
+                  {%- endif %}
                 icon: mdi:faucet
-                fill_container: false
-                icon_color: primary
-                tap_action:
-                  action: toggle
                 layout: vertical
-                primary_info: name
-                name: Quooker
-                secondary_info: last-changed
-            columns: 2
+                entity: switch.shellyplugplus_quooker_switch_0
+                badge_icon: >-
+                  {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
+                  float > 10 %}
+                   mdi:thermometer-chevron-up
+                  {%- endif %}
+                badge_color: >-
+                  {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
+                  float > 0 %}
+                   red
+                  {%- endif %}
+                tap_action:
+                  action: call-service
+                  service: switch.toggle
+                  target:
+                    entity_id: switch.shellyplugplus_quooker_switch_0
+                icon_color: |-
+                  {% if is_state(entity, "on") %}
+                   cyan
+                  {%- else %}
+                   disabled
+                  {%- endif %}
+            columns: 3
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
@@ -1368,7 +1394,6 @@ views:
             cards:
               - square: false
                 type: grid
-                columns: 2
                 cards:
                   - type: custom:mushroom-entity-card
                     entity: binary_sensor.washing_machine
@@ -1459,7 +1484,22 @@ views:
                     double_tap_action:
                       action: none
                     primary_info: name
-                    name: Achtertuin
+                    name: Achtertuin Terras
+                  - type: custom:mushroom-entity-card
+                    entity: binary_sensor.custom_backyard_person_occupancy
+                    layout: vertical
+                    fill_container: false
+                    secondary_info: last-changed
+                    icon_color: red
+                    tap_action:
+                      action: more-info
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: none
+                    primary_info: name
+                    name: Achtertuin Ingang
+                columns: 3
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
@@ -2023,9 +2063,9 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
                   height: 200
@@ -2307,12 +2347,12 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
                   line_width: 3
@@ -2358,12 +2398,12 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
                   line_width: 3
@@ -2399,12 +2439,12 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
                   line_width: 3
@@ -2440,12 +2480,12 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
                   line_width: 3
@@ -2495,12 +2535,12 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
                   line_width: 3
@@ -4820,6 +4860,7 @@ views:
         hold_action:
           action: none
       - type: custom:neerslag-card
+        autozoom: true
         entities:
           - sensor.neerslag_buienalarm_regen_data
           - sensor.neerslag_buienradar_regen_data
@@ -4864,6 +4905,53 @@ views:
         hide_legend: true
         logarithmic_scale: false
         days_to_show: 1
+      - type: custom:mushroom-title-card
+        title: Pollen
+        subtitle: ""
+      - type: horizontal-stack
+        cards:
+          - type: gauge
+            entity: sensor.kleenex_pollen_radar_home_trees
+            max: 804
+            needle: false
+            segments:
+              - from: 0
+                color: "#64b329"
+              - from: 96
+                color: "#ff6700"
+              - from: 208
+                color: "#F32013"
+              - from: 704
+                color: "#a71100"
+            name: Bomen
+          - type: gauge
+            max: 804
+            needle: false
+            segments:
+              - from: 0
+                color: "#64b329"
+              - from: 96
+                color: "#ff6700"
+              - from: 208
+                color: "#F32013"
+              - from: 704
+                color: "#a71100"
+            name: Gras
+            entity: sensor.kleenex_pollen_radar_home_grass
+          - type: gauge
+            needle: false
+            entity: sensor.kleenex_pollen_radar_home_weeds
+            max: 367
+            segments:
+              - from: 0
+                color: "#64b329"
+              - from: 21
+                color: "#ff6700"
+              - from: 78
+                color: "#F32013"
+              - from: 267
+                color: "#a71100"
+            name: Onkruid
   - title: energy
     path: energy
     icon: mdi:lightning-bolt
@@ -5477,43 +5565,6 @@ views:
                           - color: "#cb4e4c"
                           - value: 190
                             color: "#d44d4d"
-                      - type: custom:mini-graph-card
-                        name: Storage Server
-                        hours_to_show: 8
-                        hour24: true
-                        points_per_hour: 9
-                        font_size: 90
-                        font_size_header: 12
-                        animate: true
-                        line_width: 2
-                        show:
-                          extrema: true
-                          average: true
-                        entities:
-                          - entity: sensor.shellyplug_storage_server_power
-                        color_thresholds:
-                          - value: 15
-                            color: "#2a5839"
-                          - color: "#33573a"
-                          - color: "#3c573b"
-                          - color: "#45563c"
-                          - color: "#4e563d"
-                          - color: "#57553e"
-                          - color: "#60553f"
-                          - color: "#695440"
-                          - color: "#725341"
-                          - color: "#7b5342"
-                          - color: "#835244"
-                          - color: "#8c5245"
-                          - color: "#955146"
-                          - color: "#9e5047"
-                          - color: "#a75048"
-                          - color: "#b04f49"
-                          - color: "#b94f4a"
-                          - color: "#c24e4b"
-                          - color: "#cb4e4c"
-                          - value: 190
-                            color: "#d44d4d"
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
@@ -6003,24 +6054,4 @@ views:
                 type: entities
                 state_color: true
               sort: {}
-      - type: vertical-stack
-        cards:
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-title-card
-                title: Uptime
-                subtitle: ""
-              - type: custom:auto-entities
-                filter:
-                  include:
-                    - entity_id: binary_sensor.uptimekuma*
-                  exclude:
-                    - entity_id: sensor.uptimekuma_uptime_kuma_devops_svc_cluster_local
-                show_empty: true
-                card:
-                  type: entities
-                  state_color: true
-                sort:
-                  method: state
-                  numeric: false
 title: mobile
