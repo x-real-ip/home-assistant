@@ -1,11 +1,11 @@
 # Home Assistant
 
-[![Continuous integration](https://github.com/theautomation/home-assistant/actions/workflows/ci.yaml/badge.svg)](https://github.com/theautomation/home-assistant/actions/workflows/ci.yaml)
+[![Continuous integration](https://github.com/x-real-ip/home-assistant/actions/workflows/ci.yaml/badge.svg)](https://github.com/x-real-ip/home-assistant/actions/workflows/ci.yaml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/theautomation/home-assistant?logo=Github)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/theautomation/home-assistant?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/theautomation/home-assistant/main?logo=github)
 
-<img src="https://github.com/theautomation/kubernetes-gitops/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 30px; width:30px;"/>
+<img src="https://github.com/x-real-ip/kubernetes-gitops/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 30px; width:30px;"/>
 Application running in Kubernetes.
 
 [Home Assistant](https://www.home-assistant.io/): Free and open-source home
@@ -15,7 +15,7 @@ for smart home technology.
 ## Automations
 
 All my automations are running in Node-RED
-[flows](https://github.com/theautomation/node-red/tree/main/src/data) as an
+[flows](https://github.com/x-real-ip/node-red/tree/main/src/data) as an
 alternative automation engine.
 
 ## Hardware
