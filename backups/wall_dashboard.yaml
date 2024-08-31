@@ -599,27 +599,27 @@ views:
 
                   {% if
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%}
+                  "on") -%} 
 
-                  - Uit
+                  - Uit 
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_1",
                   "on") -%}
 
-                  - Laag
+                  - Laag 
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_2",
                   "on") -%}
 
-                  - Midden
+                  - Midden 
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_3",
                   "on") -%}
 
-                  - Hoog
+                  - Hoog 
 
                   {%- endif %}
                 icon: >-
@@ -631,7 +631,7 @@ views:
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%}
+                  "on") -%} 
 
                   mdi:fan-off
 
@@ -650,9 +650,7 @@ views:
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_3",
                   "on") -%}
-
                   mdi:fan-speed-3
-
                   {%- endif %}
                 entity: input_select.mechanical_ventilation_position
                 tap_action:
@@ -666,41 +664,16 @@ views:
                 icon_color: >-
                   {% if
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%}
-
-                  disabled
-
-                  {%- else %}
-
-                  green
-
-                  {%- endif %}
+                  "on") -%}  disabled  {%- else %} green {%- endif %}
               - type: custom:mushroom-template-card
                 primary: Badkamer
                 secondary: >
                   {% if
                   is_state("input_boolean.mechanical_ventilation_bathroom_autonomous",
-                  "on") -%}
-
-                  Auto
-
-                  {%- else %}
-
-                  Handmatig
-
-                  {%- endif %}
-
-                  {% if is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%}
-
-                  - Uit
-
-                  {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%}
-
-                  - Aan
-
-                  {%- endif %}
+                  "on") -%} Auto {%- else %} Handmatig {%- endif %} {% if
+                  is_state("fan.shelly1pm_bathroom_fan_switch_0", "off") -%}  -
+                  Uit {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0",
+                  "on") -%}  - Aan {%- endif %}
                 icon: >-
                   {% if
                   is_state("input_boolean.mechanical_ventilation_bathroom_autonomous",
@@ -709,12 +682,12 @@ views:
                   mdi:fan-auto
 
                   {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%}
+                  -%} 
 
                   mdi:fan-off
 
                   {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%}
+                  -%} 
 
                   mdi:fan
 
@@ -730,12 +703,12 @@ views:
                 layout: vertical
                 icon_color: >-
                   {% if is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%}
+                  -%} 
 
                   green
 
                   {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%}
+                  -%} 
 
                   disabled
 
@@ -1755,6 +1728,8 @@ views:
                   blocklist: Vakantie (Coen|Anne)
                 - entity: calendar.schoonmaak
                   name: Schoonmaak
+                - entity: calendar.beau
+                  name: Beau
               sortByStartTime: true
               showDate: false
               hideDuplicates: true
@@ -2937,26 +2912,11 @@ views:
                     entity: binary_sensor.basement_open_window
                     icon_color: >-
                       {% if states('binary_sensor.basement_open_window') == 'on'
-                      %}
-
-                      red
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
+                      %} red {% else %} disabled {% endif %}
                     icon: >-
                       {% if states('binary_sensor.basement_open_window') == 'on'
+                      %} mdi:window-open {% else %} mdi:window-closed {% endif
                       %}
-
-                      mdi:window-open
-
-                      {% else %}
-
-                      mdi:window-closed
-
-                      {% endif %}
                     double_tap_action:
                       action: none
                     tap_action:
@@ -2988,39 +2948,15 @@ views:
                     icon_color: >-
                       {% if
                       is_state('input_boolean.mechanical_ventilation_position_1',
-                      'on') %}
-
-                      yellow
-
-                      {% elif
+                      'on') %} yellow {% elif
                       is_state('input_boolean.mechanical_ventilation_position_2',
-                      'on') %}
-
-                      orange
-
-                      {% elif
+                      'on') %} orange {% elif
                       is_state('input_boolean.mechanical_ventilation_position_3',
-                      'on') %}
-
-                      deep-orange
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
+                      'on') %} deep-orange {% else %} disabled {% endif %}
                     icon: >-
                       {% if
                       is_state('input_boolean.mechanical_ventilation_basement_autonomous',
-                      'on') %}
-
-                      mdi:fan-auto
-
-                      {% else %}
-
-                      mdi:fan
-
-                      {% endif %}
+                      'on') %} mdi:fan-auto {% else %} mdi:fan {% endif %}
                     tap_action:
                       action: call-service
                       service: input_select.select_option
@@ -3037,26 +2973,15 @@ views:
                     content: Condensatie
                     icon_color: >-
                       {% set w = states('basement_wall_temperature_offset') %}
-
                       {% set d =
-                      states('sensor.basement_thermal_comfort_dew_point') %}
-
-                      {% if w < d %}red
-
-                      {% else %}green
-
-                      {% endif %}
+                      states('sensor.basement_thermal_comfort_dew_point') %} {%
+                      if w < d %}red {% else %}green {% endif %}
                     icon: >-
                       {% set w = states('basement_wall_temperature_offset') %}
-
                       {% set d =
-                      states('sensor.basement_thermal_comfort_dew_point') %}
-
-                      {% if w < d %}mdi:alert
-
-                      {% else %}mdi:check-circle
-
-                      {% endif %}
+                      states('sensor.basement_thermal_comfort_dew_point') %} {%
+                      if w < d %}mdi:alert {% else %}mdi:check-circle {% endif
+                      %}
                     tap_action:
                       action: call-service
                       service: input_select.select_option
@@ -3434,12 +3359,8 @@ views:
                       disabled
                       {% endif %}
                     content: >-
-                      {% if states(entity) != '0.0' %}
-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-
-                      {% endif %}
+                      {% if states(entity) != '0.0' %} {{ states(entity) }} {{
+                      state_attr(entity, 'unit_of_measurement') }} {% endif %}
                     tap_action:
                       action: call-service
                       service: input_select.select_option
@@ -3456,26 +3377,11 @@ views:
                     entity: binary_sensor.lises_room_open_window
                     icon_color: >-
                       {% if states('binary_sensor.lises_room_open_window') ==
-                      'on' %}
-
-                      red
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
+                      'on' %} red {% else %} disabled {% endif %}
                     icon: >-
                       {% if states('binary_sensor.lises_room_open_window') ==
-                      'on' %}
-
-                      mdi:window-open
-
-                      {% else %}
-
-                      mdi:window-closed
-
-                      {% endif %}
+                      'on' %} mdi:window-open {% else %} mdi:window-closed {%
+                      endif %}
                     double_tap_action:
                       action: none
                     tap_action:
@@ -4021,12 +3927,8 @@ views:
                       disabled
                       {% endif %}
                     content: >-
-                      {% if states(entity) != '0.0' %}
-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-
-                      {% endif %}
+                      {% if states(entity) != '0.0' %} {{ states(entity) }} {{
+                      state_attr(entity, 'unit_of_measurement') }} {% endif %}
                     tap_action:
                       action: call-service
                       service: input_select.select_option
@@ -4043,26 +3945,11 @@ views:
                     entity: binary_sensor.small_bedroom_open_window
                     icon_color: >-
                       {% if states('binary_sensor.small_bedroom_open_window') ==
-                      'on' %}
-
-                      red
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
+                      'on' %} red {% else %} disabled {% endif %}
                     icon: >-
                       {% if states('binary_sensor.small_bedroom_open_window') ==
-                      'on' %}
-
-                      mdi:window-open
-
-                      {% else %}
-
-                      mdi:window-closed
-
-                      {% endif %}
+                      'on' %} mdi:window-open {% else %} mdi:window-closed {%
+                      endif %}
                     double_tap_action:
                       action: none
                     tap_action:
@@ -4444,12 +4331,8 @@ views:
                       disabled
                       {% endif %}
                     content: >-
-                      {% if states(entity) != '0.0' %}
-
-                      {{ states(entity) }} {{ state_attr(entity,
-                      'unit_of_measurement') }}
-
-                      {% endif %}
+                      {% if states(entity) != '0.0' %} {{ states(entity) }} {{
+                      state_attr(entity, 'unit_of_measurement') }} {% endif %}
                     tap_action:
                       action: call-service
                       service: input_select.select_option
@@ -4466,26 +4349,11 @@ views:
                     entity: binary_sensor.master_bedroom_open_window
                     icon_color: >-
                       {% if states('binary_sensor.master_bedroom_open_window')
-                      == 'on' %}
-
-                      red
-
-                      {% else %}
-
-                      disabled
-
-                      {% endif %}
+                      == 'on' %} red {% else %} disabled {% endif %}
                     icon: >-
                       {% if states('binary_sensor.master_bedroom_open_window')
-                      == 'on' %}
-
-                      mdi:window-open
-
-                      {% else %}
-
-                      mdi:window-closed
-
-                      {% endif %}
+                      == 'on' %} mdi:window-open {% else %} mdi:window-closed {%
+                      endif %}
                     double_tap_action:
                       action: none
                     tap_action:
@@ -4757,15 +4625,9 @@ views:
                   - type: template
                     icon: >-
                       {% set t = states('sensor.bathroom_sensors_temperature')
-                      %}
-
-                      {% if t < '18' %} mdi:thermometer-low
-
-                      {% elif t > '18' and t < '24' %} mdi:thermometer
-
-                      {% else %}  mdi:thermometer-high
-
-                      {% endif %}
+                      %} {% if t < '18' %} mdi:thermometer-low {% elif t > '18'
+                      and t < '24' %} mdi:thermometer {% else %}
+                      mdi:thermometer-high {% endif %}
                     icon_color: |-
                       {% set t = states(entity) %}
                       {% if t < '17' %} #beeae9
@@ -4854,70 +4716,30 @@ views:
               - type: custom:mushroom-chips-card
                 chips:
                   - type: template
-                    content: >-
-                      {% if
-                      is_state('input_boolean.mechanical_ventilation_position_1',
-                      'on') %}
-                        Laag
-                      {% elif
-                      is_state('input_boolean.mechanical_ventilation_position_2',
-                      'on') %}
-                        Midden
-                      {% elif
-                      is_state('input_boolean.mechanical_ventilation_position_3',
-                      'on') %}
-                        Hoog
-                      {% else %}
-                        Uit
-                      {% endif %}
+                    entity: fan.shelly1pm_bathroom_fan_switch_0
+                    content: |-
+                      {% if is_state(entity, 'on') %}
+                      Aan {% else %} Uit {% endif %}
                     icon_color: >-
-                      {% if
-                      is_state('input_boolean.mechanical_ventilation_position_1',
-                      'on') %}
-
-                      yellow
-
-                      {% elif
-                      is_state('input_boolean.mechanical_ventilation_position_2',
-                      'on') %}
-
-                      orange
-
-                      {% elif
-                      is_state('input_boolean.mechanical_ventilation_position_3',
-                      'on') %}
-
-                      deep-orange
-
-                      {% else %}
-
-                      disabled
-
+                      {% if is_state(entity, 'on') %} green {% else %} disabled
                       {% endif %}
-                    icon: >-
-                      {% if
-                      is_state('input_boolean.mechanical_ventilation_bathroom_autonomous',
-                      'on') %}
-
-                      mdi:fan-auto
-
-                      {% else %}
-
-                      mdi:fan
-
-                      {% endif %}
+                    icon: mdi:fan
                     tap_action:
-                      action: call-service
-                      service: input_select.select_option
-                      target:
-                        entity_id: input_select.climate_graph_bathroom
-                      data:
-                        option: Ventilation
+                      action: toggle
                     card_mod:
                       style: |
                         ::slotted(span) {
                             font-size:12px !important;
                           }
+                card_mod:
+                  style: |
+                    ha-card {
+                      --chip-box-shadow: none;
+                      --chip-background: none;
+                      --chip-border-width: 0px;
+                      --chip-spacing: 0;
+                      padding: 0px;
+                    }
               - type: conditional
                 conditions:
                   - entity: input_select.climate_graph_bathroom
@@ -6917,7 +6739,7 @@ views:
                       primary: "{{ states(entity) | round(0) }}%"
                       secondary:
                         "{{ state_attr(entity, 'friendly_name') | title }}"
-                      icon: >+
+                      icon: >
                         {% set battery_level = (states(entity) | int / 10) |
                         round(0) | int * 10 %}
 
@@ -6937,7 +6759,6 @@ views:
                             mdi:battery-alert-variant-outline
                           {% endif %}
                         {% endif %}
-
                       icon_color: |-
                         {% set battery_level = states(entity) | int %}
                         {% if battery_level > 90 %}
