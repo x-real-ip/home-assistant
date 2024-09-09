@@ -599,27 +599,27 @@ views:
 
                   {% if
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%} 
+                  "on") -%}
 
-                  - Uit 
+                  - Uit
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_1",
                   "on") -%}
 
-                  - Laag 
+                  - Laag
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_2",
                   "on") -%}
 
-                  - Midden 
+                  - Midden
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_3",
                   "on") -%}
 
-                  - Hoog 
+                  - Hoog
 
                   {%- endif %}
                 icon: >-
@@ -631,7 +631,7 @@ views:
 
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%} 
+                  "on") -%}
 
                   mdi:fan-off
 
@@ -682,12 +682,12 @@ views:
                   mdi:fan-auto
 
                   {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%} 
+                  -%}
 
                   mdi:fan-off
 
                   {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%} 
+                  -%}
 
                   mdi:fan
 
@@ -703,12 +703,12 @@ views:
                 layout: vertical
                 icon_color: >-
                   {% if is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%} 
+                  -%}
 
                   green
 
                   {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%} 
+                  -%}
 
                   disabled
 
