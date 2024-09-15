@@ -2067,13 +2067,14 @@ views:
                   type: custom:mini-graph-card
                   hours_to_show: 24
                   hour24: true
+                  decimals: 1
                   points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
                   height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
+                  line_width: 2
                   upper_bound: ~25
                   show:
                     name: false
@@ -2118,13 +2119,14 @@ views:
                   type: custom:mini-graph-card
                   hours_to_show: 8
                   hour24: true
+                  decimals: 1
                   points_per_hour: 30
                   font_size: 80
                   font_size_header: 5
                   height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
+                  line_width: 2
                   min_bound_range: 4
                   show:
                     name: false
@@ -2351,13 +2353,14 @@ views:
                   type: custom:mini-graph-card
                   hours_to_show: 24
                   hour24: true
+                  decimals: 1
                   points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
                   height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
+                  line_width: 2
                   min_bound_range: 5
                   show:
                     name: false
@@ -2402,13 +2405,14 @@ views:
                   type: custom:mini-graph-card
                   hours_to_show: 24
                   hour24: true
+                  decimals: 1
                   points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
                   height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
+                  line_width: 2
                   min_bound_range: 15
                   show:
                     name: false
@@ -2443,13 +2447,14 @@ views:
                   type: custom:mini-graph-card
                   hours_to_show: 24
                   hour24: true
+                  decimals: 1
                   points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
                   height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
+                  line_width: 2
                   min_bound_range: 4
                   show:
                     name: false
@@ -2484,13 +2489,14 @@ views:
                   type: custom:mini-graph-card
                   hours_to_show: 24
                   hour24: true
+                  decimals: 1
                   points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
                   height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
+                  line_width: 2
                   min_bound_range: 4
                   show:
                     name: false
@@ -2539,13 +2545,14 @@ views:
                   type: custom:mini-graph-card
                   hours_to_show: 24
                   hour24: true
+                  decimals: 1
                   points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
                   height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
+                  line_width: 2
                   icon: mdi:heating-coil
                   show:
                     name: false
@@ -2869,16 +2876,16 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 5
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -2920,16 +2927,16 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 15
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -2961,16 +2968,16 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3002,16 +3009,16 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3052,16 +3059,16 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  icon: mdi:heating-coil
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3285,16 +3292,16 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 5
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3336,16 +3343,16 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 15
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3377,16 +3384,16 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3418,16 +3425,16 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3473,16 +3480,16 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  icon: mdi:heating-coil
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3706,16 +3713,16 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 5
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3757,16 +3764,16 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 15
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3798,16 +3805,16 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3839,16 +3846,16 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -3894,16 +3901,16 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  icon: mdi:heating-coil
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4127,16 +4134,16 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 5
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4178,16 +4185,16 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 15
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4219,16 +4226,16 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4260,16 +4267,16 @@ views:
                     state: Dewpoint
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4315,16 +4322,16 @@ views:
                     state: Heating
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  icon: mdi:heating-coil
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4492,16 +4499,16 @@ views:
                     state: Temperature
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 5
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4543,16 +4550,16 @@ views:
                     state: Relative humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 15
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4584,16 +4591,16 @@ views:
                     state: Absolute humidity
                 card:
                   type: custom:mini-graph-card
-                  hours_to_show: 8
+                  hours_to_show: 24
                   hour24: true
-                  points_per_hour: 30
+                  decimals: 1
+                  points_per_hour: 20
                   font_size: 80
                   font_size_header: 5
-                  height: 85
+                  height: 200
                   animate: true
                   align_icon: state
-                  line_width: 3
-                  min_bound_range: 4
+                  line_width: 2
                   show:
                     name: false
                     extrema: true
@@ -4852,16 +4859,6 @@ views:
         url: >-
           https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=7&overlay=wind&product=ecmwf&level=surface&lat=52.1&lon=5.867&detailLat=52.021&detailLon=5.657&marker=true&message=true"
         aspect_ratio: 90%
-      - chart_type: line
-        period: 5minute
-        type: statistics-graph
-        entities:
-          - sensor.knmi_wind_speed
-        stat_types:
-          - max
-        hide_legend: true
-        logarithmic_scale: false
-        days_to_show: 1
       - type: custom:mushroom-title-card
         title: Pollen
         subtitle: ""
@@ -4909,6 +4906,28 @@ views:
               - from: 267
                 color: "#a71100"
             name: Onkruid
+      - type: custom:mini-graph-card
+        hours_to_show: 24
+        hour24: true
+        points_per_hour: 60
+        decimals: 0
+        font_size: 90
+        font_size_header: 12
+        animate: true
+        height: 200
+        line_width: 2
+        show:
+          name: true
+          icon: true
+          state: true
+          labels: true
+          fill: false
+          extrema: false
+          average: false
+          legend: true
+        entities:
+          - entity: sensor.knmi_wind_speed
+            name: KNMI Windsnelheid
   - title: energy
     path: energy
     icon: mdi:lightning-bolt
@@ -4963,7 +4982,7 @@ views:
                     Van het net
                   {% endif %}
                 icon: mdi:transmission-tower
-                entity: sensor.custom_energy
+                entity: sensor.custom_energy_usage
                 icon_color: |-
                   {% if states(entity)|int > 0 %}
                     purple
@@ -5078,6 +5097,31 @@ views:
                     tap_action:
                       action: more-info
                     multiline_secondary: true
+      - type: custom:mini-graph-card
+        hours_to_show: 8
+        hour24: true
+        points_per_hour: 60
+        decimals: 0
+        font_size: 90
+        font_size_header: 12
+        animate: true
+        height: 200
+        line_width: 2
+        show:
+          name: true
+          icon: true
+          state: true
+          labels: false
+          fill: false
+          extrema: false
+          average: false
+          legend: true
+        entities:
+          - entity: sensor.solaredge_modbus_ac_power
+            color: "#ff9800"
+          - entity: sensor.custom_energy_returned_watt
+            name: Energie teruglevering
+            color: "#8353d1"
       - type: custom:mushroom-title-card
         title: Statistieken
         subtitle: ""
