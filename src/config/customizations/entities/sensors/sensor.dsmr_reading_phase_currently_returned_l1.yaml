@@ -1,0 +1,3 @@
+---
+sensor.dsmr_reading_phase_currently_returned_l1:
+  friendly_name: Energie teruglevering
