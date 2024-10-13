@@ -1,5 +1,0 @@
----
-type: thermostat
-entity: climate.small_bedroom
-view_layout:
-  position: sidebar

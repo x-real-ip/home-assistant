@@ -1,3 +1,0 @@
----
-type: gauge
-entity: sensor.pfsense_memory_used_percentage

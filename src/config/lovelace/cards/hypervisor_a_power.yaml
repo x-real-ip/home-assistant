@@ -1,5 +1,0 @@
----
-type: sensor
-entity: sensor.shellyplug_hypervisor_a_power
-graph: line
-detail: 2

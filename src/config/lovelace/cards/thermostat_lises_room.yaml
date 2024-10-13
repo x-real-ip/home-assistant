@@ -1,5 +1,0 @@
----
-type: thermostat
-entity: climate.lises_room
-view_layout:
-  position: sidebar

@@ -1,4 +1,0 @@
----
-type: entity
-entity: sensor.pfsense_gateway_wan_pppoe_status
-attribute: srcip

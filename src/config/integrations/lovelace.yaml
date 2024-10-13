@@ -2,11 +2,3 @@
 lovelace:
   mode: yaml
   resources: !include_dir_list ../lovelace/resources
-  dashboards:
-    old-dashboard:
-      mode: yaml
-      filename: old-dashboard.yaml
-      title: Old
-      icon: mdi:cellphone
-      show_in_sidebar: true
-      require_admin: true

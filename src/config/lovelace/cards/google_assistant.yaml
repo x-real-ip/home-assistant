@@ -1,4 +1,0 @@
----
-type: entities
-entities:
-  - entity: script.google_assistant_request_sync

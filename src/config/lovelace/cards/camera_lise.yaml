@@ -1,7 +1,0 @@
----
-type: picture-glance
-entities:
-  - camera.camera_lise
-camera_image: camera.camera_lise
-tap_action:
-  action: more-info
