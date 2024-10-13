@@ -5184,11 +5184,11 @@ views:
     path: camera
     cards:
       - type: custom:webrtc-camera
-        poster: http://go2rtc.lan.theautomation.nl/api/frame.jpeg?src=ipcam-02
+        poster: http://go2rtc.lan.stamx.nl/api/frame.jpeg?src=ipcam-02
         streams:
           - url: ipcam-02
       - type: custom:webrtc-camera
-        poster: http://go2rtc.lan.theautomation.nl/api/frame.jpeg?src=ipcam-01
+        poster: http://go2rtc.lan.stamx.nl/api/frame.jpeg?src=ipcam-01
         streams:
           - url: ipcam-01
     icon: mdi:cctv

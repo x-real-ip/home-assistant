@@ -2,7 +2,7 @@
 platform: caldav
 username: !secret radicale_gezamelijk_username
 password: !secret radicale_gezamelijk_password
-url: https://radicale.theautomation.nl/
+url: https://radicale.stamx.nl/
 custom_calendars:
   - name: "Babysitter"
     calendar: "Lise"
