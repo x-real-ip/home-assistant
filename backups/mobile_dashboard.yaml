@@ -5315,7 +5315,7 @@ views:
   - icon: mdi:remote-tv
     cards:
       - type: custom:firemote-card
-        entity: media_player.android_tv_shield_lan_theautomation_nl
+        entity: media_player.android_tv_shield.lan.stamx.nl
         device_family: nvidia-shield
         device_type: shield-tv-pro-2019
         compatibility_mode: default
