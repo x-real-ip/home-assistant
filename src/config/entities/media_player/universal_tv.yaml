@@ -2,7 +2,6 @@
 platform: universal
 name: universal_tv
 children:
-  - media_player.plex_plex_for_android_tv_shield_android_tv
   - media_player.shield
   - media_player.android_tv_shield.lan.stamx.nl
   - media_player.shield_android_tv
