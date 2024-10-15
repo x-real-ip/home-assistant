@@ -3,7 +3,7 @@ platform: universal
 name: universal_tv
 children:
   - media_player.shield
-  - media_player.android_tv_shield.lan.stamx.nl
+  - media_player.android_tv_shield_lan_stamx_nl
   - media_player.shield_android_tv
   - media_player.lg_webos_smart_tv
 commands:
