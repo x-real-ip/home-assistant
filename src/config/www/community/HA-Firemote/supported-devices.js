@@ -14,6 +14,7 @@ const devices = {
         "defaultEventListenerBinPath": "/dev/input/event0",
         "defaultRemoteStyle": "AF5",
         "hdmiInputs": 4,
+        "tuner": true,
       },
       "fire_tv_hisense_u6_4k_uhd_2022": {
         "supported": false,
@@ -21,6 +22,15 @@ const devices = {
         "defaultEventListenerBinPath": "/dev/input/event0",
         "defaultRemoteStyle": "AF5",
         "hdmiInputs": 4,
+        "tuner": true,
+      },
+      "fire_tv_insignia_f20": {
+        "supported": true,
+        "friendlyName": "INSIGNIA TV (F20 Series)",
+        "defaultEventListenerBinPath": "/dev/input/event0",
+        "defaultRemoteStyle": "AF5",
+        "hdmiInputs": 3,
+        "tuner": true,
       },
       "fire_tv_jvc-4k-2021": {
         "supported": true,
@@ -28,6 +38,7 @@ const devices = {
         "defaultEventListenerBinPath": "/dev/input/event0",
         "defaultRemoteStyle": "AFJTV",
         "hdmiInputs": 4,
+        "tuner": true,
       },
       "fire_tv_toshiba_v35": {
         "supported": true,
@@ -35,6 +46,7 @@ const devices = {
         "defaultEventListenerBinPath": "/dev/input/event0",
         "defaultRemoteStyle": "AF5",
         "hdmiInputs": 4,
+        "tuner": true,
       },
     },
 
@@ -235,6 +247,33 @@ const devices = {
   },
 
 
+  "homatics": {
+
+    "meta": {
+      "friendlyName": "Homatics",
+      "supported": true,
+    },
+
+    "noCategory": {
+
+      "dune-hd-box-4-4k-plus": {
+        "supported": true,
+        "friendlyName": "Dune HD Box R 4K Plus",
+        "defaultRemoteStyle": "HO4",
+        "hdmiInputs": 0,
+      },
+      "box-4-4k-plus": {
+        "supported": true,
+        "friendlyName": "Box R 4K Plus",
+        "defaultRemoteStyle": "HO1",
+        "hdmiInputs": 0,
+      },
+
+    }
+
+  },
+
+
   "nvidia-shield": {
 
     "meta": {
@@ -278,6 +317,11 @@ const devices = {
 
     "noCategory": {
 
+      "onn-streaming-device-4k-pro": {
+        "supported": true,
+        "friendlyName": "onn. Streaming Device 4K pro",
+        "defaultRemoteStyle" : "ON2",
+      },
       "onn-4k-streaming-box": {
         "supported": true,
         "friendlyName": "onn. 4K Streaming Box",
@@ -395,7 +439,6 @@ const devices = {
   },
 
 
-
   "xiaomi": {
 
     "meta": {
@@ -431,6 +474,26 @@ const devices = {
         "hdmiInputs": 0,
       },
 
+    },
+
+  },
+
+
+  "none": {
+
+    "meta": {
+      "friendlyName": "None / Other",
+      "supported": true,
+    },
+
+    "noCategory": {
+
+      "other": {
+        "supported": true,
+        "friendlyName": "None / Other",
+        "defaultRemoteStyle" : "AF5",
+        "hdmiInputs": 0,
+      },
     },
 
   },
