@@ -28,7 +28,7 @@ alternative automation engine.
 - Google Home Speaker
 - ISKRA Smart Meter
 - LG SmartTV WebOS
-- Nvidia Shield TV
+- Nvidia Shield TV Pro
 - Shelly 1 Relay
 - Shelly 1PM Mini Gen3
 - Shelly BLU Door/Window
@@ -40,7 +40,7 @@ alternative automation engine.
 - Shelly Plug-S
 - Shelly Plus Plug
 - Shelly i3
-- Solar Edge Inverter
+- SolarEdge Inverter
 - Tado Bridge
 - Tado Smart Thermostat
 - Tado Smart Radiator Thermostat
