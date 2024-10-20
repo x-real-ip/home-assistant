@@ -1,0 +1,10 @@
+---
+camera:
+  - platform: xiaomi_cloud_map_extractor
+    host: 10.0.30.95
+    token: !secret xiaomi_vacuum_s6_token
+    username: !secret xiaomi_cloud_username
+    password: !secret xiaomi_cloud_password
+    draw: ["all"]
+    attributes:
+      - calibration_points
