@@ -3,72 +3,57 @@ views:
   - title: Home
     icon: mdi:home
     path: home
-    badges: []
-    cards:
+    badges:
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: input_boolean.guest
+        color: ""
+        icon: mdi:account-plus
+        name: Gast
+        tap_action:
+          action: toggle
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: input_boolean.home_security
+        color: red
+        name: Beveiliging
+        icon: mdi:shield-home
+        tap_action:
+          action: toggle
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: input_boolean.sleep_mode
+        color: primary
+        icon: mdi:sleep
+        tap_action:
+          action: toggle
+        name: Slaapstand
+      - type: entity
+        show_name: true
+        show_state: false
+        show_icon: true
+        entity: input_boolean.vacation_mode
+        color: green
+        icon: mdi:palm-tree
+        tap_action:
+          action: toggle
+        name: Vakantie
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: sensor.transmission_active_torrents
+        color: ""
+        icon: mdi:download
+        name: Torrent
       - type: custom:mushroom-chips-card
         chips:
-          - type: entity
-            entity: input_boolean.guest
-            icon: mdi:account-plus
-            icon_color: blue
-            use_entity_picture: false
-            tap_action:
-              action: toggle
-            content_info: name
-            name: Gast
-          - type: entity
-            entity: input_boolean.home_security
-            icon_color: deep-orange
-            content_info: name
-            tap_action:
-              action: toggle
-            icon: mdi:shield-lock
-            name: Beveiliging
-          - type: entity
-            entity: input_boolean.sleep_mode
-            content_info: name
-            icon_color: blue
-            tap_action:
-              action: toggle
-            icon: mdi:sleep
-            name: Slaapstand
-          - type: entity
-            entity: input_boolean.vacation_mode
-            name: Vakantiemodus
-            content_info: name
-            icon: mdi:beach
-            icon_color: blue
-            use_entity_picture: false
-            tap_action:
-              action: toggle
-          - type: entity
-            entity: switch.smart_doorbell_active
-            icon_color: blue
-            tap_action:
-              action: toggle
-            content_info: state
-            icon: mdi:alarm-bell
-          - type: entity
-            entity: binary_sensor.smart_doorbell_button
-            content_info: last-updated
-            icon: mdi:doorbell
-            icon_color: blue
-          - type: conditional
-            conditions:
-              - entity: sensor.transmission_active_torrents
-                state_not: "0"
-            chip:
-              type: entity
-              entity: sensor.transmission_active_torrents
-              double_tap_action:
-                action: none
-              icon: mdi:download
-              icon_color: blue
-              use_entity_picture: false
-              tap_action:
-                action: none
-              hold_action:
-                action: none
           - type: conditional
             conditions:
               - entity: sensor.lights_on_counter
@@ -96,47 +81,42 @@ views:
                 action: none
               double_tap_action:
                 action: none
-          - type: conditional
-            conditions:
-              - entity: binary_sensor.stookalert_gelderland
-                state: "on"
-            chip:
-              type: entity
-              entity: binary_sensor.stookalert_gelderland
-              double_tap_action:
-                action: none
-              icon_color: deep-orange
-              tap_action:
-                action: none
-              hold_action:
-                action: none
-              icon: mdi:fireplace
-          - type: conditional
-            conditions:
-              - condition: state
-                entity: binary_sensor.knmi_warning
-                state: "on"
-            chip:
-              type: template
-              tap_action:
-                action: navigate
-                navigation_path: /dashboard-mobile/weather
-              hold_action:
-                action: none
-              double_tap_action:
-                action: none
-              icon: mdi:alert
-              icon_color: orange
-              entity: binary_sensor.knmi_home_waarschuwing
-              content: KNMI waarschuwing
-        alignment: center
-        view_layout:
-          grid-area: header
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.stookalert_gelderland
+        color: red
+        name: Stookalert
+        icon: mdi:fireplace
+        state_content: name
+        visibility:
+          - condition: state
+            entity: binary_sensor.stookalert_gelderland
+            state: "on"
+      - type: entity
+        show_name: false
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.knmi_warning
+        color: orange
+        visibility:
+          - condition: state
+            entity: binary_sensor.knmi_warning
+            state: "on"
+        icon: mdi:weather-cloudy-alert
+        state_content:
+          - name
+          - code
+        name: KNMI Waarschuwing
+        show_entity_picture: false
+    cards:
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Weer
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading: Weer
+            heading_style: title
           - show_current: true
             show_forecast: false
             type: weather-forecast
@@ -162,9 +142,52 @@ views:
             entity: sensor.custom_weather_description_01
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Entertainment
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading: Entertainment
+            heading_style: title
+            badges:
+              - type: entity
+                show_state: false
+                show_icon: true
+                entity: media_player.android_tv_shield_lan_stamx_nl
+                icon: mdi:restart
+                tap_action:
+                  action: perform-action
+                  perform_action: androidtv.adb_command
+                  target:
+                    entity_id: media_player.android_tv_shield_lan_stamx_nl
+                  data:
+                    command: reboot now
+                visibility:
+                  - condition: state
+                    entity: media_player.android_tv_shield_lan_stamx_nl
+                    state_not: "off"
+                name: Restart Shield
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: media_player.home_speaker
+                state_not: unavailable
+            card:
+              type: custom:mushroom-media-player-card
+              entity: media_player.home_speaker
+              name: Google Home Speaker
+              icon: mdi:google-circles-communities
+              volume_controls:
+                - volume_mute
+                - volume_set
+                - volume_buttons
+              media_controls:
+                - on_off
+                - shuffle
+                - previous
+                - play_pause_stop
+                - next
+                - repeat
+              show_volume_level: true
+              use_media_info: true
+              icon_type: entity-picture
           - type: vertical-stack
             cards:
               - features:
@@ -856,102 +879,28 @@ views:
                               ha-card {
                                 border: none;
                               }
-              - type: conditional
-                conditions:
-                  - entity: group.multimedia_devices
-                    state: "on"
-                card:
-                  type: custom:mushroom-chips-card
-                  alignment: start
-                  chips:
-                    - type: template
-                      entity: binary_sensor.tvscreen_device
-                      icon: mdi:television-ambient-light
-                      content: ""
-                      tap_action:
-                        action: call-service
-                        service: button.press
-                        target:
-                          entity_id: button.beeldscherm
-                        data: {}
-                      icon_color: |-
-                        {% if is_state("binary_sensor.tvscreen_device", "on") %}
-                          indigo
-                        {% else %}
-                          disabled
-                        {% endif %}
-                      double_tap_action:
-                        action: none
-                      hold_action:
-                        action: none
-                    - type: template
-                      entity: binary_sensor.tv_device
-                      icon: mdi:television
-                      icon_color: |-
-                        {% if is_state("binary_sensor.tv_device", "on") %}
-                          indigo
-                        {% else %}
-                          disabled
-                        {% endif %}
-                      picture: ""
-                      content: ""
-                      double_tap_action:
-                        action: none
-                      tap_action:
-                        action: call-service
-                        service: button.press
-                        target:
-                          entity_id: button.tv_device
-                        data: {}
-                      hold_action:
-                        action: none
-          - type: conditional
-            conditions:
-              - condition: state
-                entity: media_player.home_speaker
-                state_not: unavailable
-            card:
-              type: custom:mushroom-media-player-card
-              entity: media_player.home_speaker
-              name: Google Home Speaker
-              icon: mdi:google-circles-communities
-              volume_controls:
-                - volume_mute
-                - volume_set
-                - volume_buttons
-              media_controls:
-                - on_off
-                - shuffle
-                - previous
-                - play_pause_stop
-                - next
-                - repeat
-              show_volume_level: true
-              use_media_info: true
-              icon_type: entity-picture
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Klimaat
-            subtitle: ""
-          - type: custom:mushroom-chips-card
-            chips:
+          - type: heading
+            icon: ""
+            heading: Klimaat
+            heading_style: title
+            badges:
               - type: entity
+                show_state: true
+                show_icon: true
                 entity: sensor.living_room_humidity
-                icon_color: cyan
+                color: cyan
               - type: entity
-                entity: sensor.living_room_thermal_comfort_absolute_humidity
-                icon_color: cyan
-              - type: conditional
-                conditions:
-                  - entity: sensor.living_room_heating
-                    state_not: "0.0"
-                chip:
-                  type: entity
-                  entity: sensor.living_room_heating
-                  name: Heatingpower
-                  icon: mdi:heating-coil
-                  icon_color: deep-orange
+                show_state: true
+                show_icon: true
+                entity: sensor.living_room_heating
+                color: red
+                icon: mdi:heating-coil
+                visibility:
+                  - condition: numeric_state
+                    entity: sensor.living_room_heating
+                    above: 0
           - features:
               - type: climate-hvac-modes
                 hvac_modes:
@@ -965,11 +914,10 @@ views:
             icon: mdi:thermometer
       - type: vertical-stack
         cards:
-          - type: vertical-stack
-            cards:
-              - type: custom:mushroom-title-card
-                title: Stofzuigers
-                subtitle: ""
+          - type: heading
+            icon: ""
+            heading: Stofzuigers
+            heading_style: title
           - type: horizontal-stack
             cards:
               - type: custom:mushroom-vacuum-card
@@ -995,12 +943,13 @@ views:
                   - return_home
                 primary_info: name
                 secondary_info: state
-                entity: vacuum.robot_vacuum
+                entity: vacuum.roborock_s55
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Energie
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading: Energie
+            heading_style: title
           - type: vertical-stack
             cards:
               - type: energy-distribution
@@ -1135,9 +1084,10 @@ views:
             columns: 3
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Schakelaars
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading: Schakelaars
+            heading_style: title
           - square: false
             type: grid
             cards:
@@ -1384,12 +1334,22 @@ views:
                   {%- else %}
                    disabled
                   {%- endif %}
+              - type: custom:mushroom-entity-card
+                icon: mdi:alarm-bell
+                fill_container: false
+                secondary_info: last-changed
+                name: Deurbel
+                entity: switch.smart_doorbell_active
+                tap_action:
+                  action: toggle
+                layout: vertical
             columns: 3
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Sensoren
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading: Sensoren
+            heading_style: title
           - type: vertical-stack
             cards:
               - square: false
@@ -1445,7 +1405,7 @@ views:
                     primary_info: name
                     icon_color: red
                   - type: custom:mushroom-entity-card
-                    entity: binary_sensor.barndoor_window
+                    entity: binary_sensor.barndoor
                     layout: vertical
                     fill_container: false
                     secondary_info: last-changed
@@ -1502,9 +1462,10 @@ views:
                 columns: 3
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Kalender
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading: Kalender
+            heading_style: title
           - type: custom:atomic-calendar-revive
             enableModeChange: true
             entities:
@@ -1557,8 +1518,7 @@ views:
   - title: Verlichting
     icon: mdi:lightbulb
     path: lights
-    badges: []
-    cards:
+    badges:
       - type: custom:mushroom-chips-card
         chips:
           - type: conditional
@@ -1582,11 +1542,14 @@ views:
                 {% endif %}
               content: '{{ states("sensor.lights_on_counter") }}'
               tap_action:
-                action: none
+                action: navigate
+                navigation_path: /dashboard-mobile/lights
               hold_action:
                 action: none
               double_tap_action:
                 action: none
+      - type: custom:mushroom-chips-card
+        chips:
           - type: template
             icon_color: ""
             icon: mdi:lightbulb-multiple-off-outline
@@ -1597,6 +1560,8 @@ views:
                 entity_id: all
               data: {}
             content: Alles Uit
+      - type: custom:mushroom-chips-card
+        chips:
           - type: template
             icon_color: ""
             icon: mdi:lightbulb-multiple-outline
@@ -1607,19 +1572,13 @@ views:
                 entity_id: all
               data: {}
             content: Alles Aan
-        alignment: center
-        view_layout:
-          grid-area: mid-header
+    cards:
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Begane grond
-            subtitle: ""
-            title_tap_action:
-              action: none
-            subtitle_tap_action:
-              action: none
-            alignment: start
+          - type: heading
+            icon: ""
+            heading_style: title
+            heading: Begane grond
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_living_room
             name: Woonkamer
@@ -1693,9 +1652,21 @@ views:
           grid-area: middle
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Eerste verdieping
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading_style: title
+            heading: Eerste verdieping
+          - type: custom:mushroom-light-card
+            entity: light.cv_closet
+            name: CV Kast
+            icon: mdi:lightbulb-spot
+            layout: horizontal
+            fill_container: false
+            show_brightness_control: false
+            collapsible_controls: false
+            show_color_control: false
+            show_color_temp_control: false
+            use_light_color: false
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_master_bedroom
             name: Slaapkamer
@@ -1730,7 +1701,7 @@ views:
             layout: horizontal
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_small_bedroom
-            name: Kleine slaapkamer
+            name: Beau's slaapkamer
             icon: mdi:ceiling-light
             layout: horizontal
             fill_container: false
@@ -1761,22 +1732,12 @@ views:
             show_color_control: false
             show_color_temp_control: false
             use_light_color: false
-          - type: custom:mushroom-light-card
-            entity: light.cv_closet
-            name: CV Kast
-            icon: mdi:lightbulb-spot
-            layout: horizontal
-            fill_container: false
-            show_brightness_control: false
-            collapsible_controls: false
-            show_color_control: false
-            show_color_temp_control: false
-            use_light_color: false
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Souterrain
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading_style: title
+            heading: Souterrain
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_basement_stairs
             name: Keldertrap
@@ -1812,9 +1773,10 @@ views:
             use_light_color: false
       - type: vertical-stack
         cards:
-          - type: custom:mushroom-title-card
-            title: Buiten
-            subtitle: ""
+          - type: heading
+            icon: ""
+            heading_style: title
+            heading: Buiten
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_backyard_string_l
             name: Achtertuin
@@ -1965,7 +1927,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.buienradar_humidity
+                    entity: sensor.weather_station_dht_humidity
                     icon_color: cyan
                     tap_action:
                       action: call-service
@@ -2134,7 +2096,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.master_bedroom_humidity
+                    - entity: sensor.weather_station_dht_humidity
                       color: cyan
                     - entity: sun.sun
                       color: gray
@@ -4628,314 +4590,15 @@ views:
                     }
         view_layout:
           grid-area: right-up
-  - title: weather
-    path: weather
-    icon: mdi:weather-sunny
-    cards:
-      - type: conditional
-        conditions:
-          - condition: state
-            entity: binary_sensor.knmi_warning
-            state: "on"
-        card:
-          type: custom:mushroom-template-card
-          primary: Code {{ state_attr(entity, 'code') }}
-          secondary: |-
-
-            {{ state_attr(entity, 'description') }}
-          icon: mdi:weather-cloudy-alert
-          icon_color: '{{ states("sensor.weather_code_translated") }}'
-          multiline_secondary: true
-          layout: horizontal
-          badge_icon: ""
-          badge_color: ""
-          tap_action:
-            action: none
-          hold_action:
-            action: none
-          double_tap_action:
-            action: none
-          entity: binary_sensor.knmi_warning
-      - type: custom:stack-in-card
-        cards:
-          - type: weather-forecast
-            show_current: true
-            show_forecast: true
-            entity: weather.knmi_home
-            forecast_type: hourly
-            name: KNMI
-            card_mod:
-              style: |
-                ha-card {
-                  border: none;
-                }
-          - type: weather-forecast
-            show_current: false
-            show_forecast: true
-            entity: weather.knmi_home
-            forecast_type: daily
-            name: KNMI
-            card_mod:
-              style: |
-                ha-card {
-                  border: none;
-                }
-      - type: custom:mushroom-title-card
-        title: Weerbericht
-        subtitle: ""
-      - type: custom:stack-in-card
-        cards:
-          - type: custom:mushroom-template-card
-            entity: sensor.custom_weather_description_01
-            primary: '{{ (state_attr(entity, "header_01")) }}'
-            secondary: '{{ (state_attr(entity, "msg_01")) }}'
-            icon: ""
-            icon_color: blue
-            badge_icon: ""
-            badge_color: ""
-            multiline_secondary: true
-            tap_action:
-              action: none
-            picture: ""
-            hold_action:
-              action: none
-            double_tap_action:
-              action: url
-              url_path: https://www.weeronline.nl/weerbericht-nederland
-            card_mod:
-              style: |
-                ha-card {
-                  border: none;
-                  box-shadow: 0px 0px;
-                }
-          - type: custom:mushroom-template-card
-            entity: sensor.custom_weather_description_01
-            primary: '{{ (state_attr(entity, "header_02")) }}'
-            secondary: '{{ (state_attr(entity, "msg_02")) }}'
-            icon: ""
-            icon_color: blue
-            badge_icon: ""
-            badge_color: ""
-            multiline_secondary: true
-            tap_action:
-              action: none
-            picture: ""
-            hold_action:
-              action: none
-            double_tap_action:
-              action: url
-              url_path: https://www.weeronline.nl/weerbericht-nederland
-            card_mod:
-              style: |
-                ha-card {
-                  border: none;
-                  box-shadow: 0px 0px;
-                }
-          - type: custom:collapsable-cards
-            title: Meer...
-            defaultOpen: false
-            cards:
-              - type: custom:mushroom-template-card
-                entity: sensor.custom_weather_description_01
-                primary: '{{ (state_attr(entity, "header_03")) }}'
-                secondary: '{{ (state_attr(entity, "msg_03")) }}'
-                icon: ""
-                icon_color: blue
-                badge_icon: ""
-                badge_color: ""
-                multiline_secondary: true
-                tap_action:
-                  action: none
-                picture: ""
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: url
-                  url_path: https://www.weeronline.nl/weerbericht-nederland
-                card_mod:
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: custom:mushroom-template-card
-                entity: sensor.custom_weather_description_01
-                primary: '{{ (state_attr(entity, "header_04")) }}'
-                secondary: '{{ (state_attr(entity, "msg_04")) }}'
-                icon: ""
-                icon_color: blue
-                badge_icon: ""
-                badge_color: ""
-                multiline_secondary: true
-                tap_action:
-                  action: none
-                picture: ""
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: url
-                  url_path: https://www.weeronline.nl/weerbericht-nederland
-                card_mod:
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-              - type: custom:mushroom-template-card
-                entity: sensor.custom_weather_description_01
-                primary: '{{ (state_attr(entity, "header_05")) }}'
-                secondary: '{{ (state_attr(entity, "msg_05")) }}'
-                icon: ""
-                icon_color: blue
-                badge_icon: ""
-                badge_color: ""
-                multiline_secondary: true
-                tap_action:
-                  action: none
-                picture: ""
-                hold_action:
-                  action: none
-                double_tap_action:
-                  action: url
-                  url_path: https://www.weeronline.nl/weerbericht-nederland
-                card_mod:
-                  style: |
-                    ha-card {
-                      border: none;
-                      box-shadow: 0px 0px;
-                    }
-            card_mod:
-              style: |
-                ha-card {
-                  border: none;
-                  box-shadow: 0px 0px;
-                }
-      - type: custom:mushroom-title-card
-        title: Neerslag
-        subtitle: ""
-      - show_state: false
-        show_name: false
-        camera_view: auto
-        entity: camera.buienradar
-        type: picture-entity
-        camera_image: camera.buienradar
-        tap_action:
-          action: none
-        hold_action:
-          action: none
-      - type: custom:neerslag-card
-        autozoom: true
-        entities:
-          - sensor.neerslag_buienalarm_regen_data
-          - sensor.neerslag_buienradar_regen_data
-        title: null
-      - square: false
-        type: grid
-        cards:
-          - type: custom:mushroom-entity-card
-            entity: sensor.buienradar_barometer
-          - type: custom:mushroom-entity-card
-            icon: mdi:sun-thermometer-outline
-            entity: sensor.buienradar_rainchance_1d
-            name: Kans op regen
-        columns: 2
-      - type: custom:mushroom-title-card
-        title: Zon
-        subtitle: ""
-      - type: custom:horizon-card
-        moon: true
-        refresh_period: 60
-        fields:
-          sunrise: true
-          sunset: true
-          dawn: true
-          noon: true
-          dusk: true
-          moon_phase: false
-      - type: custom:mushroom-title-card
-        title: Wind
-        subtitle: ""
-      - type: iframe
-        url: >-
-          https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=7&overlay=wind&product=ecmwf&level=surface&lat=52.1&lon=5.867&detailLat=52.021&detailLon=5.657&marker=true&message=true"
-        aspect_ratio: 90%
-      - type: custom:mushroom-title-card
-        title: Pollen
-        subtitle: ""
-      - type: horizontal-stack
-        cards:
-          - type: gauge
-            entity: sensor.kleenex_pollen_radar_home_trees
-            max: 804
-            needle: false
-            segments:
-              - from: 0
-                color: "#64b329"
-              - from: 96
-                color: "#ff6700"
-              - from: 208
-                color: "#F32013"
-              - from: 704
-                color: "#a71100"
-            name: Bomen
-          - type: gauge
-            max: 804
-            needle: false
-            segments:
-              - from: 0
-                color: "#64b329"
-              - from: 96
-                color: "#ff6700"
-              - from: 208
-                color: "#F32013"
-              - from: 704
-                color: "#a71100"
-            name: Gras
-            entity: sensor.kleenex_pollen_radar_home_grass
-          - type: gauge
-            needle: false
-            entity: sensor.kleenex_pollen_radar_home_weeds
-            max: 367
-            segments:
-              - from: 0
-                color: "#64b329"
-              - from: 21
-                color: "#ff6700"
-              - from: 78
-                color: "#F32013"
-              - from: 267
-                color: "#a71100"
-            name: Onkruid
-      - type: custom:mini-graph-card
-        hours_to_show: 24
-        hour24: true
-        points_per_hour: 60
-        decimals: 0
-        font_size: 90
-        font_size_header: 12
-        animate: true
-        height: 200
-        line_width: 2
-        show:
-          name: true
-          icon: true
-          state: true
-          labels: true
-          fill: false
-          extrema: false
-          average: false
-          legend: true
-        entities:
-          - entity: sensor.knmi_wind_speed
-            name: KNMI Windsnelheid
   - title: energy
     path: energy
     icon: mdi:lightning-bolt
     badges: []
     cards:
-      - type: custom:mushroom-title-card
-        title: Realtime
-        subtitle: ""
+      - type: heading
+        icon: ""
+        heading_style: title
+        heading: Realtime
       - type: vertical-stack
         cards:
           - square: false
@@ -5122,9 +4785,10 @@ views:
           - entity: sensor.custom_energy_returned_watt
             name: Energie teruglevering
             color: "#8353d1"
-      - type: custom:mushroom-title-card
-        title: Statistieken
-        subtitle: ""
+      - type: heading
+        icon: ""
+        heading_style: title
+        heading: Statistieken
       - type: energy-date-selection
         view_layout:
           grid-area: menu
@@ -5177,20 +4841,397 @@ views:
         line_color: red
         entities:
           - entity: sensor.dsmr_meter_stats_voltage_swell_count_l1
-      - type: custom:mushroom-title-card
-        title: ""
-        subtitle: Langertermijn
+  - type: sections
+    path: weather
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Weerbericht
+            heading_style: title
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: binary_sensor.knmi_warning
+                state: "on"
+            card:
+              type: custom:mushroom-template-card
+              primary: Code {{ state_attr(entity, 'code') }}
+              secondary: |-
+
+                {{ state_attr(entity, 'description') }}
+              icon: mdi:weather-cloudy-alert
+              icon_color: '{{ states("sensor.weather_code_translated") }}'
+              multiline_secondary: true
+              layout: horizontal
+              badge_icon: ""
+              badge_color: ""
+              tap_action:
+                action: none
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              entity: binary_sensor.knmi_warning
+          - type: custom:stack-in-card
+            cards:
+              - type: weather-forecast
+                show_current: true
+                show_forecast: true
+                entity: weather.knmi_home
+                forecast_type: hourly
+                name: KNMI
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                    }
+              - type: weather-forecast
+                show_current: false
+                show_forecast: true
+                entity: weather.knmi_home
+                forecast_type: daily
+                name: KNMI
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                    }
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-template-card
+                entity: sensor.custom_weather_description_01
+                primary: '{{ (state_attr(entity, "header_01")) }}'
+                secondary: '{{ (state_attr(entity, "msg_01")) }}'
+                icon: ""
+                icon_color: blue
+                badge_icon: ""
+                badge_color: ""
+                multiline_secondary: true
+                tap_action:
+                  action: none
+                picture: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: url
+                  url_path: https://www.weeronline.nl/weerbericht-nederland
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: custom:mushroom-template-card
+                entity: sensor.custom_weather_description_01
+                primary: '{{ (state_attr(entity, "header_02")) }}'
+                secondary: '{{ (state_attr(entity, "msg_02")) }}'
+                icon: ""
+                icon_color: blue
+                badge_icon: ""
+                badge_color: ""
+                multiline_secondary: true
+                tap_action:
+                  action: none
+                picture: ""
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: url
+                  url_path: https://www.weeronline.nl/weerbericht-nederland
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+              - type: custom:collapsable-cards
+                title: Meer...
+                defaultOpen: false
+                cards:
+                  - type: custom:mushroom-template-card
+                    entity: sensor.custom_weather_description_01
+                    primary: '{{ (state_attr(entity, "header_03")) }}'
+                    secondary: '{{ (state_attr(entity, "msg_03")) }}'
+                    icon: ""
+                    icon_color: blue
+                    badge_icon: ""
+                    badge_color: ""
+                    multiline_secondary: true
+                    tap_action:
+                      action: none
+                    picture: ""
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: url
+                      url_path: https://www.weeronline.nl/weerbericht-nederland
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: none;
+                          box-shadow: 0px 0px;
+                        }
+                  - type: custom:mushroom-template-card
+                    entity: sensor.custom_weather_description_01
+                    primary: '{{ (state_attr(entity, "header_04")) }}'
+                    secondary: '{{ (state_attr(entity, "msg_04")) }}'
+                    icon: ""
+                    icon_color: blue
+                    badge_icon: ""
+                    badge_color: ""
+                    multiline_secondary: true
+                    tap_action:
+                      action: none
+                    picture: ""
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: url
+                      url_path: https://www.weeronline.nl/weerbericht-nederland
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: none;
+                          box-shadow: 0px 0px;
+                        }
+                  - type: custom:mushroom-template-card
+                    entity: sensor.custom_weather_description_01
+                    primary: '{{ (state_attr(entity, "header_05")) }}'
+                    secondary: '{{ (state_attr(entity, "msg_05")) }}'
+                    icon: ""
+                    icon_color: blue
+                    badge_icon: ""
+                    badge_color: ""
+                    multiline_secondary: true
+                    tap_action:
+                      action: none
+                    picture: ""
+                    hold_action:
+                      action: none
+                    double_tap_action:
+                      action: url
+                      url_path: https://www.weeronline.nl/weerbericht-nederland
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border: none;
+                          box-shadow: 0px 0px;
+                        }
+                card_mod:
+                  style: |
+                    ha-card {
+                      border: none;
+                      box-shadow: 0px 0px;
+                    }
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: sensor.buienradar_barometer
+              - type: custom:mushroom-entity-card
+                icon: mdi:sun-thermometer-outline
+                entity: sensor.buienradar_rainchance_1d
+                name: Kans op regen
+            columns: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading: Neerslag
+            heading_style: title
+          - show_state: false
+            show_name: false
+            camera_view: auto
+            entity: camera.buienradar
+            type: picture-entity
+            camera_image: camera.buienradar
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+          - type: custom:neerslag-card
+            autozoom: true
+            entities:
+              - sensor.neerslag_buienalarm_regen_data
+              - sensor.neerslag_buienradar_regen_data
+            title: null
+      - type: grid
+        cards:
+          - type: heading
+            heading: Wind
+            heading_style: title
+          - type: iframe
+            url: >-
+              https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=7&overlay=wind&product=ecmwf&level=surface&lat=52.1&lon=5.867&detailLat=52.021&detailLon=5.657&marker=true&message=true"
+            aspect_ratio: 90%
+          - type: custom:mini-graph-card
+            hours_to_show: 24
+            hour24: true
+            points_per_hour: 60
+            decimals: 0
+            font_size: 90
+            font_size_header: 12
+            animate: true
+            height: 200
+            line_width: 2
+            show:
+              name: true
+              icon: true
+              state: true
+              labels: true
+              fill: false
+              extrema: false
+              average: false
+              legend: true
+            entities:
+              - entity: sensor.knmi_wind_speed
+                name: KNMI Windsnelheid
+      - type: grid
+        cards:
+          - type: heading
+            heading: Zon
+            heading_style: title
+          - type: custom:horizon-card
+            moon: true
+            refresh_period: 60
+            fields:
+              sunrise: true
+              sunset: true
+              dawn: true
+              noon: true
+              dusk: true
+              moon_phase: false
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Pollen
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.kleenex_pollen_radar_home_trees
+                max: 804
+                needle: false
+                segments:
+                  - from: 0
+                    color: "#64b329"
+                  - from: 96
+                    color: "#ff6700"
+                  - from: 208
+                    color: "#F32013"
+                  - from: 704
+                    color: "#a71100"
+                name: Bomen
+              - type: gauge
+                max: 804
+                needle: false
+                segments:
+                  - from: 0
+                    color: "#64b329"
+                  - from: 96
+                    color: "#ff6700"
+                  - from: 208
+                    color: "#F32013"
+                  - from: 704
+                    color: "#a71100"
+                name: Gras
+                entity: sensor.kleenex_pollen_radar_home_grass
+              - type: gauge
+                needle: false
+                entity: sensor.kleenex_pollen_radar_home_weeds
+                max: 367
+                segments:
+                  - from: 0
+                    color: "#64b329"
+                  - from: 21
+                    color: "#ff6700"
+                  - from: 78
+                    color: "#F32013"
+                  - from: 267
+                    color: "#a71100"
+                name: Onkruid
+    max_columns: 4
+    title: weather
+    cards: []
+    icon: mdi:weather-lightning-rainy
+    visible:
+      - user: e237448e8a0346c6a94948bf36e03ac6
+      - user: 8f133ec685064df3932c71adbffa55fb
+      - user: fb38e292153742459181439bc36cbfa2
+      - user: 678852c0b9bf4722b9422d79004dd2da
   - title: camera
     path: camera
     cards:
-      - type: custom:webrtc-camera
-        poster: http://go2rtc.lan.stamx.nl/api/frame.jpeg?src=ipcam-02
-        streams:
-          - url: ipcam-02
-      - type: custom:webrtc-camera
-        poster: http://go2rtc.lan.stamx.nl/api/frame.jpeg?src=ipcam-01
-        streams:
-          - url: ipcam-01
+      - type: vertical-stack
+        cards:
+          - type: heading
+            icon: ""
+            heading_style: title
+            heading: Beau
+          - type: custom:webrtc-camera
+            url: baby
+          - type: history-graph
+            entities:
+              - entity: binary_sensor.baby_person_occupancy
+            hours_to_show: 1
+            logarithmic_scale: false
+            min_y_axis: 0
+            max_y_axis: 0
+            fit_y_data: false
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.baby_motion
+                name: Beweging
+                fill_container: false
+                primary_info: none
+              - type: custom:mushroom-entity-card
+                entity: sensor.baby_person_count
+                secondary_info: state
+                name: Personen
+            columns: 2
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                fill_container: false
+                primary_info: name
+                entity: image.baby_person
+                icon_type: entity-picture
+                name: Persoon
+                secondary_info: last-changed
+            columns: 2
+      - type: vertical-stack
+        cards:
+          - type: heading
+            icon: ""
+            heading_style: title
+            heading: Achtertuin
+          - type: custom:webrtc-camera
+            url: backyard
+          - type: history-graph
+            entities:
+              - entity: binary_sensor.backyard_person_occupancy
+            hours_to_show: 1
+            logarithmic_scale: false
+            min_y_axis: 0
+            max_y_axis: 0
+            fit_y_data: false
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.backyard_motion
+                name: Beweging
+                fill_container: false
+                primary_info: none
+              - type: custom:mushroom-entity-card
+                entity: sensor.backyard_person_count
+                secondary_info: state
+                name: Personen
+            columns: 2
     icon: mdi:cctv
   - title: lists
     path: lists
@@ -5309,13 +5350,10 @@ views:
         tags:
           - Lise
         title: false
-      - type: entities
-        entities:
-          - entity: switch.nodered_39f868aa97a1088e
   - icon: mdi:remote-tv
     cards:
       - type: custom:firemote-card
-        entity: media_player.android_tv_shield.lan.stamx.nl
+        entity: media_player.android_tv_shield_lan_stamx_nl
         device_family: nvidia-shield
         device_type: shield-tv-pro-2019
         compatibility_mode: default
@@ -6055,4 +6093,14 @@ views:
                 type: entities
                 state_color: true
               sort: {}
+  - type: panel
+    cards:
+      - type: iframe
+        url: https://dsmr-reader.lan.stamx.nl
+        aspect_ratio: 100%
+    title: DSMR-Reader
+    icon: mdi:transmission-tower
+    visible:
+      - user: e237448e8a0346c6a94948bf36e03ac6
+      - user: 8f133ec685064df3932c71adbffa55fb
 title: mobile

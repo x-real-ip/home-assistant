@@ -257,7 +257,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: grey
             layout: vertical
             fill_container: false
@@ -650,7 +650,9 @@ views:
                   {% elif
                   is_state("input_boolean.mechanical_ventilation_position_3",
                   "on") -%}
+
                   mdi:fan-speed-3
+
                   {%- endif %}
                 entity: input_select.mechanical_ventilation_position
                 tap_action:
@@ -914,7 +916,7 @@ views:
                 primary_info: name
                 icon_color: red
               - type: custom:mushroom-entity-card
-                entity: binary_sensor.barndoor_window
+                entity: binary_sensor.barndoor
                 layout: vertical
                 fill_container: false
                 secondary_info: last-changed
@@ -2041,7 +2043,7 @@ views:
                 name: Lise's kleurlamp
               - type: custom:mushroom-light-card
                 entity: light.shellydimmer_small_bedroom
-                name: Kleine slaapkamer
+                name: Beau's slaapkamer
                 icon: mdi:ceiling-light
                 layout: horizontal
                 fill_container: false
@@ -2228,7 +2230,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: grey
             layout: vertical
             fill_container: false
@@ -3758,7 +3760,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: grey
             layout: vertical
             fill_container: false
@@ -5259,7 +5261,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: grey
             layout: vertical
             fill_container: false
@@ -5658,7 +5660,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: grey
             layout: vertical
             fill_container: false
@@ -5982,7 +5984,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: grey
             layout: vertical
             fill_container: false
@@ -6069,7 +6071,7 @@ views:
                   - locate
                   - clean_spot
                   - return_home
-                entity: vacuum.robot_vacuum
+                entity: vacuum.roborock_s55
                 name: " "
                 primary_info: state
                 secondary_info: last-changed
@@ -6158,8 +6160,14 @@ views:
           grid-area: footer
   - title: camera
     path: camera
-    icon: mdi:video
+    icon: mdi:cctv
     type: custom:grid-layout
+    layout:
+      grid-template-columns: 60px 100px 1020px 100px
+      grid-template-rows: 45px
+      grid-template-areas: |
+        "header header header header"
+        "menu left middle right"
     cards:
       - type: vertical-stack
         cards:
@@ -6286,7 +6294,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: green
             layout: vertical
             fill_container: false
@@ -6325,20 +6333,10 @@ views:
                 }
         view_layout:
           grid-area: menu
-      - type: vertical-stack
-        cards:
-          - type: custom:webrtc-camera
-            poster: ipcam-02
-            streams:
-              - url: ipcam-02
+      - type: custom:webrtc-camera
+        url: baby
         view_layout:
           grid-area: middle
-    layout:
-      grid-template-columns: 60px 100px 1020px 100px
-      grid-template-rows: 45px 240px
-      grid-template-areas: |
-        "header header header header"
-        "menu left middle right"
   - title: system
     path: system
     layout:
@@ -6476,7 +6474,7 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:video
+            icon: mdi:cctv
             icon_color: grey
             layout: vertical
             fill_container: false
@@ -6619,43 +6617,6 @@ views:
                         average: true
                       entities:
                         - entity: sensor.shellyplug_hypervisor_b_power
-                      color_thresholds:
-                        - value: 15
-                          color: "#2a5839"
-                        - color: "#33573a"
-                        - color: "#3c573b"
-                        - color: "#45563c"
-                        - color: "#4e563d"
-                        - color: "#57553e"
-                        - color: "#60553f"
-                        - color: "#695440"
-                        - color: "#725341"
-                        - color: "#7b5342"
-                        - color: "#835244"
-                        - color: "#8c5245"
-                        - color: "#955146"
-                        - color: "#9e5047"
-                        - color: "#a75048"
-                        - color: "#b04f49"
-                        - color: "#b94f4a"
-                        - color: "#c24e4b"
-                        - color: "#cb4e4c"
-                        - value: 190
-                          color: "#d44d4d"
-                    - type: custom:mini-graph-card
-                      name: Storage Server
-                      hours_to_show: 8
-                      hour24: true
-                      points_per_hour: 9
-                      font_size: 90
-                      font_size_header: 12
-                      animate: true
-                      line_width: 2
-                      show:
-                        extrema: true
-                        average: true
-                      entities:
-                        - entity: sensor.shellyplug_storage_server_power
                       color_thresholds:
                         - value: 15
                           color: "#2a5839"
