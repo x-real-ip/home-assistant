@@ -1,15 +1,13 @@
----
 views:
   - title: Home
     icon: mdi:home
-    path: home
     badges:
       - type: entity
         show_name: true
         show_state: false
         show_icon: true
         entity: input_boolean.guest
-        color: ""
+        color: ''
         icon: mdi:account-plus
         name: Gast
         tap_action:
@@ -49,7 +47,7 @@ views:
         show_state: true
         show_icon: true
         entity: sensor.transmission_active_torrents
-        color: ""
+        color: ''
         icon: mdi:download
         name: Torrent
       - type: custom:mushroom-chips-card
@@ -57,7 +55,7 @@ views:
           - type: conditional
             conditions:
               - entity: sensor.lights_on_counter
-                state_not: "0"
+                state_not: '0'
             chip:
               type: template
               entity: sensor.lights_on_counter
@@ -93,77 +91,86 @@ views:
         visibility:
           - condition: state
             entity: binary_sensor.stookalert_gelderland
-            state: "on"
-      - type: entity
-        show_name: false
-        show_state: true
-        show_icon: true
-        entity: binary_sensor.knmi_warning
-        color: orange
-        visibility:
-          - condition: state
-            entity: binary_sensor.knmi_warning
-            state: "on"
-        icon: mdi:weather-cloudy-alert
-        state_content:
-          - name
-          - code
-        name: KNMI Waarschuwing
-        show_entity_picture: false
-    cards:
-      - type: vertical-stack
+            state: 'on'
+    cards: []
+    type: sections
+    sections:
+      - type: grid
         cards:
           - type: heading
-            icon: ""
+            icon: ''
             heading: Weer
             heading_style: title
+            badges:
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.weather_station_dht_temperature
+                color: state
+              - type: entity
+                show_state: true
+                show_icon: true
+                entity: sensor.weather_station_dht_humidity
+                color: state
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: binary_sensor.knmi_warning
+                state: 'on'
+            card:
+              type: custom:mushroom-template-card
+              primary: Code {{ state_attr(entity, 'code') }}
+              secondary: |-
+
+                {{ state_attr(entity, 'title') }}
+              icon: mdi:weather-cloudy-alert
+              icon_color: '{{ states("sensor.weather_code_translated") }}'
+              multiline_secondary: true
+              layout: horizontal
+              badge_icon: ''
+              badge_color: ''
+              tap_action:
+                action: navigate
+                navigation_path: /dashboard-mobile/weather
+              hold_action:
+                action: none
+              double_tap_action:
+                action: none
+              entity: binary_sensor.knmi_warning
           - show_current: true
-            show_forecast: false
+            show_forecast: true
             type: weather-forecast
             entity: weather.knmi_home
             forecast_type: daily
             name: KNMI
+            grid_options:
+              columns: 12
+              rows: 3
           - type: custom:mushroom-template-card
             primary: '{{ (state_attr(entity, "header_01")) }}'
             secondary: '{{ (state_attr(entity, "msg_01")) }}'
-            icon: ""
+            icon: ''
             icon_color: blue
-            badge_icon: ""
-            badge_color: ""
+            badge_icon: ''
+            badge_color: ''
             multiline_secondary: true
             tap_action:
               action: url
               url_path: https://www.weeronline.nl/weerbericht-nederland
-            picture: ""
+            picture: ''
             hold_action:
               action: none
             double_tap_action:
               action: none
             entity: sensor.custom_weather_description_01
-      - type: vertical-stack
+            grid_options:
+              columns: 12
+              rows: auto
+      - type: grid
         cards:
           - type: heading
-            icon: ""
             heading: Entertainment
             heading_style: title
-            badges:
-              - type: entity
-                show_state: false
-                show_icon: true
-                entity: media_player.android_tv_shield_lan_stamx_nl
-                icon: mdi:restart
-                tap_action:
-                  action: perform-action
-                  perform_action: androidtv.adb_command
-                  target:
-                    entity_id: media_player.android_tv_shield_lan_stamx_nl
-                  data:
-                    command: reboot now
-                visibility:
-                  - condition: state
-                    entity: media_player.android_tv_shield_lan_stamx_nl
-                    state_not: "off"
-                name: Restart Shield
           - type: conditional
             conditions:
               - condition: state
@@ -188,704 +195,1185 @@ views:
               show_volume_level: true
               use_media_info: true
               icon_type: entity-picture
-          - type: vertical-stack
-            cards:
-              - features:
-                  - type: select-options
-                type: tile
-                entity: input_select.entertainment_activity
-                icon: mdi:youtube-tv
-                tap_action:
-                  action: none
-                icon_tap_action:
-                  action: none
-                hide_state: true
-                color: indigo
-                vertical: false
-                show_entity_picture: true
-              - type: conditional
-                conditions:
-                  - entity: input_select.entertainment_activity
-                    state: TV
-                card:
-                  type: vertical-stack
+          - features:
+              - type: select-options
+            type: tile
+            entity: input_select.entertainment_activity
+            icon: mdi:youtube-tv
+            tap_action:
+              action: none
+            icon_tap_action:
+              action: none
+            hide_state: true
+            color: indigo
+            vertical: false
+            show_entity_picture: true
+            grid_options:
+              columns: full
+              rows: 2
+          - type: conditional
+            conditions:
+              - entity: input_select.entertainment_activity
+                state: TV
+            card:
+              type: vertical-stack
+              cards:
+                - type: custom:mushroom-media-player-card
+                  entity: media_player.universal_tv
+                  name: TV
+                  use_media_info: true
+                  show_volume_level: false
+                  volume_controls:
+                    - volume_mute
+                    - volume_set
+                  media_controls:
+                    - play_pause_stop
+                    - previous
+                    - next
+                  collapsible_controls: true
+                  tap_action:
+                    action: none
+                  hold_action:
+                    action: none
+                  double_tap_action:
+                    action: none
+                  icon_type: entity-picture
+          - type: conditional
+            conditions:
+              - entity: input_select.entertainment_activity
+                state: Radio
+            card:
+              type: vertical-stack
+              cards:
+                - type: vertical-stack
                   cards:
                     - type: custom:mushroom-media-player-card
-                      entity: media_player.universal_tv
-                      name: TV
+                      entity: media_player.powernode_2i_ea48
+                      icon: mdi:spotify
                       use_media_info: true
                       show_volume_level: false
                       volume_controls:
-                        - volume_mute
                         - volume_set
+                        - volume_mute
                       media_controls:
                         - play_pause_stop
-                        - previous
-                        - next
                       collapsible_controls: true
+                      fill_container: false
+                      icon_type: entity-picture
+                      name: Powernode
                       tap_action:
                         action: none
                       hold_action:
                         action: none
                       double_tap_action:
                         action: none
+                    - type: custom:swipe-card
+                      parameters:
+                        preventInteractionOnTransition: true
+                        preventClicks: true
+                        preventClicksPropagation: true
+                        touchReleaseOnEdges: true
+                        sticky: true
+                        effect: slide
+                        spaceBetween: 10
+                        slidesPerView: 1
+                        pagination:
+                          hide: false
+                          draggable: true
+                          snapOnRelease: true
+                        autoplay: false
+                      cards:
+                        - type: grid
+                          square: true
+                          columns: 3
+                          cards:
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Radio 1
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/radio1.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: NPO Radio 1
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Radio 2
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/radio2.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: NPO Radio 2
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: 3FM
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/3fm.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: NPO 3FM
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                        - type: grid
+                          square: true
+                          columns: 3
+                          cards:
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Radio 4
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/radio4.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: NPO Radio 4
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Radio 538
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/radio538.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: Radio 538
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Radio 10
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/radio10.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: Radio 10
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                        - type: grid
+                          square: true
+                          columns: 3
+                          cards:
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Qmusic Nonstop
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/qmusic.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: Qmusic Nonstop
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Sky Radio
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/skyradio.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: Sky Radio
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: BNR
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/bnr.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: BNR Nieuwsradio
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                        - type: grid
+                          square: true
+                          columns: 3
+                          cards:
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: SLAM! Non Stop
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/slamfm.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: SLAM! Non Stop
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: 100% NL
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/100procentnl.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: 100% NL
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Radio Veronica
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/radio/veronica.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: Radio Veronica
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                        - type: grid
+                          square: true
+                          columns: 3
+                          cards:
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Sublime
+                              icon: ''
+                              layout: vertical
+                              picture: >-
+                                https://cdn-profiles.tunein.com/s25777/images/logoq.png?t=637957640440000000
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: Sublime
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Christmas Radio
+                              icon: ''
+                              layout: vertical
+                              picture: >-
+                                https://cdn-profiles.tunein.com/s299546/images/logoq.jpg?t=636734033512730000
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: Christmas Radio
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+          - type: conditional
+            conditions:
+              - entity: input_select.entertainment_activity
+                state: Spotify
+            card:
+              type: vertical-stack
+              cards:
+                - type: vertical-stack
+                  cards:
+                    - type: custom:mushroom-media-player-card
+                      entity: media_player.powernode_2i_ea48
+                      icon: mdi:spotify
+                      use_media_info: true
+                      show_volume_level: true
+                      volume_controls:
+                        - volume_set
+                        - volume_mute
+                      media_controls:
+                        - shuffle
+                        - previous
+                        - play_pause_stop
+                        - next
+                        - repeat
+                      collapsible_controls: true
+                      fill_container: false
                       icon_type: entity-picture
-              - type: conditional
-                conditions:
-                  - entity: input_select.entertainment_activity
-                    state: Radio
-                card:
-                  type: vertical-stack
-                  cards:
-                    - type: vertical-stack
+                      name: Powernode
+                      tap_action:
+                        action: none
+                      hold_action:
+                        action: none
+                      double_tap_action:
+                        action: none
+                    - type: custom:swipe-card
+                      parameters:
+                        preventInteractionOnTransition: true
+                        preventClicks: true
+                        preventClicksPropagation: true
+                        touchReleaseOnEdges: true
+                        sticky: true
+                        effect: slide
+                        slidesPerView: 1
+                        bulletActiveClass: true
+                        pagination:
+                          hide: false
+                          draggable: true
+                          snapOnRelease: true
+                          autoplay: true
                       cards:
-                        - type: custom:mushroom-media-player-card
-                          entity: media_player.powernode_2i_ea48
-                          icon: mdi:spotify
-                          use_media_info: true
-                          show_volume_level: false
-                          volume_controls:
-                            - volume_set
-                            - volume_mute
-                          media_controls:
-                            - play_pause_stop
-                          collapsible_controls: true
-                          fill_container: false
-                          icon_type: entity-picture
-                          name: Powernode
-                          tap_action:
-                            action: none
-                          hold_action:
-                            action: none
-                          double_tap_action:
-                            action: none
-                        - type: custom:swipe-card
-                          parameters:
-                            preventInteractionOnTransition: true
-                            preventClicks: true
-                            preventClicksPropagation: true
-                            touchReleaseOnEdges: true
-                            sticky: true
-                            effect: slide
-                            spaceBetween: 10
-                            slidesPerView: 1
-                            pagination:
-                              hide: false
-                              draggable: true
-                              snapOnRelease: true
-                            autoplay: false
+                        - type: grid
+                          square: true
+                          columns: 3
                           cards:
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Radio 1
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/radio1.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: NPO Radio 1
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Radio 2
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/radio2.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: NPO Radio 2
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: 3FM
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/3fm.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: NPO 3FM
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Radio 4
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/radio4.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: NPO Radio 4
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Radio 538
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/radio538.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: Radio 538
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Radio 10
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/radio10.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: Radio 10
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Qmusic Nonstop
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/qmusic.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: Qmusic Nonstop
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Sky Radio
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/skyradio.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: Sky Radio
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: BNR
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/bnr.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: BNR Nieuwsradio
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: SLAM! Non Stop
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/slamfm.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: SLAM! Non Stop
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: 100% NL
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/100procentnl.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: 100% NL
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Radio Veronica
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/radio/veronica.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: Radio Veronica
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Sublime
-                                  icon: ""
-                                  layout: vertical
-                                  picture: >-
-                                    https://cdn-profiles.tunein.com/s25777/images/logoq.png?t=637957640440000000
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: Sublime
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Christmas Radio
-                                  icon: ""
-                                  layout: vertical
-                                  picture: >-
-                                    https://cdn-profiles.tunein.com/s299546/images/logoq.jpg?t=636734033512730000
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: Christmas Radio
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-              - type: conditional
-                conditions:
-                  - entity: input_select.entertainment_activity
-                    state: Spotify
-                card:
-                  type: vertical-stack
-                  cards:
-                    - type: vertical-stack
-                      cards:
-                        - type: custom:mushroom-media-player-card
-                          entity: media_player.powernode_2i_ea48
-                          icon: mdi:spotify
-                          use_media_info: true
-                          show_volume_level: true
-                          volume_controls:
-                            - volume_set
-                            - volume_mute
-                          media_controls:
-                            - shuffle
-                            - previous
-                            - play_pause_stop
-                            - next
-                            - repeat
-                          collapsible_controls: true
-                          fill_container: false
-                          icon_type: entity-picture
-                          name: Powernode
-                          tap_action:
-                            action: none
-                          hold_action:
-                            action: none
-                          double_tap_action:
-                            action: none
-                        - type: custom:swipe-card
-                          parameters:
-                            preventInteractionOnTransition: true
-                            preventClicks: true
-                            preventClicksPropagation: true
-                            touchReleaseOnEdges: true
-                            sticky: true
-                            effect: slide
-                            slidesPerView: 1
-                            bulletActiveClass: true
-                            pagination:
-                              hide: false
-                              draggable: true
-                              snapOnRelease: true
-                              autoplay: true
+                            - type: custom:mushroom-template-card
+                              primary: ''
+                              secondary: Liked Songs
+                              icon: ''
+                              layout: vertical
+                              picture: /local/img/spotify/liked_songs.png
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.select_source
+                                target:
+                                  entity_id: media_player.powernode_2i_ea48
+                                data:
+                                  source: 'Spotify: Liked Songs'
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_01
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/3ORKq4U4Pv5gMrYdsaT6hw
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_02
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/7gHGifRLJgiahSNrugxIoa
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                        - type: grid
+                          square: true
+                          columns: 3
                           cards:
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  primary: ""
-                                  secondary: Liked Songs
-                                  icon: ""
-                                  layout: vertical
-                                  picture: /local/img/spotify/liked_songs.png
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.select_source
-                                    target:
-                                      entity_id: media_player.powernode_2i_ea48
-                                    data:
-                                      source: "Spotify: Liked Songs"
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_01
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/3ORKq4U4Pv5gMrYdsaT6hw
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_02
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/7gHGifRLJgiahSNrugxIoa
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_03
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/6pfSVtSuceWnHRMRRv2CSP
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_04
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/3nyfO2R6MxbP67wxYVo1nR
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_05
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/0avSSq7Hv1KtLC8dQB4xVE
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_06
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/77FZT9MGc3p7RMBUr5m50r
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_07
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/7E6QXGrtUyYl1kTyvnluTr
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_08
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/37i9dQZEVXcDO6enaQNKLz
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                            - type: grid
-                              square: true
-                              columns: 3
-                              cards:
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_09
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/37i9dQZEVXbqqpGQ1yV2nx
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_10
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/37i9dQZF1E4x6tDrzQfNsN
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                                - type: custom:mushroom-template-card
-                                  entity: sensor.playlist_11
-                                  primary: ""
-                                  secondary: "{{ state_attr(entity,'name') }}"
-                                  icon: ""
-                                  layout: vertical
-                                  picture: "{{ state_attr(entity,'image') }}"
-                                  fill_container: false
-                                  double_tap_action:
-                                    action: call-service
-                                    service: media_player.play_media
-                                    data:
-                                      media_content_id: >-
-                                        https://open.spotify.com/playlist/1FmlUPRCZaU7QkusYhibAB
-                                      media_content_type: playlist
-                                      announce: true
-                                    target:
-                                      entity_id: media_player.spotify_coen_s_nl
-                                  hold_action:
-                                    action: none
-                                  tap_action:
-                                    action: none
-                          card_mod:
-                            style: |
-                              ha-card {
-                                border: none;
-                              }
-      - type: vertical-stack
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_03
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/6pfSVtSuceWnHRMRRv2CSP
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_04
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/3nyfO2R6MxbP67wxYVo1nR
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_05
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/0avSSq7Hv1KtLC8dQB4xVE
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                        - type: grid
+                          square: true
+                          columns: 3
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_06
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/77FZT9MGc3p7RMBUr5m50r
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_07
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/7E6QXGrtUyYl1kTyvnluTr
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_08
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/37i9dQZEVXcDO6enaQNKLz
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                        - type: grid
+                          square: true
+                          columns: 3
+                          cards:
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_09
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/37i9dQZEVXbqqpGQ1yV2nx
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_10
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/37i9dQZF1E4x6tDrzQfNsN
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                            - type: custom:mushroom-template-card
+                              entity: sensor.playlist_11
+                              primary: ''
+                              secondary: '{{ state_attr(entity,''name'') }}'
+                              icon: ''
+                              layout: vertical
+                              picture: '{{ state_attr(entity,''image'') }}'
+                              fill_container: false
+                              double_tap_action:
+                                action: call-service
+                                service: media_player.play_media
+                                data:
+                                  media_content_id: >-
+                                    https://open.spotify.com/playlist/1FmlUPRCZaU7QkusYhibAB
+                                  media_content_type: playlist
+                                  announce: true
+                                target:
+                                  entity_id: media_player.spotify_coen_s_nl
+                              hold_action:
+                                action: none
+                              tap_action:
+                                action: none
+                      card_mod:
+                        style: |
+                          ha-card {
+                            border: none;
+                          }
+        column_span: 1
+      - type: grid
         cards:
           - type: heading
-            icon: ""
+            icon: ''
+            heading: Schakelaars
+            heading_style: title
+          - type: custom:mushroom-entity-card
+            icon: ''
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: green
+            tap_action:
+              action: toggle
+            layout: vertical
+            entity: fan.shelly1pm_toilet_fan_switch_0
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-template-card
+            primary: Souterrain
+            secondary: >
+              {% if
+              is_state("input_boolean.mechanical_ventilation_basement_autonomous",
+              "on") -%}
+
+              Auto
+
+              {%- else %}
+
+              Handmatig
+
+              {%- endif %}
+
+              {% if is_state("input_boolean.mechanical_ventilation_position_0",
+              "on") -%}
+
+              - Uit
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_1", "on")
+              -%}
+
+              - Laag
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_2", "on")
+              -%}
+
+              - Midden
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_3", "on")
+              -%}
+
+              - Hoog
+
+              {%- endif %}
+            icon: >-
+              {% if
+              is_state("input_boolean.mechanical_ventilation_basement_autonomous",
+              "on") -%}
+
+              mdi:fan-auto
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_0", "on")
+              -%}
+
+              mdi:fan-off
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_1", "on")
+              -%}
+
+              mdi:fan-speed-1
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_2", "on")
+              -%}
+
+              mdi:fan-speed-2
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_3", "on")
+              -%}
+
+              mdi:fan-speed-3
+
+              {%- endif %}
+            entity: input_select.mechanical_ventilation_position
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  style: |
+                    --popup-min-width: 600px;
+                    --popup-max-width: 400px;
+                    --popup-border-radius: 10px;
+                  card_mod:
+                    style: |
+                      ha-dialog {
+                        --mdc-dialog-min-width: 50vw !important;
+                        --ha-dialog-border-radius: var(--ha-card-border-radius) !important;
+                        --vertical-align-dialog: center !important;
+                        --header-height: 5vh !important;
+                        --footer-height: var(--header-height) !important;
+                        --padding-y: 8px !important;
+                        -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+                      }
+                      .content {
+                        height: fit-content !important;
+                        max-height: 20vh !important
+                        pointer-events: unset !important;
+                        padding: 0 !important;
+                      }
+                      .container {
+                        padding: 10px !important;
+                      }
+                  size: NORMAL
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-chips-card
+                        chips:
+                          - type: entity
+                            entity: sensor.basement_humidity
+                            icon_color: cyan
+                            tap_action:
+                              action: call-service
+                              service: input_select.select_option
+                              target:
+                                entity_id: input_select.climate_graph_basement
+                              data:
+                                option: Relative humidity
+                          - type: entity
+                            entity: sensor.basement_thermal_comfort_absolute_humidity
+                            icon_color: cyan
+                            tap_action:
+                              action: call-service
+                              service: input_select.select_option
+                              target:
+                                entity_id: input_select.climate_graph_basement
+                              data:
+                                option: Absolute humidity
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-entity-card
+                            entity: input_boolean.mechanical_ventilation_position_0
+                            icon: mdi:fan-off
+                            icon_color: green
+                            tap_action:
+                              action: toggle
+                            name: Uit
+                            primary_info: name
+                            secondary_info: none
+                          - type: custom:mushroom-entity-card
+                            entity: input_boolean.mechanical_ventilation_position_1
+                            icon: mdi:fan-speed-1
+                            icon_color: green
+                            tap_action:
+                              action: toggle
+                            name: Laag
+                            secondary_info: name
+                            primary_info: none
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-entity-card
+                            entity: input_boolean.mechanical_ventilation_position_2
+                            icon: mdi:fan-speed-2
+                            icon_color: green
+                            tap_action:
+                              action: toggle
+                            name: Midden
+                            primary_info: none
+                            secondary_info: name
+                          - type: custom:mushroom-entity-card
+                            entity: input_boolean.mechanical_ventilation_position_3
+                            icon: mdi:fan-speed-3
+                            icon_color: green
+                            tap_action:
+                              action: toggle
+                            name: Hoog
+                            primary_info: none
+                            secondary_info: name
+                      - square: false
+                        type: grid
+                        columns: 1
+                        cards:
+                          - type: custom:mushroom-entity-card
+                            entity: >-
+                              input_boolean.mechanical_ventilation_basement_autonomous
+                            icon: mdi:fan-auto
+                            icon_color: green
+                            name: Autonoom
+                            tap_action:
+                              action: toggle
+                            secondary_info: name
+                            primary_info: none
+            layout: vertical
+            icon_color: >-
+              {% if is_state("input_boolean.mechanical_ventilation_position_0",
+              "on") -%}
+
+              disabled
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_1", "on")
+              -%}
+
+              green
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_2", "on")
+              -%}
+
+              green
+
+              {% elif
+              is_state("input_boolean.mechanical_ventilation_position_3", "on")
+              -%}
+
+              green
+
+              {%- endif %}
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-template-card
+            primary: Badkamer
+            secondary: >
+              {% if
+              is_state("input_boolean.mechanical_ventilation_bathroom_autonomous",
+              "on") -%}
+
+              Auto
+
+              {%- else %}
+
+              Handmatig
+
+              {%- endif %}
+
+              {% if is_state("fan.shelly1pm_bathroom_fan_switch_0", "off") -%}
+
+              - Uit
+
+              {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "on") -%}
+
+              - Aan
+
+              {%- endif %}
+            icon: >-
+              {% if
+              is_state("input_boolean.mechanical_ventilation_bathroom_autonomous",
+              "on") -%}
+
+              mdi:fan-auto
+
+              {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off") -%}
+
+              mdi:fan-off
+
+              {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "on") -%}
+
+              mdi:fan
+
+              {%- endif %}
+            entity: input_select.mechanical_ventilation_bathroom_position
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                service: browser_mod.popup
+                data:
+                  style: |
+                    --popup-min-width: 600px;
+                    --popup-max-width: 400px;
+                    --popup-border-radius: 10px;
+                  card_mod:
+                    style: |
+                      ha-dialog {
+                        --mdc-dialog-min-width: 50vw !important;
+                        --ha-dialog-border-radius: var(--ha-card-border-radius) !important;
+                        --vertical-align-dialog: center !important;
+                        --header-height: 5vh !important;
+                        --footer-height: var(--header-height) !important;
+                        --padding-y: 8px !important;
+                        -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+                      }
+                      .content {
+                        height: fit-content !important;
+                        max-height: 20vh !important
+                        pointer-events: unset !important;
+                        padding: 0 !important;
+                      }
+                      .container {
+                        padding: 10px !important;
+                      }
+                  size: NORMAL
+                  content:
+                    type: vertical-stack
+                    cards:
+                      - type: custom:mushroom-chips-card
+                        chips:
+                          - type: entity
+                            entity: sensor.bathroom_sensors_humidity
+                            icon_color: cyan
+                            tap_action:
+                              action: call-service
+                              service: input_select.select_option
+                              target:
+                                entity_id: input_select.climate_graph_basement
+                              data:
+                                option: Relative humidity
+                          - type: entity
+                            entity: sensor.bathroom_thermal_comfort_absolute_humidity
+                            icon_color: cyan
+                            tap_action:
+                              action: call-service
+                              service: input_select.select_option
+                              target:
+                                entity_id: input_select.climate_graph_basement
+                              data:
+                                option: Absolute humidity
+                      - square: false
+                        type: grid
+                        columns: 1
+                        cards:
+                          - type: custom:mushroom-entity-card
+                            entity: fan.shelly1pm_bathroom_fan_switch_0
+                            icon: mdi:fan
+                            icon_color: green
+                            tap_action:
+                              action: toggle
+                            name: Ventilatie
+                            secondary_info: none
+                            primary_info: state
+                      - square: false
+                        type: grid
+                        columns: 1
+                        cards:
+                          - type: custom:mushroom-entity-card
+                            entity: >-
+                              input_boolean.mechanical_ventilation_bathroom_autonomous
+                            icon: mdi:fan-auto
+                            icon_color: green
+                            name: Autonoom
+                            tap_action:
+                              action: toggle
+                            secondary_info: none
+                            primary_info: name
+                      - type: entities
+                        entities:
+                          - entity: timer.bathroom_mechanical_ventilation
+                            name: Timer
+                            secondary_info: none
+                        show_header_toggle: false
+                        state_color: true
+            fill_container: false
+            layout: vertical
+            icon_color: |-
+              {% if is_state("fan.shelly1pm_bathroom_fan_switch_0", "on") -%}
+              green
+              {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off") -%}
+              disabled
+              {%- endif %}
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            icon: mdi:file-cabinet
+            fill_container: false
+            secondary_info: last-changed
+            name: Keukenlade's
+            icon_color: purple
+            entity: switch.childlock_kitchen_switch
+            tap_action:
+              action: toggle
+            layout: vertical
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: switch.shelly1_frontyard_powersocket
+            icon: mdi:power-socket-de
+            fill_container: false
+            secondary_info: last-changed
+            name: Voortuin
+            icon_color: purple
+            tap_action:
+              action: toggle
+            layout: vertical
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: switch.shellyplugplus_heather_switch_0
+            icon: mdi:radiator
+            fill_container: false
+            icon_color: primary
+            tap_action:
+              action: toggle
+            layout: vertical
+            primary_info: name
+            secondary_info: last-changed
+            name: Kachel
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            icon: mdi:vacuum
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: purple
+            entity: input_boolean.auto_cleaning
+            name: Automatisch
+            tap_action:
+              action: toggle
+            layout: vertical
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-template-card
+            primary: Quooker
+            secondary: >-
+              {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
+              float > 2 %}
+               Opwarmen
+              {% elif is_state(entity, "on") %}
+               Aan
+              {%- else %}
+               Uit
+              {%- endif %}
+            icon: mdi:faucet
+            layout: vertical
+            entity: switch.shellyplugplus_quooker_switch_0
+            badge_icon: >-
+              {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
+              float > 10 %}
+               mdi:thermometer-chevron-up
+              {%- endif %}
+            badge_color: >-
+              {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
+              float > 0 %}
+               red
+              {%- endif %}
+            tap_action:
+              action: call-service
+              service: switch.toggle
+              target:
+                entity_id: switch.shellyplugplus_quooker_switch_0
+            icon_color: |-
+              {% if is_state(entity, "on") %}
+               cyan
+              {%- else %}
+               disabled
+              {%- endif %}
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            icon: mdi:alarm-bell
+            fill_container: false
+            secondary_info: last-changed
+            name: Deurbel
+            entity: switch.smart_doorbell_active
+            tap_action:
+              action: toggle
+            layout: vertical
+            grid_options:
+              columns: 4
+              rows: 2
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            icon: ''
             heading: Klimaat
             heading_style: title
             badges:
+              - type: entity
+                entity: sensor.living_room_temperature
               - type: entity
                 show_state: true
                 show_icon: true
@@ -902,568 +1390,175 @@ views:
                     entity: sensor.living_room_heating
                     above: 0
           - features:
-              - type: climate-hvac-modes
+              - style: icons
+                type: climate-hvac-modes
                 hvac_modes:
-                  - "off"
+                  - 'off'
                   - auto
-                  - heat
               - type: target-temperature
             type: tile
             entity: climate.living_room
             name: Woonkamer
             icon: mdi:thermometer
-      - type: vertical-stack
+            grid_options:
+              columns: 12
+              rows: 3
+            show_entity_picture: false
+            vertical: false
+            hide_state: false
+            state_content:
+              - state
+              - last_updated
+      - type: grid
         cards:
           - type: heading
-            icon: ""
-            heading: Stofzuigers
-            heading_style: title
-          - type: horizontal-stack
-            cards:
-              - type: custom:mushroom-vacuum-card
-                entity: vacuum.roborock_s6_pure
-                name: Eerste verdieping
-                icon_animation: true
-                commands:
-                  - start_pause
-                  - stop
-                  - locate
-                  - clean_spot
-                  - return_home
-                primary_info: name
-                secondary_info: state
-              - type: custom:mushroom-vacuum-card
-                name: Souterrain
-                icon_animation: true
-                commands:
-                  - start_pause
-                  - stop
-                  - locate
-                  - clean_spot
-                  - return_home
-                primary_info: name
-                secondary_info: state
-                entity: vacuum.roborock_s55
-      - type: vertical-stack
-        cards:
-          - type: heading
-            icon: ""
             heading: Energie
             heading_style: title
-          - type: vertical-stack
-            cards:
-              - type: energy-distribution
-                link_dashboard: false
-          - square: false
-            type: grid
-            cards:
-              - type: gauge
-                needle: true
-                min: -3680
-                max: 3680
-                segments:
-                  - from: -3680
-                    color: "#488fc2"
-                  - from: 1
-                    color: "#8353d1"
-                entity: sensor.custom_energy
-                name: Net
-                card_mod:
-                  style:
-                    .: |
-                      ha-card > div {
-                        font-size: 12px !important;
+          - type: energy-distribution
+            link_dashboard: false
+          - type: gauge
+            needle: true
+            min: -3680
+            max: 3680
+            segments:
+              - from: -3680
+                color: '#488fc2'
+              - from: 1
+                color: '#8353d1'
+            entity: sensor.custom_energy
+            name: Net
+            card_mod:
+              style:
+                .: |
+                  ha-card > div {
+                    font-size: 12px !important;
+                  }
+                ha-card:
+                  ha-gauge:
+                    $: |
+                      svg.text > text {
+                        font-size: 20px !important;
                       }
-                    ha-card:
-                      ha-gauge:
-                        $: |
-                          svg.text > text {
-                            font-size: 20px !important;
-                          }
-              - type: gauge
-                entity: sensor.solaredge_modbus_ac_voltage_ab
-                name: Omvormer
-                max: 253
-                needle: false
-                segments:
-                  - from: 1
-                    color: "#64b329"
-                  - from: 245
-                    color: "#ff6700"
-                  - from: 250
-                    color: "#F32013"
-                min: 207
-                card_mod:
-                  style:
-                    .: |
-                      ha-card > div {
-                        font-size: 12px !important;
+            grid_options:
+              columns: 4
+              rows: auto
+          - type: gauge
+            entity: sensor.solaredge_modbus_ac_voltage_ab
+            name: Omvormer
+            max: 253
+            needle: false
+            segments:
+              - from: 1
+                color: '#64b329'
+              - from: 245
+                color: '#ff6700'
+              - from: 250
+                color: '#F32013'
+            min: 207
+            card_mod:
+              style:
+                .: |
+                  ha-card > div {
+                    font-size: 12px !important;
+                  }
+                ha-card:
+                  ha-gauge:
+                    $: |
+                      svg.text > text {
+                        font-size: 20px !important;
                       }
-                    ha-card:
-                      ha-gauge:
-                        $: |
-                          svg.text > text {
-                            font-size: 20px !important;
-                          }
-              - type: gauge
-                name: Slimme meter
-                max: 253
-                needle: false
-                segments:
-                  - from: 1
-                    color: "#64b329"
-                  - from: 245
-                    color: "#ff6700"
-                  - from: 250
-                    color: "#F32013"
-                min: 207
-                entity: sensor.dsmr_reading_phase_voltage_l1
-                card_mod:
-                  style:
-                    .: |
-                      ha-card > div {
-                        font-size: 12px !important;
+            grid_options:
+              columns: 4
+              rows: auto
+          - type: gauge
+            name: Slimme meter
+            max: 253
+            needle: false
+            segments:
+              - from: 1
+                color: '#64b329'
+              - from: 245
+                color: '#ff6700'
+              - from: 250
+                color: '#F32013'
+            min: 207
+            entity: sensor.dsmr_reading_phase_voltage_l1
+            card_mod:
+              style:
+                .: |
+                  ha-card > div {
+                    font-size: 12px !important;
+                  }
+                ha-card:
+                  ha-gauge:
+                    $: |
+                      svg.text > text {
+                        font-size: 20px !important;
                       }
-                    ha-card:
-                      ha-gauge:
-                        $: |
-                          svg.text > text {
-                            font-size: 20px !important;
-                          }
-              - type: gauge
-                name: Water
-                max: 30
-                needle: false
-                entity: sensor.watermeter_pulse
-                segments:
-                  - from: 1
-                    color: "#00bcd4"
-                card_mod:
-                  style:
-                    .: |
-                      ha-card > div {
-                        font-size: 12px !important;
+            grid_options:
+              columns: 4
+              rows: auto
+          - type: gauge
+            name: Water
+            max: 30
+            needle: false
+            entity: sensor.watermeter_pulse
+            segments:
+              - from: 1
+                color: '#00bcd4'
+            card_mod:
+              style:
+                .: |
+                  ha-card > div {
+                    font-size: 12px !important;
+                  }
+                ha-card:
+                  ha-gauge:
+                    $: |
+                      svg.text > text {
+                        font-size:20px !important;
                       }
-                    ha-card:
-                      ha-gauge:
-                        $: |
-                          svg.text > text {
-                            font-size:20px !important;
-                          }
-              - type: gauge
-                needle: false
-                entity: sensor.solaredge_modbus_ac_power
-                min: 0
-                max: 3680
-                name: Zonne-energie
-                segments:
-                  - from: 1
-                    color: "#FFD580"
-                  - from: 736
-                    color: "#FFB04C"
-                  - from: 1472
-                    color: "#FF8B19"
-                  - from: 2208
-                    color: "#FF6600"
-                  - from: 2944
-                    color: "#E65C00"
-                  - from: 3680
-                    color: "#BF5200"
-                card_mod:
-                  style:
-                    .: |
-                      ha-card > div {
-                        font-size: 12px !important;
+            grid_options:
+              columns: 4
+              rows: auto
+          - type: gauge
+            needle: false
+            entity: sensor.solaredge_modbus_ac_power
+            min: 0
+            max: 3680
+            name: Zonne-energie
+            segments:
+              - from: 1
+                color: '#FFD580'
+              - from: 736
+                color: '#FFB04C'
+              - from: 1472
+                color: '#FF8B19'
+              - from: 2208
+                color: '#FF6600'
+              - from: 2944
+                color: '#E65C00'
+              - from: 3680
+                color: '#BF5200'
+            card_mod:
+              style:
+                .: |
+                  ha-card > div {
+                    font-size: 12px !important;
+                  }
+                ha-card:
+                  ha-gauge:
+                    $: |
+                      svg.text > text {
+                        font-size: 20px !important;
                       }
-                    ha-card:
-                      ha-gauge:
-                        $: |
-                          svg.text > text {
-                            font-size: 20px !important;
-                          }
-            columns: 3
-      - type: vertical-stack
+            grid_options:
+              columns: 4
+              rows: auto
+        column_span: 1
+      - type: grid
         cards:
           - type: heading
-            icon: ""
-            heading: Schakelaars
-            heading_style: title
-          - square: false
-            type: grid
-            cards:
-              - type: custom:mushroom-entity-card
-                icon: ""
-                fill_container: false
-                secondary_info: last-changed
-                icon_color: green
-                tap_action:
-                  action: toggle
-                layout: vertical
-                entity: fan.shelly1pm_toilet_fan_switch_0
-              - type: custom:mushroom-template-card
-                primary: Souterrain
-                secondary: >
-                  {% if
-                  is_state("input_boolean.mechanical_ventilation_basement_autonomous",
-                  "on") -%}
-
-                  Auto
-
-                  {%- else %}
-
-                  Handmatig
-
-                  {%- endif %}
-
-                  {% if
-                  is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%}
-
-                  - Uit
-
-                  {% elif
-                  is_state("input_boolean.mechanical_ventilation_position_1",
-                  "on") -%}
-
-                  - Laag
-
-                  {% elif
-                  is_state("input_boolean.mechanical_ventilation_position_2",
-                  "on") -%}
-
-                  - Midden
-
-                  {% elif
-                  is_state("input_boolean.mechanical_ventilation_position_3",
-                  "on") -%}
-
-                  - Hoog
-
-                  {%- endif %}
-                icon: >-
-                  {% if
-                  is_state("input_boolean.mechanical_ventilation_basement_autonomous",
-                  "on") -%}
-
-                  mdi:fan-auto
-
-                  {% elif
-                  is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%}
-
-                  mdi:fan-off
-
-                  {% elif
-                  is_state("input_boolean.mechanical_ventilation_position_1",
-                  "on") -%}
-
-                  mdi:fan-speed-1
-
-                  {% elif
-                  is_state("input_boolean.mechanical_ventilation_position_2",
-                  "on") -%}
-
-                  mdi:fan-speed-2
-
-                  {% elif
-                  is_state("input_boolean.mechanical_ventilation_position_3",
-                  "on") -%}
-
-                  mdi:fan-speed-3
-
-                  {%- endif %}
-                entity: input_select.mechanical_ventilation_position
-                tap_action:
-                  action: call-service
-                  service: input_select.select_next
-                  target:
-                    entity_id: input_select.mechanical_ventilation_position
-                  data:
-                    cycle: true
-                layout: vertical
-                icon_color: >-
-                  {% if
-                  is_state("input_boolean.mechanical_ventilation_position_0",
-                  "on") -%}
-
-                  disabled
-
-                  {%- else %}
-
-                  green
-
-                  {%- endif %}
-              - type: custom:mushroom-template-card
-                primary: Badkamer
-                secondary: >
-                  {% if
-                  is_state("input_boolean.mechanical_ventilation_bathroom_autonomous",
-                  "on") -%}
-
-                  Auto
-
-                  {%- else %}
-
-                  Handmatig
-
-                  {%- endif %}
-
-                  {% if is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%}
-
-                  - Uit
-
-                  {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%}
-
-                  - Aan
-
-                  {%- endif %}
-                icon: >-
-                  {% if
-                  is_state("input_boolean.mechanical_ventilation_bathroom_autonomous",
-                  "on") -%}
-
-                  mdi:fan-auto
-
-                  {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%}
-
-                  mdi:fan-off
-
-                  {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%}
-
-                  mdi:fan
-
-                  {%- endif %}
-                entity: input_select.mechanical_ventilation_bathroom_position
-                tap_action:
-                  action: call-service
-                  service: input_select.select_next
-                  target:
-                    entity_id: input_select.mechanical_ventilation_bathroom_position
-                  data:
-                    cycle: true
-                layout: vertical
-                icon_color: >-
-                  {% if is_state("fan.shelly1pm_bathroom_fan_switch_0", "on")
-                  -%}
-
-                  green
-
-                  {% elif is_state("fan.shelly1pm_bathroom_fan_switch_0", "off")
-                  -%}
-
-                  disabled
-
-                  {%- endif %}
-              - type: custom:mushroom-entity-card
-                icon: mdi:file-cabinet
-                fill_container: false
-                secondary_info: last-changed
-                name: Keukenlade's
-                icon_color: purple
-                entity: switch.childlock_kitchen_switch
-                tap_action:
-                  action: toggle
-                layout: vertical
-              - type: custom:mushroom-entity-card
-                entity: switch.shelly1_frontyard_powersocket
-                icon: mdi:power-socket-de
-                fill_container: false
-                secondary_info: last-changed
-                name: Voortuin
-                icon_color: purple
-                tap_action:
-                  action: toggle
-                layout: vertical
-              - type: custom:mushroom-entity-card
-                entity: switch.shellyplugplus_heather_switch_0
-                icon: mdi:radiator
-                fill_container: false
-                icon_color: primary
-                tap_action:
-                  action: toggle
-                layout: vertical
-                primary_info: name
-                secondary_info: last-changed
-                name: Kachel
-              - type: custom:mushroom-entity-card
-                icon: mdi:vacuum
-                fill_container: false
-                secondary_info: last-changed
-                icon_color: purple
-                entity: input_boolean.auto_cleaning
-                name: Automatisch
-                tap_action:
-                  action: toggle
-                layout: vertical
-              - type: custom:mushroom-template-card
-                primary: Quooker
-                secondary: >-
-                  {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
-                  float > 2 %}
-                   Opwarmen
-                  {% elif is_state(entity, "on") %}
-                   Aan
-                  {%- else %}
-                   Uit
-                  {%- endif %}
-                icon: mdi:faucet
-                layout: vertical
-                entity: switch.shellyplugplus_quooker_switch_0
-                badge_icon: >-
-                  {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
-                  float > 10 %}
-                   mdi:thermometer-chevron-up
-                  {%- endif %}
-                badge_color: >-
-                  {% if states("sensor.shellyplugplus_quooker_switch_0_power") |
-                  float > 0 %}
-                   red
-                  {%- endif %}
-                tap_action:
-                  action: call-service
-                  service: switch.toggle
-                  target:
-                    entity_id: switch.shellyplugplus_quooker_switch_0
-                icon_color: |-
-                  {% if is_state(entity, "on") %}
-                   cyan
-                  {%- else %}
-                   disabled
-                  {%- endif %}
-              - type: custom:mushroom-entity-card
-                icon: mdi:alarm-bell
-                fill_container: false
-                secondary_info: last-changed
-                name: Deurbel
-                entity: switch.smart_doorbell_active
-                tap_action:
-                  action: toggle
-                layout: vertical
-            columns: 3
-      - type: vertical-stack
-        cards:
-          - type: heading
-            icon: ""
-            heading: Sensoren
-            heading_style: title
-          - type: vertical-stack
-            cards:
-              - square: false
-                type: grid
-                cards:
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.washing_machine
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: state
-                    icon_color: cyan
-                    name: Wasmachine
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.tumble_dryer
-                    icon: mdi:tumble-dryer
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: state
-                    icon_color: cyan
-                    name: Wasdroger
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.dishwasher
-                    icon: mdi:dishwasher
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: state
-                    icon_color: cyan
-                    name: Vaatwasser
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.frontdoor
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: last-changed
-                    tap_action:
-                      action: more-info
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                    primary_info: name
-                    icon_color: red
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.backdoor
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: last-changed
-                    tap_action:
-                      action: more-info
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                    primary_info: name
-                    icon_color: red
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.barndoor
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: last-changed
-                    tap_action:
-                      action: more-info
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                    primary_info: name
-                    icon_color: red
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.wall_tablet
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: last-changed
-                    icon_color: red
-                    tap_action:
-                      action: more-info
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                    primary_info: name
-                    name: Keuken
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.backyard_motion_sensor_01_motion
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: last-changed
-                    icon_color: red
-                    tap_action:
-                      action: more-info
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                    primary_info: name
-                    name: Achtertuin Terras
-                  - type: custom:mushroom-entity-card
-                    entity: binary_sensor.custom_backyard_person_occupancy
-                    layout: vertical
-                    fill_container: false
-                    secondary_info: last-changed
-                    icon_color: red
-                    tap_action:
-                      action: more-info
-                    hold_action:
-                      action: none
-                    double_tap_action:
-                      action: none
-                    primary_info: name
-                    name: Achtertuin Ingang
-                columns: 3
-      - type: vertical-stack
-        cards:
-          - type: heading
-            icon: ""
             heading: Kalender
             heading_style: title
           - type: custom:atomic-calendar-revive
@@ -1517,14 +1612,13 @@ views:
                 }
   - title: Verlichting
     icon: mdi:lightbulb
-    path: lights
     badges:
       - type: custom:mushroom-chips-card
         chips:
           - type: conditional
             conditions:
               - entity: sensor.lights_on_counter
-                state_not: "0"
+                state_not: '0'
             chip:
               type: template
               entity: sensor.lights_on_counter
@@ -1551,7 +1645,7 @@ views:
       - type: custom:mushroom-chips-card
         chips:
           - type: template
-            icon_color: ""
+            icon_color: ''
             icon: mdi:lightbulb-multiple-off-outline
             tap_action:
               action: call-service
@@ -1563,7 +1657,7 @@ views:
       - type: custom:mushroom-chips-card
         chips:
           - type: template
-            icon_color: ""
+            icon_color: ''
             icon: mdi:lightbulb-multiple-outline
             tap_action:
               action: call-service
@@ -1572,13 +1666,16 @@ views:
                 entity_id: all
               data: {}
             content: Alles Aan
-    cards:
-      - type: vertical-stack
+    cards: []
+    type: sections
+    max_columns: 4
+    subview: false
+    sections:
+      - type: grid
         cards:
           - type: heading
-            icon: ""
-            heading_style: title
             heading: Begane grond
+            heading_style: title
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_living_room
             name: Woonkamer
@@ -1630,7 +1727,7 @@ views:
             card:
               type: custom:mushroom-light-card
               entity: light.christmas_tree
-              icon: ""
+              icon: ''
               layout: horizontal
               fill_container: false
               show_brightness_control: false
@@ -1640,7 +1737,7 @@ views:
               use_light_color: false
           - type: custom:mushroom-light-card
             entity: light.shelly1pm_toilet_light_switch_0
-            icon: ""
+            icon: ''
             layout: horizontal
             fill_container: false
             show_brightness_control: false
@@ -1648,14 +1745,11 @@ views:
             show_color_control: false
             show_color_temp_control: false
             use_light_color: false
-        view_layout:
-          grid-area: middle
-      - type: vertical-stack
+      - type: grid
         cards:
           - type: heading
-            icon: ""
-            heading_style: title
             heading: Eerste verdieping
+            heading_style: title
           - type: custom:mushroom-light-card
             entity: light.cv_closet
             name: CV Kast
@@ -1692,7 +1786,7 @@ views:
           - type: custom:mushroom-light-card
             entity: light.color_light_lise
             name: Lise's kleurlamp
-            icon: ""
+            icon: ''
             use_light_color: true
             show_brightness_control: true
             show_color_temp_control: false
@@ -1732,11 +1826,9 @@ views:
             show_color_control: false
             show_color_temp_control: false
             use_light_color: false
-      - type: vertical-stack
+      - type: grid
         cards:
           - type: heading
-            icon: ""
-            heading_style: title
             heading: Souterrain
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_basement_stairs
@@ -1771,11 +1863,9 @@ views:
             show_color_control: false
             show_color_temp_control: false
             use_light_color: false
-      - type: vertical-stack
+      - type: grid
         cards:
           - type: heading
-            icon: ""
-            heading_style: title
             heading: Buiten
           - type: custom:mushroom-light-card
             entity: light.shellydimmer_backyard_string_l
@@ -1821,6 +1911,96 @@ views:
             show_color_control: false
             show_color_temp_control: false
             use_light_color: false
+  - title: camera
+    cards: []
+    icon: mdi:cctv
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Beau
+            heading_style: title
+          - type: custom:webrtc-camera
+            url: baby
+          - type: history-graph
+            entities:
+              - entity: binary_sensor.baby_person_occupancy
+            hours_to_show: 1
+            logarithmic_scale: false
+            min_y_axis: 0
+            max_y_axis: 0
+            fit_y_data: false
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.baby_motion
+                name: Beweging
+                fill_container: false
+                primary_info: name
+                secondary_info: last-changed
+              - type: custom:mushroom-entity-card
+                entity: sensor.baby_person_count
+                secondary_info: state
+                name: Personen
+            columns: 2
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                fill_container: false
+                primary_info: name
+                entity: image.baby_person
+                icon_type: entity-picture
+                name: Persoon
+                secondary_info: last-changed
+            columns: 2
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            heading: Achtertuin
+            heading_style: title
+            grid_options:
+              columns: full
+              rows: 1
+          - show_state: false
+            show_name: false
+            camera_view: live
+            type: picture-entity
+            entity: camera.backyard
+            grid_options:
+              columns: 12
+              rows: auto
+          - type: history-graph
+            entities:
+              - entity: binary_sensor.backyard_person_occupancy
+            hours_to_show: 1
+            logarithmic_scale: false
+            min_y_axis: 0
+            max_y_axis: 0
+            fit_y_data: false
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.backyard_motion
+            name: Beweging
+            fill_container: false
+            primary_info: name
+            secondary_info: last-changed
+          - type: custom:mushroom-entity-card
+            entity: sensor.backyard_person_count
+            secondary_info: state
+            name: Personen
+          - type: custom:mushroom-entity-card
+            fill_container: false
+            primary_info: name
+            entity: image.backyard_person
+            icon_type: entity-picture
+            name: Persoon
+            secondary_info: last-changed
+            grid_options:
+              columns: 6
+              rows: 1
   - title: climate
     path: climate
     icon: mdi:home-thermometer
@@ -1829,7 +2009,7 @@ views:
       - type: custom:mushroom-chips-card
         chips:
           - type: template
-            icon_color: ""
+            icon_color: ''
             icon: mdi:thermometer
             hold_action:
               action: none
@@ -1892,7 +2072,7 @@ views:
             cards:
               - type: custom:mushroom-template-card
                 primary: Buiten
-                secondary: ""
+                secondary: ''
                 icon: |-
                   {% if is_state(entity, 'light') %}
                   mdi:tree
@@ -2059,15 +2239,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: "#beeae9"
-                    - color: "#Ffe1b4"
-                    - color: "#Ecb45f"
-                    - color: "#Ec955f"
-                    - color: "#Ec875f"
-                    - color: "#Ec735f"
-                    - color: "#F15239"
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
                     - value: 25
-                      color: "#Ea2e2e"
+                      color: '#Ea2e2e'
                   style: |
                     ha-card {
                       border: none;
@@ -2126,7 +2306,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - "off"
+                  - 'off'
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -2345,15 +2525,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: "#beeae9"
-                    - color: "#Ffe1b4"
-                    - color: "#Ecb45f"
-                    - color: "#Ec955f"
-                    - color: "#Ec875f"
-                    - color: "#Ec735f"
-                    - color: "#F15239"
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
                     - value: 25
-                      color: "#Ea2e2e"
+                      color: '#Ea2e2e'
                   style: |
                     ha-card {
                       border: none;
@@ -2493,7 +2673,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.living_room_thermal_comfort_humidex_perception
-                      name: " "
+                      name: ' '
                   style: |
                     ha-card {
                       border: none;
@@ -2552,7 +2732,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - "off"
+                  - 'off'
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -2869,15 +3049,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: "#beeae9"
-                    - color: "#Ffe1b4"
-                    - color: "#Ecb45f"
-                    - color: "#Ec955f"
-                    - color: "#Ec875f"
-                    - color: "#Ec735f"
-                    - color: "#F15239"
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
                     - value: 25
-                      color: "#Ea2e2e"
+                      color: '#Ea2e2e'
                   style: |
                     ha-card {
                       border: none;
@@ -3014,7 +3194,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.basement_thermal_comfort_dew_point_perception
-                      name: " "
+                      name: ' '
               - type: conditional
                 conditions:
                   - entity: input_select.climate_graph_basement
@@ -3067,7 +3247,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - "off"
+                  - 'off'
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -3285,15 +3465,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: "#beeae9"
-                    - color: "#Ffe1b4"
-                    - color: "#Ecb45f"
-                    - color: "#Ec955f"
-                    - color: "#Ec875f"
-                    - color: "#Ec735f"
-                    - color: "#F15239"
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
                     - value: 25
-                      color: "#Ea2e2e"
+                      color: '#Ea2e2e'
                   style: |
                     ha-card {
                       border: none;
@@ -3430,7 +3610,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.master_bedroom_thermal_comfort_humidex_perception
-                      name: " "
+                      name: ' '
                   style: |
                     ha-card {
                       border: none;
@@ -3488,7 +3668,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - "off"
+                  - 'off'
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -3706,15 +3886,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: "#beeae9"
-                    - color: "#Ffe1b4"
-                    - color: "#Ecb45f"
-                    - color: "#Ec955f"
-                    - color: "#Ec875f"
-                    - color: "#Ec735f"
-                    - color: "#F15239"
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
                     - value: 25
-                      color: "#Ea2e2e"
+                      color: '#Ea2e2e'
                   style: |
                     ha-card {
                       border: none;
@@ -3851,7 +4031,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.lises_room_thermal_comfort_humidex_perception
-                      name: " "
+                      name: ' '
                   style: |
                     ha-card {
                       border: none;
@@ -3909,7 +4089,7 @@ views:
                 layout: horizontal
                 hvac_modes:
                   - auto
-                  - "off"
+                  - 'off'
                 show_temperature_control: true
                 collapsible_controls: true
                 primary_info: name
@@ -4127,15 +4307,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: "#beeae9"
-                    - color: "#Ffe1b4"
-                    - color: "#Ecb45f"
-                    - color: "#Ec955f"
-                    - color: "#Ec875f"
-                    - color: "#Ec735f"
-                    - color: "#F15239"
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
                     - value: 25
-                      color: "#Ea2e2e"
+                      color: '#Ea2e2e'
                   style: |
                     ha-card {
                       border: none;
@@ -4272,7 +4452,7 @@ views:
                   type: history-graph
                   entities:
                     - entity: sensor.small_bedroom_thermal_comfort_humidex_perception
-                      name: " "
+                      name: ' '
                   style: |
                     ha-card {
                       border: none;
@@ -4325,7 +4505,7 @@ views:
             cards:
               - type: custom:mushroom-template-card
                 primary: Badkamer
-                secondary: ""
+                secondary: ''
                 icon: mdi:shower-head
                 entity: sensor.bathroom_sensors_temperature
                 icon_color: blue
@@ -4492,15 +4672,15 @@ views:
                       label: Avond
                   color_thresholds:
                     - value: 17
-                      color: "#beeae9"
-                    - color: "#Ffe1b4"
-                    - color: "#Ecb45f"
-                    - color: "#Ec955f"
-                    - color: "#Ec875f"
-                    - color: "#Ec735f"
-                    - color: "#F15239"
+                      color: '#beeae9'
+                    - color: '#Ffe1b4'
+                    - color: '#Ecb45f'
+                    - color: '#Ec955f'
+                    - color: '#Ec875f'
+                    - color: '#Ec735f'
+                    - color: '#F15239'
                     - value: 25
-                      color: "#Ea2e2e"
+                      color: '#Ea2e2e'
                   style: |
                     ha-card {
                       border: none;
@@ -4591,256 +4771,260 @@ views:
         view_layout:
           grid-area: right-up
   - title: energy
-    path: energy
     icon: mdi:lightning-bolt
     badges: []
-    cards:
-      - type: heading
-        icon: ""
-        heading_style: title
-        heading: Realtime
-      - type: vertical-stack
+    cards: []
+    type: sections
+    sections:
+      - type: grid
         cards:
-          - square: false
-            type: grid
+          - type: heading
+            icon: ''
+            heading_style: title
+            heading: Statistieken
+          - type: energy-date-selection
+          - type: energy-distribution
+            link_dashboard: false
+          - type: vertical-stack
             cards:
-              - type: custom:mushroom-template-card
-                primary: Tarief
-                secondary: |-
-                  {% if is_state(entity, "low") -%}
-                  Laag
-                  {%- else -%}
-                  Hoog
-                  {%- endif %}
-                icon: mdi:currency-eur
-                entity: sensor.dsmr_meter_stats_electricity_tariff
-                icon_color: |-
-                  {% if is_state(entity, "low") -%}
-                  green
-                  {%- else -%}
-                  red
-                  {%- endif %}
-              - type: custom:mushroom-template-card
-                primary: "{{ (states(entity)) }} W"
-                secondary: Energieverbruik
-                icon: mdi:home
-                entity: sensor.custom_energy_usage
-                icon_color: |-
-                  {% if states(entity)|int > 0 %}
-                    purple
-                  {% else %}
-                    blue
-                  {% endif %}
-                multiline_secondary: false
-            columns: 2
-          - square: false
-            type: grid
-            cards:
-              - type: custom:mushroom-template-card
-                primary: "{{ (states(entity, with_unit=True))}}"
-                secondary: |-
-                  {% if states(entity)|int > 0 %}
-                    Terugleveren
-                  {% else %}
-                    Van het net
-                  {% endif %}
-                icon: mdi:transmission-tower
-                entity: sensor.custom_energy_usage
-                icon_color: |-
-                  {% if states(entity)|int > 0 %}
-                    purple
-                  {% else %}
-                    blue
-                  {% endif %}
-                multiline_secondary: true
-              - type: custom:mushroom-template-card
-                primary: "{{ (states(entity, with_unit=True))}}"
-                secondary: Zonne-energie
-                icon: mdi:solar-power
-                entity: sensor.solaredge_modbus_ac_power
-                icon_color: |-
-                  {% if states(entity)|int > 0 %}
-                  orange
-                  {%- else -%}
-                  disabled
-                  {%- endif %}
-                multiline_secondary: false
-            columns: 2
-          - square: false
-            type: grid
-            cards:
-              - type: custom:mushroom-template-card
-                primary: "{{ (states(entity, with_unit=True))}}"
-                secondary: ""
-                icon: mdi:lightning-bolt
-                entity: sensor.dsmr_reading_phase_voltage_l1
-                icon_color: |-
-                  {% if states(entity)|int < 250 %}
-                    green
-                  {% else %}
-                    red
-                  {% endif %}
-                multiline_secondary: true
-                tap_action:
-                  action: more-info
-              - type: custom:mushroom-template-card
-                primary: Water verbruik
-                secondary: "{{ states(entity, with_unit=True) }}"
-                icon: mdi:water
-                entity: sensor.watermeter_pulse
-                icon_color: |-
-                  {% if states(entity)|int > 0 %}
-                    #00bcd4
-                  {% else %}
-                    disabled
-                  {% endif %}
-            columns: 2
-        view_layout:
-          grid-area: right
-      - type: horizontal-stack
-        cards:
-          - square: false
-            type: grid
-            columns: 2
-            cards:
-              - type: vertical-stack
+              - type: energy-usage-graph
+              - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-template-card
-                    primary: Omvormer
-                    secondary:
-                      "{{ (state_attr(entity, 'status_description')) }}"
-                    icon: |-
-                      {% if is_state(entity, "2") -%}
-                      mdi:power-sleep
-                      {% else %}
-                      mdi:solar-power-variant-outline
-                      {%- endif %}
-                    icon_color: |-
-                      {% if is_state(entity, "4") -%}
-                      orange
-                      {%- elif is_state(entity, "2")-%}
-                      disabled
-                      {% else %}
-                      red
-                      {%- endif %}
-                    entity: sensor.solaredge_modbus_status
-                    tap_action:
-                      action: more-info
-                    multiline_secondary: true
-                  - type: custom:mushroom-template-card
-                    primary: Dagrecord opbrengst
-                    secondary: >-
-                      {{ (states('sensor.mqtt_ac_solar_record')) }} Kwh op {{
-                      (state_attr('sensor.mqtt_ac_solar_record', 'date')) }}
-                    icon: mdi:chart-bell-curve
-                    entity: sensor.mqtt_ac_solar_record
-                    icon_color: orange
-                    tap_action:
-                      action: more-info
-                    multiline_secondary: true
-              - type: vertical-stack
+                  - type: energy-grid-neutrality-gauge
+                  - type: energy-solar-consumed-gauge
+              - type: horizontal-stack
                 cards:
-                  - type: custom:mushroom-template-card
-                    primary: Voorspelling piekmoment
-                    secondary: >-
-                      {{ (as_timestamp(states(entity)) |
-                      timestamp_custom('%H:%M')) }}
-                    icon: mdi:clock
-                    icon_color: orange
-                    entity: sensor.power_highest_peak_time_today
-                    tap_action:
-                      action: more-info
-                    multiline_secondary: true
-                  - type: custom:mushroom-template-card
-                    primary: Voorspelling vandaag
-                    icon: mdi:sun-clock-outline
-                    icon_color: orange
-                    entity: sensor.energy_production_today_remaining_combined
-                    secondary: "{{ states(entity)}} kWh"
-                    tap_action:
-                      action: more-info
-                    multiline_secondary: true
-      - type: custom:mini-graph-card
-        hours_to_show: 8
-        hour24: true
-        points_per_hour: 60
-        decimals: 0
-        font_size: 90
-        font_size_header: 12
-        animate: true
-        height: 200
-        line_width: 2
-        show:
-          name: true
-          icon: true
-          state: true
-          labels: false
-          fill: false
-          extrema: false
-          average: false
-          legend: true
-        entities:
-          - entity: sensor.solaredge_modbus_ac_power
-            color: "#ff9800"
-          - entity: sensor.custom_energy_returned_watt
-            name: Energie teruglevering
-            color: "#8353d1"
-      - type: heading
-        icon: ""
-        heading_style: title
-        heading: Statistieken
-      - type: energy-date-selection
-        view_layout:
-          grid-area: menu
-      - type: energy-distribution
-        link_dashboard: false
-      - type: vertical-stack
+                  - type: energy-carbon-consumed-gauge
+                  - type: energy-self-sufficiency-gauge
+          - type: energy-solar-graph
+          - type: energy-gas-graph
+          - type: energy-water-graph
+          - type: vertical-stack
+            cards:
+              - type: energy-sources-table
+              - type: horizontal-stack
+                cards:
+                  - type: grid
+                    square: false
+                    columns: 3
+                    cards: []
+          - type: energy-devices-detail-graph
+          - type: vertical-stack
+            cards:
+              - type: energy-devices-graph
+              - type: horizontal-stack
+                cards:
+                  - type: grid
+                    square: false
+                    columns: 3
+                    cards: []
+        column_span: 3
+      - type: grid
         cards:
-          - type: energy-usage-graph
-          - type: horizontal-stack
-            cards:
-              - type: energy-grid-neutrality-gauge
-              - type: energy-solar-consumed-gauge
-          - type: horizontal-stack
-            cards:
-              - type: energy-carbon-consumed-gauge
-              - type: energy-self-sufficiency-gauge
-      - type: energy-solar-graph
-      - type: energy-gas-graph
-      - type: energy-water-graph
-      - type: vertical-stack
-        cards:
-          - type: energy-sources-table
-          - type: horizontal-stack
-            cards:
-              - type: grid
-                square: false
-                columns: 3
-                cards: []
-      - type: energy-devices-detail-graph
-      - type: vertical-stack
-        cards:
-          - type: energy-devices-graph
-          - type: horizontal-stack
-            cards:
-              - type: grid
-                square: false
-                columns: 3
-                cards: []
-      - type: custom:mini-graph-card
-        name: Voltage swell laatste 8 uur
-        hours_to_show: 8
-        hour24: true
-        font_size: 90
-        font_size_header: 12
-        animate: true
-        points_per_hour: 60
-        height: 50
-        bar_spacing: 4
-        line_width: 1
-        line_color: red
-        entities:
-          - entity: sensor.dsmr_meter_stats_voltage_swell_count_l1
+          - type: heading
+            heading: Realtime
+            heading_style: title
+            icon: ''
+          - type: custom:mushroom-template-card
+            primary: Tarief
+            secondary: |-
+              {% if is_state(entity, "low") -%}
+              Laag
+              {%- else -%}
+              Hoog
+              {%- endif %}
+            icon: mdi:currency-eur
+            entity: sensor.dsmr_meter_stats_electricity_tariff
+            icon_color: |-
+              {% if is_state(entity, "low") -%}
+              green
+              {%- else -%}
+              red
+              {%- endif %}
+            grid_options:
+              columns: 3
+              rows: 1
+          - type: custom:mushroom-template-card
+            primary: '{{ (states(entity, with_unit=True))}}'
+            secondary: ''
+            icon: mdi:lightning-bolt
+            entity: sensor.dsmr_reading_phase_voltage_l1
+            icon_color: |-
+              {% if states(entity)|int < 250 %}
+                green
+              {% else %}
+                red
+              {% endif %}
+            multiline_secondary: true
+            tap_action:
+              action: more-info
+            grid_options:
+              columns: 4
+              rows: auto
+          - type: custom:mushroom-template-card
+            primary: '{{ (states(entity, with_unit=True))}}'
+            secondary: |-
+              {% if states(entity)|int > 0 %}
+                Terugleveren
+              {% else %}
+                Van het net
+              {% endif %}
+            icon: mdi:transmission-tower
+            entity: sensor.custom_energy_usage
+            icon_color: |-
+              {% if states(entity)|int > 0 %}
+                purple
+              {% else %}
+                blue
+              {% endif %}
+            multiline_secondary: true
+            grid_options:
+              columns: 4
+              rows: auto
+          - type: custom:mushroom-template-card
+            primary: '{{ (states(entity, with_unit=True))}}'
+            secondary: Zonne-energie
+            icon: mdi:solar-power
+            entity: sensor.solaredge_modbus_ac_power
+            icon_color: |-
+              {% if states(entity)|int > 0 %}
+              orange
+              {%- else -%}
+              disabled
+              {%- endif %}
+            multiline_secondary: false
+            grid_options:
+              columns: 5
+              rows: 1
+          - type: custom:mushroom-template-card
+            primary: '{{ (states(entity)) }} W'
+            secondary: Energieverbruik
+            icon: mdi:home
+            entity: sensor.custom_energy_usage
+            icon_color: |-
+              {% if states(entity)|int > 0 %}
+                purple
+              {% else %}
+                blue
+              {% endif %}
+            multiline_secondary: false
+            grid_options:
+              columns: 5
+              rows: 1
+          - type: custom:mushroom-template-card
+            primary: Water verbruik
+            secondary: '{{ states(entity, with_unit=True) }}'
+            icon: mdi:water
+            entity: sensor.watermeter_pulse
+            icon_color: |-
+              {% if states(entity)|int > 0 %}
+                #00bcd4
+              {% else %}
+                disabled
+              {% endif %}
+            grid_options:
+              columns: 5
+              rows: 1
+          - type: custom:mushroom-template-card
+            primary: Voorspelling vandaag
+            icon: mdi:sun-clock-outline
+            icon_color: orange
+            entity: sensor.energy_production_today_remaining_combined
+            secondary: '{{ states(entity)}} kWh'
+            tap_action:
+              action: more-info
+            multiline_secondary: true
+            grid_options:
+              columns: full
+          - type: custom:mushroom-template-card
+            primary: Voorspelling piekmoment
+            secondary: '{{ (as_timestamp(states(entity)) | timestamp_custom(''%H:%M'')) }}'
+            icon: mdi:clock
+            icon_color: orange
+            entity: sensor.power_highest_peak_time_today
+            tap_action:
+              action: more-info
+            multiline_secondary: true
+            grid_options:
+              columns: full
+              rows: auto
+          - type: custom:mushroom-template-card
+            primary: Dagrecord opbrengst
+            secondary: >-
+              {{ (states('sensor.mqtt_ac_solar_record')) }} Kwh op {{
+              (state_attr('sensor.mqtt_ac_solar_record', 'date')) }}
+            icon: mdi:chart-bell-curve
+            entity: sensor.mqtt_ac_solar_record
+            icon_color: orange
+            tap_action:
+              action: more-info
+            multiline_secondary: true
+            grid_options:
+              columns: full
+              rows: auto
+          - type: custom:mushroom-template-card
+            primary: Omvormer
+            secondary: '{{ (state_attr(entity, ''status_description'')) }}'
+            icon: |-
+              {% if is_state(entity, "2") -%}
+              mdi:power-sleep
+              {% else %}
+              mdi:solar-power-variant-outline
+              {%- endif %}
+            icon_color: |-
+              {% if is_state(entity, "4") -%}
+              orange
+              {%- elif is_state(entity, "2")-%}
+              disabled
+              {% else %}
+              red
+              {%- endif %}
+            entity: sensor.solaredge_modbus_status
+            tap_action:
+              action: more-info
+            multiline_secondary: true
+            grid_options:
+              columns: 12
+              rows: 1
+          - type: custom:mini-graph-card
+            hours_to_show: 8
+            hour24: true
+            points_per_hour: 60
+            decimals: 0
+            font_size: 90
+            font_size_header: 12
+            animate: true
+            height: 200
+            line_width: 2
+            show:
+              name: true
+              icon: true
+              state: true
+              labels: false
+              fill: false
+              extrema: false
+              average: false
+              legend: true
+            entities:
+              - entity: sensor.solaredge_modbus_ac_power
+                color: '#ff9800'
+              - entity: sensor.custom_energy_returned_watt
+                name: Energie teruglevering
+                color: '#8353d1'
+          - type: custom:mini-graph-card
+            name: Voltage swell laatste 8 uur
+            hours_to_show: 8
+            hour24: true
+            font_size: 90
+            font_size_header: 12
+            animate: true
+            points_per_hour: 60
+            height: 50
+            bar_spacing: 4
+            line_width: 1
+            line_color: red
+            entities:
+              - entity: sensor.dsmr_meter_stats_voltage_swell_count_l1
   - type: sections
     path: weather
     sections:
@@ -4853,7 +5037,7 @@ views:
             conditions:
               - condition: state
                 entity: binary_sensor.knmi_warning
-                state: "on"
+                state: 'on'
             card:
               type: custom:mushroom-template-card
               primary: Code {{ state_attr(entity, 'code') }}
@@ -4864,8 +5048,8 @@ views:
               icon_color: '{{ states("sensor.weather_code_translated") }}'
               multiline_secondary: true
               layout: horizontal
-              badge_icon: ""
-              badge_color: ""
+              badge_icon: ''
+              badge_color: ''
               tap_action:
                 action: none
               hold_action:
@@ -4903,14 +5087,14 @@ views:
                 entity: sensor.custom_weather_description_01
                 primary: '{{ (state_attr(entity, "header_01")) }}'
                 secondary: '{{ (state_attr(entity, "msg_01")) }}'
-                icon: ""
+                icon: ''
                 icon_color: blue
-                badge_icon: ""
-                badge_color: ""
+                badge_icon: ''
+                badge_color: ''
                 multiline_secondary: true
                 tap_action:
                   action: none
-                picture: ""
+                picture: ''
                 hold_action:
                   action: none
                 double_tap_action:
@@ -4926,14 +5110,14 @@ views:
                 entity: sensor.custom_weather_description_01
                 primary: '{{ (state_attr(entity, "header_02")) }}'
                 secondary: '{{ (state_attr(entity, "msg_02")) }}'
-                icon: ""
+                icon: ''
                 icon_color: blue
-                badge_icon: ""
-                badge_color: ""
+                badge_icon: ''
+                badge_color: ''
                 multiline_secondary: true
                 tap_action:
                   action: none
-                picture: ""
+                picture: ''
                 hold_action:
                   action: none
                 double_tap_action:
@@ -4953,14 +5137,14 @@ views:
                     entity: sensor.custom_weather_description_01
                     primary: '{{ (state_attr(entity, "header_03")) }}'
                     secondary: '{{ (state_attr(entity, "msg_03")) }}'
-                    icon: ""
+                    icon: ''
                     icon_color: blue
-                    badge_icon: ""
-                    badge_color: ""
+                    badge_icon: ''
+                    badge_color: ''
                     multiline_secondary: true
                     tap_action:
                       action: none
-                    picture: ""
+                    picture: ''
                     hold_action:
                       action: none
                     double_tap_action:
@@ -4976,14 +5160,14 @@ views:
                     entity: sensor.custom_weather_description_01
                     primary: '{{ (state_attr(entity, "header_04")) }}'
                     secondary: '{{ (state_attr(entity, "msg_04")) }}'
-                    icon: ""
+                    icon: ''
                     icon_color: blue
-                    badge_icon: ""
-                    badge_color: ""
+                    badge_icon: ''
+                    badge_color: ''
                     multiline_secondary: true
                     tap_action:
                       action: none
-                    picture: ""
+                    picture: ''
                     hold_action:
                       action: none
                     double_tap_action:
@@ -4999,14 +5183,14 @@ views:
                     entity: sensor.custom_weather_description_01
                     primary: '{{ (state_attr(entity, "header_05")) }}'
                     secondary: '{{ (state_attr(entity, "msg_05")) }}'
-                    icon: ""
+                    icon: ''
                     icon_color: blue
-                    badge_icon: ""
-                    badge_color: ""
+                    badge_icon: ''
+                    badge_color: ''
                     multiline_secondary: true
                     tap_action:
                       action: none
-                    picture: ""
+                    picture: ''
                     hold_action:
                       action: none
                     double_tap_action:
@@ -5115,26 +5299,26 @@ views:
                 needle: false
                 segments:
                   - from: 0
-                    color: "#64b329"
+                    color: '#64b329'
                   - from: 96
-                    color: "#ff6700"
+                    color: '#ff6700'
                   - from: 208
-                    color: "#F32013"
+                    color: '#F32013'
                   - from: 704
-                    color: "#a71100"
+                    color: '#a71100'
                 name: Bomen
               - type: gauge
                 max: 804
                 needle: false
                 segments:
                   - from: 0
-                    color: "#64b329"
+                    color: '#64b329'
                   - from: 96
-                    color: "#ff6700"
+                    color: '#ff6700'
                   - from: 208
-                    color: "#F32013"
+                    color: '#F32013'
                   - from: 704
-                    color: "#a71100"
+                    color: '#a71100'
                 name: Gras
                 entity: sensor.kleenex_pollen_radar_home_grass
               - type: gauge
@@ -5143,13 +5327,13 @@ views:
                 max: 367
                 segments:
                   - from: 0
-                    color: "#64b329"
+                    color: '#64b329'
                   - from: 21
-                    color: "#ff6700"
+                    color: '#ff6700'
                   - from: 78
-                    color: "#F32013"
+                    color: '#F32013'
                   - from: 267
-                    color: "#a71100"
+                    color: '#a71100'
                 name: Onkruid
     max_columns: 4
     title: weather
@@ -5160,103 +5344,31 @@ views:
       - user: 8f133ec685064df3932c71adbffa55fb
       - user: fb38e292153742459181439bc36cbfa2
       - user: 678852c0b9bf4722b9422d79004dd2da
-  - title: camera
-    path: camera
-    cards:
-      - type: vertical-stack
-        cards:
-          - type: heading
-            icon: ""
-            heading_style: title
-            heading: Beau
-          - type: custom:webrtc-camera
-            url: baby
-          - type: history-graph
-            entities:
-              - entity: binary_sensor.baby_person_occupancy
-            hours_to_show: 1
-            logarithmic_scale: false
-            min_y_axis: 0
-            max_y_axis: 0
-            fit_y_data: false
-          - square: false
-            type: grid
-            cards:
-              - type: custom:mushroom-entity-card
-                entity: binary_sensor.baby_motion
-                name: Beweging
-                fill_container: false
-                primary_info: none
-              - type: custom:mushroom-entity-card
-                entity: sensor.baby_person_count
-                secondary_info: state
-                name: Personen
-            columns: 2
-          - square: false
-            type: grid
-            cards:
-              - type: custom:mushroom-entity-card
-                fill_container: false
-                primary_info: name
-                entity: image.baby_person
-                icon_type: entity-picture
-                name: Persoon
-                secondary_info: last-changed
-            columns: 2
-      - type: vertical-stack
-        cards:
-          - type: heading
-            icon: ""
-            heading_style: title
-            heading: Achtertuin
-          - type: custom:webrtc-camera
-            url: backyard
-          - type: history-graph
-            entities:
-              - entity: binary_sensor.backyard_person_occupancy
-            hours_to_show: 1
-            logarithmic_scale: false
-            min_y_axis: 0
-            max_y_axis: 0
-            fit_y_data: false
-          - square: false
-            type: grid
-            cards:
-              - type: custom:mushroom-entity-card
-                entity: binary_sensor.backyard_motion
-                name: Beweging
-                fill_container: false
-                primary_info: none
-              - type: custom:mushroom-entity-card
-                entity: sensor.backyard_person_count
-                secondary_info: state
-                name: Personen
-            columns: 2
-    icon: mdi:cctv
   - title: lists
-    path: lists
     icon: mdi:cart-variant
     badges: []
-    cards:
-      - type: vertical-stack
+    cards: []
+    type: sections
+    sections:
+      - type: grid
         cards:
-          - type: custom:mushroom-title-card
-            title: Supermarkt
-            subtitle: ""
+          - type: heading
+            heading: Supermarkt
+            heading_style: title
           - type: todo-list
             entity: todo.supermarket
-      - type: vertical-stack
+      - type: grid
         cards:
-          - type: custom:mushroom-title-card
-            title: Picnic
-            subtitle: ""
+          - type: heading
+            heading: Picnic
+            heading_style: title
           - type: todo-list
             entity: todo.picnic_eikenhof_8_shopping_cart
-      - type: vertical-stack
+      - type: grid
         cards:
-          - type: custom:mushroom-title-card
-            title: Weekmenu
-            subtitle: ""
+          - type: heading
+            heading: Weekmenu
+            heading_style: title
           - type: entities
             entities:
               - entity: input_text.diner_monday
@@ -5276,7 +5388,7 @@ views:
     cards:
       - type: custom:mushroom-title-card
         title: Ingepland
-        subtitle: ""
+        subtitle: ''
       - type: custom:scheduler-card
         include:
           - calendar
@@ -5358,12 +5470,14 @@ views:
         device_type: shield-tv-pro-2019
         compatibility_mode: default
         android_tv_remote_entity: remote.shield_android_tv
-        visible_name_text_color: "#ffffff"
-        scale: "120"
-        visible_name_text: ""
-        app_launch_6: ""
-        defaultRemoteStyle_override: ""
+        visible_name_text_color: '#ffffff'
+        scale: '120'
+        visible_name_text: ''
+        app_launch_6: ''
+        defaultRemoteStyle_override: ''
         name_position: hidden
+        app_launch_1: jellyfin
+        app_launch_2: youtube-revanced
   - title: system
     path: system
     icon: mdi:cog
@@ -5373,7 +5487,7 @@ views:
         cards:
           - type: custom:mushroom-title-card
             title: Netwerk
-            subtitle: ""
+            subtitle: ''
           - type: vertical-stack
             cards:
               - type: horizontal-stack
@@ -5405,7 +5519,7 @@ views:
                     double_tap_action:
                       action: none
                     layout: vertical
-                    icon: ""
+                    icon: ''
                     hold_action:
                       action: none
                   - type: custom:mushroom-template-card
@@ -5449,11 +5563,11 @@ views:
                       - entity: sensor.speedtest_download
                         name: Download
                         show_state: true
-                        color: "#86deb1"
+                        color: '#86deb1'
                       - entity: sensor.speedtest_upload
                         name: Upload
                         show_state: true
-                        color: "#065e30"
+                        color: '#065e30'
               - type: horizontal-stack
                 cards:
                   - type: custom:mini-graph-card
@@ -5470,17 +5584,17 @@ views:
                           sensor.pfsense_interface_wan_inbytes_kilobytes_per_second
                         name: In
                         show_state: true
-                        color: "#86deb1"
+                        color: '#86deb1'
                       - entity: >-
                           sensor.pfsense_interface_wan_outbytes_kilobytes_per_second
                         name: Out
                         show_state: true
-                        color: "#065e30"
+                        color: '#065e30'
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
             title: Server rack
-            subtitle: ""
+            subtitle: ''
           - type: vertical-stack
             cards:
               - type: horizontal-stack
@@ -5504,27 +5618,27 @@ views:
                           - entity: sensor.shellyplug_server_rack_power
                         color_thresholds:
                           - value: 15
-                            color: "#2a5839"
-                          - color: "#33573a"
-                          - color: "#3c573b"
-                          - color: "#45563c"
-                          - color: "#4e563d"
-                          - color: "#57553e"
-                          - color: "#60553f"
-                          - color: "#695440"
-                          - color: "#725341"
-                          - color: "#7b5342"
-                          - color: "#835244"
-                          - color: "#8c5245"
-                          - color: "#955146"
-                          - color: "#9e5047"
-                          - color: "#a75048"
-                          - color: "#b04f49"
-                          - color: "#b94f4a"
-                          - color: "#c24e4b"
-                          - color: "#cb4e4c"
+                            color: '#2a5839'
+                          - color: '#33573a'
+                          - color: '#3c573b'
+                          - color: '#45563c'
+                          - color: '#4e563d'
+                          - color: '#57553e'
+                          - color: '#60553f'
+                          - color: '#695440'
+                          - color: '#725341'
+                          - color: '#7b5342'
+                          - color: '#835244'
+                          - color: '#8c5245'
+                          - color: '#955146'
+                          - color: '#9e5047'
+                          - color: '#a75048'
+                          - color: '#b04f49'
+                          - color: '#b94f4a'
+                          - color: '#c24e4b'
+                          - color: '#cb4e4c'
                           - value: 190
-                            color: "#d44d4d"
+                            color: '#d44d4d'
               - type: horizontal-stack
                 cards:
                   - type: horizontal-stack
@@ -5546,27 +5660,27 @@ views:
                           - entity: sensor.shellyplug_hypervisor_a_power
                         color_thresholds:
                           - value: 15
-                            color: "#2a5839"
-                          - color: "#33573a"
-                          - color: "#3c573b"
-                          - color: "#45563c"
-                          - color: "#4e563d"
-                          - color: "#57553e"
-                          - color: "#60553f"
-                          - color: "#695440"
-                          - color: "#725341"
-                          - color: "#7b5342"
-                          - color: "#835244"
-                          - color: "#8c5245"
-                          - color: "#955146"
-                          - color: "#9e5047"
-                          - color: "#a75048"
-                          - color: "#b04f49"
-                          - color: "#b94f4a"
-                          - color: "#c24e4b"
-                          - color: "#cb4e4c"
+                            color: '#2a5839'
+                          - color: '#33573a'
+                          - color: '#3c573b'
+                          - color: '#45563c'
+                          - color: '#4e563d'
+                          - color: '#57553e'
+                          - color: '#60553f'
+                          - color: '#695440'
+                          - color: '#725341'
+                          - color: '#7b5342'
+                          - color: '#835244'
+                          - color: '#8c5245'
+                          - color: '#955146'
+                          - color: '#9e5047'
+                          - color: '#a75048'
+                          - color: '#b04f49'
+                          - color: '#b94f4a'
+                          - color: '#c24e4b'
+                          - color: '#cb4e4c'
                           - value: 190
-                            color: "#d44d4d"
+                            color: '#d44d4d'
                       - type: custom:mini-graph-card
                         name: Hypervisor B
                         hours_to_show: 8
@@ -5583,35 +5697,35 @@ views:
                           - entity: sensor.shellyplug_hypervisor_b_power
                         color_thresholds:
                           - value: 15
-                            color: "#2a5839"
-                          - color: "#33573a"
-                          - color: "#3c573b"
-                          - color: "#45563c"
-                          - color: "#4e563d"
-                          - color: "#57553e"
-                          - color: "#60553f"
-                          - color: "#695440"
-                          - color: "#725341"
-                          - color: "#7b5342"
-                          - color: "#835244"
-                          - color: "#8c5245"
-                          - color: "#955146"
-                          - color: "#9e5047"
-                          - color: "#a75048"
-                          - color: "#b04f49"
-                          - color: "#b94f4a"
-                          - color: "#c24e4b"
-                          - color: "#cb4e4c"
+                            color: '#2a5839'
+                          - color: '#33573a'
+                          - color: '#3c573b'
+                          - color: '#45563c'
+                          - color: '#4e563d'
+                          - color: '#57553e'
+                          - color: '#60553f'
+                          - color: '#695440'
+                          - color: '#725341'
+                          - color: '#7b5342'
+                          - color: '#835244'
+                          - color: '#8c5245'
+                          - color: '#955146'
+                          - color: '#9e5047'
+                          - color: '#a75048'
+                          - color: '#b04f49'
+                          - color: '#b94f4a'
+                          - color: '#c24e4b'
+                          - color: '#cb4e4c'
                           - value: 190
-                            color: "#d44d4d"
+                            color: '#d44d4d'
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
             title: Accu status
-            subtitle: ""
+            subtitle: ''
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5656,8 +5770,8 @@ views:
               action: none
             entity: sensor.backdoor_battery
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5702,8 +5816,8 @@ views:
               action: none
             entity: sensor.basementdoor_battery
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5748,8 +5862,8 @@ views:
               action: none
             entity: sensor.barndoor_battery
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5794,8 +5908,8 @@ views:
               action: none
             entity: sensor.frontdoor_battery
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5840,8 +5954,8 @@ views:
               action: none
             entity: sensor.galaxy_tab_a8_battery
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5886,8 +6000,8 @@ views:
               action: none
             entity: sensor.phone_coen_battery_level
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5932,8 +6046,8 @@ views:
               action: none
             entity: sensor.smartalert_basement_battery_level
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(0) |
               int * 10 %}
@@ -5978,8 +6092,8 @@ views:
               action: none
             entity: sensor.backyard_motion_sensor_01_battery
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | round(1) |
               int * 10 %}
@@ -6024,8 +6138,8 @@ views:
               action: none
             entity: sensor.firtsalert_living_room_battery_level
           - type: custom:mushroom-template-card
-            primary: "{{ states(entity) | round(0) }}%"
-            secondary: "{{ state_attr(entity, 'friendly_name') | title }}"
+            primary: '{{ states(entity) | round(0) }}%'
+            secondary: '{{ state_attr(entity, ''friendly_name'') | title }}'
             icon: >+
               {% set battery_level = (states(entity) | int / 10) | int * 10 |
               round(0) %}
@@ -6079,13 +6193,13 @@ views:
           cards:
             - type: custom:mushroom-title-card
               title: Updates
-              subtitle: ""
+              subtitle: ''
             - type: custom:auto-entities
               filter:
                 include:
                   - domain: update
                 exclude:
-                  - state: "off"
+                  - state: 'off'
                   - state: unavailable
                   - state: unknown
               show_empty: true
