@@ -6,6 +6,7 @@ children:
   - media_player.android_tv_shield_lan_stamx_nl
   - media_player.shield_android_tv
   - media_player.lg_webos_smart_tv
+  - media_player.powernode_2i_ea48
 commands:
   turn_on:
     service: media_player.turn_on
