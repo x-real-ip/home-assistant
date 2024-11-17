@@ -1,4 +1,3 @@
 ---
 go2rtc:
-  debug_ui: true
   url: http://go2rtc-service.home-automation.svc.cluster.local:1984
