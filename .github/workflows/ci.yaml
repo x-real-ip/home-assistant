@@ -32,7 +32,7 @@ jobs:
   build-and-push-image:
     name: Build and Push Image
     needs: [home-assistant, yamllint]
-    uses: x-real-ip/github-actions/.github/workflows/build-and-push.yaml@v2
+    uses: x-real-ip/github-actions/.github/workflows/build-and-push.yaml@main
     with:
       publish: true
 
