@@ -5,7 +5,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/x-real-ip/home-assistant?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/x-real-ip/home-assistant/main?logo=github)
 
-<img src="https://github.com/x-real-ip/nfrastructure/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 30px; width:30px;"/>
+<img src="https://github.com/x-real-ip/infrastructure/blob/main/assets/img/k8s.png?raw=true" alt="K8s" style="height: 30px; width:30px;"/>
 Application running in Kubernetes.
 
 [Home Assistant](https://www.home-assistant.io/): Free and open-source home
