@@ -34,7 +34,7 @@ jobs:
     needs: [home-assistant, yamllint]
     uses: x-real-ip/github-actions/.github/workflows/build-and-push.yaml@v2
     with:
-      publish: true
+      push: true
 
   dispatch-update-manifest:
     name: Repository Dispatch to Update Manifest
