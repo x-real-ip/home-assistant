@@ -157,26 +157,6 @@ views:
           - type: custom:mushroom-template-card
             primary: ""
             secondary: ""
-            icon: mdi:music
-            icon_color: grey
-            layout: vertical
-            fill_container: false
-            tap_action:
-              action: navigate
-              navigation_path: /wall-v2/music-assistant
-            hold_action:
-              action: none
-            double_tap_action:
-              action: none
-            card_mod:
-              style: |
-                ha-card {
-                  box-shadow: none;
-                  background: rgba(0,0,0,0);
-                }
-          - type: custom:mushroom-template-card
-            primary: ""
-            secondary: ""
             icon: mdi:lightbulb
             icon_color: grey
             layout: vertical
@@ -1004,11 +984,11 @@ views:
                     entity: sensor.living_room_heating
                     above: 0
           - features:
-              - type: climate-hvac-modes
+              - style: icons
+                type: climate-hvac-modes
                 hvac_modes:
                   - "off"
                   - auto
-                  - heat
               - type: target-temperature
             type: tile
             entity: climate.living_room
@@ -1935,6 +1915,17 @@ views:
                   show_color_control: false
                   show_color_temp_control: false
                   use_light_color: false
+              - type: custom:mushroom-light-card
+                entity: light.general_01
+                icon: mdi:star-outline
+                layout: horizontal
+                fill_container: false
+                show_brightness_control: false
+                collapsible_controls: false
+                show_color_control: false
+                show_color_temp_control: false
+                use_light_color: false
+                name: Kerstster
               - type: custom:mushroom-light-card
                 entity: light.shelly1pm_toilet_light_switch_0
                 icon: ""
@@ -3845,7 +3836,7 @@ views:
           - type: vertical-stack
             cards:
               - type: custom:mushroom-climate-card
-                entity: climate.small_bedroom
+                entity: climate.beaus_room
                 name: Beau's kamer
                 icon: mdi:thermometer
                 layout: horizontal
@@ -3866,7 +3857,7 @@ views:
                 chips:
                   - type: template
                     icon: |-
-                      {% set t = states('sensor.small_bedroom_temperature') %}
+                      {% set t = states('sensor.beaus_room_temperature') %}
                       {% if t < '18' %} mdi:thermometer-high
                       {% elif t > '18' and t < '24' %} mdi:thermometer
                       {% else %}  mdi:thermometer-high
@@ -3884,7 +3875,7 @@ views:
                       {% endif %}
                     double_tap_action:
                       action: none
-                    entity: sensor.small_bedroom_temperature
+                    entity: sensor.beaus_room_temperature
                     content: >-
                       {{ states(entity) }} {{ state_attr(entity,
                       'unit_of_measurement') }}
@@ -3903,7 +3894,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.small_bedroom_humidity
+                    entity: sensor.beaus_room_humidity
                     icon_color: cyan
                     tap_action:
                       action: call-service
@@ -3918,7 +3909,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
+                    entity: sensor.beaus_room_thermal_comfort_absolute_humidity
                     icon_color: cyan
                     tap_action:
                       action: call-service
@@ -3933,7 +3924,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.small_bedroom_thermal_comfort_dew_point
+                    entity: sensor.beaus_room_thermal_comfort_dew_point
                     icon_color: teal
                     tap_action:
                       action: call-service
@@ -3961,7 +3952,7 @@ views:
               - type: custom:mushroom-chips-card
                 chips:
                   - type: template
-                    entity: sensor.small_bedroom_heating
+                    entity: sensor.beaus_room_heating
                     icon: mdi:heating-coil
                     icon_color: |-
                       {% if states(entity) != '0.0' %}
@@ -3985,12 +3976,12 @@ views:
                             font-size:12px !important;
                           }
                   - type: template
-                    entity: binary_sensor.small_bedroom_open_window
+                    entity: binary_sensor.beaus_room_open_window
                     icon_color: >-
-                      {% if states('binary_sensor.small_bedroom_open_window') ==
+                      {% if states('binary_sensor.beaus_room_open_window') ==
                       'on' %} red {% else %} disabled {% endif %}
                     icon: >-
-                      {% if states('binary_sensor.small_bedroom_open_window') ==
+                      {% if states('binary_sensor.beaus_room_open_window') ==
                       'on' %} mdi:window-open {% else %} mdi:window-closed {%
                       endif %}
                     double_tap_action:
@@ -4035,7 +4026,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_temperature
+                    - entity: sensor.beaus_room_temperature
                     - entity: sun.sun
                       color: gray
                       name: Zon
@@ -4086,7 +4077,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_humidity
+                    - entity: sensor.beaus_room_humidity
                       color: cyan
                     - entity: sun.sun
                       color: gray
@@ -4127,7 +4118,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
+                    - entity: sensor.beaus_room_thermal_comfort_absolute_humidity
                       color: cyan
                     - entity: sun.sun
                       color: gray
@@ -4168,7 +4159,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_dew_point
+                    - entity: sensor.beaus_room_thermal_comfort_dew_point
                       color: teal
                     - entity: sun.sun
                       color: gray
@@ -4194,7 +4185,7 @@ views:
                 card:
                   type: history-graph
                   entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_humidex_perception
+                    - entity: sensor.beaus_room_thermal_comfort_humidex_perception
                       name: " "
                   style: |
                     ha-card {
@@ -4223,7 +4214,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_heating
+                    - entity: sensor.beaus_room_heating
                       color: red
                     - entity: sun.sun
                       color: gray
@@ -6374,8 +6365,24 @@ views:
                 }
         view_layout:
           grid-area: menu
-      - type: custom:webrtc-camera
-        url: baby
+      - type: vertical-stack
+        cards:
+          - type: custom:webrtc-camera
+            url: baby
+          - square: false
+            type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: binary_sensor.baby_motion
+                name: Beweging
+                fill_container: false
+                primary_info: name
+                secondary_info: last-changed
+              - type: custom:mushroom-entity-card
+                entity: sensor.baby_person_count
+                secondary_info: state
+                name: Personen
+            columns: 2
         view_layout:
           grid-area: middle
   - title: system

@@ -112,7 +112,7 @@ views:
                 show_state: true
                 show_icon: true
                 entity: sensor.weather_station_dht_humidity
-                color: state
+                color: cyan
           - type: conditional
             conditions:
               - condition: state
@@ -174,9 +174,17 @@ views:
             heading_style: title
           - type: conditional
             conditions:
-              - condition: state
-                entity: media_player.home_speaker
-                state_not: unavailable
+              - condition: and
+                conditions:
+                  - condition: state
+                    entity: media_player.home_speaker
+                    state_not: "off"
+                  - condition: state
+                    entity: media_player.home_speaker
+                    state_not: idle
+                  - condition: state
+                    entity: media_player.home_speaker
+                    state_not: unavailable
             card:
               type: custom:mushroom-media-player-card
               entity: media_player.home_speaker
@@ -241,7 +249,8 @@ views:
                   icon_type: entity-picture
           - type: conditional
             conditions:
-              - entity: input_select.entertainment_activity
+              - condition: state
+                entity: input_select.entertainment_activity
                 state: Radio
             card:
               type: vertical-stack
@@ -249,338 +258,15 @@ views:
                 - type: vertical-stack
                   cards:
                     - type: custom:mushroom-media-player-card
-                      entity: media_player.powernode_2i_ea48
-                      icon: mdi:spotify
-                      use_media_info: true
-                      show_volume_level: false
-                      volume_controls:
-                        - volume_set
-                        - volume_mute
-                      media_controls:
-                        - play_pause_stop
-                      collapsible_controls: true
-                      fill_container: false
-                      icon_type: entity-picture
-                      name: Powernode
-                      tap_action:
-                        action: none
-                      hold_action:
-                        action: none
-                      double_tap_action:
-                        action: none
-                    - type: custom:swipe-card
-                      parameters:
-                        preventInteractionOnTransition: true
-                        preventClicks: true
-                        preventClicksPropagation: true
-                        touchReleaseOnEdges: true
-                        sticky: true
-                        effect: slide
-                        spaceBetween: 10
-                        slidesPerView: 1
-                        pagination:
-                          hide: false
-                          draggable: true
-                          snapOnRelease: true
-                        autoplay: false
-                      cards:
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Radio 1
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/radio1.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: NPO Radio 1
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Radio 2
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/radio2.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: NPO Radio 2
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: 3FM
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/3fm.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: NPO 3FM
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Radio 4
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/radio4.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: NPO Radio 4
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Radio 538
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/radio538.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: Radio 538
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Radio 10
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/radio10.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: Radio 10
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Qmusic Nonstop
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/qmusic.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: Qmusic Nonstop
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Sky Radio
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/skyradio.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: Sky Radio
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: BNR
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/bnr.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: BNR Nieuwsradio
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: SLAM! Non Stop
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/slamfm.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: SLAM! Non Stop
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: 100% NL
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/100procentnl.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: 100% NL
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Radio Veronica
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/radio/veronica.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: Radio Veronica
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Sublime
-                              icon: ""
-                              layout: vertical
-                              picture: >-
-                                https://cdn-profiles.tunein.com/s25777/images/logoq.png?t=637957640440000000
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: Sublime
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Christmas Radio
-                              icon: ""
-                              layout: vertical
-                              picture: >-
-                                https://cdn-profiles.tunein.com/s299546/images/logoq.jpg?t=636734033512730000
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: Christmas Radio
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-          - type: conditional
-            conditions:
-              - entity: input_select.entertainment_activity
-                state: Spotify
-            card:
-              type: vertical-stack
-              cards:
-                - type: vertical-stack
-                  cards:
-                    - type: custom:mushroom-media-player-card
-                      entity: media_player.powernode_2i_ea48
-                      icon: mdi:spotify
+                      entity: media_player.powernode_2i_ea48_music_assistant
+                      icon: ""
                       use_media_info: true
                       show_volume_level: true
                       volume_controls:
                         - volume_set
                         - volume_mute
                       media_controls:
-                        - shuffle
-                        - previous
                         - play_pause_stop
-                        - next
-                        - repeat
                       collapsible_controls: true
                       fill_container: false
                       icon_type: entity-picture
@@ -591,303 +277,36 @@ views:
                         action: none
                       double_tap_action:
                         action: none
-                    - type: custom:swipe-card
-                      parameters:
-                        preventInteractionOnTransition: true
-                        preventClicks: true
-                        preventClicksPropagation: true
-                        touchReleaseOnEdges: true
-                        sticky: true
-                        effect: slide
-                        slidesPerView: 1
-                        bulletActiveClass: true
-                        pagination:
-                          hide: false
-                          draggable: true
-                          snapOnRelease: true
-                          autoplay: true
-                      cards:
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              primary: ""
-                              secondary: Liked Songs
-                              icon: ""
-                              layout: vertical
-                              picture: /local/img/spotify/liked_songs.png
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.select_source
-                                target:
-                                  entity_id: media_player.powernode_2i_ea48
-                                data:
-                                  source: "Spotify: Liked Songs"
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_01
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/3ORKq4U4Pv5gMrYdsaT6hw
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_02
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/7gHGifRLJgiahSNrugxIoa
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_03
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/6pfSVtSuceWnHRMRRv2CSP
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_04
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/3nyfO2R6MxbP67wxYVo1nR
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_05
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/0avSSq7Hv1KtLC8dQB4xVE
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_06
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/77FZT9MGc3p7RMBUr5m50r
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_07
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/7E6QXGrtUyYl1kTyvnluTr
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_08
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/37i9dQZEVXcDO6enaQNKLz
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                        - type: grid
-                          square: true
-                          columns: 3
-                          cards:
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_09
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/37i9dQZEVXbqqpGQ1yV2nx
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_10
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/37i9dQZF1E4x6tDrzQfNsN
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                            - type: custom:mushroom-template-card
-                              entity: sensor.playlist_11
-                              primary: ""
-                              secondary: "{{ state_attr(entity,'name') }}"
-                              icon: ""
-                              layout: vertical
-                              picture: "{{ state_attr(entity,'image') }}"
-                              fill_container: false
-                              double_tap_action:
-                                action: call-service
-                                service: media_player.play_media
-                                data:
-                                  media_content_id: >-
-                                    https://open.spotify.com/playlist/1FmlUPRCZaU7QkusYhibAB
-                                  media_content_type: playlist
-                                  announce: true
-                                target:
-                                  entity_id: media_player.spotify_coen_s_nl
-                              hold_action:
-                                action: none
-                              tap_action:
-                                action: none
-                      card_mod:
-                        style: |
-                          ha-card {
-                            border: none;
-                          }
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: input_select.entertainment_activity
+                state: Muziek
+            card:
+              type: vertical-stack
+              cards:
+                - type: vertical-stack
+                  cards:
+                    - type: custom:mushroom-media-player-card
+                      entity: media_player.powernode_2i_ea48_music_assistant
+                      icon: ""
+                      use_media_info: true
+                      show_volume_level: true
+                      volume_controls:
+                        - volume_set
+                        - volume_mute
+                      media_controls:
+                        - play_pause_stop
+                        - shuffle
+                        - next
+                        - repeat
+                        - previous
+                      collapsible_controls: true
+                      fill_container: false
+                      icon_type: entity-picture
+                      name: Powernode
+                      double_tap_action:
+                        action: none
         column_span: 1
       - type: grid
         cards:
@@ -1369,6 +788,197 @@ views:
       - type: grid
         cards:
           - type: heading
+            heading: Sensoren
+            heading_style: title
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.washing_machine
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: cyan
+            name: Wasmachine
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.tumble_dryer
+            icon: ""
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: cyan
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            name: Wasdroger
+            primary_info: name
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.dishwasher
+            icon: ""
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: cyan
+            name: Vaatwasser
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.backyard_motion_sensor_01_motion
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: red
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            name: Achtertuin
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.custom_backyard_person_occupancy
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: red
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            name: Houthok
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.baby_motion
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            icon_color: red
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            grid_options:
+              columns: 4
+              rows: 2
+            name: Beau's kamer
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.frontdoor
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            icon_color: red
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.backdoor
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            icon_color: red
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            entity: binary_sensor.barndoor
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            icon_color: red
+            grid_options:
+              columns: 4
+              rows: 2
+          - type: custom:mushroom-entity-card
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            icon_color: red
+            grid_options:
+              columns: 4
+              rows: 2
+            name: CV-kast deur
+            entity: binary_sensor.cv_closet_door
+          - type: custom:mushroom-entity-card
+            layout: vertical
+            fill_container: false
+            secondary_info: last-changed
+            tap_action:
+              action: more-info
+            hold_action:
+              action: none
+            double_tap_action:
+              action: none
+            primary_info: name
+            icon_color: red
+            grid_options:
+              columns: 4
+              rows: 2
+            entity: binary_sensor.toiletdoor
+            name: Toiletdeur
+      - type: grid
+        cards:
+          - type: heading
             icon: ""
             heading: Klimaat
             heading_style: title
@@ -1611,6 +1221,21 @@ views:
                 :host {
                   font-size: 13px;
                 }
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+            heading: Stofzuigers
+          - type: custom:mushroom-vacuum-card
+            entity: vacuum.roborock_s6_pure
+            grid_options:
+              columns: 12
+              rows: 1
+            commands:
+              - start_pause
+              - stop
+              - clean_spot
+              - return_home
   - title: Verlichting
     icon: mdi:lightbulb
     badges:
@@ -1746,6 +1371,17 @@ views:
             show_color_control: false
             show_color_temp_control: false
             use_light_color: false
+          - type: custom:mushroom-light-card
+            entity: light.general_01
+            icon: mdi:star-outline
+            layout: horizontal
+            fill_container: false
+            show_brightness_control: false
+            collapsible_controls: false
+            show_color_control: false
+            show_color_temp_control: false
+            use_light_color: false
+            name: Kerstster
       - type: grid
         cards:
           - type: heading
@@ -1941,6 +1577,7 @@ views:
                 fill_container: false
                 primary_info: name
                 secondary_info: last-changed
+                icon_color: red
               - type: custom:mushroom-entity-card
                 entity: sensor.baby_person_count
                 secondary_info: state
@@ -1988,6 +1625,7 @@ views:
             fill_container: false
             primary_info: name
             secondary_info: last-changed
+            icon_color: red
           - type: custom:mushroom-entity-card
             entity: sensor.backyard_person_count
             secondary_info: state
@@ -4084,7 +3722,7 @@ views:
           - type: vertical-stack
             cards:
               - type: custom:mushroom-climate-card
-                entity: climate.small_bedroom
+                entity: climate.beaus_room
                 name: Beau's kamer
                 icon: mdi:thermometer
                 layout: horizontal
@@ -4105,7 +3743,7 @@ views:
                 chips:
                   - type: template
                     icon: |-
-                      {% set t = states('sensor.small_bedroom_temperature') %}
+                      {% set t = states('sensor.beaus_room_temperature') %}
                       {% if t < '18' %} mdi:thermometer-high
                       {% elif t > '18' and t < '24' %} mdi:thermometer
                       {% else %}  mdi:thermometer-high
@@ -4123,7 +3761,7 @@ views:
                       {% endif %}
                     double_tap_action:
                       action: none
-                    entity: sensor.small_bedroom_temperature
+                    entity: sensor.beaus_room_temperature
                     content: >-
                       {{ states(entity) }} {{ state_attr(entity,
                       'unit_of_measurement') }}
@@ -4142,7 +3780,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.small_bedroom_humidity
+                    entity: sensor.beaus_room_humidity
                     icon_color: cyan
                     tap_action:
                       action: call-service
@@ -4157,7 +3795,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
+                    entity: sensor.beaus_room_thermal_comfort_absolute_humidity
                     icon_color: cyan
                     tap_action:
                       action: call-service
@@ -4172,7 +3810,7 @@ views:
                             font-size:12px !important;
                           }
                   - type: entity
-                    entity: sensor.small_bedroom_thermal_comfort_dew_point
+                    entity: sensor.beaus_room_thermal_comfort_dew_point
                     icon_color: teal
                     tap_action:
                       action: call-service
@@ -4200,7 +3838,7 @@ views:
               - type: custom:mushroom-chips-card
                 chips:
                   - type: template
-                    entity: sensor.small_bedroom_heating
+                    entity: sensor.beaus_room_heating
                     icon: mdi:heating-coil
                     icon_color: |-
                       {% if states(entity) != '0.0' %}
@@ -4228,9 +3866,9 @@ views:
                             font-size:12px !important;
                           }
                   - type: template
-                    entity: binary_sensor.small_bedroom_open_window
+                    entity: binary_sensor.beaus_room_open_window
                     icon_color: >-
-                      {% if states('binary_sensor.small_bedroom_open_window') ==
+                      {% if states('binary_sensor.beaus_room_open_window') ==
                       'on' %}
 
                       red
@@ -4241,7 +3879,7 @@ views:
 
                       {% endif %}
                     icon: >-
-                      {% if states('binary_sensor.small_bedroom_open_window') ==
+                      {% if states('binary_sensor.beaus_room_open_window') ==
                       'on' %}
 
                       mdi:window-open
@@ -4293,7 +3931,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_temperature
+                    - entity: sensor.beaus_room_temperature
                     - entity: sun.sun
                       color: gray
                       name: Zon
@@ -4344,7 +3982,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_humidity
+                    - entity: sensor.beaus_room_humidity
                       color: cyan
                     - entity: sun.sun
                       color: gray
@@ -4385,7 +4023,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_absolute_humidity
+                    - entity: sensor.beaus_room_thermal_comfort_absolute_humidity
                       color: cyan
                     - entity: sun.sun
                       color: gray
@@ -4426,7 +4064,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_dew_point
+                    - entity: sensor.beaus_room_thermal_comfort_dew_point
                       color: teal
                     - entity: sun.sun
                       color: gray
@@ -4452,7 +4090,7 @@ views:
                 card:
                   type: history-graph
                   entities:
-                    - entity: sensor.small_bedroom_thermal_comfort_humidex_perception
+                    - entity: sensor.beaus_room_thermal_comfort_humidex_perception
                       name: " "
                   style: |
                     ha-card {
@@ -4481,7 +4119,7 @@ views:
                     state: true
                     icon: true
                   entities:
-                    - entity: sensor.small_bedroom_heating
+                    - entity: sensor.beaus_room_heating
                       color: red
                     - entity: sun.sun
                       color: gray
