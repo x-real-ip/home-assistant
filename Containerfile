@@ -7,6 +7,3 @@ RUN pip3 install pypng
 
 # Python module failed workaround.
 RUN touch /.dockerenv
-
-# Add iptables rules in the prestop hook for the Shelly device to block UDP traffic, forcing a reconnection to the new pod.
-RUN apk add --no-cache iptables
