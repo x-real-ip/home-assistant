@@ -1,3 +1,6 @@
 ---
 binary_sensor.backdoor:
   friendly_name: Achterdeur
+  aliases:
+    - Backdoor
+    - Achterdeur

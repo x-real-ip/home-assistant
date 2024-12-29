@@ -1,0 +1,10 @@
+---
+binary_sensor.dishwasher:
+  friendly_name: Vaatwasser
+  icon: mdi:dishwasher
+  aliases:
+    - Dishwasher
+    - Dishwashing machine
+    - Vaatwasser
+    - Vaatwasmachine
+    - Afwasmachine

@@ -1,3 +1,6 @@
 ---
 binary_sensor.barndoor:
   friendly_name: Schuurdeur
+  aliases:
+    - Barndoor
+    - Schuurdeur

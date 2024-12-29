@@ -1,0 +1,6 @@
+---
+media_player.universal_tv:
+  friendly_name: TV
+  aliases:
+    - Television
+    - Televisie

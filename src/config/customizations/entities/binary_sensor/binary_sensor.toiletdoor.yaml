@@ -1,6 +1,6 @@
 ---
-climate.basement:
-  friendly_name: Kelder
+binary_sensor.toiletdoor:
+  friendly_name: WC deur
   aliases:
     - Toilet door
     - Restroom door

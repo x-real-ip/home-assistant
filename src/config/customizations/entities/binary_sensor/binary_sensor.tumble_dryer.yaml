@@ -2,3 +2,8 @@
 binary_sensor.tumble_dryer:
   friendly_name: Wasdroger
   icon: mdi:tumble-dryer
+  aliases:
+    - Tumble dryer
+    - Drier
+    - Droger
+    - Wasdroger

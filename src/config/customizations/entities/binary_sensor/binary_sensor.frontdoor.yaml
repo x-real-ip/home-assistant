@@ -1,3 +1,6 @@
 ---
 binary_sensor.frontdoor:
   friendly_name: Voordeur
+  aliases:
+    - Front door
+    - Voordeur
