@@ -1,9 +1,3 @@
 ---
 climate.basement:
   friendly_name: Kelder
-  aliases:
-    - Toilet door
-    - Restroom door
-    - WC door
-    - Toiletdeur
-    - WC deur
