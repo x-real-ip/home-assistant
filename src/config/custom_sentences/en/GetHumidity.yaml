@@ -1,0 +1,7 @@
+---
+language: "en"
+intents:
+  GetHumidity:
+    data:
+      - sentences:
+          - "What is the humidity in [the] {area}"
