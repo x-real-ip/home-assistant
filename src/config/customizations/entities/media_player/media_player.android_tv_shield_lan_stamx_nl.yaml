@@ -1,0 +1,5 @@
+---
+media_player.android_tv_shield_lan_stamx_nl:
+  friendly_name: Shield
+  aliases:
+    - Nvidia shield
