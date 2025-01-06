@@ -15,7 +15,7 @@ for smart home technology.
 ## Automations
 
 All my automations are running in Node-RED
-[flows](https://github.com/x-real-ip/node-red/tree/main/src/data) as an
+[flows](https://github.com/x-real-ip/node-red-flows/tree/main) as an
 alternative automation engine.
 
 ## Hardware
@@ -26,6 +26,7 @@ alternative automation engine.
 - ESP8622
 - First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen 908.42 MHz
 - Google Home Speaker
+- Home Assistant Voice Preview Edition
 - ISKRA Smart Meter
 - LG SmartTV WebOS
 - Nvidia Shield TV Pro
