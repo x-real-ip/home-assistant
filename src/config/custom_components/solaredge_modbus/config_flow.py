@@ -1,35 +1,38 @@
+"""Config flow for solaredge modbus integration."""
+
 import ipaddress
 import re
 
 import voluptuous as vol
 
 from homeassistant import config_entries
-from homeassistant.const import CONF_NAME, CONF_HOST, CONF_PORT, CONF_SCAN_INTERVAL
+from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PORT, CONF_SCAN_INTERVAL
+from homeassistant.core import HomeAssistant, callback
+
 from .const import (
-    DOMAIN,
-    DEFAULT_NAME,
-    DEFAULT_SCAN_INTERVAL,
-    DEFAULT_PORT,
-    DEFAULT_MODBUS_ADDRESS,
+    CONF_MAX_EXPORT_CONTROL_SITE_LIMIT,
     CONF_MODBUS_ADDRESS,
     CONF_POWER_CONTROL,
-    CONF_READ_METER1,
-    CONF_READ_METER2,
-    CONF_READ_METER3,
     CONF_READ_BATTERY1,
     CONF_READ_BATTERY2,
     CONF_READ_BATTERY3,
+    CONF_READ_METER1,
+    CONF_READ_METER2,
+    CONF_READ_METER3,
+    DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT,
+    DEFAULT_MODBUS_ADDRESS,
+    DEFAULT_NAME,
+    DEFAULT_PORT,
     DEFAULT_POWER_CONTROL,
-    DEFAULT_READ_METER1,
-    DEFAULT_READ_METER2,
-    DEFAULT_READ_METER3,
     DEFAULT_READ_BATTERY1,
     DEFAULT_READ_BATTERY2,
     DEFAULT_READ_BATTERY3,
-    CONF_MAX_EXPORT_CONTROL_SITE_LIMIT,
-    DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT
+    DEFAULT_READ_METER1,
+    DEFAULT_READ_METER2,
+    DEFAULT_READ_METER3,
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
 )
-from homeassistant.core import HomeAssistant, callback
 
 DATA_SCHEMA = vol.Schema(
     {
@@ -45,7 +48,10 @@ DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_READ_BATTERY2, default=DEFAULT_READ_BATTERY2): bool,
         vol.Optional(CONF_READ_BATTERY3, default=DEFAULT_READ_BATTERY3): bool,
         vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): int,
-        vol.Optional(CONF_MAX_EXPORT_CONTROL_SITE_LIMIT, default=DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT): int,
+        vol.Optional(
+            CONF_MAX_EXPORT_CONTROL_SITE_LIMIT,
+            default=DEFAULT_MAX_EXPORT_CONTROL_SITE_LIMIT,
+        ): int,
     }
 )
 
@@ -63,9 +69,9 @@ def host_valid(host):
 @callback
 def solaredge_modbus_entries(hass: HomeAssistant):
     """Return the hosts already configured."""
-    return set(
+    return {
         entry.data[CONF_HOST] for entry in hass.config_entries.async_entries(DOMAIN)
-    )
+    }
 
 
 class SolaredgeModbusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -101,4 +107,3 @@ class SolaredgeModbusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
-
