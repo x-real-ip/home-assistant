@@ -1,0 +1,9 @@
+---
+tado_climate:
+  name: Tado climate
+  entities:
+    - climate.basement
+    - climate.beaus_room
+    - climate.lises_room
+    - climate.living_room
+    - climate.master_bedroom
