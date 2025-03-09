@@ -1,0 +1,8 @@
+---
+platform: template
+sensors:
+  cv_heating_delta_t:
+    unit_of_measurement: "°C"
+    value_template:
+      "{{ states('sensor.opentherm_heating_temp') | float -
+      states('sensor.opentherm_heating_return_temp') | float }}"
