@@ -5,4 +5,4 @@ sensors:
     unit_of_measurement: "°C"
     value_template:
       "{{ states('sensor.opentherm_heating_temp') | float -
-      states('sensor.opentherm_heating_return_temp') | float }}"
+      states('sensor.opentherm_heating_return_temp') | float | round(2) }}"
