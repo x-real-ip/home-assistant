@@ -5,7 +5,7 @@
     },
     "error": {
       "cannot_connect": "Failed to connect",
-      "invalid_auth": "Looks like you position isn't within the choosen region",
+      "invalid_auth": "Whether there are problems with the Kleenex service or your location is not within the selected region",
       "unknown": "Unexpected error"
     },
     "step": {
@@ -22,13 +22,94 @@
   "entity": {
     "sensor": {
       "trees": {
-        "name": "Trees"
+        "name": "Trees",
+        "state_attributes": {
+          "level": {
+            "name": "Level",
+            "state": {
+              "low": "Low",
+              "moderate": "Moderate",
+              "high": "High",
+              "very-high": "Very High"
+            }
+          },
+          "details": {
+            "name": "Details"
+          },
+          "forecast": {
+            "name": "Forecast"
+          }
+        }
+      },
+      "trees_level": {
+        "name": "Trees Level",
+        "state": {
+          "low": "Low",
+          "moderate": "Moderate",
+          "high": "High",
+          "very-high": "Very High"
+        }
       },
       "grass": {
-        "name": "Grass"
+        "name": "Grass",
+        "state_attributes": {
+          "level": {
+            "name": "Level",
+            "state": {
+              "low": "Low",
+              "moderate": "Moderate",
+              "high": "High",
+              "very-high": "Very High"
+            }
+          },
+          "details": {
+            "name": "Details"
+          },
+          "forecast": {
+            "name": "Forecast"
+          }
+        }
+      },
+      "grass_level": {
+        "name": "Grass Level",
+        "state": {
+          "low": "Low",
+          "moderate": "Moderate",
+          "high": "High",
+          "very-high": "Very High"
+        }
       },
       "weeds": {
-        "name": "Weeds"
+        "name": "Weeds",
+        "state_attributes": {
+          "level": {
+            "name": "Level",
+            "state": {
+              "low": "Low",
+              "moderate": "Moderate",
+              "high": "High",
+              "very-high": "Very High"
+            }
+          },
+          "details": {
+            "name": "Details"
+          },
+          "forecast": {
+            "name": "Forecast"
+          }
+        }
+      },
+      "weeds_level": {
+        "name": "Weeds Level",
+        "state": {
+          "low": "Low",
+          "moderate": "Moderate",
+          "high": "High",
+          "very-high": "Very High"
+        }
+      },
+      "date": {
+        "name": "Date"
       },
       "region": {
         "name": "Region",

@@ -5,7 +5,7 @@
     },
     "error": {
       "cannot_connect": "Échec de la connexionFailed to connect",
-      "invalid_auth": "On dirait que votre position n'est pas dans la région choisie",
+      "invalid_auth": "Que ce soit un problème avec le Kleenex service ou que votre emplacement ne soit pas dans la région sélectionnée.",
       "unknown": "Erreur inattendue"
     },
     "step": {
@@ -22,13 +22,94 @@
   "entity": {
     "sensor": {
       "trees": {
-        "name": "Arbres"
+        "name": "Arbres",
+        "state_attributes": {
+          "level": {
+            "name": "Niveau",
+            "state": {
+              "low": "Faible",
+              "moderate": "Modéré",
+              "high": "Élevé",
+              "very-high": "Très élevé"
+            }
+          },
+          "details": {
+            "name": "Détails"
+          },
+          "forecast": {
+            "name": "Prévision"
+          }
+        }
+      },
+      "trees_level": {
+        "name": "Arbres niveau",
+        "state": {
+          "low": "Faible",
+          "moderate": "Modéré",
+          "high": "Élevé",
+          "very-high": "Très élevé"
+        }
       },
       "grass": {
-        "name": "Graminées"
+        "name": "Graminées",
+        "state_attributes": {
+          "level": {
+            "name": "Niveau",
+            "state": {
+              "low": "Faible",
+              "moderate": "Modéré",
+              "high": "Élevé",
+              "very-high": "Très élevé"
+            }
+          },
+          "details": {
+            "name": "Détails"
+          },
+          "forecast": {
+            "name": "Prévision"
+          }
+        }
+      },
+      "grass_level": {
+        "name": "Graminées niveau",
+        "state": {
+          "low": "Faible",
+          "moderate": "Modéré",
+          "high": "Élevé",
+          "very-high": "Très élevé"
+        }
       },
       "weeds": {
-        "name": "Herbacées"
+        "name": "Herbacées",
+        "state_attributes": {
+          "level": {
+            "name": "Niveau",
+            "state": {
+              "low": "Faible",
+              "moderate": "Modéré",
+              "high": "Élevé",
+              "very-high": "Très élevé"
+            }
+          },
+          "details": {
+            "name": "Détails"
+          },
+          "forecast": {
+            "name": "Prévision"
+          }
+        }
+      },
+      "weeds_level": {
+        "name": "Herbacées niveau",
+        "state": {
+          "low": "Faible",
+          "moderate": "Modéré",
+          "high": "Élevé",
+          "very-high": "Très élevé"
+        }
+      },
+      "date": {
+        "name": "Date"
       },
       "region": {
         "name": "Région",

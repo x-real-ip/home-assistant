@@ -5,7 +5,7 @@
     },
     "error": {
       "cannot_connect": "non riesco a connettermi",
-      "invalid_auth": "Sembra che la vostra posizione non sia nella regione scelta",
+      "invalid_auth": "Che ci siano problemi con il Kleenex servizio o che la tua posizione non sia nella regione selezionata.",
       "unknown": "Errore sconosciuto"
     },
     "step": {
@@ -22,13 +22,94 @@
   "entity": {
     "sensor": {
       "trees": {
-        "name": "Alberi"
+        "name": "Alberi",
+        "state_attributes": {
+          "level": {
+            "name": "Livello",
+            "state": {
+              "low": "Basso",
+              "moderate": "Moderato",
+              "high": "Alto",
+              "very-high": "Molto alto"
+            }
+          },
+          "details": {
+            "name": "Dettagli"
+          },
+          "forecast": {
+            "name": "Previsione"
+          }
+        }
+      },
+      "trees_level": {
+        "name": "Alberi livello",
+        "state": {
+          "low": "Basso",
+          "moderate": "Moderato",
+          "high": "Alto",
+          "very-high": "Molto alto"
+        }
       },
       "grass": {
-        "name": "Graminacee"
+        "name": "Graminacee",
+        "state_attributes": {
+          "level": {
+            "name": "Livello",
+            "state": {
+              "low": "Basso",
+              "moderate": "Moderato",
+              "high": "Alto",
+              "very-high": "Molto alto"
+            }
+          },
+          "details": {
+            "name": "Dettagli"
+          },
+          "forecast": {
+            "name": "Previsione"
+          }
+        }
+      },
+      "grass_level": {
+        "name": "Graminacee livello",
+        "state": {
+          "low": "Basso",
+          "moderate": "Moderato",
+          "high": "Alto",
+          "very-high": "Molto alto"
+        }
       },
       "weeds": {
-        "name": "Erba"
+        "name": "Erba",
+        "state_attributes": {
+          "level": {
+            "name": "Livello",
+            "state": {
+              "low": "Basso",
+              "moderate": "Moderato",
+              "high": "Alto",
+              "very-high": "Molto alto"
+            }
+          },
+          "details": {
+            "name": "Dettagli"
+          },
+          "forecast": {
+            "name": "Previsione"
+          }
+        }
+      },
+      "weeds_level": {
+        "name": "Erba livello",
+        "state": {
+          "low": "Basso",
+          "moderate": "Moderato",
+          "high": "Alto",
+          "very-high": "Molto alto"
+        }
+      },
+      "date": {
+        "name": "Data"
       },
       "region": {
         "name": "Regione",
