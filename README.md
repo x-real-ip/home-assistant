@@ -22,6 +22,7 @@ alternative automation engine.
 
 - Aeotec Z-Wave Gen5 Stick 908.42 MHz
 - Bluesound Powernode 2i
+- DIYLESS OpenTherm Gateway
 - ESP32
 - ESP8622
 - First Alert Z-Wave Smoke & Carbon Monoxide detector 2nd Gen 908.42 MHz
