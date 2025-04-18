@@ -55,12 +55,12 @@ alternative automation engine.
 Copy installed HACS integration types from pod to local git repo directory
 
 ```console
-rm -r /home/coen/github/home-assistant/src/config/custom_components/* &&
-for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/custom_components /home/coen/github/home-assistant/src/config/custom_components; done
+rm -r /home/coen/git-repositories/home-assistant/src/config/custom_components/* &&
+for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/custom_components /home/coen/git-repositories/home-assistant/src/config/custom_components; done
 ```
 
 Copy installed HACS dashboard types from pod to local git repo directory
 ```console
-rm -r /home/coen/github/home-assistant/src/config/www/community/* &&
-for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/www/community /home/coen/github/home-assistant/src/config/www/community; done
+rm -r /home/coen/git-repositories/home-assistant/src/config/www/community/* &&
+for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/www/community /home/coen/git-repositories/home-assistant/src/config/www/community; done
 ```
