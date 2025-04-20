@@ -1,6 +1,8 @@
 ---
 sleepmode_excluded_lights:
-  name: Uitgesloten lampen in slaapstand
+  name: Uitgesloten lampen van slaapstand
   entities:
     - light.shelly1_bathroom
     - light.shelly1pm_toilet_light_switch_0
+    - light.shellydimmer_master_bedroom
+    - light.shellydimmer_kitchen
