@@ -1,2 +1,0 @@
----
-calendar: !include_dir_list ../entities/calendars
