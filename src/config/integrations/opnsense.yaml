@@ -1,6 +1,0 @@
----
-opnsense:
-  url: https://opnsense.lan.stamx.nl/api
-  api_secret: !secret opnsense_api_secret
-  api_key: !secret opnsense_api_key
-  verify_ssl: false
