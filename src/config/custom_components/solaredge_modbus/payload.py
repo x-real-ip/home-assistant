@@ -17,7 +17,7 @@ from struct import pack, unpack
 from pymodbus.constants import Endian
 from pymodbus.exceptions import ParameterException
 from pymodbus.logging import Log
-from pymodbus.utilities import pack_bitstring, unpack_bitstring
+from pymodbus.pdu.pdu import pack_bitstring, unpack_bitstring
 
 WC = {"b": 1, "h": 2, "e": 2, "i": 4, "l": 4, "q": 8, "f": 4, "d": 8}
 
@@ -444,7 +444,10 @@ class BinaryPayloadDecoder:
         :param size: The size of the string to decode
         """
         self._pointer += size
-        return self._payload[self._pointer - size : self._pointer]
+        s = self._payload[self._pointer - size : self._pointer]
+        s = s.rstrip(b"\0")  # omit NULL terminators
+        s = s.decode()
+        return s
 
     def skip_bytes(self, nbytes):
         """Skip n bytes in the buffer.

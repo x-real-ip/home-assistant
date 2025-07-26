@@ -1,3 +1,4 @@
+import copy
 from homeassistant.components import media_source
 from homeassistant.components.media_player import (
     MediaPlayerEntity,
@@ -18,6 +19,7 @@ from homeassistant.const import (
 )
 
 from homeassistant.util import dt
+from homeassistant.exceptions import ServiceValidationError
 
 from .entities import BrowserModEntity
 from .const import DOMAIN, DATA_ADDERS
@@ -57,7 +59,18 @@ class BrowserModPlayer(BrowserModEntity, MediaPlayerEntity):
             "unavailable": STATE_UNAVAILABLE,
             "on": STATE_ON,
             "off": STATE_OFF,
+            "idle": STATE_IDLE,
         }.get(state, STATE_UNKNOWN)
+    
+    @property
+    def extra_state_attributes(self):
+        """Return the device state attributes."""
+        attributes = super().extra_state_attributes
+        attributes.update({
+            "video_interaction_required": self._data.get("player", {}).get("extra", {}).get("videoInteractionRequired", "unknown"),
+            "audio_interaction_required": self._data.get("player", {}).get("extra", {}).get("audioInteractionRequired", "unknown"),
+        })
+        return attributes
 
     @property
     def supported_features(self):
@@ -124,9 +137,26 @@ class BrowserModPlayer(BrowserModEntity, MediaPlayerEntity):
         await self.browser.send("player-set-volume", volume_level=volume)
 
     async def async_mute_volume(self, mute):
+        if (not mute and self._data.get("player", {}).get("extra", {}).get("audioInteractionRequired", True)):
+            raise ServiceValidationError(
+                f"Cannot unmute browser: {self.browserID}. Please interact with the browser first."
+            )
         await self.browser.send("player-mute", mute=mute)
 
     async def async_play_media(self, media_type, media_id, **kwargs):
+        if media_type.startswith("video/"):
+            if self._data.get("player", {}).get("extra", {}).get("videoInteractionRequired", True):
+                raise ServiceValidationError(
+                    f"Cannot play video in browser: {self.browserID}. Please interact with the browser first."
+                )
+        if media_type.startswith("audio/"):
+            if self._data.get("player", {}).get("extra", {}).get("audioInteractionRequired", True):
+                raise ServiceValidationError(
+                    f"Cannot play audio in browser: {self.browserID}. Please interact with the browser first."
+                )
+        # We cant't alter kwargs as this will end up altering the default value in the 
+        # core media_player schema. Hence we deepcopy before altering.
+        kwargs = copy.deepcopy(kwargs)
         kwargs["extra"]["media_content_id"] = media_id
         kwargs["extra"]["media_content_type"] = media_type
         if media_source.is_media_source_id(media_id):
