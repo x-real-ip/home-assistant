@@ -31,6 +31,8 @@ REGIONS = {
     "us": {
         "name": "United States of America",
         "url": "https://www.kleenex.com/api/sitecore/Pollen/GetPollenContent",
-    }
+    },
 }
 CONF_REGION = "region"
+CONF_NAME = "name"
+RETRY_ATTEMPTS = 5
