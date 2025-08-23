@@ -22,3 +22,5 @@ jobs:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
       type: ${{ matrix.type }}
+      bump: true
+      bump_type: containerfile
