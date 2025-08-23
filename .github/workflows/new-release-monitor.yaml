@@ -1,0 +1,24 @@
+name: Check releases
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-releases:
+    uses: x-real-ip/github-actions/.github/workflows/new-release-issue.yaml@main
+    strategy:
+      matrix:
+        include:
+          - name: Home Assistant
+            type: release
+            target: home-assistant/core
+    with:
+      name: ${{ matrix.name }}
+      target: ${{ matrix.target }}
+      type: ${{ matrix.type }}
