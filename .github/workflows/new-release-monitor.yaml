@@ -19,9 +19,11 @@ jobs:
           - name: Home Assistant
             type: release
             target: home-assistant/core
+            bump: true
+            bump_type: containerfile
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
       type: ${{ matrix.type }}
-      bump: true
-      bump_type: containerfile
+      bump: ${{ matrix.bump }}
+      bump_type: ${{ matrix.bump_type }}
