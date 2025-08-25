@@ -1,0 +1,26 @@
+---
+name: Reusable Checks
+
+on:
+  workflow_call:
+
+jobs:
+  yamllint:
+    name: Yaml lint
+    uses: x-real-ip/github-actions/.github/workflows/yamllint.yaml@main
+
+  home-assistant:
+    name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ["stable", "beta", "dev"]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+      - name: Run Home Assistant Configuration Check
+        uses: frenck/action-home-assistant@v1
+        with:
+          path: "./src/config"
+          secrets: secrets.yaml.example
+          version: "${{ matrix.version }}"

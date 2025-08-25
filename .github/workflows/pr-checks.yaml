@@ -1,0 +1,10 @@
+---
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  checks:
+    uses: ./.github/workflows/reusable-checks.yaml

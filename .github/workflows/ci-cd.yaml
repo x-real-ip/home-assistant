@@ -1,8 +1,10 @@
 ---
-name: Continuous integration
+name: CI/CD
 
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     - cron: "0 8 * * 6"
@@ -12,29 +14,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  yamllint:
-    name: Yaml lint
-    uses: x-real-ip/github-actions/.github/workflows/yamllint.yaml@main
-
-  home-assistant:
-    name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: ["stable", "beta", "dev"]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@main
-      - name: Run Home Assistant Configuration Check
-        uses: frenck/action-home-assistant@v1
-        with:
-          path: "./src/config"
-          secrets: secrets.yaml.example
-          version: "${{ matrix.version }}"
+  checks:
+    uses: ./.github/workflows/reusable-checks.yaml
 
   build-and-push-image:
     name: Build and Push Image
-    needs: [home-assistant, yamllint]
+    needs: [checks]
     uses: x-real-ip/github-actions/.github/workflows/build-and-push.yaml@v2
     with:
       push: true
