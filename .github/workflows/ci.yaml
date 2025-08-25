@@ -4,6 +4,9 @@ name: Continuous integration
 on:
   push:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: "0 8 * * 6"
 
