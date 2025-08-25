@@ -64,3 +64,5 @@ Copy installed HACS dashboard types from pod to local git repo directory
 rm -r /home/coen/git-repositories/home-assistant/src/config/www/community/* &&
 for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/www/community /home/coen/git-repositories/home-assistant/src/config/www/community; done
 ```
+
+TEST
