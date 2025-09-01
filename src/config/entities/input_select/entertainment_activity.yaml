@@ -3,6 +3,7 @@ entertainment_activity:
   options:
     - Uitschakelen
     - TV
+    - Film & Series
     - Radio
     - Muziek
   initial: Uitschakelen
