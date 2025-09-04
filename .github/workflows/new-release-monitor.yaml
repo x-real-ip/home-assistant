@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: Home Assistant
+          - name: home-assistant
             type: release
             target: home-assistant/core
             bump: true
