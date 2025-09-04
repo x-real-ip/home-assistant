@@ -21,6 +21,7 @@ jobs:
             target: home-assistant/core
             bump: true
             bump_type: containerfile
+            image: "ghcr.io/home-assistant/home-assistant"
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
