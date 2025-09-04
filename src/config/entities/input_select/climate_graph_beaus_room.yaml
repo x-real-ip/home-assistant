@@ -1,0 +1,11 @@
+---
+climate_graph_beaus_room:
+  options:
+    - Temperature
+    - Relative humidity
+    - Absolute humidity
+    - Dewpoint
+    - Heating
+    - Humidex perception
+    - Dewpoint perception
+  initial: Temperature
