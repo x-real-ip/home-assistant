@@ -1,7 +1,0 @@
----
-exterior_doors:
-  name: Buitendeuren
-  entities:
-    - binary_sensor.frontdoor
-    - binary_sensor.backdoor
-    - binary_sensor.barndoor
