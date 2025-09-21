@@ -1,0 +1,3 @@
+---
+start_vacuum_cleaner:
+  duration: "00:10:00"
