@@ -1,6 +1,7 @@
 """Kleenex API"""
 
 from typing import Any
+import logging
 
 from datetime import datetime, date
 import aiohttp
@@ -8,10 +9,12 @@ import async_timeout
 
 from homeassistant.exceptions import HomeAssistantError
 
-from bs4 import BeautifulSoup
-from .const import DOMAIN, REGIONS
+from bs4 import BeautifulSoup, Tag
+from .const import DOMAIN, REGIONS, GetContentBy, METHODS
 
 TIMEOUT = 10
+
+_LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
 class PollenApi:
@@ -29,48 +32,77 @@ class PollenApi:
         "weeds": "weed",
         "grass": "grass",
     }
+    _found_city: str = ""
+    _found_latitude: float = 0.0
+    _found_longitude: float = 0.0
 
     def __init__(
         self,
         session: aiohttp.ClientSession,
-        region: str = "",
+        region: str,
+        get_content_by: GetContentBy,
         latitude: float = 0,
         longitude: float = 0,
+        city: str = "",
     ) -> None:
         self._session = session
         self.region = region
+        self.get_content_by = get_content_by
         self.latitude = latitude
         self.longitude = longitude
+        self.city = city
 
-    async def async_get_data(self) -> list[dict[str, Any]]:
+    async def async_get_data(self) -> dict[str, Any]:
         """Get data from the API."""
         await self.refresh_data()
-        return self._pollen
+        return {
+            "pollen": self._pollen,
+            "location": {
+                "latitude": self._found_latitude,
+                "longitude": self._found_longitude,
+                "city": self._found_city,
+            },
+            "raw": self._raw_data,
+        }
 
     async def refresh_data(self):
         """Refresh data from the API."""
-        if self.latitude != 0 and self.longitude != 0:
-            success = await self.__request_by_latitude_longitude()
+        if (self.latitude != 0 and self.longitude != 0) or self.city:
+            success = await self.__request_data()
             if success:
                 self.__decode_raw_data()
 
-    async def __request_by_latitude_longitude(self) -> bool:
+    async def __request_data(self) -> bool:
         """Request data from the API using latitude and longitude."""
-        data = {"lat": self.latitude, "lng": self.longitude}
-        success = await self.__perform_request(self.__get_url_by_region(), data)
+        if self.get_content_by == GetContentBy.LAT_LNG:
+            params = {"lat": self.latitude, "lng": self.longitude}
+        else:
+            params = {"city": self.city}
+        url = self.__get_url_by_region()
+        _LOGGER.debug("Requesting data from URL: %s with params: %s", url, params)
+        success = await self.__perform_request(url, params)
         return success
 
     def __get_url_by_region(self) -> str:
         """Get the URL for the API based on the region."""
-        return REGIONS[self.region]["url"]
+        return f"{REGIONS[self.region]['url']}{self.__get_url_page()}"
 
-    async def __perform_request(self, url: str, data: Any) -> bool:
+    def __get_url_page(self) -> str:
+        """Get the URL for the page based on the region."""
+        return METHODS[self.get_content_by]
+
+    async def __perform_request(self, url: str, params: Any) -> bool:
         """Perform the request to the API."""
         try:
             async with async_timeout.timeout(TIMEOUT):
-                response = await self._session.post(
-                    url=url, data=data, headers=self._headers, ssl=False
-                )
+                if REGIONS[self.region]["method"] == "get":
+                    response = await self._session.get(
+                        url=url, params=params, headers=self._headers, ssl=False
+                    )
+                else:
+                    response = await self._session.post(
+                        url=url, data=params, headers=self._headers, ssl=False
+                    )
                 if response.ok:
                     self._raw_data = await response.text()
                 return response.ok
@@ -90,55 +122,75 @@ class PollenApi:
     def __decode_raw_data(self):
         """Decode the raw data from the API."""
         soup = BeautifulSoup(self._raw_data, "html.parser")
+
+        self.__extract_location_data(soup)
+
         results = soup.find_all("button", class_="day-link")
         if results:
             self._pollen = []
-        for day in results:
-            day_no = int(day.select("span.day-number")[0].contents[0])  # type: ignore
+        tag_results = [el for el in results if isinstance(el, Tag)]
+        for day in tag_results:
+            day_no = int(day.select_one("span.day-number").contents[0])  # type: ignore
             pollen_date = self.__determine_pollen_date(day_no)
             pollen: dict[str, Any] = {
                 "day": day_no,
                 "date": pollen_date,
             }
-            pollen["pollen_type"] = {}
             for pollen_type in self._pollen_types:
-                pollen_count, unit_of_measure = day.get(  # type: ignore
-                    f"data-{pollen_type}-count", "0 PPM"
-                ).split(" ")  # type: ignore
+                count_unit = day.get(f"data-{pollen_type}-count", "0 PPM")
                 try:
+                    pollen_count, unit_of_measure = count_unit.split(" ")  # type: ignore
                     pollen[pollen_type] = int(pollen_count)
-                except ValueError:
+                except (ValueError, AttributeError):
                     pollen[pollen_type] = 0
-                pollen_level = day.get(f"data-{pollen_type}", "")  # type: ignore
-                if pollen_level == "":
-                    pollen_level = self.determine_level_by_count(
-                        pollen_type, pollen[pollen_type]
-                    )
+                    unit_of_measure = "ppm"
+                pollen_level = day.get(
+                    f"data-{pollen_type}", ""
+                ) or self.determine_level_by_count(pollen_type, pollen[pollen_type])
                 pollen[f"{pollen_type}_level"] = pollen_level
                 pollen[f"{pollen_type}_unit_of_measure"] = unit_of_measure.lower()
                 pollen[f"{pollen_type}_details"] = []
 
                 pollen_detail_type = self._pollen_detail_types[pollen_type]
-                pollen_details = day.get(f"data-{pollen_detail_type}-detail", "").split(  # type: ignore
-                    "|"
-                )
-                for item in pollen_details:
-                    sub_items = item.split(",")
-                    pollen_detail = {
-                        "name": sub_items[0],
-                        "value": int(sub_items[1]),
-                        "level": sub_items[2],
-                    }
-                    pollen[f"{pollen_type}_details"].append(pollen_detail)
+                pollen_details_str = day.get(f"data-{pollen_detail_type}-detail", "")
+                if pollen_details_str:
+                    for item in pollen_details_str.split("|"):  # type: ignore
+                        sub_items = item.split(",")
+                        if len(sub_items) == 3:
+                            try:
+                                pollen_detail = {
+                                    "name": sub_items[0],
+                                    "value": int(sub_items[1]),
+                                    "level": sub_items[2],
+                                }
+                            except ValueError:
+                                pollen_detail = {
+                                    "name": sub_items[0],
+                                    "value": 0,
+                                    "level": sub_items[2],
+                                }
+                            pollen[f"{pollen_type}_details"].append(pollen_detail)
             self._pollen.append(pollen)
 
-    def get_raw_data(self) -> str:
-        """Get the raw data from the API."""
-        return self._raw_data
+    def __extract_location_data(self, soup: BeautifulSoup) -> None:
+        """Extract latitude and longitude from the soup."""
+        self._found_city = self.__get_location_str("cityName", soup)
+        self._found_latitude = self.__get_location_float("pollenlat", soup)
+        self._found_longitude = self.__get_location_float("pollenlng", soup)
 
-    def get_pollen_info(self) -> list[dict[str, Any]]:
-        """Get the pollen information."""
-        return self._pollen
+    def __get_location_str(self, key: str, soup: BeautifulSoup) -> str:
+        """Get a location value from the raw data."""
+        result = soup.find("input", id=key)
+        return result.get("value", "") if result else ""  # type: ignore
+
+    def __get_location_float(self, key: str, soup: BeautifulSoup) -> float:
+        """Get a location value from the raw data."""
+        result = soup.find("input", id=key)
+        value = result.get("value", None) if result else None  # type: ignore
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return 0.0
 
     def __determine_pollen_date(self, day_no: int) -> date:
         """Determine the date of the pollen data."""
