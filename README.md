@@ -1,6 +1,7 @@
 # Home Assistant
 
-[![Continuous integration](https://github.com/x-real-ip/home-assistant/actions/workflows/ci.yaml/badge.svg)](https://github.com/x-real-ip/home-assistant/actions/workflows/ci.yaml)
+[![Check releases](https://github.com/x-real-ip/home-assistant/actions/workflows/new-release-monitor.yaml/badge.svg)](https://github.com/x-real-ip/home-assistant/actions/workflows/new-release-monitor.yaml)
+[![CI/CD](https://github.com/x-real-ip/home-assistant/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/x-real-ip/home-assistant/actions/workflows/ci-cd.yaml)
 ![GitHub repo size](https://img.shields.io/github/repo-size/x-real-ip/home-assistant?logo=Github)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/x-real-ip/home-assistant?logo=github)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/x-real-ip/home-assistant/main?logo=github)
@@ -49,18 +50,3 @@ alternative automation engine.
 - Tado Wireless Temperature Sensor
 - Xioami Roborock S55
 - Xioami Roborock S6 Pure
-
-## Other
-
-Copy installed HACS integration types from pod to local git repo directory
-
-```console
-rm -r /home/coen/git-repositories/home-assistant/src/config/custom_components/* &&
-for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/custom_components /home/coen/git-repositories/home-assistant/src/config/custom_components; done
-```
-
-Copy installed HACS dashboard types from pod to local git repo directory
-```console
-rm -r /home/coen/git-repositories/home-assistant/src/config/www/community/* &&
-for podname in $(kubectl get pods -n home-automation -l app=home-assistant -o json| jq -r '.items[].metadata.name'); do kubectl cp home-automation/${podname}:/config/www/community /home/coen/git-repositories/home-assistant/src/config/www/community; done
-```
