@@ -5,5 +5,5 @@ entertainment_activity:
     - TV
     - Films & Series
     # - Radio
-    # - Muziek
+    - Muziek
   initial: Uitschakelen
