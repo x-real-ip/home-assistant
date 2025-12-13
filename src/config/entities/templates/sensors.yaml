@@ -6,3 +6,60 @@ sensor:
     state:
       "{{ (states.sensor.basement_wall_temperature.state | float(default=0)) - 1
       | round(1) }}"
+
+  - name: cv_heating_delta_t
+    unit_of_measurement: °C
+    default_entity_id: sensor.cv_heating_delta_t
+    state:
+      "{{ states('sensor.opentherm_heating_temp') | float -
+      states('sensor.opentherm_heating_return_temp') | float | round(2) }}"
+
+  - name: Solar production forecast Estimated energy production - this hour
+    device_class: energy
+    unit_of_measurement: kWh
+    default_entity_id: sensor.energy_current_hour_combined
+    state:
+      "{{ states('sensor.energy_current_hour') | float +
+      states('sensor.energy_current_hour_2')| float }}"
+
+  - name: Solar production forecast Estimated energy production - next hour
+    device_class: energy
+    unit_of_measurement: kWh
+    default_entity_id: sensor.energy_next_hour_combined
+    state:
+      "{{ states('sensor.energy_next_hour') | float +
+      states('sensor.energy_next_hour_2')| float }}"
+
+  - name: Solar production forecast Estimated energy production - today
+    device_class: energy
+    unit_of_measurement: kWh
+    default_entity_id: sensor.energy_production_today_combined
+    state:
+      "{{ states('sensor.energy_production_today') | float +
+      states('sensor.energy_production_today_2')| float }}"
+
+  - name:
+      Solar production forecast Estimated energy production - remaining today
+    device_class: energy
+    unit_of_measurement: kWh
+    default_entity_id: sensor.energy_production_today_remaining_combined
+    state:
+      "{{ states('sensor.energy_production_today_remaining') | float +
+      states('sensor.energy_production_today_remaining_2')| float }}"
+
+  - name: lights_on_counter
+    default_entity_id: sensor.lights_on_counter
+    state:
+      "{{ states.light | selectattr( 'state', 'eq', 'on') | list | count }}"
+
+  - name: Solar production forecast Estimated power production - now
+    device_class: power
+    unit_of_measurement: W
+    default_entity_id: sensor.power_production_now_combined
+    state:
+      "{{ states('sensor.energy_production_tomorrow') | float +
+      states('sensor.energy_production_tomorrow_2')| float }}"
+
+  - name: wind_speed_beaufort
+    default_entity_id: sensor.wind_speed_beaufort
+    state: "{{ state_attr('sensor.knmi_wind_speed', 'beaufort') }}"

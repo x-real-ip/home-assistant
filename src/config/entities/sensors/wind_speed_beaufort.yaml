@@ -1,5 +1,0 @@
----
-platform: template
-sensors:
-  wind_speed_beaufort:
-    value_template: "{{ state_attr('sensor.knmi_wind_speed', 'beaufort') }}"
