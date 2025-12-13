@@ -1,0 +1,7 @@
+---
+unit_of_measurement: °C
+default_entity_id: sensor.basement_wall_temperature_offset
+state:
+  "{{ (states.sensor.basement_wall_temperature.state | float(default=0)) - 1 |
+  round(1) }}"
+name: basement_wall_temperature_offset
