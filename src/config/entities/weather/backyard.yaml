@@ -1,7 +1,0 @@
----
-platform: template
-name: "Backyard Weather Station"
-condition_template: "{{ states('weather.knmi_home') }}"
-temperature_template: "{{ states('sensor.weather_station_temperature') | float(default=0) }}"
-temperature_unit: "°C"
-humidity_template: "{{ state_attr('weather.knmi_home', 'humidity') }}"

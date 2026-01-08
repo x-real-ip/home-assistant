@@ -1,0 +1,8 @@
+---
+weather:
+  - name: Backyard Weather Station
+    temperature_unit: °C
+    condition: "{{ states('weather.knmi_home') }}"
+    humidity: "{{ state_attr('weather.knmi_home', 'humidity') }}"
+    temperature:
+      "{{ states('sensor.weather_station_temperature') | float(default=0) }}"
