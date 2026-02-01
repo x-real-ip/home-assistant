@@ -1,0 +1,7 @@
+---
+coen_daily_step_target:
+  name: Doel aantal stappen per dag (Coen)
+  initial: 8000
+  min: 1000
+  max: 15000
+  step: 100
