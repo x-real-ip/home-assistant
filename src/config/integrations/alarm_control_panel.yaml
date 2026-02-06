@@ -1,0 +1,2 @@
+---
+alarm_control_panel: !include_dir_merge_named ../entities/alarm_control_panel
