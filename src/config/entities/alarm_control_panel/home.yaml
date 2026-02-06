@@ -1,7 +1,7 @@
 ---
 platform: manual
 name: Home Alarm
-code: '1234'
+code: "1234"
 arming_time: 60
 delay_time: 30
 disarmed:
