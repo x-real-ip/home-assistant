@@ -22,6 +22,7 @@ alternative automation engine.
 ## Hardware
 
 - Aeotec Z-Wave Gen5 Stick 908.42 MHz
+- Appolo Automation AIR-1 Sensors with CO2
 - Bluesound Powernode 2i
 - DIYLESS OpenTherm Gateway
 - ESP32
