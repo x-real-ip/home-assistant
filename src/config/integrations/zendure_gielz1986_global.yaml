@@ -188,7 +188,7 @@ input_number:
     min: 0
     max: 100
     step: 1
-    unit_of_measurement: '%'
+    unit_of_measurement: "%"
     mode: box
 
   dynamic_lowest_price_x_period:
@@ -229,7 +229,7 @@ input_number:
     min: 5
     max: 50
     step: 1
-    unit_of_measurement: '%'
+    unit_of_measurement: "%"
     mode: box
 
   zendure_setting_maximum_allowed_state_of_charge:
@@ -238,7 +238,7 @@ input_number:
     min: 70
     max: 100
     step: 1
-    unit_of_measurement: '%'
+    unit_of_measurement: "%"
     mode: box
 
 input_datetime:
@@ -380,18 +380,18 @@ template:
         unique_id: zendure_last_calibration_days
         unit_of_measurement: "d"
         state: >
-         {% set last = states('sensor.zendure_last_calibration') %}
-         {% if last in ['unknown','unavailable',''] %}
-           0
-         {% else %}
-         {{ (now().date() - as_datetime(last).date()).days }}
-         {% endif %}
+          {% set last = states('sensor.zendure_last_calibration') %}
+          {% if last in ['unknown','unavailable',''] %}
+            0
+          {% else %}
+          {{ (now().date() - as_datetime(last).date()).days }}
+          {% endif %}
         icon: >
-         {% if this.state | int(0) < 29 %}
-           mdi:thumb-up
-         {% else %}
-           mdi:thumb-down
-         {% endif %}
+          {% if this.state | int(0) < 29 %}
+            mdi:thumb-up
+          {% else %}
+            mdi:thumb-down
+          {% endif %}
 
       - name: "Github Zendure Gielz1986 Releasecheck"
         unique_id: github_zendure_gielz1986_releasecheck
@@ -416,23 +416,23 @@ template:
             Unknown
           {% endif %}
         icon: >
-         {% if this.state == 'Up-to-date' %}
-          mdi:emoticon-happy-outline
-         {% elif this.state == 'New Release On GitHub' %}
-          mdi:emoticon-sad-outline
-         {% elif this.state == 'Pre-release Active' %}
-          mdi:test-tube
-         {% else %}
-          mdi:emoticon-sad-outline
-         {% endif %}
+          {% if this.state == 'Up-to-date' %}
+           mdi:emoticon-happy-outline
+          {% elif this.state == 'New Release On GitHub' %}
+           mdi:emoticon-sad-outline
+          {% elif this.state == 'Pre-release Active' %}
+           mdi:test-tube
+          {% else %}
+           mdi:emoticon-sad-outline
+          {% endif %}
 
       - name: "Home Energy Meter Target"
         unique_id: home_energy_meter_target
         unit_of_measurement: "W"
         state_class: measurement
         device_class: power
-        state: > 
-         {{ (states('sensor.home_energy_meter_power') | float(0) + (states('sensor.zendure_power') | float(0) * -1)) | round(0) }}
+        state: >
+          {{ (states('sensor.home_energy_meter_power') | float(0) + (states('sensor.zendure_power') | float(0) * -1)) | round(0) }}
 
       - name: "Zendure Relay Switches Today"
         unique_id: zendure_relay_switches_today
@@ -450,17 +450,17 @@ template:
         state_class: measurement
         device_class: power
         availability: >
-         {% set afwijkend = states('input_text.home_energy_setting_meter_sensor') %}
-         {% set afwijkend_valid = afwijkend | lower | regex_match('^sensor\\..+') and states(afwijkend) not in ['unknown', 'unavailable', 'none'] %}
-         {% set homewizard_valid = states('sensor.homewizard_p1_power') not in ['unknown', 'unavailable', 'none'] %}
-           {{ afwijkend_valid or homewizard_valid }}
+          {% set afwijkend = states('input_text.home_energy_setting_meter_sensor') %}
+          {% set afwijkend_valid = afwijkend | lower | regex_match('^sensor\\..+') and states(afwijkend) not in ['unknown', 'unavailable', 'none'] %}
+          {% set homewizard_valid = states('sensor.homewizard_p1_power') not in ['unknown', 'unavailable', 'none'] %}
+            {{ afwijkend_valid or homewizard_valid }}
         state: >
-         {% set afwijkend = states('input_text.home_energy_setting_meter_sensor') %}
-         {% if afwijkend | lower | regex_match('^sensor\\..+') and states(afwijkend) not in ['unknown', 'unavailable', 'none'] %}
-         {{ states(afwijkend) | float(0) }}
-         {% else %}
-         {{ states('sensor.homewizard_p1_power') | float(0) }}
-         {% endif %}
+          {% set afwijkend = states('input_text.home_energy_setting_meter_sensor') %}
+          {% if afwijkend | lower | regex_match('^sensor\\..+') and states(afwijkend) not in ['unknown', 'unavailable', 'none'] %}
+          {{ states(afwijkend) | float(0) }}
+          {% else %}
+          {{ states('sensor.homewizard_p1_power') | float(0) }}
+          {% endif %}
 
       - name: "Dynamic Nordpool"
         unique_id: dynamic_nordpool
@@ -1753,15 +1753,15 @@ rest:
           {{ states.get(packState, "Onbekend") }}
         unique_id: zendure_offgrid_mode
         icon: >
-         {% if this.state == 'Normal' %}
-          mdi:power-plug
-         {% elif this.state == 'Eco' %}
-          mdi:power-plug
-         {% elif this.state == 'Turned Off' %}
-          mdi:power-plug-off
-         {% else %}
-          mdi:power-plug-outline
-         {% endif %}
+          {% if this.state == 'Normal' %}
+           mdi:power-plug
+          {% elif this.state == 'Eco' %}
+           mdi:power-plug
+          {% elif this.state == 'Turned Off' %}
+           mdi:power-plug-off
+          {% else %}
+           mdi:power-plug-outline
+          {% endif %}
 
       - name: "Zendure Product Model"
         unique_id: zendure_product_model
@@ -1823,16 +1823,16 @@ rest:
           {{ states.get(packState, "Onbekend") }}
         unique_id: zendure_soc_limit_status
         icon: >
-         {% if this.state == 'Normal Operation' %}
-          mdi:battery-medium
-         {% elif this.state == 'Charging Limit Reached' %}
-          mdi:battery-high
-         {% elif this.state == 'Discharge Limit Reached' %}
-          mdi:battery-low
-         {% else %}
-          mdi:battery-outline
-         {% endif %}
-          
+          {% if this.state == 'Normal Operation' %}
+           mdi:battery-medium
+          {% elif this.state == 'Charging Limit Reached' %}
+           mdi:battery-high
+          {% elif this.state == 'Discharge Limit Reached' %}
+           mdi:battery-low
+          {% else %}
+           mdi:battery-outline
+          {% endif %}
+
       - name: "Zendure Battery Serial Numbers"
         value_template: >
           {% set volgorde_raw = states('input_text.zendure_setting_battery_order') %}
@@ -1966,7 +1966,7 @@ rest:
           {% set packState = value_json['properties']['acMode'] | int %}
           {{ states.get(packState, "Onbekend") }}
         icon: mdi:swap-vertical-bold
-        
+
       - name: "Zendure Serial Number"
         unique_id: zendure_serial_number
         value_template: "{{ value_json.sn }}"
@@ -1975,13 +1975,13 @@ rest:
       - name: "Zendure Power Import DC"
         unique_id: zendure_power_import_dc
         value_template: >
-         {% set ns = namespace(total=0) %}
-         {% for pack in value_json.packData %}
-          {% if pack.state == 1 %}
-          {% set ns.total = ns.total + (pack.power | int) %}
-         {% endif %}
-         {% endfor %}
-         {{ ns.total }}
+          {% set ns = namespace(total=0) %}
+          {% for pack in value_json.packData %}
+           {% if pack.state == 1 %}
+           {% set ns.total = ns.total + (pack.power | int) %}
+          {% endif %}
+          {% endfor %}
+          {{ ns.total }}
         unit_of_measurement: "W"
         state_class: measurement
         device_class: power
@@ -1989,13 +1989,13 @@ rest:
       - name: "Zendure Power Export DC"
         unique_id: zendure_power_export_dc
         value_template: >
-         {% set ns = namespace(total=0) %}
-         {% for pack in value_json.packData %}
-          {% if pack.state == 2 %}
-          {% set ns.total = ns.total + (pack.power | int) %}
-         {% endif %}
-         {% endfor %}
-         {{ ns.total }}
+          {% set ns = namespace(total=0) %}
+          {% for pack in value_json.packData %}
+           {% if pack.state == 2 %}
+           {% set ns.total = ns.total + (pack.power | int) %}
+          {% endif %}
+          {% endfor %}
+          {{ ns.total }}
         unit_of_measurement: "W"
         state_class: measurement
         device_class: power
@@ -2197,45 +2197,45 @@ rest:
 
       - name: "Zendure Indication Remaining Discharge Time"
         value_template: >
-         {% set vermogen = states('sensor.zendure_power') | float(0) %}
-         {% set energie = states('sensor.zendure_indication_available_energy') | float(0) %}
-         {% if vermogen < 0 %}
-         {% set ontlaadvermogen_kw = (vermogen | abs) / 1000 %}
-         {% if ontlaadvermogen_kw > 0 %}
-           {% set uren = energie / ontlaadvermogen_kw %}
-           {% set total_minutes = (uren * 60) | int %}
-           {% set hours = total_minutes // 60 %}
-           {% set minutes = total_minutes % 60 %}
-           {{ hours }}h {{ minutes }}m
-         {% else %}
-           Unknown
-         {% endif %}
-         {% else %}
-           Not Discharging
-         {% endif %}
+          {% set vermogen = states('sensor.zendure_power') | float(0) %}
+          {% set energie = states('sensor.zendure_indication_available_energy') | float(0) %}
+          {% if vermogen < 0 %}
+          {% set ontlaadvermogen_kw = (vermogen | abs) / 1000 %}
+          {% if ontlaadvermogen_kw > 0 %}
+            {% set uren = energie / ontlaadvermogen_kw %}
+            {% set total_minutes = (uren * 60) | int %}
+            {% set hours = total_minutes // 60 %}
+            {% set minutes = total_minutes % 60 %}
+            {{ hours }}h {{ minutes }}m
+          {% else %}
+            Unknown
+          {% endif %}
+          {% else %}
+            Not Discharging
+          {% endif %}
         icon: mdi:clock-time-eight-outline
         unique_id: zendure_indication_remaining_discharge_time
 
       - name: "Zendure Indication Remaining Charge Time"
         value_template: >
-         {% set vermogen = states('sensor.zendure_power') | float(0) %}
-         {% set energie = states('sensor.zendure_indication_required_energy') | float(0) %}
-         {% set laad = states('sensor.zendure_total_state_of_charge') | float(0) %}
-         {% set max_laad = states('sensor.zendure_maximum_state_of_charge') | float(100) %}
-         {% if vermogen > 0 %}
-          {% set oplaadvermogen_kw = vermogen / 1000 %}
-          {% if oplaadvermogen_kw > 0 and energie > 0 %}
-         {% set uren = energie / oplaadvermogen_kw %}
-         {% set total_minutes = (uren * 60) | int %}
-         {% set hours = total_minutes // 60 %}
-         {% set minutes = total_minutes % 60 %}
-         {{ hours }}h {{ minutes }}m
-         {% else %}
-          Unknown
-         {% endif %}
-         {% else %}
-          Not Charging
+          {% set vermogen = states('sensor.zendure_power') | float(0) %}
+          {% set energie = states('sensor.zendure_indication_required_energy') | float(0) %}
+          {% set laad = states('sensor.zendure_total_state_of_charge') | float(0) %}
+          {% set max_laad = states('sensor.zendure_maximum_state_of_charge') | float(100) %}
+          {% if vermogen > 0 %}
+           {% set oplaadvermogen_kw = vermogen / 1000 %}
+           {% if oplaadvermogen_kw > 0 and energie > 0 %}
+          {% set uren = energie / oplaadvermogen_kw %}
+          {% set total_minutes = (uren * 60) | int %}
+          {% set hours = total_minutes // 60 %}
+          {% set minutes = total_minutes % 60 %}
+          {{ hours }}h {{ minutes }}m
+          {% else %}
+           Unknown
           {% endif %}
+          {% else %}
+           Not Charging
+           {% endif %}
         icon: mdi:clock-time-four-outline
         unique_id: zendure_indication_remaining_charge_time
 
@@ -2323,11 +2323,9 @@ rest:
         state_class: measurement
         device_class: power
 
-####### START - Place here your Node-RED sensors from https://github.com/gast777/Zendure-zenSDK-proxy - START #######
+  ####### START - Place here your Node-RED sensors from https://github.com/gast777/Zendure-zenSDK-proxy - START #######
 
-
-
-####### END - Place here your Node-RED sensors from https://github.com/gast777/Zendure-zenSDK-proxy - END #######
+  ####### END - Place here your Node-RED sensors from https://github.com/gast777/Zendure-zenSDK-proxy - END #######
 
   - resource_template: "http://{{ states('input_text.homewizard_setting_p1_ip_address') }}/api/v1/data"
     scan_interval: 1
@@ -2426,7 +2424,7 @@ rest_command:
       Content-Type: application/json
       Content-Encoding: identity
     payload: '{"sn":"{{sn}}","properties":{"smartMode": 0, "outputLimit": 0, "inputLimit": 0 }}'
-    
+
   zendure_setting:
     url: http://{{ states('input_text.zendure_setting_ip_address') }}/properties/write
     method: POST
