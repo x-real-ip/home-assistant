@@ -1,3 +1,4 @@
+---
 input_select:
   zendure_operation_mode:
     name: Zendure Operation Mode
@@ -492,10 +493,10 @@ template:
               {% set raw = state_attr(nordpool, 'raw_today') %}
               {% set nu = now() %}
               {% if raw %}
-                {% set current_hour_values = raw 
-                  | selectattr('start', '>=', nu.replace(minute=0, second=0, microsecond=0)) 
-                  | selectattr('start', '<', nu.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)) 
-                  | map(attribute='value') 
+                {% set current_hour_values = raw
+                  | selectattr('start', '>=', nu.replace(minute=0, second=0, microsecond=0))
+                  | selectattr('start', '<', nu.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1))
+                  | map(attribute='value')
                   | list %}
                 {% if current_hour_values %}
                   {{ (current_hour_values | sum / current_hour_values | count) | round(5) }}
