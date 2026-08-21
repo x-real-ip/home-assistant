@@ -7,10 +7,16 @@
 #   homeassistant:
 #     packages: !include_dir_named packages
 #
-# Every entity_id starts with "zendure_setting_", so Node-RED can fetch
-# them all with a single rule: entity_id includes "zendure_setting".
+# Every entity_id contains "zendure_setting_", so Node-RED can fetch them
+# all with a single filter rule.
 
 input_select:
+  # Master switch for the control loop. Node-RED reads this every cycle
+  # and decides which branches are allowed to fire.
+  #   Standby        - loop does nothing, battery is left alone
+  #   Zero export    - full control: charge on surplus, discharge on demand
+  #   Charge only    - absorb surplus, never discharge (e.g. keep reserve)
+  #   Discharge only - cover demand, never charge (e.g. before cheap hours)
   zendure_setting_operation_mode:
     name: Zendure operation mode
     icon: mdi:battery-charging-wireless
@@ -21,6 +27,8 @@ input_select:
       - Discharge only
 
 input_number:
+  # Upper bound on charge power. The loop clamps every charge target to
+  # this value. Keep at or below the inverter's chargeMaxLimit.
   zendure_setting_max_charge_power:
     name: Zendure max charge power
     icon: mdi:format-vertical-align-top
@@ -30,6 +38,8 @@ input_number:
     mode: box
     unit_of_measurement: W
 
+  # Upper bound on discharge power. Mirror of the above; keep at or below
+  # the inverter's inverseMaxPower.
   zendure_setting_max_discharge_power:
     name: Zendure max discharge power
     icon: mdi:format-vertical-align-bottom
@@ -39,6 +49,9 @@ input_number:
     mode: box
     unit_of_measurement: W
 
+  # Import threshold that wakes the battery up. Below this the loop stays
+  # idle, which keeps the relay from cycling on small household noise.
+  # Higher = calmer but more grid import slips through.
   zendure_setting_start_discharging_at:
     name: Zendure start discharging at
     icon: mdi:battery-minus-variant
@@ -48,6 +61,9 @@ input_number:
     mode: box
     unit_of_measurement: W
 
+  # Export threshold that starts charging. Negative because export shows
+  # as a negative meter reading. Together with the value above this forms
+  # a dead band: between the two, the loop does nothing.
   zendure_setting_start_charging_at:
     name: Zendure start charging at
     icon: mdi:battery-plus-variant
@@ -57,6 +73,9 @@ input_number:
     mode: box
     unit_of_measurement: W
 
+  # Safety margin subtracted from the charge target, so the battery draws
+  # slightly less than the available surplus. Prevents overshoot into grid
+  # import. Raise in summer when solar swings fast.
   zendure_setting_charge_buffer:
     name: Zendure charge buffer
     icon: mdi:arrow-expand-vertical
@@ -66,6 +85,8 @@ input_number:
     mode: box
     unit_of_measurement: W
 
+  # Safety margin for discharging. The battery delivers slightly more than needed,
+  # so any residual lands on the export side rather than the import side.
   zendure_setting_discharge_buffer:
     name: Zendure discharge buffer
     icon: mdi:arrow-expand-vertical
@@ -75,6 +96,9 @@ input_number:
     mode: box
     unit_of_measurement: W
 
+  # How long the battery must sit idle before the loop puts it into full
+  # standby. An idle inverter draws roughly 19 W continuously, so this is
+  # worth doing, but too short a delay causes needless on/off cycling.
   zendure_setting_standby_delay:
     name: Zendure standby delay
     icon: mdi:pause
@@ -84,6 +108,9 @@ input_number:
     mode: box
     unit_of_measurement: min
 
+  # Discharge floor. The loop stops discharging below this, and Node-RED
+  # also writes it to the battery's own minSoc so the BMS enforces it even
+  # if the loop dies. Deep discharge shortens cell life.
   zendure_setting_min_soc:
     name: Zendure minimum SOC
     icon: mdi:percent-box
@@ -93,6 +120,9 @@ input_number:
     mode: box
     unit_of_measurement: "%"
 
+  # Charge ceiling, written to the battery's socSet the same way. LFP cells
+  # tolerate sitting full, so 100 is fine; lower it only if you want to
+  # leave headroom for unexpected solar.
   zendure_setting_max_soc:
     name: Zendure maximum SOC
     icon: mdi:percent-box
@@ -103,19 +133,41 @@ input_number:
     unit_of_measurement: "%"
 
 input_boolean:
+  # Turns off the loop's own SOC guard, leaving protection entirely to the
+  # battery's BMS. Off is the safe default. Only enable while debugging.
   zendure_setting_soc_protection_disabled:
     name: Zendure SOC protection disabled
     icon: mdi:battery-heart-variant
 
+  # Blocks the battery from pushing its own PV production onto the grid
+  # (writes gridReverse). Only relevant if panels are wired directly to the
+  # Zendure rather than to a separate inverter.
   zendure_setting_pv_export_disabled:
     name: Zendure PV export disabled
     icon: mdi:solar-panel
 
 # Heartbeat from Node-RED. Update this every minute; if it goes stale for
-# more than two minutes, the control loop is no longer running.
+# more than two minutes, the control loop is no longer running. Useful as a
+# dashboard indicator or to trigger an alert.
 input_datetime:
   zendure_last_run:
     name: Zendure last run
     icon: mdi:clock-time-eight-outline
     has_date: true
     has_time: true
+
+mqtt:
+  sensor:
+    - name: Zendure relay switches today
+      unique_id: zendure_relay_switches_today
+      state_topic: /homeassistant/zendure/relay_switches
+      value_template: "{{ value_json.today }}"
+      state_class: total
+      icon: mdi:swap-vertical-bold
+
+    - name: Zendure relay switches total
+      unique_id: zendure_relay_switches_total
+      state_topic: /homeassistant/zendure/relay_switches
+      value_template: "{{ value_json.total }}"
+      state_class: total_increasing
+      icon: mdi:swap-vertical-bold
