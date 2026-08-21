@@ -1,0 +1,121 @@
+---
+# Zendure SolarFlow 4000 Mix AC+ — settings
+#
+# Helpers only: sensors and control logic live in Node-RED.
+# Place at config/packages/zendure.yaml and add to configuration.yaml:
+#
+#   homeassistant:
+#     packages: !include_dir_named packages
+#
+# Every entity_id starts with "zendure_setting_", so Node-RED can fetch
+# them all with a single rule: entity_id includes "zendure_setting".
+
+input_select:
+  zendure_setting_operation_mode:
+    name: Zendure operation mode
+    icon: mdi:battery-charging-wireless
+    options:
+      - Standby
+      - Zero export
+      - Charge only
+      - Discharge only
+
+input_number:
+  zendure_setting_max_charge_power:
+    name: Zendure max charge power
+    icon: mdi:format-vertical-align-top
+    min: 100
+    max: 4000
+    step: 50
+    mode: box
+    unit_of_measurement: W
+
+  zendure_setting_max_discharge_power:
+    name: Zendure max discharge power
+    icon: mdi:format-vertical-align-bottom
+    min: 100
+    max: 4000
+    step: 50
+    mode: box
+    unit_of_measurement: W
+
+  zendure_setting_start_discharging_at:
+    name: Zendure start discharging at
+    icon: mdi:battery-minus-variant
+    min: 50
+    max: 500
+    step: 10
+    mode: box
+    unit_of_measurement: W
+
+  zendure_setting_start_charging_at:
+    name: Zendure start charging at
+    icon: mdi:battery-plus-variant
+    min: -1000
+    max: -50
+    step: 10
+    mode: box
+    unit_of_measurement: W
+
+  zendure_setting_charge_buffer:
+    name: Zendure charge buffer
+    icon: mdi:arrow-expand-vertical
+    min: 0
+    max: 250
+    step: 5
+    mode: box
+    unit_of_measurement: W
+
+  zendure_setting_discharge_buffer:
+    name: Zendure discharge buffer
+    icon: mdi:arrow-expand-vertical
+    min: 0
+    max: 250
+    step: 5
+    mode: box
+    unit_of_measurement: W
+
+  zendure_setting_standby_delay:
+    name: Zendure standby delay
+    icon: mdi:pause
+    min: 5
+    max: 60
+    step: 1
+    mode: box
+    unit_of_measurement: min
+
+  zendure_setting_min_soc:
+    name: Zendure minimum SOC
+    icon: mdi:percent-box
+    min: 5
+    max: 50
+    step: 1
+    mode: box
+    unit_of_measurement: "%"
+
+  zendure_setting_max_soc:
+    name: Zendure maximum SOC
+    icon: mdi:percent-box
+    min: 70
+    max: 100
+    step: 1
+    mode: box
+    unit_of_measurement: "%"
+
+input_boolean:
+  zendure_setting_soc_protection_disabled:
+    name: Zendure SOC protection disabled
+    icon: mdi:battery-heart-variant
+
+  zendure_setting_pv_export_disabled:
+    name: Zendure PV export disabled
+    icon: mdi:solar-panel
+
+# Heartbeat from Node-RED. Update this every minute; if it goes stale for
+# more than two minutes, the control loop is no longer running.
+input_datetime:
+  zendure_last_run:
+    name: Zendure last run
+    icon: mdi:clock-time-eight-outline
+    has_date: true
+    has_time: true
