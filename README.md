@@ -16,8 +16,8 @@ for smart home technology.
 ## Automations
 
 All my automations are running in Node-RED
-[flows](https://github.com/x-real-ip/node-red-flows/tree/main) as an
-alternative automation engine.
+[flows](https://github.com/x-real-ip/node-red-flows/tree/main) as an alternative
+automation engine.
 
 ## Hardware
 
@@ -51,3 +51,4 @@ alternative automation engine.
 - Tado Wireless Temperature Sensor
 - Xioami Roborock S55
 - Xioami Roborock S6 Pure
+- Zendure SolarFlow 4000 Mix AC+
