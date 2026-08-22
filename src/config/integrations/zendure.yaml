@@ -7,16 +7,10 @@
 #   homeassistant:
 #     packages: !include_dir_named packages
 #
-# Every entity_id contains "zendure_setting_", so Node-RED can fetch them
-# all with a single filter rule.
+# Every entity_id starts with "zendure_setting_", so Node-RED can fetch
+# them all with a single rule: entity_id includes "zendure_setting".
 
 input_select:
-  # Master switch for the control loop. Node-RED reads this every cycle
-  # and decides which branches are allowed to fire.
-  #   Standby        - loop does nothing, battery is left alone
-  #   Zero export    - full control: charge on surplus, discharge on demand
-  #   Charge only    - absorb surplus, never discharge (e.g. keep reserve)
-  #   Discharge only - cover demand, never charge (e.g. before cheap hours)
   zendure_setting_operation_mode:
     name: Zendure operation mode
     icon: mdi:battery-charging-wireless
@@ -27,8 +21,6 @@ input_select:
       - Discharge only
 
 input_number:
-  # Upper bound on charge power. The loop clamps every charge target to
-  # this value. Keep at or below the inverter's chargeMaxLimit.
   zendure_setting_max_charge_power:
     name: Zendure max charge power
     icon: mdi:format-vertical-align-top
@@ -38,8 +30,6 @@ input_number:
     mode: box
     unit_of_measurement: W
 
-  # Upper bound on discharge power. Mirror of the above; keep at or below
-  # the inverter's inverseMaxPower.
   zendure_setting_max_discharge_power:
     name: Zendure max discharge power
     icon: mdi:format-vertical-align-bottom
@@ -49,9 +39,6 @@ input_number:
     mode: box
     unit_of_measurement: W
 
-  # Import threshold that wakes the battery up. Below this the loop stays
-  # idle, which keeps the relay from cycling on small household noise.
-  # Higher = calmer but more grid import slips through.
   zendure_setting_start_discharging_at:
     name: Zendure start discharging at
     icon: mdi:battery-minus-variant
@@ -61,9 +48,6 @@ input_number:
     mode: box
     unit_of_measurement: W
 
-  # Export threshold that starts charging. Negative because export shows
-  # as a negative meter reading. Together with the value above this forms
-  # a dead band: between the two, the loop does nothing.
   zendure_setting_start_charging_at:
     name: Zendure start charging at
     icon: mdi:battery-plus-variant
@@ -73,9 +57,6 @@ input_number:
     mode: box
     unit_of_measurement: W
 
-  # Safety margin subtracted from the charge target, so the battery draws
-  # slightly less than the available surplus. Prevents overshoot into grid
-  # import. Raise in summer when solar swings fast.
   zendure_setting_charge_buffer:
     name: Zendure charge buffer
     icon: mdi:arrow-expand-vertical
@@ -85,8 +66,6 @@ input_number:
     mode: box
     unit_of_measurement: W
 
-  # Safety margin for discharging. The battery delivers slightly more than needed,
-  # so any residual lands on the export side rather than the import side.
   zendure_setting_discharge_buffer:
     name: Zendure discharge buffer
     icon: mdi:arrow-expand-vertical
@@ -96,9 +75,6 @@ input_number:
     mode: box
     unit_of_measurement: W
 
-  # How long the battery must sit idle before the loop puts it into full
-  # standby. An idle inverter draws roughly 19 W continuously, so this is
-  # worth doing, but too short a delay causes needless on/off cycling.
   zendure_setting_standby_delay:
     name: Zendure standby delay
     icon: mdi:pause
@@ -108,9 +84,6 @@ input_number:
     mode: box
     unit_of_measurement: min
 
-  # Discharge floor. The loop stops discharging below this, and Node-RED
-  # also writes it to the battery's own minSoc so the BMS enforces it even
-  # if the loop dies. Deep discharge shortens cell life.
   zendure_setting_min_soc:
     name: Zendure minimum SOC
     icon: mdi:percent-box
@@ -120,9 +93,6 @@ input_number:
     mode: box
     unit_of_measurement: "%"
 
-  # Charge ceiling, written to the battery's socSet the same way. LFP cells
-  # tolerate sitting full, so 100 is fine; lower it only if you want to
-  # leave headroom for unexpected solar.
   zendure_setting_max_soc:
     name: Zendure maximum SOC
     icon: mdi:percent-box
@@ -133,545 +103,19 @@ input_number:
     unit_of_measurement: "%"
 
 input_boolean:
-  # Turns off the loop's own SOC guard, leaving protection entirely to the
-  # battery's BMS. Off is the safe default. Only enable while debugging.
   zendure_setting_soc_protection_disabled:
     name: Zendure SOC protection disabled
     icon: mdi:battery-heart-variant
 
-  # Blocks the battery from pushing its own PV production onto the grid
-  # (writes gridReverse). Only relevant if panels are wired directly to the
-  # Zendure rather than to a separate inverter.
   zendure_setting_pv_export_disabled:
     name: Zendure PV export disabled
     icon: mdi:solar-panel
 
 # Heartbeat from Node-RED. Update this every minute; if it goes stale for
-# more than two minutes, the control loop is no longer running. Useful as a
-# dashboard indicator or to trigger an alert.
+# more than two minutes, the control loop is no longer running.
 input_datetime:
   zendure_last_run:
     name: Zendure last run
     icon: mdi:clock-time-eight-outline
     has_date: true
     has_time: true
-
-sensor:
-  # Watt -> kWh. Cumulative energy in and out of the battery.
-  - platform: integration
-    name: Zendure energy import
-    unique_id: zendure_energy_import
-    source: sensor.zendure_power_import
-    unit_prefix: k
-    round: 2
-    method: trapezoidal
-
-  - platform: integration
-    name: Zendure energy export
-    unique_id: zendure_energy_export
-    source: sensor.zendure_power_export
-    unit_prefix: k
-    round: 2
-    method: trapezoidal
-
-  - platform: integration
-    name: Zendure PV energy
-    unique_id: zendure_pv_energy
-    source: sensor.zendure_power_pv_total
-    unit_prefix: k
-    round: 2
-    method: trapezoidal
-
-  # How long today the grid meter sat at or below zero.
-  - platform: history_stats
-    name: Zendure zero import duration today
-    unique_id: zendure_zero_import_duration_today
-    entity_id: binary_sensor.zendure_zero_import
-    state: "on"
-    type: time
-    start: "{{ today_at() }}"
-    end: "{{ now() }}"
-
-utility_meter:
-  zendure_energy_import_daily:
-    name: Zendure energy import daily
-    source: sensor.zendure_energy_import
-    cycle: daily
-
-  zendure_energy_export_daily:
-    name: Zendure energy export daily
-    source: sensor.zendure_energy_export
-    cycle: daily
-
-  zendure_pv_energy_daily:
-    name: Zendure PV energy daily
-    source: sensor.zendure_pv_energy
-    cycle: daily
-
-mqtt:
-  sensor:
-    - name: Zendure relay switches today
-      unique_id: zendure_relay_switches_today
-      state_topic: /homeassistant/zendure/relay_switches
-      value_template: "{{ value_json.today }}"
-      state_class: total
-      icon: mdi:swap-vertical-bold
-
-    - name: Zendure relay switches total
-      unique_id: zendure_relay_switches_total
-      state_topic: /homeassistant/zendure/relay_switches
-      value_template: "{{ value_json.total }}"
-      state_class: total_increasing
-      icon: mdi:swap-vertical-bold
-
-    - name: Zendure power
-      unique_id: zendure_power
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power import
-      unique_id: zendure_power_import
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_import }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power export
-      unique_id: zendure_power_export
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_export }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power import DC
-      unique_id: zendure_power_import_dc
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_import_dc }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power export DC
-      unique_id: zendure_power_export_dc
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_export_dc }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power PV total
-      unique_id: zendure_power_pv_total
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_pv_total }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power PV to home
-      unique_id: zendure_power_pv_to_home
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_pv_to_home }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power PV to battery
-      unique_id: zendure_power_pv_to_battery
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_pv_to_battery }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power from home
-      unique_id: zendure_power_from_home
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_from_home }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power to home
-      unique_id: zendure_power_to_home
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_to_home }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure power offgrid outlet 1
-      unique_id: zendure_power_offgrid_outlet_1
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.power_offgrid_outlet_1 }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-      icon: mdi:power-plug
-
-    - name: Zendure set charge power
-      unique_id: zendure_set_charge_power
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.set_charge_power }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure set discharge power
-      unique_id: zendure_set_discharge_power
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.set_discharge_power }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure inverter max charge power
-      unique_id: zendure_inverter_max_charge_power
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.inverter_max_charge_power }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure inverter max discharge power
-      unique_id: zendure_inverter_max_discharge_power
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.inverter_max_discharge_power }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-
-    - name: Zendure home power
-      unique_id: zendure_home_power
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.home_power }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-      icon: mdi:home-lightning-bolt
-
-    - name: Zendure grid power
-      unique_id: zendure_grid_power
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.grid_power }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "W"
-      device_class: power
-      state_class: measurement
-      icon: mdi:transmission-tower
-
-    - name: Zendure state of charge
-      unique_id: zendure_total_state_of_charge
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.total_state_of_charge }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "%"
-      device_class: battery
-      state_class: measurement
-
-    - name: Zendure minimum state of charge
-      unique_id: zendure_minimum_state_of_charge
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.minimum_state_of_charge }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "%"
-      device_class: battery
-      state_class: measurement
-      icon: mdi:battery-low
-
-    - name: Zendure maximum state of charge
-      unique_id: zendure_maximum_state_of_charge
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.maximum_state_of_charge }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "%"
-      device_class: battery
-      state_class: measurement
-      icon: mdi:battery-high
-
-    - name: Zendure battery 1 state of charge
-      unique_id: zendure_battery_1_state_of_charge
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.battery_1_state_of_charge }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "%"
-      device_class: battery
-      state_class: measurement
-
-    - name: Zendure battery voltage
-      unique_id: zendure_battery_voltage
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.battery_voltage }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "V"
-      device_class: voltage
-      state_class: measurement
-      icon: mdi:sine-wave
-
-    - name: Zendure battery current
-      unique_id: zendure_battery_current
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.battery_current }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "A"
-      device_class: current
-      state_class: measurement
-      icon: mdi:current-dc
-
-    - name: Zendure inverter temperature
-      unique_id: zendure_inverter_temperature
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.inverter_temperature }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "°C"
-      device_class: temperature
-      state_class: measurement
-
-    - name: Zendure battery 1 temperature
-      unique_id: zendure_battery_1_temperature
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.battery_1_temperature }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "°C"
-      device_class: temperature
-      state_class: measurement
-
-    - name: Zendure total capacity
-      unique_id: zendure_total_capacity
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.total_capacity }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "kWh"
-      icon: mdi:flip-vertical
-
-    - name: Zendure total batteries
-      unique_id: zendure_total_batteries
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.total_batteries }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:flip-vertical
-      entity_category: diagnostic
-
-    - name: Zendure charging mode
-      unique_id: zendure_charging_mode
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.charging_mode }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:battery-charging
-
-    - name: Zendure relay mode
-      unique_id: zendure_relay_mode
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.relay_mode }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:swap-vertical-bold
-
-    - name: Zendure storage mode
-      unique_id: zendure_storage_mode
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.storage_mode }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:floppy
-      entity_category: diagnostic
-
-    - name: Zendure SOC limit status
-      unique_id: zendure_soc_limit_status
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.soc_limit_status }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:battery-medium
-
-    - name: Zendure PV export mode
-      unique_id: zendure_pv_export_mode
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.pv_export_mode }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:solar-panel
-
-    - name: Zendure PV passthrough
-      unique_id: zendure_pv_passthrough
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.pv_passthrough }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:arrow-decision
-
-    - name: Zendure offgrid mode
-      unique_id: zendure_offgrid_mode
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.offgrid_mode }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:power-plug
-
-    - name: Zendure error
-      unique_id: zendure_error
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.error }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:battery-alert
-
-    - name: Zendure calibrating
-      unique_id: zendure_calibrating
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.calibrating }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:battery-heart-variant
-
-    - name: Zendure battery 1 cell balance
-      unique_id: zendure_battery_1_cell_balance
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.battery_1_cell_balance }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:battery-heart-variant
-
-    - name: Zendure cell voltage delta
-      unique_id: zendure_cell_voltage_delta
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.cell_voltage_delta }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "mV"
-      device_class: voltage
-      state_class: measurement
-      icon: mdi:delta
-
-    - name: Zendure wifi signal strength
-      unique_id: zendure_wifi_signal_strength
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.wifi_signal_strength }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:wifi
-      entity_category: diagnostic
-
-    - name: Zendure wifi RSSI
-      unique_id: zendure_wifi_rssi
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.wifi_rssi }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "dBm"
-      device_class: signal_strength
-      state_class: measurement
-      icon: mdi:wifi
-      entity_category: diagnostic
-
-    - name: Zendure serial number
-      unique_id: zendure_serial_number
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.serial_number }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:identifier
-      entity_category: diagnostic
-
-    - name: Zendure product model
-      unique_id: zendure_product_model
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.product_model }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:identifier
-      entity_category: diagnostic
-
-    - name: Zendure battery 1 serial number
-      unique_id: zendure_battery_1_serial_number
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.battery_1_serial_number }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:identifier
-      entity_category: diagnostic
-
-    - name: Zendure firmware version
-      unique_id: zendure_firmware_version
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.firmware_version }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:chip
-      entity_category: diagnostic
-
-    - name: Zendure remaining discharge time
-      unique_id: zendure_remaining_discharge_time
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.remaining_discharge_time }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:clock-time-eight-outline
-
-    - name: Zendure remaining charge time
-      unique_id: zendure_remaining_charge_time
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.remaining_charge_time }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:clock-time-four-outline
-
-    - name: Zendure available energy
-      unique_id: zendure_available_energy
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.available_energy }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "kWh"
-      device_class: energy
-      icon: mdi:lightning-bolt-circle
-
-    - name: Zendure required energy
-      unique_id: zendure_required_energy
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.required_energy }}"
-      availability_topic: /homeassistant/zendure/availability
-      unit_of_measurement: "kWh"
-      device_class: energy
-      icon: mdi:lightning-bolt-circle
-
-    - name: Zendure operation mode active
-      unique_id: zendure_operation_mode
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.operation_mode }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:battery-charging-wireless
-
-    - name: Zendure last action
-      unique_id: zendure_last_action
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.last_action }}"
-      availability_topic: /homeassistant/zendure/availability
-      icon: mdi:script-text-outline
-
-    - name: Zendure relay switches today
-      unique_id: zendure_relay_switches_today
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.relay_switches_today }}"
-      availability_topic: /homeassistant/zendure/availability
-      state_class: total
-      icon: mdi:swap-vertical-bold
-
-    - name: Zendure relay switches total
-      unique_id: zendure_relay_switches_total
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.relay_switches_total }}"
-      availability_topic: /homeassistant/zendure/availability
-      state_class: total_increasing
-      icon: mdi:swap-vertical-bold
-
-  binary_sensor:
-    - name: Zendure zero import
-      unique_id: zendure_zero_import
-      state_topic: /homeassistant/zendure/state
-      value_template: "{{ value_json.zero_import }}"
-      availability_topic: /homeassistant/zendure/availability
-      payload_on: "ON"
-      payload_off: "OFF"
-      icon: mdi:leaf
