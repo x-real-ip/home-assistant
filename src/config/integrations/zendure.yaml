@@ -112,7 +112,6 @@ input_datetime:
     has_date: true
     has_time: true
 
-
 mqtt:
   sensor:
     # ===== FAST (1s topic: /homeassistant/zendure/state) =====
@@ -120,6 +119,14 @@ mqtt:
       unique_id: zendure_grid_power
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.grid_power }}"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+    - name: "Zendure grid median"
+      unique_id: zendure_grid_median
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.grid_median }}"
       unit_of_measurement: "W"
       device_class: power
       state_class: measurement
