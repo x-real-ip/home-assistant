@@ -1,13 +1,7 @@
 ---
-# Zendure SolarFlow 4000 Mix AC+ — settings
+# Zendure user input settings for Node-RED flow
 #
-# Helpers only: sensors and control logic live in Node-RED.
-# Place at config/packages/zendure.yaml and add to configuration.yaml:
-#
-#   homeassistant:
-#     packages: !include_dir_named packages
-#
-# Every entity_id starts with "zendure_setting_", so Node-RED can fetch
+# Every entity_id needs to starts with "zendure_setting_", so Node-RED can fetch
 # them all with a single rule: entity_id includes "zendure_setting".
 
 input_select:
@@ -111,11 +105,151 @@ input_boolean:
     name: Zendure PV export disabled
     icon: mdi:solar-panel
 
-# Heartbeat from Node-RED. Update this every minute; if it goes stale for
-# more than two minutes, the control loop is no longer running.
 input_datetime:
   zendure_last_run:
     name: Zendure last run
     icon: mdi:clock-time-eight-outline
     has_date: true
     has_time: true
+
+
+mqtt:
+  sensor:
+    # ===== FAST (1s topic: /homeassistant/zendure/state) =====
+    - name: "Zendure grid power"
+      unique_id: zendure_grid_power
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.grid_power }}"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+    - name: "Zendure battery power"
+      unique_id: zendure_battery_power
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.battery_power }}"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+
+    - name: "Zendure battery SOC"
+      unique_id: zendure_battery_soc
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.battery_soc }}"
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+
+    - name: "Zendure AC mode"
+      unique_id: zendure_ac_mode
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.ac_mode }}"
+
+    - name: "Zendure SOC limit status"
+      unique_id: zendure_soc_limit_status
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.soc_limit_status }}"
+
+    # ===== SLOW (30s topic: /homeassistant/zendure/info) =====
+    - name: "Zendure battery serial"
+      unique_id: zendure_battery_sn
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.battery_sn }}"
+
+    - name: "Zendure min SOC"
+      unique_id: zendure_min_soc
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.min_soc }}"
+      unit_of_measurement: "%"
+
+    - name: "Zendure max SOC"
+      unique_id: zendure_max_soc
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.max_soc }}"
+      unit_of_measurement: "%"
+
+    - name: "Zendure operation mode"
+      unique_id: zendure_operation_mode
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.operation_mode }}"
+
+    - name: "Zendure max charge power setting"
+      unique_id: zendure_max_charge_power_setting
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.max_charge_power }}"
+      unit_of_measurement: "W"
+
+    - name: "Zendure max discharge power setting"
+      unique_id: zendure_max_discharge_power_setting
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.max_discharge_power }}"
+      unit_of_measurement: "W"
+
+    - name: "Zendure charge power diagnose"
+      unique_id: zendure_charge_power_diagnose
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.setting_vs_actual_charge_power }}"
+      unit_of_measurement: "W"
+      entity_category: diagnostic
+
+    - name: "Zendure discharge power diagnose"
+      unique_id: zendure_discharge_power_diagnose
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.setting_vs_actual_discharge_power }}"
+      unit_of_measurement: "W"
+      entity_category: diagnostic
+
+    - name: "Zendure relay switches today"
+      unique_id: zendure_relay_switches_today
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.relay_switches_today }}"
+      state_class: total_increasing
+      entity_category: diagnostic
+
+  binary_sensor:
+    # ===== FAST =====
+    - name: "Zendure grid stale"
+      unique_id: zendure_grid_stale
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.grid_stale }}"
+      payload_on: true
+      payload_off: false
+      device_class: problem
+
+    - name: "Zendure PV active"
+      unique_id: zendure_pv_active
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.pv_active }}"
+      payload_on: true
+      payload_off: false
+
+    - name: "Zendure charging active"
+      unique_id: zendure_charging_active
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.charging_active }}"
+      payload_on: true
+      payload_off: false
+
+    - name: "Zendure discharging active"
+      unique_id: zendure_discharging_active
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.discharging_active }}"
+      payload_on: true
+      payload_off: false
+
+    # ===== SLOW =====
+    - name: "Zendure SOC protection disabled"
+      unique_id: zendure_soc_protection_disabled_status
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.soc_protection_disabled }}"
+      payload_on: "on"
+      payload_off: "off"
+      entity_category: diagnostic
+
+    - name: "Zendure PV export disabled"
+      unique_id: zendure_pv_export_disabled_status
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.pv_export_disabled }}"
+      payload_on: "on"
+      payload_off: "off"
+      entity_category: diagnostic
