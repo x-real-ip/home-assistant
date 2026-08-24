@@ -1,217 +1,348 @@
 ---
-# Zendure user input settings for Node-RED flow
+# Zendure SolarFlow 4000 Mix AC+ — settings and sensors
 #
-# Every entity_id needs to starts with "zendure_setting_", so Node-RED can fetch
-# them all with a single rule: entity_id includes "zendure_setting".
-
-input_select:
-  zendure_setting_operation_mode:
-    name: Zendure operation mode
-    icon: mdi:battery-charging-wireless
-    options:
-      - Standby
-      - Zero export
-      - Charge only
-      - Discharge only
-
-input_number:
-  zendure_setting_max_charge_power:
-    name: Zendure max charge power
-    icon: mdi:format-vertical-align-top
-    min: 100
-    max: 4000
-    step: 50
-    mode: box
-    unit_of_measurement: W
-
-  zendure_setting_max_discharge_power:
-    name: Zendure max discharge power
-    icon: mdi:format-vertical-align-bottom
-    min: 100
-    max: 4000
-    step: 50
-    mode: box
-    unit_of_measurement: W
-
-  zendure_setting_start_discharging_at:
-    name: Zendure start discharging at
-    icon: mdi:battery-minus-variant
-    min: 50
-    max: 500
-    step: 10
-    mode: box
-    unit_of_measurement: W
-
-  zendure_setting_start_charging_at:
-    name: Zendure start charging at
-    icon: mdi:battery-plus-variant
-    min: -1000
-    max: -50
-    step: 10
-    mode: box
-    unit_of_measurement: W
-
-  zendure_setting_charge_buffer:
-    name: Zendure charge buffer
-    icon: mdi:arrow-expand-vertical
-    min: 0
-    max: 250
-    step: 5
-    mode: box
-    unit_of_measurement: W
-
-  zendure_setting_discharge_buffer:
-    name: Zendure discharge buffer
-    icon: mdi:arrow-expand-vertical
-    min: 0
-    max: 250
-    step: 5
-    mode: box
-    unit_of_measurement: W
-
-  zendure_setting_standby_delay:
-    name: Zendure standby delay
-    icon: mdi:pause
-    min: 5
-    max: 60
-    step: 1
-    mode: box
-    unit_of_measurement: min
-
-  zendure_setting_min_soc:
-    name: Zendure minimum SOC
-    icon: mdi:percent-box
-    min: 5
-    max: 50
-    step: 1
-    mode: box
-    unit_of_measurement: "%"
-
-  zendure_setting_max_soc:
-    name: Zendure maximum SOC
-    icon: mdi:percent-box
-    min: 70
-    max: 100
-    step: 1
-    mode: box
-    unit_of_measurement: "%"
-
-input_boolean:
-  zendure_setting_soc_protection_disabled:
-    name: Zendure SOC protection disabled
-    icon: mdi:battery-heart-variant
-
-  zendure_setting_pv_export_disabled:
-    name: Zendure PV export disabled
-    icon: mdi:solar-panel
-
-input_datetime:
-  zendure_last_run:
-    name: Zendure last run
-    icon: mdi:clock-time-eight-outline
-    has_date: true
-    has_time: true
+# Everything (settings + sensors + binary_sensors) lives under MQTT and
+# shares one device block, so it all groups under a single "Zendure
+# SolarFlow 4000" device in Home Assistant.
+#
+# Node-RED responsibilities:
+#   - subscribe to every */set command topic below, act on the new value,
+#     then publish the accepted value back to the matching /state topic
+#     (retained) so the HA UI stays in sync (MQTT echo pattern)
+#   - publish availability_topic "online"/"offline" (birth/LWT) so every
+#     entity here shows "unavailable" together when the flow goes down
+#   - entity_id still starts with "zendure_setting_" for all user-input
+#     settings, so Node-RED can keep fetching them with a single rule:
+#     entity_id includes "zendure_setting"
+#
+# Place at config/packages/zendure.yaml, with in configuration.yaml:
+#   homeassistant:
+#     packages: !include_dir_named packages
 
 mqtt:
+  select:
+    - name: "Zendure operation mode"
+      unique_id: zendure_setting_operation_mode
+      icon: mdi:battery-charging-wireless
+      command_topic: "/homeassistant/select/zendure_setting_operation_mode/set"
+      state_topic: "/homeassistant/select/zendure_setting_operation_mode/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      options:
+        - "Standby"
+        - "Zero export"
+        - "Charge only"
+        - "Discharge only"
+      device: &zendure_device
+        identifiers: "zendure_solarflow"
+        name: "Zendure SolarFlow 4000"
+        manufacturer: "Zendure"
+        model: "SolarFlow 4000 Mix AC+"
+
+  number:
+    - name: "Zendure max charge power"
+      unique_id: zendure_setting_max_charge_power
+      icon: mdi:format-vertical-align-top
+      command_topic: "/homeassistant/number/zendure_setting_max_charge_power/set"
+      state_topic: "/homeassistant/number/zendure_setting_max_charge_power/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 100
+      max: 4000
+      step: 50
+      mode: box
+      unit_of_measurement: W
+      device: *zendure_device
+
+    - name: "Zendure max discharge power"
+      unique_id: zendure_setting_max_discharge_power
+      icon: mdi:format-vertical-align-bottom
+      command_topic: "/homeassistant/number/zendure_setting_max_discharge_power/set"
+      state_topic: "/homeassistant/number/zendure_setting_max_discharge_power/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 100
+      max: 4000
+      step: 50
+      mode: box
+      unit_of_measurement: W
+      device: *zendure_device
+
+    - name: "Zendure start discharging at"
+      unique_id: zendure_setting_start_discharging_at
+      icon: mdi:battery-minus-variant
+      command_topic: "/homeassistant/number/zendure_setting_start_discharging_at/set"
+      state_topic: "/homeassistant/number/zendure_setting_start_discharging_at/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 50
+      max: 500
+      step: 10
+      mode: box
+      unit_of_measurement: W
+      device: *zendure_device
+
+    - name: "Zendure start charging at"
+      unique_id: zendure_setting_start_charging_at
+      icon: mdi:battery-plus-variant
+      command_topic: "/homeassistant/number/zendure_setting_start_charging_at/set"
+      state_topic: "/homeassistant/number/zendure_setting_start_charging_at/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: -1000
+      max: -50
+      step: 10
+      mode: box
+      unit_of_measurement: W
+      device: *zendure_device
+
+    - name: "Zendure charge buffer"
+      unique_id: zendure_setting_charge_buffer
+      icon: mdi:arrow-expand-vertical
+      command_topic: "/homeassistant/number/zendure_setting_charge_buffer/set"
+      state_topic: "/homeassistant/number/zendure_setting_charge_buffer/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 0
+      max: 250
+      step: 5
+      mode: box
+      unit_of_measurement: W
+      device: *zendure_device
+
+    - name: "Zendure discharge buffer"
+      unique_id: zendure_setting_discharge_buffer
+      icon: mdi:arrow-expand-vertical
+      command_topic: "/homeassistant/number/zendure_setting_discharge_buffer/set"
+      state_topic: "/homeassistant/number/zendure_setting_discharge_buffer/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 0
+      max: 250
+      step: 5
+      mode: box
+      unit_of_measurement: W
+      device: *zendure_device
+
+    - name: "Zendure standby delay"
+      unique_id: zendure_setting_standby_delay
+      icon: mdi:pause
+      command_topic: "/homeassistant/number/zendure_setting_standby_delay/set"
+      state_topic: "/homeassistant/number/zendure_setting_standby_delay/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 5
+      max: 60
+      step: 1
+      mode: box
+      unit_of_measurement: min
+      device: *zendure_device
+
+    - name: "Zendure minimum SOC"
+      unique_id: zendure_setting_min_soc
+      icon: mdi:percent-box
+      command_topic: "/homeassistant/number/zendure_setting_min_soc/set"
+      state_topic: "/homeassistant/number/zendure_setting_min_soc/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 5
+      max: 50
+      step: 1
+      mode: box
+      unit_of_measurement: "%"
+      device: *zendure_device
+
+    - name: "Zendure maximum SOC"
+      unique_id: zendure_setting_max_soc
+      icon: mdi:percent-box
+      command_topic: "/homeassistant/number/zendure_setting_max_soc/set"
+      state_topic: "/homeassistant/number/zendure_setting_max_soc/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      min: 70
+      max: 100
+      step: 1
+      mode: box
+      unit_of_measurement: "%"
+      device: *zendure_device
+
+  switch:
+    - name: "Zendure SOC protection disabled"
+      unique_id: zendure_setting_soc_protection_disabled
+      icon: mdi:battery-heart-variant
+      command_topic: "/homeassistant/switch/zendure_setting_soc_protection_disabled/set"
+      state_topic: "/homeassistant/switch/zendure_setting_soc_protection_disabled/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      payload_on: "ON"
+      payload_off: "OFF"
+      device: *zendure_device
+
+    - name: "Zendure PV export disabled"
+      unique_id: zendure_setting_pv_export_disabled
+      icon: mdi:solar-panel
+      command_topic: "/homeassistant/switch/zendure_setting_pv_export_disabled/set"
+      state_topic: "/homeassistant/switch/zendure_setting_pv_export_disabled/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      retain: true
+      payload_on: "ON"
+      payload_off: "OFF"
+      device: *zendure_device
+
   sensor:
+    # ===== Heartbeat — was input_datetime.zendure_last_run =====
+    # Node-RED updates this every minute; no command_topic since only
+    # Node-RED writes it, never the user.
+    - name: "Zendure last run"
+      unique_id: zendure_last_run
+      icon: mdi:clock-time-eight-outline
+      state_topic: "/homeassistant/sensor/zendure_last_run/state"
+      availability_topic: "/homeassistant/zendure/availability"
+      qos: 1
+      device_class: timestamp
+      device: *zendure_device
+
     # ===== FAST (1s topic: /homeassistant/zendure/state) =====
     - name: "Zendure grid power"
       unique_id: zendure_grid_power
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.grid_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       device_class: power
       state_class: measurement
+      device: *zendure_device
 
     - name: "Zendure grid median"
       unique_id: zendure_grid_median
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.grid_median }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       device_class: power
       state_class: measurement
+      device: *zendure_device
 
     - name: "Zendure battery power"
       unique_id: zendure_battery_power
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.battery_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       device_class: power
       state_class: measurement
+      device: *zendure_device
 
     - name: "Zendure battery SOC"
       unique_id: zendure_battery_soc
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.battery_soc }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "%"
       device_class: battery
       state_class: measurement
+      device: *zendure_device
 
     - name: "Zendure AC mode"
       unique_id: zendure_ac_mode
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.ac_mode }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      device: *zendure_device
 
     - name: "Zendure SOC limit status"
       unique_id: zendure_soc_limit_status
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.soc_limit_status }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      device: *zendure_device
 
     # ===== SLOW (30s topic: /homeassistant/zendure/info) =====
     - name: "Zendure battery serial"
       unique_id: zendure_battery_sn
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.battery_sn }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      entity_category: diagnostic
+      device: *zendure_device
 
     - name: "Zendure min SOC"
       unique_id: zendure_min_soc
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.min_soc }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "%"
+      device: *zendure_device
 
     - name: "Zendure max SOC"
       unique_id: zendure_max_soc
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.max_soc }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "%"
+      device: *zendure_device
 
     - name: "Zendure operation mode"
       unique_id: zendure_operation_mode
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.operation_mode }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      device: *zendure_device
 
     - name: "Zendure max charge power setting"
       unique_id: zendure_max_charge_power_setting
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.max_charge_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
+      device: *zendure_device
 
     - name: "Zendure max discharge power setting"
       unique_id: zendure_max_discharge_power_setting
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.max_discharge_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
+      device: *zendure_device
 
     - name: "Zendure charge power diagnose"
       unique_id: zendure_charge_power_diagnose
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.setting_vs_actual_charge_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       entity_category: diagnostic
+      device: *zendure_device
 
     - name: "Zendure discharge power diagnose"
       unique_id: zendure_discharge_power_diagnose
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.setting_vs_actual_discharge_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       entity_category: diagnostic
+      device: *zendure_device
 
     - name: "Zendure relay switches today"
       unique_id: zendure_relay_switches_today
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.relay_switches_today }}"
+      availability_topic: "/homeassistant/zendure/availability"
       state_class: total_increasing
       entity_category: diagnostic
+      device: *zendure_device
 
   binary_sensor:
     # ===== FAST =====
@@ -219,44 +350,56 @@ mqtt:
       unique_id: zendure_grid_stale
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.grid_stale }}"
+      availability_topic: "/homeassistant/zendure/availability"
       payload_on: true
       payload_off: false
       device_class: problem
+      device: *zendure_device
 
     - name: "Zendure PV active"
       unique_id: zendure_pv_active
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.pv_active }}"
+      availability_topic: "/homeassistant/zendure/availability"
       payload_on: true
       payload_off: false
+      device: *zendure_device
 
     - name: "Zendure charging active"
       unique_id: zendure_charging_active
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.charging_active }}"
+      availability_topic: "/homeassistant/zendure/availability"
       payload_on: true
       payload_off: false
+      device: *zendure_device
 
     - name: "Zendure discharging active"
       unique_id: zendure_discharging_active
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.discharging_active }}"
+      availability_topic: "/homeassistant/zendure/availability"
       payload_on: true
       payload_off: false
+      device: *zendure_device
 
     # ===== SLOW =====
     - name: "Zendure SOC protection disabled"
       unique_id: zendure_soc_protection_disabled_status
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.soc_protection_disabled }}"
+      availability_topic: "/homeassistant/zendure/availability"
       payload_on: "on"
       payload_off: "off"
       entity_category: diagnostic
+      device: *zendure_device
 
     - name: "Zendure PV export disabled"
       unique_id: zendure_pv_export_disabled_status
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.pv_export_disabled }}"
+      availability_topic: "/homeassistant/zendure/availability"
       payload_on: "on"
       payload_off: "off"
       entity_category: diagnostic
+      device: *zendure_device
