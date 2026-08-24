@@ -520,6 +520,165 @@ mqtt:
       state_class: total_increasing
       device: *zendure_device
 
+    # Battery pack current. Negative = discharging, positive = charging,
+    # matching the sign convention of battery power.
+    #
+    # Requires a new "battery_current" (A, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/state.
+    - name: "Zendure battery current"
+      unique_id: zendure_battery_current
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.battery_current }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+      icon: mdi:current-dc
+      device: *zendure_device
+
+    # Actual household consumption (W), derived as grid power minus battery
+    # power. This is what the control loop is really trying to cover, and
+    # it stays meaningful regardless of which direction the battery runs.
+    #
+    # Requires a new "home_power" (W, float) field in Node-RED's publish
+    # payload on /homeassistant/zendure/state.
+    - name: "Zendure home power"
+      unique_id: zendure_home_power
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.home_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      icon: mdi:home-lightning-bolt
+      device: *zendure_device
+
+    # PV input power on the Zendure's own solar input. Currently always 0 —
+    # no panels are wired to the battery yet — but in place for when they are.
+    #
+    # Requires a new "solar_power" (W, float) field in Node-RED's publish
+    # payload on /homeassistant/zendure/state.
+    - name: "Zendure solar power"
+      unique_id: zendure_solar_power
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.solar_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      icon: mdi:solar-power-variant
+      device: *zendure_device
+
+    # Battery cell temperature, as reported by the pack itself. Distinct
+    # from the inverter temperature above — this one matters for battery
+    # health and charge/discharge derating.
+    #
+    # Requires a new "battery_temperature" (°C, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/info.
+    - name: "Zendure battery temperature"
+      unique_id: zendure_battery_temperature
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.battery_temperature }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      icon: mdi:thermometer
+      device: *zendure_device
+
+    # Estimated minutes of discharge left at the current rate, as reported
+    # by the device. Only meaningful while discharging; the device may
+    # report a placeholder value when idle or charging.
+    #
+    # Requires a new "remaining_minutes" (min, int) field in Node-RED's
+    # publish payload on /homeassistant/zendure/info.
+    - name: "Zendure remaining discharge time"
+      unique_id: zendure_remaining_minutes
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.remaining_minutes }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "min"
+      device_class: duration
+      state_class: measurement
+      icon: mdi:timer-sand
+      device: *zendure_device
+
+    # Usable energy left in the battery (kWh), derived from SOC and the
+    # pack's rated capacity. More tangible on a dashboard than a bare
+    # percentage. Stays "unknown" if the pack type isn't in the capacity
+    # lookup table in Node-RED.
+    #
+    # Requires a new "remaining_capacity_kwh" (kWh, float) field in
+    # Node-RED's publish payload on /homeassistant/zendure/info.
+    - name: "Zendure remaining capacity"
+      unique_id: zendure_remaining_capacity
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.remaining_capacity_kwh }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "kWh"
+      state_class: measurement
+      icon: mdi:battery-charging-60
+      device: *zendure_device
+
+    # Total rated capacity of all connected packs (kWh).
+    #
+    # Requires a new "total_capacity_kwh" (kWh, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/info.
+    - name: "Zendure total capacity"
+      unique_id: zendure_total_capacity
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.total_capacity_kwh }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "kWh"
+      icon: mdi:flip-vertical
+      entity_category: diagnostic
+      device: *zendure_device
+
+    # Wi-Fi signal strength of the Zendure hub. A weak signal shows up as
+    # slow or failed API calls long before it shows up as a disconnect.
+    #
+    # Requires a new "wifi_signal" (dBm, int) field in Node-RED's publish
+    # payload on /homeassistant/zendure/info.
+    - name: "Zendure wifi signal"
+      unique_id: zendure_wifi_signal
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.wifi_signal }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "dBm"
+      device_class: signal_strength
+      state_class: measurement
+      entity_category: diagnostic
+      device: *zendure_device
+
+    # Fault level reported by the device. 0 is normal; other values may
+    # carry more detail than the single error flag, though the exact
+    # meaning of each level is not documented.
+    #
+    # Requires a new "fault_level" (int) field in Node-RED's publish
+    # payload on /homeassistant/zendure/info.
+    - name: "Zendure fault level"
+      unique_id: zendure_fault_level
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.fault_level }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      icon: mdi:alert-circle-outline
+      entity_category: diagnostic
+      device: *zendure_device
+
+    # Serial number of the battery pack itself. The "battery serial" sensor
+    # above reports the hub's serial, which is a different number.
+    #
+    # Requires a new "pack_sn" (string) field in Node-RED's publish payload
+    # on /homeassistant/zendure/info.
+    - name: "Zendure pack serial"
+      unique_id: zendure_pack_sn
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.pack_sn }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      icon: mdi:identifier
+      entity_category: diagnostic
+      device: *zendure_device
+
   binary_sensor:
     # On when the P1 grid reading is stale (no fresh sample within the
     # expected window). Node-RED's safety chain force-stops the battery
