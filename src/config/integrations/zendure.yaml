@@ -1,5 +1,5 @@
 ---
-# Zendure battery settings and sensors
+# Zendure SolarFlow 4000 Mix AC+ — settings and sensors
 #
 # Place at config/packages/zendure.yaml, with in configuration.yaml:
 #   homeassistant:
@@ -12,8 +12,8 @@ mqtt:
     - name: "Zendure operation mode"
       unique_id: zendure_setting_operation_mode
       icon: mdi:battery-charging-wireless
-      command_topic: "/homeassistant/select/zendure_setting_operation_mode/set"
-      state_topic: "/homeassistant/select/zendure_setting_operation_mode/state"
+      command_topic: "/homeassistant/zendure/setting/operation_mode/set"
+      state_topic: "/homeassistant/zendure/setting/operation_mode/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -34,8 +34,8 @@ mqtt:
     - name: "Zendure max charge power"
       unique_id: zendure_setting_max_charge_power
       icon: mdi:format-vertical-align-top
-      command_topic: "/homeassistant/number/zendure_setting_max_charge_power/set"
-      state_topic: "/homeassistant/number/zendure_setting_max_charge_power/state"
+      command_topic: "/homeassistant/zendure/setting/max_charge_power/set"
+      state_topic: "/homeassistant/zendure/setting/max_charge_power/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -51,8 +51,8 @@ mqtt:
     - name: "Zendure max discharge power"
       unique_id: zendure_setting_max_discharge_power
       icon: mdi:format-vertical-align-bottom
-      command_topic: "/homeassistant/number/zendure_setting_max_discharge_power/set"
-      state_topic: "/homeassistant/number/zendure_setting_max_discharge_power/state"
+      command_topic: "/homeassistant/zendure/setting/max_discharge_power/set"
+      state_topic: "/homeassistant/zendure/setting/max_discharge_power/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -67,8 +67,8 @@ mqtt:
     - name: "Zendure start discharging at"
       unique_id: zendure_setting_start_discharging_at
       icon: mdi:battery-minus-variant
-      command_topic: "/homeassistant/number/zendure_setting_start_discharging_at/set"
-      state_topic: "/homeassistant/number/zendure_setting_start_discharging_at/state"
+      command_topic: "/homeassistant/zendure/setting/start_discharging_at/set"
+      state_topic: "/homeassistant/zendure/setting/start_discharging_at/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -84,8 +84,8 @@ mqtt:
     - name: "Zendure start charging at"
       unique_id: zendure_setting_start_charging_at
       icon: mdi:battery-plus-variant
-      command_topic: "/homeassistant/number/zendure_setting_start_charging_at/set"
-      state_topic: "/homeassistant/number/zendure_setting_start_charging_at/state"
+      command_topic: "/homeassistant/zendure/setting/start_charging_at/set"
+      state_topic: "/homeassistant/zendure/setting/start_charging_at/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -101,8 +101,8 @@ mqtt:
     - name: "Zendure charge buffer"
       unique_id: zendure_setting_charge_buffer
       icon: mdi:arrow-expand-vertical
-      command_topic: "/homeassistant/number/zendure_setting_charge_buffer/set"
-      state_topic: "/homeassistant/number/zendure_setting_charge_buffer/state"
+      command_topic: "/homeassistant/zendure/setting/charge_buffer/set"
+      state_topic: "/homeassistant/zendure/setting/charge_buffer/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -118,8 +118,8 @@ mqtt:
     - name: "Zendure discharge buffer"
       unique_id: zendure_setting_discharge_buffer
       icon: mdi:arrow-expand-vertical
-      command_topic: "/homeassistant/number/zendure_setting_discharge_buffer/set"
-      state_topic: "/homeassistant/number/zendure_setting_discharge_buffer/state"
+      command_topic: "/homeassistant/zendure/setting/discharge_buffer/set"
+      state_topic: "/homeassistant/zendure/setting/discharge_buffer/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -135,8 +135,8 @@ mqtt:
     - name: "Zendure standby delay"
       unique_id: zendure_setting_standby_delay
       icon: mdi:pause
-      command_topic: "/homeassistant/number/zendure_setting_standby_delay/set"
-      state_topic: "/homeassistant/number/zendure_setting_standby_delay/state"
+      command_topic: "/homeassistant/zendure/setting/standby_delay/set"
+      state_topic: "/homeassistant/zendure/setting/standby_delay/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -152,8 +152,8 @@ mqtt:
     - name: "Zendure minimum SOC"
       unique_id: zendure_setting_min_soc
       icon: mdi:percent-box
-      command_topic: "/homeassistant/number/zendure_setting_min_soc/set"
-      state_topic: "/homeassistant/number/zendure_setting_min_soc/state"
+      command_topic: "/homeassistant/zendure/setting/min_soc/set"
+      state_topic: "/homeassistant/zendure/setting/min_soc/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -169,8 +169,8 @@ mqtt:
     - name: "Zendure maximum SOC"
       unique_id: zendure_setting_max_soc
       icon: mdi:percent-box
-      command_topic: "/homeassistant/number/zendure_setting_max_soc/set"
-      state_topic: "/homeassistant/number/zendure_setting_max_soc/state"
+      command_topic: "/homeassistant/zendure/setting/max_soc/set"
+      state_topic: "/homeassistant/zendure/setting/max_soc/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -187,8 +187,8 @@ mqtt:
     - name: "Zendure SOC protection disabled"
       unique_id: zendure_setting_soc_protection_disabled
       icon: mdi:battery-heart-variant
-      command_topic: "/homeassistant/switch/zendure_setting_soc_protection_disabled/set"
-      state_topic: "/homeassistant/switch/zendure_setting_soc_protection_disabled/state"
+      command_topic: "/homeassistant/zendure/setting/soc_protection_disabled/set"
+      state_topic: "/homeassistant/zendure/setting/soc_protection_disabled/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
@@ -202,8 +202,8 @@ mqtt:
     - name: "Zendure PV export disabled"
       unique_id: zendure_setting_pv_export_disabled
       icon: mdi:solar-panel
-      command_topic: "/homeassistant/switch/zendure_setting_pv_export_disabled/set"
-      state_topic: "/homeassistant/switch/zendure_setting_pv_export_disabled/state"
+      command_topic: "/homeassistant/zendure/setting/pv_export_disabled/set"
+      state_topic: "/homeassistant/zendure/setting/pv_export_disabled/state"
       availability_topic: "/homeassistant/zendure/availability"
       qos: 1
       retain: true
