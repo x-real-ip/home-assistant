@@ -1,19 +1,5 @@
 ---
-# Zendure SolarFlow 4000 Mix AC+ — settings and sensors
-#
-# Everything (settings + sensors + binary_sensors) lives under MQTT and
-# shares one device block, so it all groups under a single "Zendure
-# SolarFlow 4000" device in Home Assistant.
-#
-# Node-RED responsibilities:
-#   - subscribe to every */set command topic below, act on the new value,
-#     then publish the accepted value back to the matching /state topic
-#     (retained) so the HA UI stays in sync (MQTT echo pattern)
-#   - publish availability_topic "online"/"offline" (birth/LWT) so every
-#     entity here shows "unavailable" together when the flow goes down
-#   - entity_id still starts with "zendure_setting_" for all user-input
-#     settings, so Node-RED can keep fetching them with a single rule:
-#     entity_id includes "zendure_setting"
+# Zendure battery settings and sensors
 #
 # Place at config/packages/zendure.yaml, with in configuration.yaml:
 #   homeassistant:
@@ -21,6 +7,8 @@
 
 mqtt:
   select:
+    # Operation mode. Node-RED's control loop reads this to decide whether
+    # (and in which direction) it is allowed to charge/discharge.
     - name: "Zendure operation mode"
       unique_id: zendure_setting_operation_mode
       icon: mdi:battery-charging-wireless
@@ -41,6 +29,8 @@ mqtt:
         model: "SolarFlow 4000 Mix AC+"
 
   number:
+    # Ceiling on charge power. Also written to the battery's own hardware
+    # limit (chargeMaxLimit), so it's enforced even if Node-RED goes down.
     - name: "Zendure max charge power"
       unique_id: zendure_setting_max_charge_power
       icon: mdi:format-vertical-align-top
@@ -56,6 +46,8 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
+    # Ceiling on discharge power. Also written to the battery's own
+    # hardware limit (inverseMaxPower).
     - name: "Zendure max discharge power"
       unique_id: zendure_setting_max_discharge_power
       icon: mdi:format-vertical-align-bottom
@@ -71,6 +63,7 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
+    # Grid import threshold (W) above which discharging is allowed to start.
     - name: "Zendure start discharging at"
       unique_id: zendure_setting_start_discharging_at
       icon: mdi:battery-minus-variant
@@ -86,6 +79,8 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
+    # Grid export threshold (W, negative) below which charging is allowed
+    # to start.
     - name: "Zendure start charging at"
       unique_id: zendure_setting_start_charging_at
       icon: mdi:battery-plus-variant
@@ -101,6 +96,8 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
+    # Safety margin added on top of demand when discharging, so the house
+    # keeps drawing a little from the grid instead of overshooting to export.
     - name: "Zendure charge buffer"
       unique_id: zendure_setting_charge_buffer
       icon: mdi:arrow-expand-vertical
@@ -116,6 +113,8 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
+    # Safety margin subtracted from demand when charging, so the battery
+    # doesn't try to absorb the house's own last watts of import.
     - name: "Zendure discharge buffer"
       unique_id: zendure_setting_discharge_buffer
       icon: mdi:arrow-expand-vertical
@@ -131,6 +130,8 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
+    # Minutes of near-zero power before the battery is put into full
+    # standby (storage mode -> Flash), to avoid idle drain (~19 W).
     - name: "Zendure standby delay"
       unique_id: zendure_setting_standby_delay
       icon: mdi:pause
@@ -146,6 +147,8 @@ mqtt:
       unit_of_measurement: min
       device: *zendure_device
 
+    # Lower SOC bound. Below this, SOC protection force-charges the battery
+    # regardless of operation mode (unless disabled below).
     - name: "Zendure minimum SOC"
       unique_id: zendure_setting_min_soc
       icon: mdi:percent-box
@@ -161,6 +164,8 @@ mqtt:
       unit_of_measurement: "%"
       device: *zendure_device
 
+    # Upper SOC bound. Charging stops once this is reached. Also written to
+    # the battery's own hardware limit (socSet).
     - name: "Zendure maximum SOC"
       unique_id: zendure_setting_max_soc
       icon: mdi:percent-box
@@ -177,6 +182,8 @@ mqtt:
       device: *zendure_device
 
   switch:
+    # When on, disables the automatic force-charge that normally kicks in
+    # below minimum SOC. Use with care — the battery can then run flat.
     - name: "Zendure SOC protection disabled"
       unique_id: zendure_setting_soc_protection_disabled
       icon: mdi:battery-heart-variant
@@ -189,6 +196,9 @@ mqtt:
       payload_off: "OFF"
       device: *zendure_device
 
+    # When on, blocks the battery from pushing its own PV production onto
+    # the grid (writes gridReverse). Only relevant if panels are wired
+    # directly into the Zendure rather than a separate inverter.
     - name: "Zendure PV export disabled"
       unique_id: zendure_setting_pv_export_disabled
       icon: mdi:solar-panel
@@ -202,9 +212,8 @@ mqtt:
       device: *zendure_device
 
   sensor:
-    # ===== Heartbeat — was input_datetime.zendure_last_run =====
-    # Node-RED updates this every minute; no command_topic since only
-    # Node-RED writes it, never the user.
+    # Heartbeat from Node-RED, updated every minute. If it goes stale for
+    # more than two minutes, the control loop is no longer running.
     - name: "Zendure last run"
       unique_id: zendure_last_run
       icon: mdi:clock-time-eight-outline
@@ -214,7 +223,8 @@ mqtt:
       device_class: timestamp
       device: *zendure_device
 
-    # ===== FAST (1s topic: /homeassistant/zendure/state) =====
+    # Raw P1 grid power reading (W), positive = import. Single latest
+    # sample, before the median filter.
     - name: "Zendure grid power"
       unique_id: zendure_grid_power
       state_topic: "/homeassistant/zendure/state"
@@ -225,6 +235,8 @@ mqtt:
       state_class: measurement
       device: *zendure_device
 
+    # Median of the last 5 grid power samples. What the control loop
+    # actually steers on, to smooth out household load spikes.
     - name: "Zendure grid median"
       unique_id: zendure_grid_median
       state_topic: "/homeassistant/zendure/state"
@@ -235,6 +247,7 @@ mqtt:
       state_class: measurement
       device: *zendure_device
 
+    # Battery power (W). Positive = charging, negative = discharging.
     - name: "Zendure battery power"
       unique_id: zendure_battery_power
       state_topic: "/homeassistant/zendure/state"
@@ -245,6 +258,7 @@ mqtt:
       state_class: measurement
       device: *zendure_device
 
+    # Total battery state of charge (%).
     - name: "Zendure battery SOC"
       unique_id: zendure_battery_soc
       state_topic: "/homeassistant/zendure/state"
@@ -255,70 +269,98 @@ mqtt:
       state_class: measurement
       device: *zendure_device
 
+    # Raw acMode from the Zendure API (1 = charge relay, 2 = discharge
+    # relay). Mostly a diagnostic mirror of what the control loop just set.
     - name: "Zendure AC mode"
       unique_id: zendure_ac_mode
+      icon: mdi:swap-vertical-bold
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.ac_mode }}"
       availability_topic: "/homeassistant/zendure/availability"
       device: *zendure_device
 
+    # BMS-reported limit state (normal / charge limit reached / discharge
+    # limit reached). More reliable than comparing SOC percentages, which
+    # get imprecise near the ends of the range.
     - name: "Zendure SOC limit status"
       unique_id: zendure_soc_limit_status
+      icon: mdi:battery-medium
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.soc_limit_status }}"
       availability_topic: "/homeassistant/zendure/availability"
       device: *zendure_device
 
-    # ===== SLOW (30s topic: /homeassistant/zendure/info) =====
+    # Battery pack serial number, as reported by the API.
     - name: "Zendure battery serial"
       unique_id: zendure_battery_sn
+      icon: mdi:identifier
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.battery_sn }}"
       availability_topic: "/homeassistant/zendure/availability"
       entity_category: diagnostic
       device: *zendure_device
 
+    # Minimum SOC as currently written to the battery's own hardware limit
+    # (minSoc) — confirms the setting actually landed on the device.
     - name: "Zendure min SOC"
       unique_id: zendure_min_soc
+      icon: mdi:battery-low
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.min_soc }}"
       availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "%"
       device: *zendure_device
 
+    # Maximum SOC as currently written to the battery's own hardware limit
+    # (socSet) — confirms the setting actually landed on the device.
     - name: "Zendure max SOC"
       unique_id: zendure_max_soc
+      icon: mdi:battery-high
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.max_soc }}"
       availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "%"
       device: *zendure_device
 
+    # Operation mode as last acted on by Node-RED. Diagnostic mirror of the
+    # select entity above, useful to confirm the control loop actually
+    # picked up a mode change.
     - name: "Zendure operation mode"
       unique_id: zendure_operation_mode
+      icon: mdi:swap-horizontal
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.operation_mode }}"
       availability_topic: "/homeassistant/zendure/availability"
       device: *zendure_device
 
+    # Max charge power as currently written to the battery's own hardware
+    # limit (chargeMaxLimit).
     - name: "Zendure max charge power setting"
       unique_id: zendure_max_charge_power_setting
+      icon: mdi:format-vertical-align-top
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.max_charge_power }}"
       availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       device: *zendure_device
 
+    # Max discharge power as currently written to the battery's own
+    # hardware limit (inverseMaxPower).
     - name: "Zendure max discharge power setting"
       unique_id: zendure_max_discharge_power_setting
+      icon: mdi:format-vertical-align-bottom
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.max_discharge_power }}"
       availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       device: *zendure_device
 
+    # Difference between the charge power Node-RED last requested and what
+    # the battery is actually reporting — a nonzero value that persists
+    # points at a stuck or lagging command.
     - name: "Zendure charge power diagnose"
       unique_id: zendure_charge_power_diagnose
+      icon: mdi:compare-horizontal
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.setting_vs_actual_charge_power }}"
       availability_topic: "/homeassistant/zendure/availability"
@@ -326,8 +368,10 @@ mqtt:
       entity_category: diagnostic
       device: *zendure_device
 
+    # Same as above, for discharge power.
     - name: "Zendure discharge power diagnose"
       unique_id: zendure_discharge_power_diagnose
+      icon: mdi:compare-horizontal
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.setting_vs_actual_discharge_power }}"
       availability_topic: "/homeassistant/zendure/availability"
@@ -335,8 +379,12 @@ mqtt:
       entity_category: diagnostic
       device: *zendure_device
 
+    # Count of charge/discharge relay switches today. High counts indicate
+    # the control loop is oscillating and may need larger buffers or a
+    # longer direction-change delay.
     - name: "Zendure relay switches today"
       unique_id: zendure_relay_switches_today
+      icon: mdi:swap-vertical-bold
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.relay_switches_today }}"
       availability_topic: "/homeassistant/zendure/availability"
@@ -344,8 +392,132 @@ mqtt:
       entity_category: diagnostic
       device: *zendure_device
 
+    # Battery pack voltage.
+    #
+    # Requires a new "battery_voltage" (V, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/state — not there yet as
+    # of the current build-state-node.js.
+    - name: "Zendure battery voltage"
+      unique_id: zendure_battery_voltage
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.battery_voltage }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "V"
+      device_class: voltage
+      state_class: measurement
+      icon: mdi:sine-wave
+      device: *zendure_device
+
+    # Battery pack current.
+    #
+    # Requires a new "battery_current" (A, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/state.
+    - name: "Zendure battery current"
+      unique_id: zendure_battery_current
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.battery_current }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "A"
+      device_class: current
+      state_class: measurement
+      icon: mdi:current-dc
+      device: *zendure_device
+
+    # Error state as reported by the Zendure API ("No Notifications" /
+    # "Check Zendure APP").
+    #
+    # Requires a new "error_status" (string) field in Node-RED's publish
+    # payload on /homeassistant/zendure/state.
+    - name: "Zendure error status"
+      unique_id: zendure_error_status
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.error_status }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      icon: mdi:battery-alert
+      device: *zendure_device
+
+    # Inverter temperature.
+    #
+    # Requires a new "inverter_temperature" (°C, float) field in
+    # Node-RED's publish payload on /homeassistant/zendure/info.
+    - name: "Zendure inverter temperature"
+      unique_id: zendure_inverter_temperature
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.inverter_temperature }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      icon: mdi:thermometer
+      device: *zendure_device
+
+    # Product model string, as reported by the API.
+    #
+    # Requires a new "product_model" (string) field in Node-RED's publish
+    # payload on /homeassistant/zendure/info.
+    - name: "Zendure product model"
+      unique_id: zendure_product_model
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.product_model }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      icon: mdi:identifier
+      entity_category: diagnostic
+      device: *zendure_device
+
+    # Number of battery packs connected (packNum).
+    #
+    # Requires a new "total_batteries" (int) field in Node-RED's publish
+    # payload on /homeassistant/zendure/info.
+    - name: "Zendure total batteries"
+      unique_id: zendure_total_batteries
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.total_batteries }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      icon: mdi:flip-vertical
+      entity_category: diagnostic
+      device: *zendure_device
+
+    # Running total of net battery energy flow (kWh), charge minus
+    # discharge over time. Never resets — Node-RED keeps a cumulative
+    # counter, this is not HA's own "integration" platform (that platform
+    # can't be grouped under a device, which is why it isn't used here).
+    #
+    # Note this nets charge against discharge rather than giving separate
+    # "charged today" / "discharged today" totals like Gielz's split
+    # Power Import/Export sensors do — that would need two unsigned power
+    # fields for Node-RED to integrate apart.
+    #
+    # Requires a new "net_battery_energy_kwh" (kWh, float) field in
+    # Node-RED's publish payload on /homeassistant/zendure/info.
+    - name: "Zendure net battery energy"
+      unique_id: zendure_net_battery_energy
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.net_battery_energy_kwh }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      device: *zendure_device
+
+    # Running total of net grid energy flow (kWh), import minus export
+    # over time. Same caveats as the battery energy sensor above.
+    #
+    # Requires a new "net_grid_energy_kwh" (kWh, float) field in
+    # Node-RED's publish payload on /homeassistant/zendure/info.
+    - name: "Zendure net grid energy"
+      unique_id: zendure_net_grid_energy
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.net_grid_energy_kwh }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      device: *zendure_device
+
   binary_sensor:
-    # ===== FAST =====
+    # On when the P1 grid reading is stale (no fresh sample within the
+    # expected window). Node-RED's safety chain force-stops the battery
+    # when this has been on too long.
     - name: "Zendure grid stale"
       unique_id: zendure_grid_stale
       state_topic: "/homeassistant/zendure/state"
@@ -356,8 +528,11 @@ mqtt:
       device_class: problem
       device: *zendure_device
 
+    # On when the battery is actively drawing from its PV input, rather
+    # than purely charging/discharging from the AC side.
     - name: "Zendure PV active"
       unique_id: zendure_pv_active
+      icon: mdi:solar-power
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.pv_active }}"
       availability_topic: "/homeassistant/zendure/availability"
@@ -365,8 +540,10 @@ mqtt:
       payload_off: false
       device: *zendure_device
 
+    # On while the control loop's charge branch is active.
     - name: "Zendure charging active"
       unique_id: zendure_charging_active
+      icon: mdi:battery-plus-variant
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.charging_active }}"
       availability_topic: "/homeassistant/zendure/availability"
@@ -374,8 +551,10 @@ mqtt:
       payload_off: false
       device: *zendure_device
 
+    # On while the control loop's discharge branch is active.
     - name: "Zendure discharging active"
       unique_id: zendure_discharging_active
+      icon: mdi:battery-minus-variant
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.discharging_active }}"
       availability_topic: "/homeassistant/zendure/availability"
@@ -383,9 +562,10 @@ mqtt:
       payload_off: false
       device: *zendure_device
 
-    # ===== SLOW =====
+    # Mirror of the SOC protection switch's effect, for at-a-glance status.
     - name: "Zendure SOC protection disabled"
       unique_id: zendure_soc_protection_disabled_status
+      icon: mdi:battery-heart-variant
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.soc_protection_disabled }}"
       availability_topic: "/homeassistant/zendure/availability"
@@ -394,12 +574,29 @@ mqtt:
       entity_category: diagnostic
       device: *zendure_device
 
+    # Mirror of the PV export switch's effect, for at-a-glance status.
     - name: "Zendure PV export disabled"
       unique_id: zendure_pv_export_disabled_status
+      icon: mdi:solar-panel
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.pv_export_disabled }}"
       availability_topic: "/homeassistant/zendure/availability"
       payload_on: "on"
       payload_off: "off"
       entity_category: diagnostic
+      device: *zendure_device
+
+    # On while the battery is self-calibrating (socStatus). Node-RED's
+    # standby logic waits for this to clear before allowing full standby.
+    #
+    # Requires a new "calibrating" (boolean) field in Node-RED's publish
+    # payload on /homeassistant/zendure/state.
+    - name: "Zendure calibrating"
+      unique_id: zendure_calibrating
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.calibrating }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      payload_on: true
+      payload_off: false
+      icon: mdi:battery-heart-variant
       device: *zendure_device
