@@ -392,11 +392,29 @@ mqtt:
       entity_category: diagnostic
       device: *zendure_device
 
+    # Days since the battery last reached 100%. LiFePO4 needs a periodic
+    # full charge to keep the BMS state-of-charge estimate accurate — if
+    # this keeps climbing, charge to full once manually. Stays "unknown"
+    # until the battery has been seen at 100% at least once, and never
+    # resets on its own if max_soc is set below 100.
+    #
+    # Requires a new "days_since_full" (days, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/info.
+    - name: "Zendure days since full"
+      unique_id: zendure_days_since_full
+      icon: mdi:battery-clock
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.days_since_full }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "d"
+      state_class: measurement
+      entity_category: diagnostic
+      device: *zendure_device
+
     # Battery pack voltage.
     #
     # Requires a new "battery_voltage" (V, float) field in Node-RED's
-    # publish payload on /homeassistant/zendure/state — not there yet as
-    # of the current build-state-node.js.
+    # publish payload on /homeassistant/zendure/state.
     - name: "Zendure battery voltage"
       unique_id: zendure_battery_voltage
       state_topic: "/homeassistant/zendure/state"
@@ -408,6 +426,8 @@ mqtt:
       icon: mdi:sine-wave
       device: *zendure_device
 
+    # Battery pack current — not exposed by the Zendure zenSDK API (no
+    # source field found), so this sensor was removed.
     # Error state as reported by the Zendure API ("No Notifications" /
     # "Check Zendure APP").
     #
@@ -464,8 +484,9 @@ mqtt:
 
     # Running total of net battery energy flow (kWh), charge minus
     # discharge over time. Never resets — Node-RED keeps a cumulative
-    # counter, this is not HA's own "integration" platform (that platform
-    # can't be grouped under a device, which is why it isn't used here).
+    # counter, accumulated every cycle (1s) for accuracy, this is not
+    # HA's own "integration" platform (that platform can't be grouped
+    # under a device, which is why it isn't used here).
     #
     # Note this nets charge against discharge rather than giving separate
     # "charged today" / "discharged today" totals like Gielz's split
@@ -473,10 +494,10 @@ mqtt:
     # fields for Node-RED to integrate apart.
     #
     # Requires a new "net_battery_energy_kwh" (kWh, float) field in
-    # Node-RED's publish payload on /homeassistant/zendure/info.
+    # Node-RED's publish payload on /homeassistant/zendure/state.
     - name: "Zendure net battery energy"
       unique_id: zendure_net_battery_energy
-      state_topic: "/homeassistant/zendure/info"
+      state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.net_battery_energy_kwh }}"
       availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "kWh"
@@ -488,10 +509,10 @@ mqtt:
     # over time. Same caveats as the battery energy sensor above.
     #
     # Requires a new "net_grid_energy_kwh" (kWh, float) field in
-    # Node-RED's publish payload on /homeassistant/zendure/info.
+    # Node-RED's publish payload on /homeassistant/zendure/state.
     - name: "Zendure net grid energy"
       unique_id: zendure_net_grid_energy
-      state_topic: "/homeassistant/zendure/info"
+      state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.net_grid_energy_kwh }}"
       availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "kWh"
