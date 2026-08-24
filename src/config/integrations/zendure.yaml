@@ -408,21 +408,6 @@ mqtt:
       icon: mdi:sine-wave
       device: *zendure_device
 
-    # Battery pack current.
-    #
-    # Requires a new "battery_current" (A, float) field in Node-RED's
-    # publish payload on /homeassistant/zendure/state.
-    - name: "Zendure battery current"
-      unique_id: zendure_battery_current
-      state_topic: "/homeassistant/zendure/state"
-      value_template: "{{ value_json.battery_current }}"
-      availability_topic: "/homeassistant/zendure/availability"
-      unit_of_measurement: "A"
-      device_class: current
-      state_class: measurement
-      icon: mdi:current-dc
-      device: *zendure_device
-
     # Error state as reported by the Zendure API ("No Notifications" /
     # "Check Zendure APP").
     #
