@@ -569,8 +569,8 @@ mqtt:
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.soc_protection_disabled }}"
       availability_topic: "/homeassistant/zendure/availability"
-      payload_on: "on"
-      payload_off: "off"
+      payload_on: "ON"
+      payload_off: "OFF"
       entity_category: diagnostic
       device: *zendure_device
 
@@ -581,8 +581,8 @@ mqtt:
       state_topic: "/homeassistant/zendure/info"
       value_template: "{{ value_json.pv_export_disabled }}"
       availability_topic: "/homeassistant/zendure/availability"
-      payload_on: "on"
-      payload_off: "off"
+      payload_on: "ON"
+      payload_off: "OFF"
       entity_category: diagnostic
       device: *zendure_device
 
