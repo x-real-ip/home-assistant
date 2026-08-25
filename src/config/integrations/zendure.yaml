@@ -679,6 +679,70 @@ mqtt:
       entity_category: diagnostic
       device: *zendure_device
 
+    # Unsigned charge-side power (W), 0 while discharging or idle. Split
+    # from battery_power's signed value, needed for HA's Energy dashboard
+    # which requires separate charge/discharge power sensors.
+    #
+    # Requires a new "battery_charge_power" (W, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/state.
+    - name: "Zendure battery charge power"
+      unique_id: zendure_battery_charge_power
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.battery_charge_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      device: *zendure_device
+
+    # Unsigned discharge-side power (W), 0 while charging or idle. Same
+    # split as above, mirrored.
+    #
+    # Requires a new "battery_discharge_power" (W, float) field in
+    # Node-RED's publish payload on /homeassistant/zendure/state.
+    - name: "Zendure battery discharge power"
+      unique_id: zendure_battery_discharge_power
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.battery_discharge_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      device: *zendure_device
+
+    # Running total of energy charged into the battery (kWh). Never
+    # resets — Node-RED integrates battery_charge_power every cycle (1s).
+    # Feeds the Energy dashboard's "Energie die in de batterij wordt
+    # geladen" field.
+    #
+    # Requires a new "charge_energy_kwh" (kWh, float) field in Node-RED's
+    # publish payload on /homeassistant/zendure/state.
+    - name: "Zendure battery energy charged"
+      unique_id: zendure_energy_charged
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.charge_energy_kwh }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      device: *zendure_device
+
+    # Running total of energy discharged from the battery (kWh). Same
+    # accumulation approach as above. Feeds the Energy dashboard's
+    # "Energie die uit de batterij wordt ontladen" field.
+    #
+    # Requires a new "discharge_energy_kwh" (kWh, float) field in
+    # Node-RED's publish payload on /homeassistant/zendure/state.
+    - name: "Zendure battery energy discharged"
+      unique_id: zendure_energy_discharged
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.discharge_energy_kwh }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "kWh"
+      device_class: energy
+      state_class: total_increasing
+      device: *zendure_device
+
   binary_sensor:
     # On when the P1 grid reading is stale (no fresh sample within the
     # expected window). Node-RED's safety chain force-stops the battery
