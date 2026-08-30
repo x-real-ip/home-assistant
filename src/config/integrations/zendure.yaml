@@ -22,6 +22,8 @@ mqtt:
         - "Zero export"
         - "Charge only"
         - "Discharge only"
+        - "Force charge"
+        - "Force discharge"
       device: &zendure_device
         identifiers: "zendure_solarflow"
         name: "Zendure SolarFlow 4000"
