@@ -6,6 +6,7 @@ logbook:
       - sensor.custom_energy_usage
       - sensor.lights_on_counter
       - group.vacation_lights
+      - sensor.solaredge_modbus_last_update
     entity_globs:
       - sensor.buienradar_*
       - sensor.eikenhof_8_*
