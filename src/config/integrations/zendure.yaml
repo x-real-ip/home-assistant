@@ -214,17 +214,6 @@ mqtt:
       device: *zendure_device
 
   sensor:
-    # Heartbeat from Node-RED, updated every minute. If it goes stale for
-    # more than two minutes, the control loop is no longer running.
-    - name: "Zendure last run"
-      unique_id: zendure_last_run
-      icon: mdi:clock-time-eight-outline
-      state_topic: "/homeassistant/sensor/zendure_last_run/state"
-      availability_topic: "/homeassistant/zendure/availability"
-      qos: 1
-      device_class: timestamp
-      device: *zendure_device
-
     # Raw P1 grid power reading (W), positive = import. Single latest
     # sample, before the median filter.
     - name: "Zendure grid power"
