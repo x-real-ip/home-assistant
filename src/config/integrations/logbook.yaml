@@ -13,6 +13,7 @@ logbook:
       - sensor.knmi_*
       - sensor.smartalert_*
       - sensor.wall_tablet_*
+      - sensor.neerslag_*
     domains:
       - automation
       - updater
