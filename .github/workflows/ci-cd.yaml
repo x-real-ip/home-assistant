@@ -5,6 +5,14 @@ on:
   push:
     branches:
       - main
+    # Only ./src/config and the Containerfile end up in the image, so a change
+    # to docs or backups cannot alter what is deployed. Deliberately a
+    # deny-list: a forgotten path here still builds, where a forgotten path in
+    # an allow-list would silently skip a deploy.
+    paths-ignore:
+      - "README.md"
+      - "assets/**"
+      - "backups/**"
   workflow_dispatch:
 
 permissions: {}
@@ -23,7 +31,6 @@ jobs:
 
   build-and-push-image:
     name: Build and Push Image
-    needs: [checks]
     permissions:
       contents: read
       packages: write
@@ -33,7 +40,7 @@ jobs:
 
   dispatch-update-manifest:
     name: Repository Dispatch to Update Manifest
-    needs: [build-and-push-image]
+    needs: [checks, build-and-push-image]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
