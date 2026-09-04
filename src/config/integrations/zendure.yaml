@@ -6,6 +6,13 @@
 #     packages: !include_dir_named packages
 
 mqtt:
+  text:
+    - name: "Zendure Host"
+      unique_id: zendure_host
+      command_topic: "/homeassistant/zendure/setting/zendure_host/set"
+      state_topic: "/homeassistant/zendure/setting/zendure_host/state"
+      <<: *zendure_device
+
   select:
     # Operation mode. Node-RED's control loop reads this to decide whether
     # (and in which direction) it is allowed to charge/discharge.
@@ -182,6 +189,16 @@ mqtt:
       mode: box
       unit_of_measurement: "%"
       device: *zendure_device
+
+    - name: "Zendure Direction Change Delay"
+      unique_id: zendure_direction_change_delay
+      command_topic: "/homeassistant/zendure/setting/direction_change_delay/set"
+      state_topic: "/homeassistant/zendure/setting/direction_change_delay/state"
+      min: 0
+      max: 60
+      step: 1
+      unit_of_measurement: "s"
+      <<: *zendure_device
 
   switch:
     # When on, disables the automatic force-charge that normally kicks in
@@ -697,6 +714,13 @@ mqtt:
       icon: mdi:battery-minus-variant
       device: *zendure_device
 
+    - name: "Zendure Emergency Device Stale Seconds"
+      unique_id: zendure_emergency_device_stale_seconds
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.emergency_device_stale_seconds }}"
+      unit_of_measurement: "s"
+      <<: *zendure_device
+
   binary_sensor:
     # On when the P1 grid reading is stale (no fresh sample within the
     # expected window). Node-RED's safety chain force-stops the battery
@@ -783,3 +807,17 @@ mqtt:
       payload_off: false
       icon: mdi:battery-heart-variant
       device: *zendure_device
+
+    - name: "Zendure Emergency Active"
+      unique_id: zendure_emergency_active
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ 'ON' if value_json.emergency_active else 'OFF' }}"
+      device_class: safety
+      <<: *zendure_device
+
+    - name: "Zendure Emergency Stop Sent"
+      unique_id: zendure_emergency_stop_sent
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ 'ON' if value_json.emergency_stop_sent else 'OFF' }}"
+      device_class: safety
+      <<: *zendure_device
