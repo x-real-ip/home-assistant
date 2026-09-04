@@ -33,6 +33,7 @@ automation engine.
 - ISKRA Smart Meter
 - LG SmartTV WebOS
 - Nvidia Shield TV Pro
+- P1 Reader Ethernet
 - Shelly 1 Relay
 - Shelly 1PM Mini Gen3
 - Shelly BLU Door/Window
@@ -40,14 +41,15 @@ automation engine.
 - Shelly BLU Motion
 - Shelly Bulb RGBW
 - Shelly Dimmer
+- Shelly Dimmer Gen3
 - Shelly Dimmer2
+- Shelly i3
 - Shelly Plug-S
 - Shelly Plus Plug
-- Shelly i3
 - SolarEdge Inverter
 - Tado Bridge
-- Tado Smart Thermostat
 - Tado Smart Radiator Thermostat
+- Tado Smart Thermostat
 - Tado Wireless Temperature Sensor
 - Xioami Roborock S55
 - Xioami Roborock S6 Pure
