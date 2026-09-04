@@ -6,16 +6,23 @@ on:
     - cron: "0 8 * * *"
   workflow_dispatch:
 
+permissions: {}
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # A cancelled run can leave an issue created but its bump PR missing.
+  cancel-in-progress: false
 
 jobs:
   check-releases:
-    uses: x-real-ip/github-actions/.github/workflows/new-release-issue.yaml@main
-    secrets:
-      PAT: ${{ secrets.PAT }}
+    name: "Check ${{ matrix.name }}"
+    permissions:
+      contents: write
+      issues: write
+      packages: read
+      pull-requests: write
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: home-assistant
@@ -24,13 +31,13 @@ jobs:
             bump: true
             bump_type: containerfile
             image: "ghcr.io/home-assistant/home-assistant"
-            include_tags: ""
-            exclude_tags: ""
+    uses: x-real-ip/github-actions/.github/workflows/new-release-issue.yaml@main
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}
       type: ${{ matrix.type }}
       bump: ${{ matrix.bump }}
       bump_type: ${{ matrix.bump_type }}
-      include_tags: ${{ matrix.include_tags }}
-      exclude_tags: ${{ matrix.exclude_tags }}
+      image: ${{ matrix.image }}
+    secrets:
+      PAT: ${{ secrets.PAT }}

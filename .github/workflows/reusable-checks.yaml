@@ -7,20 +7,43 @@ on:
 jobs:
   yamllint:
     name: Yaml lint
+    permissions:
+      contents: read
     uses: x-real-ip/github-actions/.github/workflows/yamllint.yaml@main
 
   home-assistant:
-    name: "Home Assistant Core ${{ matrix.version }} Configuration Check"
+    name: Home Assistant Configuration Check
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: ["stable", "beta", "dev"]
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - name: Checkout Code
-        uses: actions/checkout@main
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      # The blocking check must run against the version that is actually
+      # deployed, not against the "stable" tag: between a core release and the
+      # merge of its bump PR those are different versions.
+      - name: Resolve deployed Home Assistant version
+        id: version
+        run: |
+          version=$(sed -nE \
+            's#^FROM ghcr\.io/home-assistant/home-assistant:(\S+).*#\1#p' \
+            Containerfile | head -n1)
+
+          if [ -z "$version" ]; then
+            echo "::error ::No Home Assistant FROM line found in Containerfile"
+            exit 1
+          fi
+
+          echo "Deployed version: $version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
       - name: Run Home Assistant Configuration Check
         uses: frenck/action-home-assistant@v1
         with:
           path: "./src/config"
           secrets: secrets.yaml.example
-          version: "${{ matrix.version }}"
+          version: "${{ steps.version.outputs.version }}"

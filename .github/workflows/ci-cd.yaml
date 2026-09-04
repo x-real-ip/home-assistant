@@ -7,17 +7,26 @@ on:
       - main
   workflow_dispatch:
 
+permissions: {}
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # A build that is already pushing an image or dispatching to gitops must
+  # finish; cancelling it halfway leaves gitops pointing at a stale sha.
+  cancel-in-progress: false
 
 jobs:
   checks:
+    permissions:
+      contents: read
     uses: ./.github/workflows/reusable-checks.yaml
 
   build-and-push-image:
     name: Build and Push Image
     needs: [checks]
+    permissions:
+      contents: read
+      packages: write
     uses: x-real-ip/github-actions/.github/workflows/build-and-push.yaml@v2
     with:
       push: true
@@ -26,14 +35,16 @@ jobs:
     name: Repository Dispatch to Update Manifest
     needs: [build-and-push-image]
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.PAT }}
           repository: x-real-ip/gitops
           event-type: update-manifest
-          client-payload:
-            '{"ref": "${{ github.ref }}", "repository": "${{
-            github.repository}}", "registry": "ghcr.io", "sha": "${{ github.sha
-            }}"}'
+          client-payload: >-
+            {"ref": "${{ github.ref }}",
+            "repository": "${{ github.repository }}",
+            "registry": "ghcr.io",
+            "sha": "${{ github.sha }}"}
