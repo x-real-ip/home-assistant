@@ -11,7 +11,11 @@ mqtt:
       unique_id: zendure_host
       command_topic: "/homeassistant/zendure/setting/zendure_host/set"
       state_topic: "/homeassistant/zendure/setting/zendure_host/state"
-      <<: *zendure_device
+      device: &zendure_device
+        identifiers: "zendure_solarflow"
+        name: "Zendure SolarFlow 4000"
+        manufacturer: "Zendure"
+        model: "SolarFlow 4000 Mix AC+"
 
   select:
     # Operation mode. Node-RED's control loop reads this to decide whether
@@ -31,11 +35,7 @@ mqtt:
         - "Discharge only"
         - "Force charge"
         - "Force discharge"
-      device: &zendure_device
-        identifiers: "zendure_solarflow"
-        name: "Zendure SolarFlow 4000"
-        manufacturer: "Zendure"
-        model: "SolarFlow 4000 Mix AC+"
+      device: *zendure_device
 
   number:
     # Ceiling on charge power. Also written to the battery's own hardware
@@ -198,7 +198,7 @@ mqtt:
       max: 60
       step: 1
       unit_of_measurement: "s"
-      <<: *zendure_device
+      device: *zendure_device
 
   switch:
     # When on, disables the automatic force-charge that normally kicks in
@@ -719,7 +719,7 @@ mqtt:
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.emergency_device_stale_seconds }}"
       unit_of_measurement: "s"
-      <<: *zendure_device
+      device: *zendure_device
 
   binary_sensor:
     # On when the P1 grid reading is stale (no fresh sample within the
@@ -813,11 +813,11 @@ mqtt:
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ 'ON' if value_json.emergency_active else 'OFF' }}"
       device_class: safety
-      <<: *zendure_device
+      device: *zendure_device
 
     - name: "Zendure Emergency Stop Sent"
       unique_id: zendure_emergency_stop_sent
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ 'ON' if value_json.emergency_stop_sent else 'OFF' }}"
       device_class: safety
-      <<: *zendure_device
+      device: *zendure_device
