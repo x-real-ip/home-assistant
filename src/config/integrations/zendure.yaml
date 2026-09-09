@@ -7,7 +7,8 @@
 #
 # Topics published by Node-RED:
 #   /homeassistant/zendure/state         fast (1s), measurements from the device poll
-#   /homeassistant/zendure/info          slow (30s), settings and slow-moving diagnostics
+#   /homeassistant/zendure/info          slow (30s), settings and slow
+#                                        diagnostics
 #   /homeassistant/zendure/safety        fast (1s), emergency chain — keeps updating
 #                                        when the battery itself is unreachable
 #   /homeassistant/zendure/availability  broker birth/will/close (online / offline)
