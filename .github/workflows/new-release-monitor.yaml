@@ -31,7 +31,7 @@ jobs:
             bump: true
             bump_type: containerfile
             image: "ghcr.io/home-assistant/home-assistant"
-    uses: x-real-ip/github-actions/.github/workflows/new-release-issue.yaml@main
+    uses: x-real-ip/github-actions/.github/workflows/new-release-issue.yaml@v3
     with:
       name: ${{ matrix.name }}
       target: ${{ matrix.target }}

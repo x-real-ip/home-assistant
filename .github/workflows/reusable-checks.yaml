@@ -9,7 +9,7 @@ jobs:
     name: Yaml lint
     permissions:
       contents: read
-    uses: x-real-ip/github-actions/.github/workflows/yamllint.yaml@main
+    uses: x-real-ip/github-actions/.github/workflows/yamllint.yaml@v3
 
   home-assistant:
     name: Home Assistant Configuration Check
