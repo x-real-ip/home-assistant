@@ -17,6 +17,11 @@
 # reachable. Otherwise the host setting below would go unavailable exactly when
 # it needs to be filled in. "Is the integration running" and "is the data fresh"
 # are two different things, hence two topics.
+#
+# Wiring: the SolarEdge inverter is AC-coupled on the Zendure's PV-IN, and the
+# Zendure's output feeds its own group in the panel. All PV therefore flows
+# through the Zendure, which is why battery power (pack side) and AC power
+# (what the Zendure exchanges with its group) are two separate sensors.
 
 mqtt:
   text:
@@ -77,7 +82,8 @@ mqtt:
       device: *zendure_device
 
     # Ceiling on discharge power. Also written to the battery's own
-    # hardware limit (inverseMaxPower).
+    # hardware limit (inverseMaxPower). Not yet verified whether this caps
+    # only the battery share or the total AC output including PV passthrough.
     - name: "Zendure max discharge power"
       unique_id: zendure_setting_max_discharge_power
       icon: mdi:format-vertical-align-bottom
@@ -126,8 +132,8 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
-    # Safety margin added on top of demand when discharging, so the house
-    # keeps drawing a little from the grid instead of overshooting to export.
+    # Safety margin subtracted from the surplus when charging, so the battery
+    # doesn't absorb the last watts of export and push the house into import.
     - name: "Zendure charge buffer"
       unique_id: zendure_setting_charge_buffer
       icon: mdi:arrow-expand-vertical
@@ -143,8 +149,8 @@ mqtt:
       unit_of_measurement: W
       device: *zendure_device
 
-    # Safety margin subtracted from demand when charging, so the battery
-    # doesn't try to absorb the house's own last watts of import.
+    # Safety margin added on top of demand when discharging, so the house
+    # keeps drawing a little from the grid instead of overshooting to export.
     - name: "Zendure discharge buffer"
       unique_id: zendure_setting_discharge_buffer
       icon: mdi:arrow-expand-vertical
@@ -244,9 +250,10 @@ mqtt:
       payload_off: "OFF"
       device: *zendure_device
 
-    # When on, blocks the battery from pushing its own PV production onto
-    # the grid (writes gridReverse). Only relevant if panels are wired
-    # directly into the Zendure rather than a separate inverter.
+    # When on, blocks the Zendure from pushing PV production onto the grid
+    # (writes gridReverse). With the SolarEdge on PV-IN this matters: once the
+    # battery is full and the house uses less than the panels produce, the
+    # surplus is curtailed instead of exported.
     - name: "Zendure PV export disabled"
       unique_id: zendure_setting_pv_export_disabled
       icon: mdi:solar-panel
@@ -284,11 +291,27 @@ mqtt:
       state_class: measurement
       device: *zendure_device
 
-    # Battery power (W). Positive = charging, negative = discharging.
+    # Battery power (W), measured at the pack: what actually goes into or
+    # out of the cells. Positive = charging, negative = discharging. PV that
+    # flows straight through to the house does not count here.
     - name: "Zendure battery power"
       unique_id: zendure_battery_power
       state_topic: "/homeassistant/zendure/state"
       value_template: "{{ value_json.battery_power }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      unit_of_measurement: "W"
+      device_class: power
+      state_class: measurement
+      device: *zendure_device
+
+    # Net AC exchange between the Zendure and its own group (W). Positive =
+    # drawing from the house/grid, negative = delivering to it (battery and
+    # PV together). This is what the P1 meter sees of the Zendure.
+    - name: "Zendure AC power"
+      unique_id: zendure_ac_power
+      icon: mdi:transmission-tower
+      state_topic: "/homeassistant/zendure/state"
+      value_template: "{{ value_json.ac_power }}"
       availability_topic: "/homeassistant/zendure/availability"
       unit_of_measurement: "W"
       device_class: power
@@ -512,9 +535,9 @@ mqtt:
       icon: mdi:current-dc
       device: *zendure_device
 
-    # Actual household consumption (W), derived as grid power minus battery
-    # power. This is what the control loop is really trying to cover, and
-    # it stays meaningful regardless of which direction the battery runs.
+    # Actual household consumption (W), derived as grid power minus Zendure
+    # AC power. All PV enters through the Zendure, so this needs no separate
+    # SolarEdge figure, and it stays meaningful in every direction.
     - name: "Zendure home power"
       unique_id: zendure_home_power
       state_topic: "/homeassistant/zendure/state"
@@ -526,8 +549,9 @@ mqtt:
       icon: mdi:home-lightning-bolt
       device: *zendure_device
 
-    # PV input power on the Zendure's own solar input. Currently always 0 —
-    # no panels are wired to the battery yet — but in place for when they are.
+    # PV coming in on PV-IN from the SolarEdge (W). Read from solarInputPower,
+    # or from a negative gridOffPower if the firmware reports it there.
+    # Should track the SolarEdge's own production sensor closely.
     - name: "Zendure solar power"
       unique_id: zendure_solar_power
       state_topic: "/homeassistant/zendure/state"
@@ -537,6 +561,17 @@ mqtt:
       device_class: power
       state_class: measurement
       icon: mdi:solar-power-variant
+      device: *zendure_device
+
+    # Passthrough mode as reported by the device (pass): 0 = battery first,
+    # 2 = home first. Diagnostic — it changes how control power is derived.
+    - name: "Zendure pass mode"
+      unique_id: zendure_pass_mode
+      icon: mdi:call-split
+      state_topic: "/homeassistant/zendure/info"
+      value_template: "{{ value_json.pass_mode }}"
+      availability_topic: "/homeassistant/zendure/availability"
+      entity_category: diagnostic
       device: *zendure_device
 
     # Battery cell temperature, as reported by the pack itself. Distinct
@@ -719,8 +754,9 @@ mqtt:
       device_class: problem
       device: *zendure_device
 
-    # On when the battery is actively drawing from its PV input, rather
-    # than purely charging/discharging from the AC side.
+    # On while PV comes in on PV-IN (pvStatus, or measurable solar power).
+    # While on, the control loop regulates on the AC side and full standby
+    # is held off.
     - name: "Zendure PV active"
       unique_id: zendure_pv_active
       icon: mdi:solar-power
