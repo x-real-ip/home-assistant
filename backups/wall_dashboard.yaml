@@ -2788,7 +2788,7 @@ views:
           # Het weer
 
           **{{ (state_attr('sensor.custom_weather_description_01', "header_01"))
-          }}** 
+          }}**
 
           {{ (state_attr('sensor.custom_weather_description_01', "msg_01") |
           truncate(250, True, '…')) }}
@@ -2930,7 +2930,7 @@ views:
           - type: markdown
             content: >
               **{{ (state_attr('sensor.custom_weather_description_01',
-              "header_01")) }}** 
+              "header_01")) }}**
 
               {{ (state_attr('sensor.custom_weather_description_01', "msg_01"))
               }}
@@ -2938,7 +2938,7 @@ views:
           - type: markdown
             content: >
               **{{ (state_attr('sensor.custom_weather_description_01',
-              "header_02")) }}** 
+              "header_02")) }}**
 
               {{ (state_attr('sensor.custom_weather_description_01', "msg_02"))
               }}
@@ -2946,7 +2946,7 @@ views:
           - type: markdown
             content: >
               **{{ (state_attr('sensor.custom_weather_description_01',
-              "header_03")) }}** 
+              "header_03")) }}**
 
               {{ (state_attr('sensor.custom_weather_description_01', "msg_03"))
               }}
@@ -2958,7 +2958,7 @@ views:
           - type: markdown
             content: >
               **{{ (state_attr('sensor.custom_weather_description_01',
-              "header_04")) }}** 
+              "header_04")) }}**
 
               {{ (state_attr('sensor.custom_weather_description_01', "msg_04"))
               }}
@@ -2966,7 +2966,7 @@ views:
           - type: markdown
             content: >
               **{{ (state_attr('sensor.custom_weather_description_01',
-              "header_05")) }}** 
+              "header_05")) }}**
 
               {{ (state_attr('sensor.custom_weather_description_01', "msg_05"))
               }}
