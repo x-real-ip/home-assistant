@@ -1,4 +1,4 @@
-FROM ghcr.io/home-assistant/home-assistant:2026.10.2
+FROM ghcr.io/home-assistant/home-assistant:2026.10.4
 
 COPY ./src/config /config
 
