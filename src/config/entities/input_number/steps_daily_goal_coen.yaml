@@ -1,0 +1,9 @@
+---
+steps_daily_goal_coen:
+  name: Stappen dagelijks doel (Coen)
+  icon: mdi:flag-checkered
+  min: 1000
+  max: 30000
+  step: 100
+  mode: box
+  unit_of_measurement: steps

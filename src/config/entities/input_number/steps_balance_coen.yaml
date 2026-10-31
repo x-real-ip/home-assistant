@@ -1,0 +1,9 @@
+---
+steps_balance_coen:
+  name: Stappen balans (Coen)
+  icon: mdi:scale-balance
+  min: -200000
+  max: 200000
+  step: 1
+  mode: box
+  unit_of_measurement: steps

@@ -1,0 +1,9 @@
+---
+steps_dynamic_goal_coen:
+  name: Stappen dynamisch doel (Coen)
+  icon: mdi:shoe-print
+  min: 0
+  max: 50000
+  step: 1
+  mode: box
+  unit_of_measurement: steps
