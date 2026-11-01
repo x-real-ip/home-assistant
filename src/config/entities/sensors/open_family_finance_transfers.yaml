@@ -1,0 +1,23 @@
+---
+# Open Family Finance: what changes in the standing orders for next month.
+# State = number of changes; the attributes hold the details. "due" turns
+# true from the notify day set in the app (Overboekingen → Meldingen), which
+# is when a task should be created (done in Node-RED, see
+# https://github.com/x-real-ip/open-family-finance/blob/main/docs/home-assistant.md).
+platform: rest
+name: Overboekingen wijzigingen
+unique_id: open_family_finance_transfer_changes
+resource: !secret open_family_finance_transfers_url
+headers:
+  Authorization: !secret open_family_finance_api_auth
+value_template: "{{ value_json.count }}"
+unit_of_measurement: wijzigingen
+json_attributes:
+  - month
+  - nextMonth
+  - notifyDay
+  - due
+  - title
+  - summary
+  - changes
+scan_interval: 3600
